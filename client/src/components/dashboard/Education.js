@@ -1,0 +1,52 @@
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import Moment from 'react-moment';
+import { connect } from 'react-redux';
+
+const Education = ({ education }) => {
+  return (
+    <Fragment>
+      <p className='lead my-2'>Education Credentials</p>
+      <table className='table table-striped'>
+        <thead>
+          <tr>
+            <th scope='col'>School</th>
+            <th scope='col'>From</th>
+            <th scope='col'>To</th>
+            <th scope='col'>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {education.map(education => (
+            <tr key={education._id}>
+              <td>{education.school}</td>
+              <td>
+                <Moment format='DD-MMM-YYYY'>{education.from}</Moment>
+              </td>
+              <td>
+                {education.current ? (
+                  'Now'
+                ) : (
+                  <Moment format='DD-MMM-YYYY'>{education.to}</Moment>
+                )}
+              </td>
+              <td>
+                <button className='btn btn-danger'>Delete</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </Fragment>
+  );
+};
+
+Education.propTypes = {
+  education: PropTypes.array.isRequired
+};
+
+const mapStateToProps = state => ({
+  education: state.profile.profile.education
+});
+
+export default connect(mapStateToProps)(Education);
