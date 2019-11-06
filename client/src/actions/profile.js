@@ -3,9 +3,11 @@ import {
   PROFILE_ERROR,
   CLEAR_PROFILE,
   EXPERIENCE_ADDED,
-  EXPERIENCE_ERROR,
   EDUCATION_ADDED,
-  EDUCATION_ERROR
+  EXPERIENCE_REMOVED,
+  EDUCATION_REMOVED,
+  PROFILE_DELETED,
+  USER_DELETED
 } from '../actions/types';
 import { setAlert } from './alert';
 import axios from 'axios';
@@ -86,8 +88,6 @@ export const addExperience = (formData, history) => async dispatch => {
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
-
-    dispatch({ type: EXPERIENCE_ERROR });
   }
 };
 
@@ -115,7 +115,49 @@ export const addEducation = (formData, history) => async dispatch => {
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
+  }
+};
 
-    dispatch({ type: EDUCATION_ERROR });
+// Remove experience
+export const removeExperience = experienceId => async dispatch => {
+  try {
+    const res = await axios.delete(`/api/profiles/experience/${experienceId}`);
+
+    dispatch({
+      type: EXPERIENCE_REMOVED,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Experience Removed', 'success'));
+  } catch (err) {
+    dispatch(setAlert('Error occurred while removing experience', 'danger'));
+  }
+};
+
+// Remove education
+export const removeEducation = educationId => async dispatch => {
+  try {
+    const res = await axios.delete(`/api/profiles/education/${educationId}`);
+
+    dispatch({
+      type: EDUCATION_REMOVED,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Education Removed', 'success'));
+  } catch (err) {
+    dispatch(setAlert('Error occurred while removing education', 'danger'));
+  }
+};
+
+// Delete profile, user & posts
+export const deleteProfile = () => async dispatch => {
+  try {
+    await axios.delete('/api/profiles');
+
+    dispatch({ type: PROFILE_DELETED });
+    dispatch({ type: USER_DELETED });
+  } catch (err) {
+    dispatch(setAlert('Error occurred while deleting account', 'danger'));
   }
 };

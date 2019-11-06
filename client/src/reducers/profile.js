@@ -3,9 +3,10 @@ import {
   PROFILE_ERROR,
   CLEAR_PROFILE,
   EXPERIENCE_ADDED,
-  EXPERIENCE_ERROR,
   EDUCATION_ADDED,
-  EDUCATION_ERROR
+  EXPERIENCE_REMOVED,
+  EDUCATION_REMOVED,
+  PROFILE_DELETED
 } from '../actions/types';
 
 const initialState = {
@@ -21,6 +22,8 @@ export default function(state = initialState, action) {
     case PROFILE_LOADED:
     case EXPERIENCE_ADDED:
     case EDUCATION_ADDED:
+    case EXPERIENCE_REMOVED:
+    case EDUCATION_REMOVED:
       return {
         ...state,
         profile: payload,
@@ -35,8 +38,7 @@ export default function(state = initialState, action) {
         error: payload
       };
     case CLEAR_PROFILE:
-    case EXPERIENCE_ERROR:
-    case EDUCATION_ERROR:
+    case PROFILE_DELETED:
       return {
         ...state,
         profile: null,

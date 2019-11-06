@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getCurrentProfile } from '../../actions/profile';
+import { getCurrentProfile, deleteProfile } from '../../actions/profile';
 import Spinner from '../layout/Spinner';
 import DashboardActions from './DashboardActions';
 import Experience from './Experience';
@@ -11,6 +11,7 @@ import Education from './Education';
 const Dashboard = ({
   auth: { user },
   getCurrentProfile,
+  deleteProfile,
   profile: { profile, loading }
 }) => {
   useEffect(() => {
@@ -30,6 +31,20 @@ const Dashboard = ({
           <DashboardActions />
           <Experience />
           <Education />
+          <button
+            onClick={() => {
+              if (
+                window.confirm(
+                  'Are you sure you want to delete your profile? You cannot undo this action'
+                )
+              ) {
+                deleteProfile();
+              }
+            }}
+            className='btn btn-danger my-2'
+          >
+            <i className='fas fa-user'></i> Delete my account
+          </button>
         </Fragment>
       ) : (
         <Fragment>
@@ -46,6 +61,7 @@ const Dashboard = ({
 Dashboard.propTypes = {
   auth: PropTypes.object.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
+  deleteProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired
 };
 
@@ -56,5 +72,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfile }
+  { getCurrentProfile, deleteProfile }
 )(Dashboard);
