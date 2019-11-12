@@ -7,7 +7,8 @@ import {
   EXPERIENCE_REMOVED,
   EDUCATION_REMOVED,
   PROFILE_DELETED,
-  USER_DELETED
+  USER_DELETED,
+  ALL_PROFILES_LOADED
 } from '../actions/types';
 import { setAlert } from './alert';
 import axios from 'axios';
@@ -159,5 +160,41 @@ export const deleteProfile = () => async dispatch => {
     dispatch({ type: USER_DELETED });
   } catch (err) {
     dispatch(setAlert('Error occurred while deleting account', 'danger'));
+  }
+};
+
+// Get all profiles
+export const getAllProfiles = () => async dispatch => {
+  try {
+    const res = await axios.get('/api/profiles');
+
+    dispatch({
+      type: ALL_PROFILES_LOADED,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR
+    });
+
+    dispatch(setAlert('Error occured while loading all profiles', 'danger'));
+  }
+};
+
+// Get profile by id
+export const getProfileById = id => async dispatch => {
+  try {
+    const res = await axios.get(`/api/profiles/${id}`);
+
+    dispatch({
+      type: PROFILE_LOADED,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR
+    });
+
+    dispatch(setAlert('Error occured while loading profile', 'danger'));
   }
 };

@@ -29,8 +29,8 @@ const Dashboard = ({
       {profile !== null ? (
         <Fragment>
           <DashboardActions />
-          <Experience />
-          <Education />
+          <Experience experiences={profile.experiences} />
+          <Education education={profile.education} />
           <button
             onClick={() => {
               if (

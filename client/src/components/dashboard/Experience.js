@@ -52,11 +52,7 @@ Experience.propTypes = {
   removeExperience: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-  experiences: state.profile.profile.experiences
-});
-
 export default connect(
-  mapStateToProps,
+  null,
   { removeExperience }
 )(Experience);

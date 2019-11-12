@@ -13,9 +13,9 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         </Link>
       </li>
       <li className='nav-item'>
-        <a className='nav-link' href='profiles.html'>
+        <Link className='nav-link' to='/profiles'>
           Profiles
-        </a>
+        </Link>
       </li>
       <li className='nav-item'>
         <a className='nav-link' href='posts.html'>
@@ -32,6 +32,11 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 
   const normalLinks = (
     <ul className='navbar-nav ml-auto'>
+      <li className='nav-item'>
+        <Link className='nav-link' to='/profiles'>
+          Profiles
+        </Link>
+      </li>
       <li className='nav-item'>
         <Link className='nav-link' to='/register'>
           Register

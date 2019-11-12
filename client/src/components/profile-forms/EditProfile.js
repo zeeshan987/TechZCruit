@@ -53,26 +53,17 @@ const EditProfile = ({
       bio: !loading && profile.bio ? profile.bio : '',
       skills: !loading && profile.skills ? profile.skills.join(',') : '',
       facebook:
-        !loading && profile.socialLinks.facebook
-          ? profile.socialLinks.facebook
-          : '',
+        !loading && profile.socialLinks ? profile.socialLinks.facebook : '',
       twitter:
-        !loading && profile.socialLinks.twitter
-          ? profile.socialLinks.twitter
-          : '',
+        !loading && profile.socialLinks ? profile.socialLinks.twitter : '',
       linkedin:
-        !loading && profile.socialLinks.linkedin
-          ? profile.socialLinks.linkedin
-          : '',
+        !loading && profile.socialLinks ? profile.socialLinks.linkedin : '',
       instagram:
-        !loading && profile.socialLinks.instagram
-          ? profile.socialLinks.instagram
-          : '',
+        !loading && profile.socialLinks ? profile.socialLinks.instagram : '',
       youtube:
-        !loading && profile.socialLinks.youtube
-          ? profile.socialLinks.youtube
-          : ''
+        !loading && profile.socialLinks ? profile.socialLinks.youtube : ''
     });
+    // eslint-disable-next-line
   }, [loading, getCurrentProfile]);
 
   const [displaySocialLinks, setDisplaySocialLinks] = useState(false);

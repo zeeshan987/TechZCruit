@@ -52,11 +52,7 @@ Education.propTypes = {
   removeEducation: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-  education: state.profile.profile.education
-});
-
 export default connect(
-  mapStateToProps,
+  null,
   { removeEducation }
 )(Education);

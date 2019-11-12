@@ -171,95 +171,70 @@ body {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  line-height: 1.8;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.5rem;
 }
 .profile .skills {
   color: #1885a0;
 }
-.profile-grid {
-  display: -ms-grid;
-  display: grid;
-  grid-template-areas: 'top top' 'about about' 'exp edu';
-  grid-gap: 0.5rem;
-}
-.profile-grid .profile-top {
-  -ms-grid-row: 1;
-  -ms-grid-column: 1;
-  -ms-grid-column-span: 2;
-  grid-area: top;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
+.row.profile-top {
   text-align: center;
-  justify-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-.profile-grid .profile-top img {
-  width: 250px;
-}
-.profile-grid .profile-top .social-links {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-.profile-grid .profile-top .social-links i {
-  margin: 0 0.4rem;
-}
-.profile-grid .profile-top .social-links a:hover {
-  color: #2a2522;
-}
-.profile-grid .profile-about {
-  -ms-grid-row: 2;
-  -ms-grid-column: 1;
-  -ms-grid-column-span: 2;
-  grid-area: about;
-  color: #222;
-}
-.profile-grid .profile-about .skills {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  color: #1885a0;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  text-align: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+  background: #1885a0;
+  color: #fff;
+  border: none;
 }
-.profile-grid .profile-exp {
-  -ms-grid-row: 3;
-  -ms-grid-column: 1;
-  grid-area: exp;
-  color: #222;
+.row.profile-top img {
+  width: 250px;
 }
-.profile-grid .profile-exp > div {
-  margin-bottom: 0.7rem;
-  border-bottom: 1px dotted #222;
+.row.profile-top .social-links {
+  padding: 0.6rem 0;
 }
-.profile-grid .profile-exp > div:last-child {
-  border-bottom: none;
+.row.profile-top .social-links a {
+  color: #fff;
+  margin-right: 0.7rem;
 }
-.profile-grid .profile-edu {
-  -ms-grid-row: 3;
-  -ms-grid-column: 2;
-  grid-area: edu;
-  color: #222;
+.row.profile-about {
+  background: #eceaea;
+  border: none;
 }
-.profile-grid .profile-edu > div {
-  margin-bottom: 0.7rem;
-  border-bottom: 1px dotted #222;
+.row.profile-about .skills {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
-.profile-grid .profile-edu > div:last-child {
-  border-bottom: none;
+.row.profile-about .skills div {
+  color: #1885a0;
+}
+.row .col-md-6.profile-exp {
+  background: #eceaea;
+  border: none;
+}
+.row .col-md-6.profile-exp .exp {
+  margin: 0 0.1rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px #949494 dotted;
+}
+.row .col-md-6.profile-exp .exp:last-child {
+  border: none;
+}
+.row .col-md-6.profile-edu {
+  background: #eceaea;
+  border: none;
+}
+.row .col-md-6.profile-edu .edu {
+  margin: 0 0.1rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px #949494 dotted;
+}
+.row .col-md-6.profile-edu .edu:last-child {
+  border: none;
 }
 .post {
   background: #eceaea;

@@ -6,13 +6,15 @@ import {
   EDUCATION_ADDED,
   EXPERIENCE_REMOVED,
   EDUCATION_REMOVED,
-  PROFILE_DELETED
+  PROFILE_DELETED,
+  ALL_PROFILES_LOADED
 } from '../actions/types';
 
 const initialState = {
   profile: null,
   loading: true,
-  error: null
+  error: null,
+  profiles: []
 };
 
 export default function(state = initialState, action) {
@@ -30,12 +32,20 @@ export default function(state = initialState, action) {
         loading: false,
         error: null
       };
+    case ALL_PROFILES_LOADED:
+      return {
+        ...state,
+        profiles: payload,
+        loading: false,
+        error: null
+      };
     case PROFILE_ERROR:
       return {
         ...state,
         profile: null,
         loading: false,
-        error: payload
+        error: payload,
+        profiles: null
       };
     case CLEAR_PROFILE:
     case PROFILE_DELETED:
