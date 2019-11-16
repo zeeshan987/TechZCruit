@@ -24,19 +24,23 @@ router.post(
     const { description } = req.body;
 
     try {
-      const post = new Post({
+      let post = new Post({
         user: req.user.id,
         description
       });
 
       await post.save();
+
+      post = await Post.findOne({ _id: post.id }).populate('user', [
+        'name',
+        'avatar'
+      ]);
+
       res.json(post);
     } catch (err) {
       console.error(err.message);
       return res.status(500).send('Server error');
     }
-
-    res.send('Posts route');
   }
 );
 

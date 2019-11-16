@@ -238,20 +238,26 @@ body {
 }
 .post {
   background: #eceaea;
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: 1fr 4fr;
-  grid-template-columns: 1fr 4fr;
-  grid-gap: 1rem;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  line-height: 1.8;
-  margin-bottom: 0.7rem;
 }
-.post img {
+.post .col-md-3 {
+  text-align: center;
+}
+.post .col-md-3 a {
+  font-size: 1.3rem;
+  text-decoration: none;
+}
+.post .col-md-3 a img {
   width: 150px;
 }
-.post a {
-  text-align: center;
+.post .col-md-9 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
