@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { deletePost, likePost, unlikePost } from '../../actions/post';
 
@@ -33,9 +34,9 @@ const PostItem = ({
             <button className='btn btn-dark' onClick={() => unlikePost(_id)}>
               <i className='fas fa-thumbs-down'></i>
             </button>
-            <a href='post.html' className='btn btn-dark'>
+            <Link to={`/post/${_id}`} className='btn btn-dark'>
               View Post
-            </a>
+            </Link>
             {auth.user._id === user._id && (
               <button
                 className='btn btn-danger'

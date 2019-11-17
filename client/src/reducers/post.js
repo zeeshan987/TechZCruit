@@ -4,7 +4,11 @@ import {
   POST_REMOVED,
   POST_ERROR,
   POST_LIKED,
-  POST_UNLIKED
+  POST_UNLIKED,
+  POST_LOADED,
+  COMMENT_ADDED,
+  COMMENT_REMOVED,
+  COMMENT_ERROR
 } from '../actions/types';
 
 const initialState = {
@@ -22,6 +26,13 @@ export default function(state = initialState, action) {
       return {
         ...state,
         posts: payload,
+        loading: false,
+        errors: null
+      };
+    case POST_LOADED:
+      return {
+        ...state,
+        post: payload,
         loading: false,
         errors: null
       };
@@ -51,12 +62,22 @@ export default function(state = initialState, action) {
           )
         ]
       };
+    case COMMENT_ADDED:
+    case COMMENT_REMOVED:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        post: { ...state.post, comments: payload.comments }
+      };
     case POST_ERROR:
+    case COMMENT_ERROR:
       return {
         ...state,
         loading: false,
         errors: payload
       };
+
     default:
       return state;
   }

@@ -88,10 +88,9 @@ router.get('/', async (req, res) => {
 // @access  Public
 router.get('/:id', async (req, res) => {
   try {
-    const post = await Post.findOne({ _id: req.params.id }).populate('user', [
-      'name',
-      'avatar'
-    ]);
+    const post = await Post.findOne({ _id: req.params.id })
+      .populate('user', ['name', 'avatar'])
+      .populate('comments.user', ['name', 'avatar']);
 
     res.json(post);
   } catch (err) {
@@ -173,6 +172,11 @@ router.post(
         description
       });
 
+      post.populate('comments.user', ['name', 'avatar'], (err, res) => {
+        if (err) throw err;
+        return res;
+      });
+
       await post.save();
       res.json(post);
     } catch (err) {
@@ -211,6 +215,11 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
     }
 
     post.comments.splice(removeIndex, 1);
+
+    post.populate('comments.user', ['name', 'avatar'], (err, res) => {
+      if (err) throw err;
+      return res;
+    });
 
     await post.save();
     res.json(post);

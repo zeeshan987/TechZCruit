@@ -4,7 +4,11 @@ import {
   POST_REMOVED,
   POST_ERROR,
   POST_LIKED,
-  POST_UNLIKED
+  POST_UNLIKED,
+  POST_LOADED,
+  COMMENT_ADDED,
+  COMMENT_REMOVED,
+  COMMENT_ERROR
 } from '../actions/types';
 import { setAlert } from '../actions/alert';
 import axios from 'axios';
@@ -16,6 +20,23 @@ export const getAllPosts = () => async dispatch => {
 
     dispatch({
       type: ALL_POSTS_LOADED,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Get post by id
+export const getPostById = id => async dispatch => {
+  try {
+    const res = await axios.get(`/api/posts/${id}`);
+
+    dispatch({
+      type: POST_LOADED,
       payload: res.data
     });
   } catch (err) {
@@ -101,6 +122,51 @@ export const unlikePost = id => async dispatch => {
   } catch (err) {
     dispatch({
       type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Comment on post
+export const addComment = (id, formData) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  try {
+    const res = await axios.post(`/api/posts/comment/${id}`, formData, config);
+
+    dispatch({
+      type: COMMENT_ADDED,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Comment added', 'success'));
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+  }
+};
+
+// Delete comment on post
+export const deleteComment = (postId, commentId) => async dispatch => {
+  try {
+    const res = await axios.delete(`/api/posts/comment/${postId}/${commentId}`);
+
+    dispatch({
+      type: COMMENT_REMOVED,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Comment removed', 'success'));
+  } catch (err) {
+    dispatch({
+      type: COMMENT_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }

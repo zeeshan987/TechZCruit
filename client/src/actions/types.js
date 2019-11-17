@@ -35,8 +35,12 @@ export const EDUCATION_REMOVED = 'EDUCATION_REMOVED';
 
 // POST
 export const ALL_POSTS_LOADED = 'ALL_POSTS_LOADED';
+export const POST_LOADED = 'POST_LOADED';
 export const POST_ADDED = 'POST_ADDED';
 export const POST_REMOVED = 'POST_REMOVED';
 export const POST_LIKED = 'POST_LIKED';
 export const POST_UNLIKED = 'POST_UNLIKED';
 export const POST_ERROR = 'POST_ERROR';
+export const COMMENT_ADDED = 'COMMENT_ADDED';
+export const COMMENT_REMOVED = 'COMMENT_REMOVED';
+export const COMMENT_ERROR = 'COMMENT_ERROR';
