@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React from "react";
+import PropTypes from "prop-types";
+import { Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
 const Landing = ({ auth: { isAuthenticated, loading } }) => {
   if (isAuthenticated && !loading) {
@@ -25,6 +25,9 @@ const Landing = ({ auth: { isAuthenticated, loading } }) => {
           </Link>
           <Link to='/login' className='btn btn-light'>
             Login
+          </Link>
+          <Link to='/crowdfunding/homepage' className='btn btn-primary'>
+            Crowd Funding
           </Link>
         </div>
       </div>
