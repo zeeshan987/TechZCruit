@@ -17,7 +17,7 @@ const Posts = ({ getAllPosts, posts, auth }) => {
         <i className='fas fa-user'></i> Below is the list of all the posts
       </p>
       <PostForm />
-      {posts.length === 0 ? (
+      {posts !== null && posts.length === 0 ? (
         <div className='lead'>No posts found</div>
       ) : (
         posts.map(post => (

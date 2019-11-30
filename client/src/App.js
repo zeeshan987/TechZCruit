@@ -27,11 +27,11 @@ const App = () => {
       <Router>
         <Fragment>
           <Navbar />
-          <Alert />
           <Switch>
             <Route exact path='/' component={Landing} />
             <Route component={CommunityRoutes} />
             <section className='container'>
+              <Alert />
               <Route exact path='/crowdfunding/homepage' component={HomePage} />
               <PrivateRoute
                 exact
