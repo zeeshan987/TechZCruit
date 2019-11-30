@@ -103,14 +103,6 @@ body {
   font-size: 1rem;
   line-height: 1.6;
 }
-.navbar {
-  width: 100%;
-  top: 0;
-  position: fixed;
-  z-index: 1;
-  border-bottom: 1px #1885a0 solid;
-  opacity: 0.9;
-}
 .landing {
   background: url('./img/showcase.jpg');
   width: 100%;
