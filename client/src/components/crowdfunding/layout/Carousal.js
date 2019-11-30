@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import { Row, Col, Grid, Container } from "react-bootstrap";
-// import "../../../css/crowdfunding/HomePage.css";
 import Card from "react-bootstrap/Card";
 import carousal1 from "../../../img/card1.jpg";
 import carousal2 from "../../../img/card2.jpg";
