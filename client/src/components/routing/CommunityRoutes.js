@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
+import Alert from '../../components/layout/Alert';
 import Register from '../../components/auth/Register';
 import Login from '../../components/auth/Login';
 import Dashboard from '../../components/dashboard/Dashboard';
@@ -15,19 +16,22 @@ import Post from '../../components/post/Post';
 
 export const CommunityRoutes = () => {
   return (
-    <Switch>
-      <Route exact path='/register' component={Register} />
-      <Route exact path='/login' component={Login} />
-      <Route exact path='/profiles' component={Profiles} />
-      <Route exact path='/profile/:id' component={Profile} />
-      <PrivateRoute exact path='/dashboard' component={Dashboard} />
-      <PrivateRoute exact path='/create-profile' component={CreateProfile} />
-      <PrivateRoute exact path='/edit-profile' component={EditProfile} />
-      <PrivateRoute exact path='/add-experience' component={AddExperience} />
-      <PrivateRoute exact path='/add-education' component={AddEducation} />
-      <PrivateRoute exact path='/posts' component={Posts} />
-      <PrivateRoute exact path='/post/:id' component={Post} />
-    </Switch>
+    <section className='container'>
+      <Alert />
+      <Switch>
+        <Route exact path='/register' component={Register} />
+        <Route exact path='/login' component={Login} />
+        <Route exact path='/profiles' component={Profiles} />
+        <Route exact path='/profile/:id' component={Profile} />
+        <PrivateRoute exact path='/dashboard' component={Dashboard} />
+        <PrivateRoute exact path='/create-profile' component={CreateProfile} />
+        <PrivateRoute exact path='/edit-profile' component={EditProfile} />
+        <PrivateRoute exact path='/add-experience' component={AddExperience} />
+        <PrivateRoute exact path='/add-education' component={AddEducation} />
+        <PrivateRoute exact path='/posts' component={Posts} />
+        <PrivateRoute exact path='/post/:id' component={Post} />
+      </Switch>
+    </section>
   );
 };
 

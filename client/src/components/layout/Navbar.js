@@ -1,6 +1,5 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/auth';
 import { Navbar as CustomNavbar, Nav, NavDropdown } from 'react-bootstrap';
@@ -20,13 +19,13 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
       <Nav.Link href='/profiles'>Profiles</Nav.Link>
       <Nav.Link href='/register'>Register</Nav.Link>
       <Nav.Link href='/login'>Login</Nav.Link>
-      {/* <NavDropdown title='Community' id='basic-nav-dropdown'>
+      <NavDropdown title='Community' id='basic-nav-dropdown'>
         <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
         <NavDropdown.Item href='#action/3.2'>Another action</NavDropdown.Item>
         <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
         <NavDropdown.Divider />
         <NavDropdown.Item href='#action/3.4'>Separated link</NavDropdown.Item>
-      </NavDropdown> */}
+      </NavDropdown>
     </Nav>
   );
 

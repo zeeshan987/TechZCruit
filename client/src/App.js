@@ -27,19 +27,19 @@ const App = () => {
       <Router>
         <Fragment>
           <Navbar />
-          <Route exact path='/' component={Landing} />
-          <section className='container'>
-            <Alert />
-            <CommunityRoutes />
-            <Switch>
+          <Alert />
+          <Switch>
+            <Route exact path='/' component={Landing} />
+            <Route component={CommunityRoutes} />
+            <section className='container'>
               <Route exact path='/crowdfunding/homepage' component={HomePage} />
               <PrivateRoute
                 exact
                 path='/crowdfunding/campaignform'
                 component={CampaignForm}
               />
-            </Switch>
-          </section>
+            </section>
+          </Switch>
         </Fragment>
       </Router>
     </Provider>
