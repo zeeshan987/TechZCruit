@@ -5,7 +5,7 @@ import { getAllPosts } from '../../actions/post';
 import PostForm from './PostForm';
 import PostItem from './PostItem';
 
-const Posts = ({ getAllPosts, posts, auth }) => {
+const Posts = ({ getAllPosts, post: { loading, posts }, auth }) => {
   useEffect(() => {
     getAllPosts();
   }, [getAllPosts]);
@@ -17,14 +17,14 @@ const Posts = ({ getAllPosts, posts, auth }) => {
         <i className='fas fa-user'></i> Below is the list of all the posts
       </p>
       <PostForm />
-      {posts !== null && posts.length === 0 ? (
-        <div className='lead'>No posts found</div>
-      ) : (
+      {!loading && posts.length > 0 ? (
         posts.map(post => (
           <div key={post._id}>
             <PostItem post={post} auth={auth} />
           </div>
         ))
+      ) : (
+        <div className='lead'>No posts found</div>
       )}
     </Fragment>
   );
@@ -32,12 +32,12 @@ const Posts = ({ getAllPosts, posts, auth }) => {
 
 Posts.propTypes = {
   getAllPosts: PropTypes.func.isRequired,
-  posts: PropTypes.array.isRequired,
+  post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  posts: state.post.posts,
+  post: state.post,
   auth: state.auth
 });
 

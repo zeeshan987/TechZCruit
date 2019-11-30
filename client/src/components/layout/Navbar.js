@@ -12,9 +12,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         <NavDropdown.Item href='/profiles'>Profiles</NavDropdown.Item>
         <NavDropdown.Item href='/posts'>Posts</NavDropdown.Item>
       </NavDropdown>
-      <Nav.Link href='/login' onClick={logout}>
-        Logout
-      </Nav.Link>
+      <Nav.Link onClick={logout}>Logout</Nav.Link>
     </Nav>
   );
 
