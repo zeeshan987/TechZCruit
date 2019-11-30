@@ -7,25 +7,24 @@ import { Navbar as CustomNavbar, Nav, NavDropdown } from 'react-bootstrap';
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <Nav className='ml-auto'>
-      <Nav.Link href='/dashboard'>Dashboard</Nav.Link>
-      <Nav.Link href='/profiles'>Profiles</Nav.Link>
-      <Nav.Link href='/posts'>Posts</Nav.Link>
-      <Nav.Link href='/login'>Logout</Nav.Link>
+      <NavDropdown title='Community' id='basic-nav-dropdown'>
+        <NavDropdown.Item href='/dashboard'>Dashboard</NavDropdown.Item>
+        <NavDropdown.Item href='/profiles'>Profiles</NavDropdown.Item>
+        <NavDropdown.Item href='/posts'>Posts</NavDropdown.Item>
+      </NavDropdown>
+      <Nav.Link href='/login' onClick={logout}>
+        Logout
+      </Nav.Link>
     </Nav>
   );
 
   const normalLinks = (
     <Nav className='ml-auto'>
-      <Nav.Link href='/profiles'>Profiles</Nav.Link>
+      <NavDropdown title='Community' id='basic-nav-dropdown'>
+        <NavDropdown.Item href='/profiles'>Profiles</NavDropdown.Item>
+      </NavDropdown>
       <Nav.Link href='/register'>Register</Nav.Link>
       <Nav.Link href='/login'>Login</Nav.Link>
-      <NavDropdown title='Community' id='basic-nav-dropdown'>
-        <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
-        <NavDropdown.Item href='#action/3.2'>Another action</NavDropdown.Item>
-        <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
-        <NavDropdown.Divider />
-        <NavDropdown.Item href='#action/3.4'>Separated link</NavDropdown.Item>
-      </NavDropdown>
     </Nav>
   );
 
