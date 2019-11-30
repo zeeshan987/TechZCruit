@@ -44,6 +44,10 @@
 //   designTech: {
 //     type: String,
 //     required: true
+//   },
+//   other: {
+//     type: String,
+//     required: true
 //   }
 // });
 

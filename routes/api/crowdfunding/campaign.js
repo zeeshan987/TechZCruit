@@ -34,31 +34,47 @@ router.post(
     }
 
     const {
-      title,
-      description,
+      campaignTitle,
+      campaignDescription,
+      category,
       fundsRequired,
       teamMembers,
       timeRequired
     } = req.body;
 
+    // Build profile object
+    const campaignFields = {};
+    campaignFields.user = req.user.id;
+    if (campaignTitle) campaignFields.campaignTitle = campaignTitle;
+    if (campaignDescription)
+      campaignFields.campaignDescription = campaignDescription;
+    if (category) campaignFields.category = category;
+    if (fundsRequired) campaignFields.fundsRequired = fundsRequired;
+    if (timeRequired) campaignFields.timeRequired = timeRequired;
+    if (teamMembers) {
+      campaignFields.teamMembers = teamMembers
+        .split(",")
+        .map(teamMembers => teamMembers.trim());
+    }
     try {
-      let campaign = new Campaign({
-        user: req.user.id,
-        title,
-        description,
-        fundsRequired,
-        teamMembers,
-        timeRequired
-      });
+      let campaign = await Campaign.findOne({ user: req.user.id });
+
+      // Updating the campaign
+      // if (campaign) {
+      //   campaign = await Campaign.findOneAndUpdate(
+      //     { user: req.user.id },
+      //     { $set: campaignFields },
+      //     { new: true }
+      //   );
+
+      //  return res.json(campaign);
+      //}
+
+      // Create new campaign
+      campaign = new Campaign(campaignFields);
 
       await campaign.save();
-
-      campaign = await Campaign.findOne({ _id: campaign.id }).populate("user", [
-        "name",
-        "avatar"
-      ]);
-
-      res.json(post);
+      res.json(campaign);
     } catch (err) {
       console.error(err.message);
       return res.status(500).send("Server error");

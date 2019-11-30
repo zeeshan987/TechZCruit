@@ -20,6 +20,8 @@ import store from "./store";
 import setAuthToken from "./utils/setAuthToken";
 import { loadUser } from "./actions/auth";
 import HomePage from "./components/crowdfunding/layout/HomePage";
+import CampaignForm from "./components/crowdfunding/layout/CampaignForm";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 if (localStorage.token) {
@@ -45,10 +47,11 @@ const App = () => {
               <Route exact path='/profiles' component={Profiles} />
               <Route exact path='/profile/:id' component={Profile} />
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
+              <Route exact path='/crowdfunding/homepage' component={HomePage} />
               <PrivateRoute
                 exact
-                path='/crowdfunding/homepage'
-                component={HomePage}
+                path='/crowdfunding/campaignform'
+                component={CampaignForm}
               />
               <PrivateRoute
                 exact

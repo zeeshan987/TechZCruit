@@ -1,3 +1,10 @@
+.carousal-size {
+  /* -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1; */
+  height: "115px";
+  width: "115px";
+}
 .bg-primary {
   background: #17a2b8;
   color: #fff;

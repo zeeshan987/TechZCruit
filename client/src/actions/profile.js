@@ -9,14 +9,14 @@ import {
   PROFILE_DELETED,
   USER_DELETED,
   ALL_PROFILES_LOADED
-} from '../actions/types';
-import { setAlert } from './alert';
-import axios from 'axios';
+} from "../actions/types";
+import { setAlert } from "./alert";
+import axios from "axios";
 
 // Get current profile
 export const getCurrentProfile = () => async dispatch => {
   try {
-    const res = await axios.get('/api/profiles/me');
+    const res = await axios.get("/api/profiles/me");
 
     dispatch({
       type: PROFILE_LOADED,
@@ -38,27 +38,27 @@ export const createProfile = (
 ) => async dispatch => {
   const config = {
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
     }
   };
   try {
-    const res = await axios.post('/api/profiles', formData, config);
+    const res = await axios.post("/api/profiles", formData, config);
 
     dispatch({
       type: PROFILE_LOADED,
       payload: res.data
     });
 
-    dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'));
+    dispatch(setAlert(edit ? "Profile Updated" : "Profile Created", "success"));
 
     if (!edit) {
-      history.push('/dashboard');
+      history.push("/dashboard");
     }
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
     }
 
     dispatch({ type: CLEAR_PROFILE });
@@ -69,25 +69,25 @@ export const createProfile = (
 export const addExperience = (formData, history) => async dispatch => {
   const config = {
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
     }
   };
   try {
-    const res = await axios.put('/api/profiles/experience', formData, config);
+    const res = await axios.put("/api/profiles/experience", formData, config);
 
     dispatch({
       type: EXPERIENCE_ADDED,
       payload: res.data
     });
 
-    dispatch(setAlert('Experience Added', 'success'));
+    dispatch(setAlert("Experience Added", "success"));
 
-    history.push('/dashboard');
+    history.push("/dashboard");
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
     }
   }
 };
@@ -96,25 +96,25 @@ export const addExperience = (formData, history) => async dispatch => {
 export const addEducation = (formData, history) => async dispatch => {
   const config = {
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
     }
   };
   try {
-    const res = await axios.put('/api/profiles/education', formData, config);
+    const res = await axios.put("/api/profiles/education", formData, config);
 
     dispatch({
       type: EDUCATION_ADDED,
       payload: res.data
     });
 
-    dispatch(setAlert('Education Added', 'success'));
+    dispatch(setAlert("Education Added", "success"));
 
-    history.push('/dashboard');
+    history.push("/dashboard");
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
     }
   }
 };
@@ -129,9 +129,9 @@ export const removeExperience = experienceId => async dispatch => {
       payload: res.data
     });
 
-    dispatch(setAlert('Experience Removed', 'success'));
+    dispatch(setAlert("Experience Removed", "success"));
   } catch (err) {
-    dispatch(setAlert('Error occurred while removing experience', 'danger'));
+    dispatch(setAlert("Error occurred while removing experience", "danger"));
   }
 };
 
@@ -145,28 +145,28 @@ export const removeEducation = educationId => async dispatch => {
       payload: res.data
     });
 
-    dispatch(setAlert('Education Removed', 'success'));
+    dispatch(setAlert("Education Removed", "success"));
   } catch (err) {
-    dispatch(setAlert('Error occurred while removing education', 'danger'));
+    dispatch(setAlert("Error occurred while removing education", "danger"));
   }
 };
 
 // Delete profile, user & posts
 export const deleteProfile = () => async dispatch => {
   try {
-    await axios.delete('/api/profiles');
+    await axios.delete("/api/profiles");
 
     dispatch({ type: PROFILE_DELETED });
     dispatch({ type: USER_DELETED });
   } catch (err) {
-    dispatch(setAlert('Error occurred while deleting account', 'danger'));
+    dispatch(setAlert("Error occurred while deleting account", "danger"));
   }
 };
 
 // Get all profiles
 export const getAllProfiles = () => async dispatch => {
   try {
-    const res = await axios.get('/api/profiles');
+    const res = await axios.get("/api/profiles");
 
     dispatch({
       type: ALL_PROFILES_LOADED,
@@ -177,7 +177,7 @@ export const getAllProfiles = () => async dispatch => {
       type: PROFILE_ERROR
     });
 
-    dispatch(setAlert('Error occured while loading all profiles', 'danger'));
+    dispatch(setAlert("Error occured while loading all profiles", "danger"));
   }
 };
 
@@ -195,6 +195,6 @@ export const getProfileById = id => async dispatch => {
       type: PROFILE_ERROR
     });
 
-    dispatch(setAlert('Error occured while loading profile', 'danger'));
+    dispatch(setAlert("Error occured while loading profile", "danger"));
   }
 };
