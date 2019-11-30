@@ -1,14 +1,14 @@
-import React, { Fragment } from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 // import Navbar from "./Navbar";
-import Carousal from "./Carousal";
-import "../../../css/crowdfunding/HomePage.css";
-import homeimg from "../../../img/c1.jpg";
-import square1 from "../../../img/square1.jpg";
-import square2 from "../../../img/square2.jpeg";
-import square3 from "../../../img/square3.jpeg";
-import square4 from "../../../img/square4.jpeg";
+import Carousal from './Carousal';
+import '../../../css/crowdfunding/HomePage.css';
+import homeimg from '../../../img/c1.jpg';
+import square1 from '../../../img/square1.jpg';
+import square2 from '../../../img/square2.jpeg';
+import square3 from '../../../img/square3.jpeg';
+import square4 from '../../../img/square4.jpeg';
 
 const HomePage = props => {
   return (
@@ -21,7 +21,7 @@ const HomePage = props => {
         </div>
         {/* <!-- Box 2 --> */}
         <div className='box box-2'>
-          <div style={{ paddingLeft: "11px" }}>
+          <div style={{ paddingLeft: '11px' }}>
             <h1>Popular Projects</h1>
             <hr />
           </div>

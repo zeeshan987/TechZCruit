@@ -1,9 +1,9 @@
-import React, { Fragment, useState } from "react";
-import Carousel from "react-bootstrap/Carousel";
-import { Row, Col, Grid, Container } from "react-bootstrap";
-import Card from "react-bootstrap/Card";
-import carousal1 from "../../../img/card1.jpg";
-import carousal2 from "../../../img/card2.jpg";
+import React, { Fragment, useState } from 'react';
+import Carousel from 'react-bootstrap/Carousel';
+import { Row, Col, Grid, Container } from 'react-bootstrap';
+import Card from 'react-bootstrap/Card';
+import carousal1 from '../../../img/card1.jpg';
+import carousal2 from '../../../img/card2.jpg';
 
 export default function ControlledCarousel() {
   const [index, setIndex] = useState(0);
@@ -164,7 +164,7 @@ export default function ControlledCarousel() {
         </Carousel.Item>
         <Carousel.Item>
           <Row>
-          <Col md={3}>
+            <Col md={3}>
               <Card>
                 <Card.Img variant='top' src={carousal1} />
                 <Card.Body>
