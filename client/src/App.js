@@ -8,8 +8,8 @@ import PrivateRoute from './components/routing/PrivateRoute';
 import store from './store';
 import setAuthToken from './utils/setAuthToken';
 import { loadUser } from './actions/auth';
-import HomePage from './components/crowdfunding/layout/HomePage';
-import CampaignForm from './components/crowdfunding/layout/CampaignForm';
+import HomePage from './components/crowdfunding/homepage/HomePage';
+// import CampaignForm from './components/crowdfunding/layout/CampaignForm';
 import CommunityRoutes from './components/routing/CommunityRoutes';
 import './App.css';
 
@@ -27,19 +27,20 @@ const App = () => {
       <Router>
         <Fragment>
           <Navbar />
-          <Switch>
-            <Route exact path='/' component={Landing} />
-            <Route component={CommunityRoutes} />
-            <section className='container'>
-              <Alert />
-              <Route exact path='/crowdfunding/homepage' component={HomePage} />
+          <Route exact path='/' component={Landing} />
+          <section className='container'>
+            <Alert />
+            <Switch>
+              <Route exact path='/crowdfunding' component={HomePage} />
+              <Route component={CommunityRoutes} />
+              {/* <Route exact path='/crowdfunding/homepage' component={HomePage} />
               <PrivateRoute
-                exact
-                path='/crowdfunding/campaignform'
-                component={CampaignForm}
-              />
-            </section>
-          </Switch>
+              exact
+              path='/crowdfunding/campaignform'
+              component={CampaignForm}
+            /> */}
+            </Switch>
+          </section>
         </Fragment>
       </Router>
     </Provider>

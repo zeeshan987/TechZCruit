@@ -120,6 +120,9 @@ body {
   margin: 8rem auto;
   max-width: 1100px;
 }
+section:empty {
+  margin: 0;
+}
 .social-input {
   display: -webkit-box;
   display: -ms-flexbox;

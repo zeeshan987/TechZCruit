@@ -7,6 +7,9 @@ import { Navbar as CustomNavbar, Nav, NavDropdown } from 'react-bootstrap';
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <Nav className='ml-auto'>
+      <NavDropdown title='Crowdfunding' id='basic-nav-dropdown'>
+        <NavDropdown.Item href='/crowdfunding'>Homepage</NavDropdown.Item>
+      </NavDropdown>
       <NavDropdown title='Community' id='basic-nav-dropdown'>
         <NavDropdown.Item href='/dashboard'>Dashboard</NavDropdown.Item>
         <NavDropdown.Item href='/profiles'>Profiles</NavDropdown.Item>
@@ -18,6 +21,9 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 
   const normalLinks = (
     <Nav className='ml-auto'>
+      <NavDropdown title='Crowdfunding' id='basic-nav-dropdown'>
+        <NavDropdown.Item href='/crowdfunding'>Homepage</NavDropdown.Item>
+      </NavDropdown>
       <NavDropdown title='Community' id='basic-nav-dropdown'>
         <NavDropdown.Item href='/profiles'>Profiles</NavDropdown.Item>
       </NavDropdown>
