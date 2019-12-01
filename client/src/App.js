@@ -9,7 +9,7 @@ import store from './store';
 import setAuthToken from './utils/setAuthToken';
 import { loadUser } from './actions/auth';
 import HomePage from './components/crowdfunding/homepage/HomePage';
-// import CampaignForm from './components/crowdfunding/layout/CampaignForm';
+import CampaignForm from './components/crowdfunding/layout/CampaignForm';
 import CommunityRoutes from './components/routing/CommunityRoutes';
 import './App.css';
 
@@ -32,13 +32,12 @@ const App = () => {
             <Alert />
             <Switch>
               <Route exact path='/crowdfunding' component={HomePage} />
-              <Route component={CommunityRoutes} />
-              {/* <Route exact path='/crowdfunding/homepage' component={HomePage} />
               <PrivateRoute
-              exact
-              path='/crowdfunding/campaignform'
-              component={CampaignForm}
-            /> */}
+                exact
+                path='/crowdfunding/campaign-form'
+                component={CampaignForm}
+              />
+              <Route component={CommunityRoutes} />
             </Switch>
           </section>
         </Fragment>

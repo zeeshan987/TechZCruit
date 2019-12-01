@@ -9,6 +9,9 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
     <Nav className='ml-auto'>
       <NavDropdown title='Crowdfunding' id='basic-nav-dropdown'>
         <NavDropdown.Item href='/crowdfunding'>Homepage</NavDropdown.Item>
+        <NavDropdown.Item href='/crowdfunding/campaign-form'>
+          Add new campaign
+        </NavDropdown.Item>
       </NavDropdown>
       <NavDropdown title='Community' id='basic-nav-dropdown'>
         <NavDropdown.Item href='/dashboard'>Dashboard</NavDropdown.Item>

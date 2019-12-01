@@ -7,16 +7,18 @@ import square2 from '../../../img/square2.jpeg';
 import square3 from '../../../img/square3.jpeg';
 import square4 from '../../../img/square4.jpeg';
 import HomePageTop from './HomePageTop';
+import HomePagePopularProjects from './HomePagePopularProjects';
 
 const HomePage = props => {
   return (
     <Fragment>
       <HomePageTop />
+      <HomePagePopularProjects />
       <div>
         {/* <div>
           <img src={homeimg} alt='' />
         </div> */}
-        <div className='box box-2'>
+        {/* <div className='box box-2'>
           <div style={{ paddingLeft: '11px' }}>
             <h1>Popular Projects</h1>
             <hr />
@@ -24,7 +26,7 @@ const HomePage = props => {
           <div className='cardsrow'>
             <Carousal />
           </div>
-        </div>
+        </div> */}
         <div className='box box-3'>
           <h1>Collection</h1>
           <hr />
