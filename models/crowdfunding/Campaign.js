@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const CampaignSchema = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "user"
+    ref: 'user'
   },
   campaignTitle: {
     type: String,
@@ -25,7 +25,7 @@ const CampaignSchema = mongoose.Schema({
     {
       user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "user"
+        ref: 'user'
       },
       amount: {
         type: Number,
@@ -37,19 +37,11 @@ const CampaignSchema = mongoose.Schema({
     type: [String],
     required: true
   },
-  // teamMembers: [
-  //   {
-  //     user: {
-  //       type: mongoose.Schema.Types.ObjectId,
-  //       ref: "user"
-  //     }
-  //   }
-  // ],
   votes: [
     {
       user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "user"
+        ref: 'user'
       }
     }
   ],
@@ -57,7 +49,7 @@ const CampaignSchema = mongoose.Schema({
     {
       user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
+        ref: 'user',
         required: true
       },
       description: {
@@ -72,4 +64,4 @@ const CampaignSchema = mongoose.Schema({
   }
 });
 
-module.exports = Campaign = mongoose.model("campaign", CampaignSchema);
+module.exports = Campaign = mongoose.model('campaign', CampaignSchema);
