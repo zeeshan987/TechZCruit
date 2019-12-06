@@ -15,7 +15,7 @@ const initialState = {
   post: null,
   loading: true,
   errors: null,
-  posts: []
+  posts: null
 };
 
 export default function(state = initialState, action) {
