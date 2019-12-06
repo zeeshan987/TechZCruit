@@ -11,7 +11,15 @@ const GroupSchema = new mongoose.Schema({
   },
   description: {
     type: String
-  }
+  },
+  members: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
+      }
+    }
+  ]
 });
 
 module.exports = Group = mongoose.model('group', GroupSchema);
