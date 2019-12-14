@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../../../middleware/auth');
 const { check, validationResult } = require('express-validator');
-const Post = require('../../../models/Post');
+const Post = require('../../../models/community/Post');
 
-// @route   POST /api/posts
+// @route   POST /api/community/posts/:id
 // @desc    Create a post
 // @access  Private
 router.post(
-  '/',
+  '/:id',
   [
     auth,
     check('description', 'Description is required')
@@ -24,17 +24,18 @@ router.post(
     const { description } = req.body;
 
     try {
-      let post = new Post({
+      const post = new Post({
         user: req.user.id,
-        description
+        description,
+        group: req.params.id
       });
 
       await post.save();
 
-      post = await Post.findOne({ _id: post.id }).populate('user', [
-        'name',
-        'avatar'
-      ]);
+      post.populate('user', ['name', 'avatar'], (err, res) => {
+        if (err) throw err;
+        return res;
+      });
 
       res.json(post);
     } catch (err) {
@@ -44,7 +45,7 @@ router.post(
   }
 );
 
-// @route   DELETE /api/posts/:id
+// @route   DELETE /api/community/posts/:id
 // @desc    Delete a post
 // @access  Private
 router.delete('/:id', auth, async (req, res) => {

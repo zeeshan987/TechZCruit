@@ -14,9 +14,9 @@ app.get('/', (req, res) => res.send('API Running'));
 // Define Routes
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
-app.use('/api/profiles', require('./routes/api/community/profiles'));
-app.use('/api/posts', require('./routes/api/community/posts'));
+app.use('/api/profiles', require('./routes/api/profiles'));
 app.use('/api/community/groups', require('./routes/api/community/groups'));
+app.use('/api/community/posts', require('./routes/api/community/posts'));
 app.use(
   '/api/crowdfunding/campaign',
   require('./routes/api/crowdfunding/campaign')

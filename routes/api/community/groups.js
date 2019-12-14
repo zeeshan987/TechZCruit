@@ -113,12 +113,6 @@ router.delete('/request/:id/:req_id', auth, async (req, res) => {
       return res.status(401).json({ msg: 'Not authorized' });
     }
 
-    // const user = await User.findById(req.params.user_id);
-
-    // if (!user) {
-    //   return res.status(400).json({ msg: 'User does not exist' });
-    // }
-
     const index = group.requests
       .map(item => item._id)
       .indexOf(req.params.req_id);
