@@ -5,7 +5,7 @@ const { check, validationResult } = require('express-validator');
 const Post = require('../../../models/community/Post');
 
 // @route   POST /api/community/posts/:id
-// @desc    Create a post
+// @desc    Create a post in a group
 // @access  Private
 router.post(
   '/:id',
@@ -70,12 +70,15 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
-// @route   GET /api/posts
-// @desc    Get all posts
+// @route   GET /api/community/posts/group/:id
+// @desc    Get all posts for a group
 // @access  Public
-router.get('/', async (req, res) => {
+router.get('/group/:id', async (req, res) => {
   try {
-    const posts = await Post.find().populate('user', ['name', 'avatar']);
+    const posts = await Post.find({ group: req.params.id }).populate('user', [
+      'name',
+      'avatar'
+    ]);
 
     res.json(posts);
   } catch (err) {
@@ -84,7 +87,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// @route   GET /api/posts/:id
+// @route   GET /api/community/posts/:id
 // @desc    Get post by id
 // @access  Public
 router.get('/:id', async (req, res) => {
@@ -100,7 +103,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// @route   PUT /api/posts/like/:id
+// @route   PUT /api/community/posts/like/:id
 // @desc    Like a post
 // @access  Private
 router.put('/like/:id', auth, async (req, res) => {
@@ -123,7 +126,7 @@ router.put('/like/:id', auth, async (req, res) => {
   }
 });
 
-// @route   PUT /api/posts/unlike/:id
+// @route   PUT /api/community/posts/unlike/:id
 // @desc    Unlike a post
 // @access  Private
 router.put('/unlike/:id', auth, async (req, res) => {
@@ -146,7 +149,7 @@ router.put('/unlike/:id', auth, async (req, res) => {
   }
 });
 
-// @route   POST /api/posts/comment/:id
+// @route   POST /api/community/posts/comment/:id
 // @desc    Comment on a post
 // @access  Private
 router.post(
@@ -187,7 +190,7 @@ router.post(
   }
 );
 
-// @route   DELETE /api/posts/comment/:id/:comment_id
+// @route   DELETE /api/community/posts/comment/:id/:comment_id
 // @desc    Delete a comment on a post
 // @access  Private
 router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
