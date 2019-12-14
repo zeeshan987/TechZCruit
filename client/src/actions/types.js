@@ -48,3 +48,7 @@ export const COMMENT_ERROR = 'COMMENT_ERROR';
 // CrowdFunding
 export const CAMPAIGN_UPLOADED = 'CAMPAIGN_UPLOADED';
 export const CLEAR_CAMPAIGN = 'CLEAR_CAMPAIGN';
+
+// GROUP
+export const ALL_GROUPS_LOADED = 'ALL_GROUPS_LOADED';
+export const GROUP_ERROR = 'GROUP_ERROR';

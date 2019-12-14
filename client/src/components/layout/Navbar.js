@@ -17,6 +17,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         <NavDropdown.Item href='/dashboard'>Dashboard</NavDropdown.Item>
         <NavDropdown.Item href='/profiles'>Profiles</NavDropdown.Item>
         <NavDropdown.Item href='/posts'>Posts</NavDropdown.Item>
+        <NavDropdown.Item href='/community'>Homepage</NavDropdown.Item>
       </NavDropdown>
       <Nav.Link onClick={logout}>Logout</Nav.Link>
     </Nav>

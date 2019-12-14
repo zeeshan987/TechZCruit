@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
-import Alert from '../../components/layout/Alert';
 import Register from '../../components/auth/Register';
 import Login from '../../components/auth/Login';
 import Dashboard from '../../components/dashboard/Dashboard';
@@ -13,10 +12,10 @@ import Profiles from '../../components/profiles/Profiles';
 import Profile from '../../components/profile/Profile';
 import Posts from '../../components/posts/Posts';
 import Post from '../../components/post/Post';
+import Groups from '../../components/community/groups/Groups';
 
 export const CommunityRoutes = () => {
   return (
-    // <Switch>
     <Fragment>
       <Route exact path='/register' component={Register} />
       <Route exact path='/login' component={Login} />
@@ -29,8 +28,8 @@ export const CommunityRoutes = () => {
       <PrivateRoute exact path='/add-education' component={AddEducation} />
       <PrivateRoute exact path='/posts' component={Posts} />
       <PrivateRoute exact path='/post/:id' component={Post} />
+      <Route exact path='/community' component={Groups} />
     </Fragment>
-    // </Switch>
   );
 };
 
