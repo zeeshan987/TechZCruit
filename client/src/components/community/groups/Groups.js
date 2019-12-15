@@ -16,7 +16,7 @@ const Groups = ({ getAllGroups, group: { loading, groups } }) => {
         <i className='fas fa-user'></i> Become a part of a group to view posts
         and discussions.
       </p>
-      {!loading && groups !== null ? (
+      {!loading && groups.length > 0 ? (
         groups.map(group => <GroupItem group={group} />)
       ) : (
         <div className='lead'>No groups found</div>

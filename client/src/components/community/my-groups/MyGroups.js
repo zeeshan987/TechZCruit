@@ -17,10 +17,10 @@ const MyGroups = ({ getAllGroupsForUser, group: { loading, groups } }) => {
         <i className='fas fa-user'></i> Below is a list of all the groups you
         have created
       </p>
-      <Button variant='primary' className='my-2'>
+      <Button variant='primary' className='my-2' href='/community/create-group'>
         <i class='fas fa-users'></i> Create new group
       </Button>
-      {!loading && groups !== null ? (
+      {!loading && groups.length > 0 ? (
         groups.map(group => <MyGroupItem group={group} />)
       ) : (
         <div className='lead'>No groups found</div>
