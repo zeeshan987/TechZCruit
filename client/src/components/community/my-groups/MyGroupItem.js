@@ -1,8 +1,10 @@
 import React, { Fragment } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { deleteGroup } from '../../../actions/community/group';
 
-const MyGroupItem = ({ group }) => {
+const MyGroupItem = ({ group, deleteGroup }) => {
   return (
     <Fragment>
       <Row className='post p-3 my-3'>
@@ -19,7 +21,9 @@ const MyGroupItem = ({ group }) => {
             >
               Update group
             </Button>
-            <Button variant='danger'>Delete group</Button>
+            <Button variant='danger' onClick={() => deleteGroup(group._id)}>
+              Delete group
+            </Button>
           </div>
         </Col>
       </Row>
@@ -28,7 +32,10 @@ const MyGroupItem = ({ group }) => {
 };
 
 MyGroupItem.propTypes = {
-  group: PropTypes.object.isRequired
+  group: PropTypes.object.isRequired,
+  deleteGroup: PropTypes.func.isRequired
 };
 
-export default MyGroupItem;
+export default connect(null, {
+  deleteGroup
+})(MyGroupItem);

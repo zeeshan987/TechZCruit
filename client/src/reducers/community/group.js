@@ -4,7 +4,8 @@ import {
   ALL_GROUPS_LOADED_FOR_USER,
   GROUP_CREATED,
   GROUP_LOADED,
-  GROUP_UPDATED
+  GROUP_UPDATED,
+  GROUP_DELETED
 } from '../../actions/types';
 
 const initialState = {
@@ -40,6 +41,13 @@ export default function(state = initialState, action) {
         groups: [...state.groups, payload],
         loading: false,
         errors: null
+      };
+    case GROUP_DELETED:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        groups: [...state.groups.filter(group => group._id !== payload)]
       };
     case GROUP_ERROR:
       return {

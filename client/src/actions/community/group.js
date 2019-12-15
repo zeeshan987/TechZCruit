@@ -4,7 +4,8 @@ import {
   ALL_GROUPS_LOADED_FOR_USER,
   GROUP_CREATED,
   GROUP_LOADED,
-  GROUP_UPDATED
+  GROUP_UPDATED,
+  GROUP_DELETED
 } from '../types';
 import { setAlert } from '../alert';
 import axios from 'axios';
@@ -121,6 +122,25 @@ export const updateGroup = (formData, id) => async dispatch => {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
 
+    dispatch({
+      type: GROUP_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Delete a group
+export const deleteGroup = id => async dispatch => {
+  try {
+    await axios.delete(`/api/community/groups/${id}`);
+
+    dispatch({
+      type: GROUP_DELETED,
+      payload: id
+    });
+
+    dispatch(setAlert('Group removed', 'success'));
+  } catch (err) {
     dispatch({
       type: GROUP_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
