@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 const GroupItem = ({ group }) => {
@@ -12,6 +12,9 @@ const GroupItem = ({ group }) => {
           <div>
             <strong>Members:</strong> {group.members.length}
           </div>
+          <Button variant='dark' className='my-2'>
+            <i class='far fa-envelope'></i> Send Join Request
+          </Button>
         </Col>
       </Row>
     </Fragment>

@@ -17,6 +17,18 @@ router.get('/', async (req, res) => {
   }
 });
 
+// @route   GET /api/community/groups/user
+// @desc    Get all groups for a user
+// @access  Private
+router.get('/user', auth, async (req, res) => {
+  try {
+    const groups = await Group.find({ admin: req.user.id });
+    res.json(groups);
+  } catch (err) {
+    return res.status(500).send('Server error');
+  }
+});
+
 // @route   GET /api/community/groups/:id
 // @desc    Get group by id
 // @access  Public

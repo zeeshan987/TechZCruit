@@ -13,6 +13,7 @@ import Profile from '../../components/profile/Profile';
 import Posts from '../../components/posts/Posts';
 import Post from '../../components/post/Post';
 import Groups from '../../components/community/groups/Groups';
+import MyGroups from '../community/my-groups/MyGroups';
 
 export const CommunityRoutes = () => {
   return (
@@ -28,7 +29,8 @@ export const CommunityRoutes = () => {
       <PrivateRoute exact path='/add-education' component={AddEducation} />
       <PrivateRoute exact path='/posts' component={Posts} />
       <PrivateRoute exact path='/post/:id' component={Post} />
-      <Route exact path='/community' component={Groups} />
+      <PrivateRoute exact path='/community' component={Groups} />
+      <PrivateRoute exact path='/community/my-groups' component={MyGroups} />
     </Fragment>
   );
 };
