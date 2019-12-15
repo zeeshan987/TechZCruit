@@ -188,7 +188,7 @@ router.put(
         { new: true }
       );
 
-      await res.json(group);
+      res.json(group);
     } catch (err) {
       return res.status(500).send('Server error');
     }

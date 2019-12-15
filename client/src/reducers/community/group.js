@@ -2,7 +2,9 @@ import {
   ALL_GROUPS_LOADED,
   GROUP_ERROR,
   ALL_GROUPS_LOADED_FOR_USER,
-  GROUP_CREATED
+  GROUP_CREATED,
+  GROUP_LOADED,
+  GROUP_UPDATED
 } from '../../actions/types';
 
 const initialState = {
@@ -21,6 +23,14 @@ export default function(state = initialState, action) {
       return {
         ...state,
         groups: payload,
+        loading: false,
+        errors: null
+      };
+    case GROUP_LOADED:
+    case GROUP_UPDATED:
+      return {
+        ...state,
+        group: payload,
         loading: false,
         errors: null
       };

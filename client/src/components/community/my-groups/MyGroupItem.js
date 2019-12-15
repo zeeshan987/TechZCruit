@@ -13,7 +13,12 @@ const MyGroupItem = ({ group }) => {
             <strong>Members:</strong> {group.members.length}
           </div>
           <div className='my-2'>
-            <Button variant='success'>Update group</Button>
+            <Button
+              variant='success'
+              href={`/community/edit-group/${group._id}`}
+            >
+              Update group
+            </Button>
             <Button variant='danger'>Delete group</Button>
           </div>
         </Col>
