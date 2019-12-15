@@ -1,4 +1,8 @@
-import { ALL_GROUPS_LOADED, GROUP_ERROR } from '../../actions/types';
+import {
+  ALL_GROUPS_LOADED,
+  GROUP_ERROR,
+  ALL_GROUPS_LOADED_FOR_USER
+} from '../../actions/types';
 
 const initialState = {
   group: null,
@@ -12,6 +16,7 @@ export default function(state = initialState, action) {
 
   switch (type) {
     case ALL_GROUPS_LOADED:
+    case ALL_GROUPS_LOADED_FOR_USER:
       return {
         ...state,
         groups: payload,
