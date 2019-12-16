@@ -12,7 +12,7 @@ const MyGroupItem = ({ group, deleteGroup }) => {
           <h2>{group.name}</h2>
           <p>{group.description}</p>
           <div>
-            <strong>Members:</strong> {group.members.length}
+            <strong>Members:</strong> {group.members.length + 1}
           </div>
           <div className='my-2'>
             <Button

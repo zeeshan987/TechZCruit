@@ -4,7 +4,7 @@ import { getAllGroups } from '../../../actions/community/group';
 import PropTypes from 'prop-types';
 import GroupItem from './GroupItem';
 
-const Groups = ({ getAllGroups, group: { loading, groups } }) => {
+const Groups = ({ getAllGroups, group: { loading, groups }, auth }) => {
   useEffect(() => {
     getAllGroups();
   }, [getAllGroups]);
@@ -17,7 +17,9 @@ const Groups = ({ getAllGroups, group: { loading, groups } }) => {
         and discussions.
       </p>
       {!loading && groups.length > 0 ? (
-        groups.map(group => <GroupItem group={group} />)
+        groups.map(group => (
+          <GroupItem key={group._id} group={group} auth={auth} />
+        ))
       ) : (
         <div className='lead'>No groups found</div>
       )}
@@ -27,11 +29,13 @@ const Groups = ({ getAllGroups, group: { loading, groups } }) => {
 
 Groups.propTypes = {
   getAllGroups: PropTypes.func.isRequired,
-  group: PropTypes.object.isRequired
+  group: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  group: state.group
+  group: state.group,
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, {
