@@ -5,7 +5,8 @@ import {
   GROUP_CREATED,
   GROUP_LOADED,
   GROUP_UPDATED,
-  GROUP_DELETED
+  GROUP_DELETED,
+  GROUP_REQUEST_SENT
 } from '../../actions/types';
 
 const initialState = {

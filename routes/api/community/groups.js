@@ -98,11 +98,6 @@ router.put('/request/:id', auth, async (req, res) => {
 
     group.requests.push({ user: req.user.id });
 
-    group.populate('requests.user', ['name', 'avatar'], (err, res) => {
-      if (err) throw err;
-      return res;
-    });
-
     await group.save();
     res.json(group);
   } catch (err) {

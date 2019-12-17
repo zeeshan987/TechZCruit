@@ -16,6 +16,7 @@ import Groups from '../../components/community/groups/Groups';
 import MyGroups from '../community/my-groups/MyGroups';
 import CreateGroup from '../community/group-forms/CreateGroup';
 import EditGroup from '../community/group-forms/EditGroup';
+import Group from '../community/group/Group';
 
 export const CommunityRoutes = () => {
   return (
@@ -43,6 +44,7 @@ export const CommunityRoutes = () => {
         path='/community/edit-group/:id'
         component={EditGroup}
       />
+      <PrivateRoute exact path='/community/group/:id' component={Group} />
     </Fragment>
   );
 };
