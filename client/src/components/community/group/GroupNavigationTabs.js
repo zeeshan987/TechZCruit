@@ -2,11 +2,12 @@ import React, { Fragment } from 'react';
 import { Tab, Row, Col, Nav } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import GroupMembers from './members/GroupMembers';
+import GroupRequests from './requests/GroupRequests';
 
 const GroupNavigationTabs = ({ group }) => {
   return (
     <Fragment>
-      <Tab.Container defaultActiveKey='members'>
+      <Tab.Container defaultActiveKey='requests'>
         <Row>
           <Col md={12}>
             <Nav justify variant='tabs'>
@@ -29,7 +30,9 @@ const GroupNavigationTabs = ({ group }) => {
               <Tab.Pane eventKey='members'>
                 <GroupMembers group={group} />
               </Tab.Pane>
-              <Tab.Pane eventKey='requests'>Requests</Tab.Pane>
+              <Tab.Pane eventKey='requests'>
+                <GroupRequests group={group} />
+              </Tab.Pane>
             </Tab.Content>
           </Col>
         </Row>

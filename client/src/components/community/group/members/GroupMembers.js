@@ -8,7 +8,7 @@ const GroupMembers = ({ group }) => {
       {group !== null ? (
         <GroupMemberItem member={group.admin} isAdmin={true} />
       ) : (
-        'Loading...'
+        'No members found'
       )}
       {group !== null
         ? group.members.map(member => (
