@@ -37,6 +37,7 @@ router.get('/:id', async (req, res) => {
     const group = await Group.findOne({
       _id: req.params.id
     })
+      .populate('admin', ['name', 'avatar'])
       .populate('members.user', ['name', 'avatar'])
       .populate('requests.user', ['name', 'avatar']);
     res.json(group);

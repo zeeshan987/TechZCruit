@@ -1,11 +1,12 @@
 import React, { Fragment } from 'react';
 import { Tab, Row, Col, Nav } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import GroupMembers from './members/GroupMembers';
 
 const GroupNavigationTabs = ({ group }) => {
   return (
     <Fragment>
-      <Tab.Container defaultActiveKey='posts'>
+      <Tab.Container defaultActiveKey='members'>
         <Row>
           <Col md={12}>
             <Nav justify variant='tabs'>
@@ -25,27 +26,14 @@ const GroupNavigationTabs = ({ group }) => {
           <Col md={12}>
             <Tab.Content>
               <Tab.Pane eventKey='posts'>Posts</Tab.Pane>
-              <Tab.Pane eventKey='members'>Members</Tab.Pane>
+              <Tab.Pane eventKey='members'>
+                <GroupMembers group={group} />
+              </Tab.Pane>
               <Tab.Pane eventKey='requests'>Requests</Tab.Pane>
             </Tab.Content>
           </Col>
         </Row>
       </Tab.Container>
-      {/* <Nav justify variant='tabs'>
-        <Nav.Item>
-          <Nav.Link
-            href={`/community/group/${group !== null ? group._id : ''}`}
-          >
-            Posts
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link>Members</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link>Requests</Nav.Link>
-        </Nav.Item>
-      </Nav> */}
     </Fragment>
   );
 };
