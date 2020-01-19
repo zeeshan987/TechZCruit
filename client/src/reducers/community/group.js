@@ -6,7 +6,8 @@ import {
   GROUP_LOADED,
   GROUP_UPDATED,
   GROUP_DELETED,
-  GROUP_REQUEST_SENT
+  GROUP_REQUEST_SENT,
+  GROUP_REQUEST_DELETED
 } from '../../actions/types';
 
 const initialState = {
@@ -62,6 +63,13 @@ export default function(state = initialState, action) {
               : group
           )
         ]
+      };
+    case GROUP_REQUEST_DELETED:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        group: { ...state.group, requests: payload.requests }
       };
     case GROUP_ERROR:
       return {

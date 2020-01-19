@@ -3,8 +3,14 @@ import PropTypes from 'prop-types';
 import uuid from 'uuid';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { deleteJoinRequest } from '../../../../actions/community/group';
 
-const GroupRequestItem = ({ request: { user } }) => {
+const GroupRequestItem = ({
+  request: { _id, user },
+  deleteJoinRequest,
+  groupId
+}) => {
   return (
     <Fragment>
       <div className='profile my-3 p-3'>
@@ -14,7 +20,11 @@ const GroupRequestItem = ({ request: { user } }) => {
 
         <div className='profile-info'>
           <h2>{user.name}</h2>
-          <Button variant='danger' className='my-2'>
+          <Button
+            variant='danger'
+            className='my-2'
+            onClick={() => deleteJoinRequest(groupId, _id)}
+          >
             Delete request
           </Button>
         </div>
@@ -24,7 +34,11 @@ const GroupRequestItem = ({ request: { user } }) => {
 };
 
 GroupRequestItem.propTypes = {
-  request: PropTypes.object.isRequired
+  request: PropTypes.object.isRequired,
+  deleteJoinRequest: PropTypes.func.isRequired,
+  groupId: PropTypes.string.isRequired
 };
 
-export default GroupRequestItem;
+export default connect(null, {
+  deleteJoinRequest
+})(GroupRequestItem);
