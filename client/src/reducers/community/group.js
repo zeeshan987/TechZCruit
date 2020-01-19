@@ -50,6 +50,19 @@ export default function(state = initialState, action) {
         errors: null,
         groups: [...state.groups.filter(group => group._id !== payload)]
       };
+    case GROUP_REQUEST_SENT:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        groups: [
+          ...state.groups.map(group =>
+            group._id === payload._id
+              ? { ...group, requests: payload.requests }
+              : group
+          )
+        ]
+      };
     case GROUP_ERROR:
       return {
         ...state,

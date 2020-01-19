@@ -5,7 +5,8 @@ import {
   GROUP_CREATED,
   GROUP_LOADED,
   GROUP_UPDATED,
-  GROUP_DELETED
+  GROUP_DELETED,
+  GROUP_REQUEST_SENT
 } from '../types';
 import { setAlert } from '../alert';
 import axios from 'axios';
@@ -140,6 +141,25 @@ export const deleteGroup = id => async dispatch => {
     });
 
     dispatch(setAlert('Group removed', 'success'));
+  } catch (err) {
+    dispatch({
+      type: GROUP_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Send join request for a group
+export const sendJoinRequest = groupId => async dispatch => {
+  try {
+    const res = await axios.put(`/api/community/groups/request/${groupId}`);
+
+    dispatch({
+      type: GROUP_REQUEST_SENT,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Group request sent', 'success'));
   } catch (err) {
     dispatch({
       type: GROUP_ERROR,

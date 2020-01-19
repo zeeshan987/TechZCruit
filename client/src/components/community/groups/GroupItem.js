@@ -2,8 +2,10 @@ import React, { Fragment } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { sendJoinRequest } from '../../../actions/community/group';
+import { connect } from 'react-redux';
 
-const GroupItem = ({ group, auth }) => {
+const GroupItem = ({ group, auth, sendJoinRequest }) => {
   return (
     <Fragment>
       <Row className='post p-3 my-3'>
@@ -20,11 +22,19 @@ const GroupItem = ({ group, auth }) => {
           <div>
             <strong>Members:</strong> {group.members.length + 1}
           </div>
-          {auth.user !== null && group.admin !== auth.user._id && (
-            <Button variant='dark' className='my-2'>
-              <i className='far fa-envelope'></i> Send Join Request
-            </Button>
-          )}
+          {auth.user !== null &&
+            group.admin !== auth.user._id &&
+            group.requests
+              .map(request => request.user)
+              .indexOf(auth.user._id) === -1 && (
+              <Button
+                variant='dark'
+                className='my-2'
+                onClick={() => sendJoinRequest(group._id)}
+              >
+                <i className='far fa-envelope'></i> Send Join Request
+              </Button>
+            )}
         </Col>
       </Row>
     </Fragment>
@@ -33,7 +43,10 @@ const GroupItem = ({ group, auth }) => {
 
 GroupItem.propTypes = {
   group: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  sendJoinRequest: PropTypes.func.isRequired
 };
 
-export default GroupItem;
+export default connect(null, {
+  sendJoinRequest
+})(GroupItem);
