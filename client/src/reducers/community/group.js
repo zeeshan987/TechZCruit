@@ -7,7 +7,8 @@ import {
   GROUP_UPDATED,
   GROUP_DELETED,
   GROUP_REQUEST_SENT,
-  GROUP_REQUEST_DELETED
+  GROUP_REQUEST_DELETED,
+  GROUP_MEMBER_ADDED
 } from '../../actions/types';
 
 const initialState = {
@@ -70,6 +71,13 @@ export default function(state = initialState, action) {
         loading: false,
         errors: null,
         group: { ...state.group, requests: payload.requests }
+      };
+    case GROUP_MEMBER_ADDED:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        group: { ...state.group, members: payload.members }
       };
     case GROUP_ERROR:
       return {

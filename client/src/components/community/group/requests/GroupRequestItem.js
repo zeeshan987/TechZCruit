@@ -4,12 +4,16 @@ import uuid from 'uuid';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { deleteJoinRequest } from '../../../../actions/community/group';
+import {
+  deleteJoinRequest,
+  addMemberToGroup
+} from '../../../../actions/community/group';
 
 const GroupRequestItem = ({
   request: { _id, user },
   deleteJoinRequest,
-  groupId
+  groupId,
+  addMemberToGroup
 }) => {
   return (
     <Fragment>
@@ -20,6 +24,16 @@ const GroupRequestItem = ({
 
         <div className='profile-info'>
           <h2>{user.name}</h2>
+          <Button
+            variant='success'
+            className='my-2'
+            onClick={() => {
+              addMemberToGroup(groupId, user._id);
+              deleteJoinRequest(groupId, _id);
+            }}
+          >
+            Accept Request
+          </Button>
           <Button
             variant='danger'
             className='my-2'
@@ -36,9 +50,11 @@ const GroupRequestItem = ({
 GroupRequestItem.propTypes = {
   request: PropTypes.object.isRequired,
   deleteJoinRequest: PropTypes.func.isRequired,
-  groupId: PropTypes.string.isRequired
+  groupId: PropTypes.string.isRequired,
+  addMemberToGroup: PropTypes.func.isRequired
 };
 
 export default connect(null, {
-  deleteJoinRequest
+  deleteJoinRequest,
+  addMemberToGroup
 })(GroupRequestItem);

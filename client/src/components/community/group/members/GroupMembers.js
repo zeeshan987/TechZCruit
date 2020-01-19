@@ -12,7 +12,11 @@ const GroupMembers = ({ group }) => {
       )}
       {group !== null
         ? group.members.map(member => (
-            <GroupMemberItem key={member._id} member={member} isAdmin={false} />
+            <GroupMemberItem
+              key={member._id}
+              member={member.user}
+              isAdmin={false}
+            />
           ))
         : ''}
     </Fragment>
