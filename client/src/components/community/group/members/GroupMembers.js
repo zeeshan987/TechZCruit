@@ -2,11 +2,11 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import GroupMemberItem from './GroupMemberItem';
 
-const GroupMembers = ({ group }) => {
+const GroupMembers = ({ group, auth }) => {
   return (
     <Fragment>
       {group !== null ? (
-        <GroupMemberItem member={group.admin} isAdmin={true} />
+        <GroupMemberItem member={group.admin} isAdmin={true} auth={auth} />
       ) : (
         'No members found'
       )}
@@ -16,6 +16,8 @@ const GroupMembers = ({ group }) => {
               key={member._id}
               member={member.user}
               isAdmin={false}
+              auth={auth}
+              group={group}
             />
           ))
         : ''}
@@ -24,7 +26,8 @@ const GroupMembers = ({ group }) => {
 };
 
 GroupMembers.propTypes = {
-  group: PropTypes.object.isRequired
+  group: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
 export default GroupMembers;

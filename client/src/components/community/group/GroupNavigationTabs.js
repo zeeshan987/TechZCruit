@@ -32,7 +32,7 @@ const GroupNavigationTabs = ({ group, auth }) => {
             <Tab.Content>
               <Tab.Pane eventKey='posts'>Posts</Tab.Pane>
               <Tab.Pane eventKey='members'>
-                <GroupMembers group={group} />
+                <GroupMembers group={group} auth={auth} />
               </Tab.Pane>
               {auth !== null &&
                 group !== null &&

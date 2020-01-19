@@ -26,7 +26,9 @@ const GroupItem = ({ group, auth, sendJoinRequest }) => {
             group.admin !== auth.user._id &&
             group.requests
               .map(request => request.user)
-              .indexOf(auth.user._id) === -1 && (
+              .indexOf(auth.user._id) === -1 &&
+            group.members.map(member => member.user).indexOf(auth.user._id) ===
+              -1 && (
               <Button
                 variant='dark'
                 className='my-2'

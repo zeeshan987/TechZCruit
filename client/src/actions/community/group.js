@@ -8,7 +8,8 @@ import {
   GROUP_DELETED,
   GROUP_REQUEST_SENT,
   GROUP_REQUEST_DELETED,
-  GROUP_MEMBER_ADDED
+  GROUP_MEMBER_ADDED,
+  GROUP_MEMBER_REMOVED
 } from '../types';
 import { setAlert } from '../alert';
 import axios from 'axios';
@@ -202,6 +203,27 @@ export const addMemberToGroup = (groupId, userId) => async dispatch => {
     });
 
     dispatch(setAlert('Group member added', 'success'));
+  } catch (err) {
+    dispatch({
+      type: GROUP_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Remove member from group
+export const removeMemberFromGroup = (groupId, userId) => async dispatch => {
+  try {
+    const res = await axios.delete(
+      `/api/community/groups/${groupId}/${userId}`
+    );
+
+    dispatch({
+      type: GROUP_MEMBER_REMOVED,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Group member removed', 'success'));
   } catch (err) {
     dispatch({
       type: GROUP_ERROR,
