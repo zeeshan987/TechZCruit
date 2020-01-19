@@ -6,7 +6,9 @@ const GroupRequests = ({ group }) => {
   return (
     <Fragment>
       {group !== null && group.requests.length > 0
-        ? group.requests.map(request => <GroupRequestItem request={request} />)
+        ? group.requests.map(request => (
+            <GroupRequestItem key={request._id} request={request} />
+          ))
         : 'No requests found'}
     </Fragment>
   );

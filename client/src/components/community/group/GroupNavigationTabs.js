@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import GroupMembers from './members/GroupMembers';
 import GroupRequests from './requests/GroupRequests';
 
-const GroupNavigationTabs = ({ group }) => {
+const GroupNavigationTabs = ({ group, auth }) => {
   return (
     <Fragment>
-      <Tab.Container defaultActiveKey='requests'>
+      <Tab.Container defaultActiveKey='posts'>
         <Row>
           <Col md={12}>
             <Nav justify variant='tabs'>
@@ -17,9 +17,13 @@ const GroupNavigationTabs = ({ group }) => {
               <Nav.Item>
                 <Nav.Link eventKey='members'>Members</Nav.Link>
               </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey='requests'>Requests</Nav.Link>
-              </Nav.Item>
+              {auth !== null &&
+                group !== null &&
+                group.admin._id === auth.user._id && (
+                  <Nav.Item>
+                    <Nav.Link eventKey='requests'>Requests</Nav.Link>
+                  </Nav.Item>
+                )}
             </Nav>
           </Col>
         </Row>
@@ -30,9 +34,13 @@ const GroupNavigationTabs = ({ group }) => {
               <Tab.Pane eventKey='members'>
                 <GroupMembers group={group} />
               </Tab.Pane>
-              <Tab.Pane eventKey='requests'>
-                <GroupRequests group={group} />
-              </Tab.Pane>
+              {auth !== null &&
+                group !== null &&
+                group.admin._id === auth.user._id && (
+                  <Tab.Pane eventKey='requests'>
+                    <GroupRequests group={group} />
+                  </Tab.Pane>
+                )}
             </Tab.Content>
           </Col>
         </Row>
@@ -42,7 +50,8 @@ const GroupNavigationTabs = ({ group }) => {
 };
 
 GroupNavigationTabs.propTypes = {
-  group: PropTypes.object.isRequired
+  group: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
 export default GroupNavigationTabs;
