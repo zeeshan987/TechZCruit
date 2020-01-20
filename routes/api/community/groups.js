@@ -267,10 +267,6 @@ router.delete('/:id/:user_id', auth, async (req, res) => {
       return res.status(400).json({ msg: 'Group does not exist' });
     }
 
-    if (group.admin.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'Not authorized' });
-    }
-
     const user = await User.findById(req.params.user_id);
 
     if (!user) {
