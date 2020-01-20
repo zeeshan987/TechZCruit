@@ -23,7 +23,7 @@ const GroupMemberItem = ({
         <div className='profile-info'>
           <h2>{member.name}</h2>
           {isAdmin ? <h5>Admin</h5> : ''}
-          {auth !== null && !isAdmin && auth.user._id === group.admin._id && (
+          {auth.user !== null && !isAdmin && auth.user._id === group.admin._id && (
             <Button
               variant='danger'
               className='my-2'

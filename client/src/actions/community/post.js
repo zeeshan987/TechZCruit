@@ -48,7 +48,7 @@ export const getPostById = id => async dispatch => {
 };
 
 // Create new post
-export const createNewPost = formData => async dispatch => {
+export const createNewPost = (groupId, formData) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -56,7 +56,11 @@ export const createNewPost = formData => async dispatch => {
   };
 
   try {
-    const res = await axios.post('/api/posts', formData, config);
+    const res = await axios.post(
+      `/api/community/posts/${groupId}`,
+      formData,
+      config
+    );
 
     dispatch({
       type: POST_ADDED,
@@ -74,13 +78,13 @@ export const createNewPost = formData => async dispatch => {
 };
 
 // Delete post
-export const deletePost = id => async dispatch => {
+export const deletePost = postId => async dispatch => {
   try {
-    await axios.delete(`/api/posts/${id}`);
+    await axios.delete(`/api/community/posts/${postId}`);
 
     dispatch({
       type: POST_REMOVED,
-      payload: id
+      payload: postId
     });
 
     dispatch(setAlert('Post Removed', 'success'));
@@ -94,9 +98,9 @@ export const deletePost = id => async dispatch => {
 };
 
 // Like post
-export const likePost = id => async dispatch => {
+export const likePost = postId => async dispatch => {
   try {
-    const res = await axios.put(`/api/posts/like/${id}`);
+    const res = await axios.put(`/api/community/posts/like/${postId}`);
 
     dispatch({
       type: POST_LIKED,
@@ -111,9 +115,9 @@ export const likePost = id => async dispatch => {
 };
 
 // Unlike post
-export const unlikePost = id => async dispatch => {
+export const unlikePost = postId => async dispatch => {
   try {
-    const res = await axios.put(`/api/posts/unlike/${id}`);
+    const res = await axios.put(`/api/community/posts/unlike/${postId}`);
 
     dispatch({
       type: POST_UNLIKED,

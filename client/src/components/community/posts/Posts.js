@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getAllPosts } from '../../../actions/community/post';
 import PostForm from './PostForm';
-// import PostItem from './PostItem';
+import PostItem from './PostItem';
 
 const Posts = ({ getAllPosts, post: { loading, posts }, auth, group }) => {
   useEffect(() => {
@@ -12,10 +12,12 @@ const Posts = ({ getAllPosts, post: { loading, posts }, auth, group }) => {
 
   return (
     <Fragment>
-      <PostForm />
+      <PostForm groupId={group._id} />
       {!loading && posts.length > 0 ? (
         posts.map(post => (
-          <div key={post._id}>{/* <PostItem post={post} auth={auth} /> */}</div>
+          <div key={post._id}>
+            <PostItem post={post} auth={auth} />
+          </div>
         ))
       ) : (
         <div className='lead my-3'>No posts found</div>

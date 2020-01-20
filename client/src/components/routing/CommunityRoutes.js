@@ -31,7 +31,7 @@ export const CommunityRoutes = () => {
       <PrivateRoute exact path='/add-experience' component={AddExperience} />
       <PrivateRoute exact path='/add-education' component={AddEducation} />
       <PrivateRoute exact path='/posts' component={Posts} />
-      <PrivateRoute exact path='/post/:id' component={Post} />
+      <PrivateRoute exact path='/community/post/:id' component={Post} />
       <PrivateRoute exact path='/community' component={Groups} />
       <PrivateRoute exact path='/community/my-groups' component={MyGroups} />
       <PrivateRoute

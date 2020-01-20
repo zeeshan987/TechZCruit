@@ -30,13 +30,12 @@ router.post(
         group: req.params.id
       });
 
-      await post.save();
-
       post.populate('user', ['name', 'avatar'], (err, res) => {
         if (err) throw err;
         return res;
       });
 
+      await post.save();
       res.json(post);
     } catch (err) {
       console.error(err.message);

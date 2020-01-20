@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
-// import { createNewPost } from '../../actions/post';
-// import { connect } from 'react-redux';
+import { createNewPost } from '../../../actions/community/post';
+import { connect } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 
-const PostForm = ({ createNewPost }) => {
+const PostForm = ({ createNewPost, groupId }) => {
   const [formData, setFormData] = useState({
     description: ''
   });
@@ -17,8 +17,8 @@ const PostForm = ({ createNewPost }) => {
 
   const onSubmit = e => {
     e.preventDefault();
-    // createNewPost(formData);
-    // setFormData({ description: '' });
+    createNewPost(groupId, formData);
+    setFormData({ description: '' });
   };
 
   return (
@@ -43,7 +43,10 @@ const PostForm = ({ createNewPost }) => {
 };
 
 PostForm.propTypes = {
-  createNewPost: PropTypes.func.isRequired
+  createNewPost: PropTypes.func.isRequired,
+  groupId: PropTypes.string.isRequired
 };
 
-export default PostForm;
+export default connect(null, {
+  createNewPost
+})(PostForm);
