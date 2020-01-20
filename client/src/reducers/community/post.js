@@ -9,13 +9,13 @@ import {
   COMMENT_ADDED,
   COMMENT_REMOVED,
   COMMENT_ERROR
-} from '../actions/types';
+} from '../../actions/types';
 
 const initialState = {
   post: null,
   loading: true,
   errors: null,
-  posts: null
+  posts: []
 };
 
 export default function(state = initialState, action) {

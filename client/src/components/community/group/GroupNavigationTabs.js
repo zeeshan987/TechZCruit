@@ -3,8 +3,9 @@ import { Tab, Row, Col, Nav } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import GroupMembers from './members/GroupMembers';
 import GroupRequests from './requests/GroupRequests';
+import Posts from '../posts/Posts';
 
-const GroupNavigationTabs = ({ group, auth }) => {
+const GroupNavigationTabs = ({ group, auth, post }) => {
   return (
     <Fragment>
       <Tab.Container defaultActiveKey='posts'>
@@ -17,7 +18,7 @@ const GroupNavigationTabs = ({ group, auth }) => {
               <Nav.Item>
                 <Nav.Link eventKey='members'>Members</Nav.Link>
               </Nav.Item>
-              {auth !== null &&
+              {auth.user !== null &&
                 group !== null &&
                 group.admin._id === auth.user._id && (
                   <Nav.Item>
@@ -30,11 +31,24 @@ const GroupNavigationTabs = ({ group, auth }) => {
         <Row>
           <Col md={12}>
             <Tab.Content>
-              <Tab.Pane eventKey='posts'>Posts</Tab.Pane>
+              <Tab.Pane eventKey='posts'>
+                {auth.user !== null &&
+                group !== null &&
+                (group.admin._id === auth.user._id ||
+                  group.members
+                    .map(member => member.user._id)
+                    .indexOf(auth.user._id) > -1) ? (
+                  <Posts group={group} post={post} auth={auth} />
+                ) : (
+                  <div className='lead my-3'>
+                    You must be a member of this group to view posts
+                  </div>
+                )}
+              </Tab.Pane>
               <Tab.Pane eventKey='members'>
                 <GroupMembers group={group} auth={auth} />
               </Tab.Pane>
-              {auth !== null &&
+              {auth.user !== null &&
                 group !== null &&
                 group.admin._id === auth.user._id && (
                   <Tab.Pane eventKey='requests'>
@@ -51,7 +65,8 @@ const GroupNavigationTabs = ({ group, auth }) => {
 
 GroupNavigationTabs.propTypes = {
   group: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  post: PropTypes.object.isRequired
 };
 
 export default GroupNavigationTabs;

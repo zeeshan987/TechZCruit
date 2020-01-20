@@ -13,7 +13,8 @@ const Group = ({
   match,
   group: { loading, group },
   auth,
-  removeMemberFromGroup
+  removeMemberFromGroup,
+  post
 }) => {
   useEffect(() => {
     getGroupById(match.params.id);
@@ -46,7 +47,7 @@ const Group = ({
             </div>
           )}
         <div>
-          <GroupNavigationTabs group={group} auth={auth} />
+          <GroupNavigationTabs group={group} auth={auth} post={post} />
         </div>
       </div>
     </Fragment>
@@ -57,12 +58,14 @@ Group.propTypes = {
   getGroupById: PropTypes.func.isRequired,
   group: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  removeMemberFromGroup: PropTypes.func.isRequired
+  removeMemberFromGroup: PropTypes.func.isRequired,
+  post: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   group: state.group,
-  auth: state.auth
+  auth: state.auth,
+  post: state.post
 });
 
 export default connect(mapStateToProps, {
