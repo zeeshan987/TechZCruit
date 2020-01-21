@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { deleteComment } from '../../../actions/community/post';
 import { Row, Col } from 'react-bootstrap';
 
-const CommentItem = ({ comment, auth, deleteComment, postId }) => {
+const CommentItem = ({ comment, auth, deleteComment, post }) => {
   return (
     <Fragment>
       <Row className='post p-3 my-3'>
@@ -20,10 +20,11 @@ const CommentItem = ({ comment, auth, deleteComment, postId }) => {
         <Col md={9}>
           <p>{comment.description}</p>
           <div className='my-1'>
-            {auth.user._id === comment.user._id && (
+            {(auth.user._id === comment.user._id ||
+              auth.user._id === post.group.admin) && (
               <button
                 className='btn btn-danger'
-                onClick={() => deleteComment(postId, comment._id)}
+                onClick={() => deleteComment(post._id, comment._id)}
               >
                 Delete comment
               </button>
@@ -39,7 +40,7 @@ CommentItem.propTypes = {
   comment: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   deleteComment: PropTypes.func.isRequired,
-  postId: PropTypes.string.isRequired
+  post: PropTypes.object.isRequired
 };
 
 export default connect(null, {

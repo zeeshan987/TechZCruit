@@ -93,7 +93,8 @@ router.get('/:id', async (req, res) => {
   try {
     const post = await Post.findOne({ _id: req.params.id })
       .populate('user', ['name', 'avatar'])
-      .populate('comments.user', ['name', 'avatar']);
+      .populate('comments.user', ['name', 'avatar'])
+      .populate('group', ['admin']);
 
     res.json(post);
   } catch (err) {
@@ -212,10 +213,6 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
     const comment = post.comments.find(
       comment => comment.id === req.params.comment_id
     );
-
-    if (comment.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'Not authorized' });
-    }
 
     post.comments.splice(removeIndex, 1);
 

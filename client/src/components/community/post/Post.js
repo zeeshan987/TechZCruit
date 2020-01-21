@@ -33,7 +33,7 @@ const Post = ({ post: { post, loading }, getPostById, match, auth }) => {
           {post.comments.length > 0 ? (
             post.comments.map(comment => (
               <div key={comment._id}>
-                <CommentItem comment={comment} auth={auth} postId={post._id} />
+                <CommentItem comment={comment} auth={auth} post={post} />
               </div>
             ))
           ) : (
