@@ -11,7 +11,7 @@ import AddEducation from '../../components/profile-forms/AddEducation';
 import Profiles from '../../components/profiles/Profiles';
 import Profile from '../../components/profile/Profile';
 import Posts from '../../components/posts/Posts';
-import Post from '../../components/post/Post';
+import Post from '../../components/community/post/Post';
 import Groups from '../../components/community/groups/Groups';
 import MyGroups from '../community/my-groups/MyGroups';
 import CreateGroup from '../community/group-forms/CreateGroup';

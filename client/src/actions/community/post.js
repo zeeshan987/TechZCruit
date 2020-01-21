@@ -31,9 +31,9 @@ export const getAllPosts = groupId => async dispatch => {
 };
 
 // Get post by id
-export const getPostById = id => async dispatch => {
+export const getPostById = postId => async dispatch => {
   try {
-    const res = await axios.get(`/api/posts/${id}`);
+    const res = await axios.get(`/api/community/posts/${postId}`);
 
     dispatch({
       type: POST_LOADED,
@@ -132,7 +132,7 @@ export const unlikePost = postId => async dispatch => {
 };
 
 // Comment on post
-export const addComment = (id, formData) => async dispatch => {
+export const addComment = (postId, formData) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -140,7 +140,11 @@ export const addComment = (id, formData) => async dispatch => {
   };
 
   try {
-    const res = await axios.post(`/api/posts/comment/${id}`, formData, config);
+    const res = await axios.post(
+      `/api/community/posts/comment/${postId}`,
+      formData,
+      config
+    );
 
     dispatch({
       type: COMMENT_ADDED,
@@ -160,7 +164,9 @@ export const addComment = (id, formData) => async dispatch => {
 // Delete comment on post
 export const deleteComment = (postId, commentId) => async dispatch => {
   try {
-    const res = await axios.delete(`/api/posts/comment/${postId}/${commentId}`);
+    const res = await axios.delete(
+      `/api/community/posts/comment/${postId}/${commentId}`
+    );
 
     dispatch({
       type: COMMENT_REMOVED,
