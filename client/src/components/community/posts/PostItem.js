@@ -20,12 +20,12 @@ const PostItem = ({
     <Fragment>
       <Row className='post p-3 my-3'>
         <Col md={3}>
-          <a href='profile.html'>
+          <Link to={`/profile/${user._id}`}>
             <img src={user.avatar} alt='' className='round-img' />
             <p className='text-primary my-1'>
               <strong>{user.name}</strong>
             </p>
-          </a>
+          </Link>
         </Col>
         <Col md={9}>
           <div>

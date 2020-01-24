@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ProfileTop from './ProfileTop';
 import ProfileAbout from './ProfileAbout';
@@ -16,13 +15,6 @@ const Profile = ({ match, getProfileById, profile }) => {
 
   return (
     <Fragment>
-      <div className='row'>
-        <div className='col-md-12'>
-          <Link to='/profiles' className='btn btn-light'>
-            Back to profiles
-          </Link>
-        </div>
-      </div>
       {profile === null ? (
         <Spinner />
       ) : (
@@ -48,7 +40,4 @@ const mapStateToProps = state => ({
   profile: state.profile.profile
 });
 
-export default connect(
-  mapStateToProps,
-  { getProfileById }
-)(Profile);
+export default connect(mapStateToProps, { getProfileById })(Profile);

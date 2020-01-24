@@ -4,19 +4,17 @@ import { connect } from 'react-redux';
 import { logout } from '../../actions/auth';
 import { Navbar as CustomNavbar, Nav, NavDropdown } from 'react-bootstrap';
 
-const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const authLinks = (
     <Nav className='ml-auto'>
-      <NavDropdown title='Crowdfunding' id='basic-nav-dropdown'>
+      <NavDropdown title='Crowdfunding'>
         <NavDropdown.Item href='/crowdfunding'>Homepage</NavDropdown.Item>
         <NavDropdown.Item href='/crowdfunding/campaign-form'>
           Add new campaign
         </NavDropdown.Item>
       </NavDropdown>
-      <NavDropdown title='Community' id='basic-nav-dropdown'>
+      <NavDropdown title='Community'>
         <NavDropdown.Item href='/dashboard'>Dashboard</NavDropdown.Item>
-        <NavDropdown.Item href='/profiles'>Profiles</NavDropdown.Item>
-        <NavDropdown.Item href='/posts'>Posts</NavDropdown.Item>
         <NavDropdown.Item href='/community'>Homepage</NavDropdown.Item>
         <NavDropdown.Item href='/community/my-groups'>
           My groups
@@ -28,16 +26,18 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 
   const normalLinks = (
     <Nav className='ml-auto'>
-      <NavDropdown title='Crowdfunding' id='basic-nav-dropdown'>
+      {/* <NavDropdown title='Crowdfunding'>
         <NavDropdown.Item href='/crowdfunding'>Homepage</NavDropdown.Item>
       </NavDropdown>
-      <NavDropdown title='Community' id='basic-nav-dropdown'>
+      <NavDropdown title='Community'>
         <NavDropdown.Item href='/profiles'>Profiles</NavDropdown.Item>
-      </NavDropdown>
+      </NavDropdown> */}
       <Nav.Link href='/register'>Register</Nav.Link>
       <Nav.Link href='/login'>Login</Nav.Link>
     </Nav>
   );
+
+  
 
   return (
     <CustomNavbar bg='dark' variant='dark' fixed='top'>
@@ -48,6 +48,8 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
     </CustomNavbar>
   );
 };
+
+
 
 Navbar.propTypes = {
   auth: PropTypes.object.isRequired,
