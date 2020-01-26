@@ -1,32 +1,40 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Carousal from '../layout/Carousal';
-// import homeimg from '../../../img/c1.jpg';
+import { connect } from 'react-redux';
+import Carousal from './Carousal';
+import HomeCaraosel from './HomeCaraosel';
+import { getAllCampaigns } from '../../../actions/crowdfunding/campaign';
+import '../../../css/crowdfunding/HomePage.css';
 import square1 from '../../../img/square1.jpg';
 import square2 from '../../../img/square2.jpeg';
 import square3 from '../../../img/square3.jpeg';
 import square4 from '../../../img/square4.jpeg';
-import HomePageTop from './HomePageTop';
-import HomePagePopularProjects from './HomePagePopularProjects';
 
-const HomePage = props => {
+const HomePage = ({ getAllCampaigns, campaigns, auth }) => {
+  useEffect(() => {
+    getAllCampaigns();
+  }, [getAllCampaigns]);
+
   return (
     <Fragment>
-      <HomePageTop />
-      <HomePagePopularProjects />
-      <div>
-        {/* <div>
-          <img src={homeimg} alt='' />
+      <div className='main-container' style={{ margin: '0px' }}>
+        {/* Box 1  */}
+        {/* <div className='box box-1'>
+          <img src={homeimg} width='100%' alt='' />
         </div> */}
-        {/* <div className='box box-2'>
+        <HomeCaraosel />
+        {/* <!-- Box 2 --> */}
+        <div className='box box-2'>
           <div style={{ paddingLeft: '11px' }}>
-            <h1>Popular Projects</h1>
+            <h2 className='text-primary'>Popular Projects</h2>
             <hr />
           </div>
           <div className='cardsrow'>
-            <Carousal />
+            <Carousal campaigns={campaigns} />
           </div>
-        </div> */}
+        </div>{' '}
+        */}
         <div className='box box-3'>
           <h1>Collection</h1>
           <hr />
@@ -36,28 +44,44 @@ const HomePage = props => {
                 <div className='text-centered'>10 Cool & Clever Finds</div>
                 <img src={square1} className='card-img-top' alt='...' />
               </div>
-              <h3>Our roundup of standout projects</h3>
+              <h3>
+                <Link to='/crowdfunding/searchcampaign'>
+                  Our roundup of standout projects
+                </Link>
+              </h3>
             </div>
             <div>
               <div className='align-text'>
                 <div className='text-centered'>Team Favorite</div>
                 <img src={square4} className='card-img-top' alt='...' />
               </div>
-              <h3>Most Liked projects</h3>
+              <h3>
+                <Link to='/crowdfunding/searchcampaign'>
+                  Most Liked projects
+                </Link>
+              </h3>
             </div>
             <div>
               <div className='align-text'>
                 <div className='text-centered'>10 Cool & Clever Finds</div>
                 <img src={square3} className='card-img-top' alt='...' />
               </div>
-              <h3>Campaigns just launched and are gaining traction</h3>
+              <h3>
+                <Link to='/crowdfunding/searchcampaign'>
+                  Campaigns just launched and are gaining traction
+                </Link>
+              </h3>
             </div>
             <div>
               <div className='align-text'>
                 <div className='text-centered'>10 Cool & Clever Finds</div>
                 <img src={square2} className='card-img-top' alt='...' />
               </div>
-              <h3>Campaigns with perks one step closer to shipping</h3>
+              <h3>
+                <Link to='/crowdfunding/searchcampaign'>
+                  Campaigns with perks one step closer to shipping
+                </Link>
+              </h3>
             </div>
           </div>
         </div>
@@ -86,4 +110,15 @@ const HomePage = props => {
   );
 };
 
-export default HomePage;
+HomePage.propTypes = {
+  // getAllCampaigns: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  campaigns: PropTypes.array.isRequired
+};
+
+const mapStateToProps = state => ({
+  campaigns: state.campaign.campaigns,
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, { getAllCampaigns })(HomePage);

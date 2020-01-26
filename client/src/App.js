@@ -11,6 +11,10 @@ import { loadUser } from './actions/auth';
 import HomePage from './components/crowdfunding/homepage/HomePage';
 import CampaignForm from './components/crowdfunding/layout/CampaignForm';
 import CommunityRoutes from './components/routing/CommunityRoutes';
+import HomePage from './components/crowdfunding/layout/HomePage';
+import CampaignForm from './components/crowdfunding/layout/campaign-form/CampaignForm';
+import Campaign from './components/crowdfunding/layout/campaign/Campaign';
+import SearchCampaign from './components/crowdfunding/layout/campaigncategory/SearchCampaign';
 import './App.css';
 
 if (localStorage.token) {
@@ -31,7 +35,17 @@ const App = () => {
           <section className='container'>
             <Alert />
             <Switch>
-              <Route exact path='/crowdfunding' component={HomePage} />
+              <Route exact path='/crowdfunding/homepage' component={HomePage} />
+              <Route
+                exact
+                path='/crowdfunding/campaign/:id'
+                component={Campaign}
+              />
+              <Route
+                exact
+                path='/crowdfunding/searchcampaign'
+                component={SearchCampaign}
+              />
               <PrivateRoute
                 exact
                 path='/crowdfunding/campaign-form'

@@ -6,7 +6,7 @@ const Campaign = require("../../../models/crowdfunding/Campaign");
 
 // @route   POST api/crowdfunding/campaign
 // @desc    Create a campaign
-// @access  Private
+// @access  Private=tested
 router.post(
   "/",
   [
@@ -109,12 +109,11 @@ router.delete("/:id", auth, async (req, res) => {
 
 // @route   GET /api/crowdfunding/campaign
 // @desc    Get all campaign
-// @access  Public
+// @access  Public=tested
 router.get("/", async (req, res) => {
   try {
-    const Campaigns = await Campaign.find();
-
-    res.json(Campaigns);
+    const campaigns = await Campaign.find();
+    res.json(campaigns);
   } catch (err) {
     console.error(err.message);
     return res.status(500).send("Server error");
@@ -139,16 +138,18 @@ router.get("/:id", async (req, res) => {
 
 // @route   PUT /api/crowdfunding/campaign/votes/:id
 // @desc    Vote a campaign
-// @access  Private
+// @access  Private=tested
 router.put("/votes/:id", auth, async (req, res) => {
   try {
-    const campaign = await Campaign.findOne({ _id: req.params.id });
+    const campaign = await Campaign.findOne({
+      _id: req.params.id
+    });
 
     //Check if the campaign already has a vote by login user
     const index = campaign.votes.map(item => item.user).indexOf(req.user.id);
 
     if (index !== -1) {
-      return res.status(400).json({ msg: "Campaign already liked" });
+      return res.status(400).json({ msg: "Already voted for campaign" });
     }
 
     campaign.votes.push({ user: req.user.id });
@@ -271,3 +272,5 @@ router.delete("/comment/:id/:comment_id", auth, async (req, res) => {
 });
 
 module.exports = router;
+
+// router.post()

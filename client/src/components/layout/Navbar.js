@@ -15,8 +15,14 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
     <Nav className='ml-auto'>
       <NavDropdown title='Crowdfunding'>
         <NavDropdown.Item href='/crowdfunding'>Homepage</NavDropdown.Item>
-        <NavDropdown.Item href='/crowdfunding/campaign-form'>
+        <NavDropdown.Item href='/crowdfunding/homepage'>
+          Homepage
+        </NavDropdown.Item>
+        <NavDropdown.Item href='/crowdfunding/campaignform'>
           Add new campaign
+        </NavDropdown.Item>
+        <NavDropdown.Item href='/crowdfunding/searchcampaign'>
+          Search Campaigns
         </NavDropdown.Item>
       </NavDropdown>
       <NavDropdown title='Community'>
@@ -37,17 +43,12 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
         <NavDropdown.Item href='/dashboard'>Dashboard</NavDropdown.Item>
         <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
       </NavDropdown>
+      <Nav.Link onClick={logout}>Logout</Nav.Link>
     </Nav>
   );
 
   const normalLinks = (
     <Nav className='ml-auto'>
-      {/* <NavDropdown title='Crowdfunding'>
-        <NavDropdown.Item href='/crowdfunding'>Homepage</NavDropdown.Item>
-      </NavDropdown>
-      <NavDropdown title='Community'>
-        <NavDropdown.Item href='/profiles'>Profiles</NavDropdown.Item>
-      </NavDropdown> */}
       <Nav.Link href='/register'>Register</Nav.Link>
       <Nav.Link href='/login'>Login</Nav.Link>
     </Nav>

@@ -10,7 +10,7 @@ import {
   COMMENT_REMOVED,
   COMMENT_ERROR
 } from '../actions/types';
-import { setAlert } from './alert';
+import { setAlert } from '../actions/alert';
 import axios from 'axios';
 
 // Get all posts

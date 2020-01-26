@@ -26,9 +26,6 @@ const Landing = ({ auth: { isAuthenticated, loading } }) => {
           <Link to='/login' className='btn btn-light'>
             Login
           </Link>
-          <Link to='/crowdfunding/homepage' className='btn btn-primary'>
-            Crowd Funding
-          </Link>
         </div>
       </div>
     </section>
