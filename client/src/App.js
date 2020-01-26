@@ -8,8 +8,6 @@ import PrivateRoute from './components/routing/PrivateRoute';
 import store from './store';
 import setAuthToken from './utils/setAuthToken';
 import { loadUser } from './actions/auth';
-// import HomePage from './components/crowdfunding/homepage/HomePage';
-// import CampaignForm from './components/crowdfunding/layout/CampaignForm';
 import CommunityRoutes from './components/routing/CommunityRoutes';
 import HomePage from './components/crowdfunding/layout/HomePage';
 import CampaignForm from './components/crowdfunding/layout/campaign-form/CampaignForm';

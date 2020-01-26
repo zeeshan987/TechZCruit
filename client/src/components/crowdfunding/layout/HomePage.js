@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Carousal from './Carousal';
 import HomeCaraosel from './HomeCaraosel';
 import { getAllCampaigns } from '../../../actions/crowdfunding/campaign';
-import '../../../css/crowdfunding/HomePage.css';
+import '../../../App.css';
 import square1 from '../../../img/square1.jpg';
 import square2 from '../../../img/square2.jpeg';
 import square3 from '../../../img/square3.jpeg';

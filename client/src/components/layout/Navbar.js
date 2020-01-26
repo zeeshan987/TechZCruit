@@ -43,7 +43,6 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
         <NavDropdown.Item href='/dashboard'>Dashboard</NavDropdown.Item>
         <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
       </NavDropdown>
-      <Nav.Link onClick={logout}>Logout</Nav.Link>
     </Nav>
   );
 
