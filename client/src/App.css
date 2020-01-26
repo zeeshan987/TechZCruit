@@ -75,6 +75,9 @@
 .text-primary {
   color: #1885a0;
 }
+.btn {
+  margin-right: 0.5rem;
+}
 .dark-overlay {
   background: rgba(42, 37, 34, 0.7);
   text-align: center;
@@ -245,7 +248,7 @@ section:empty {
 }
 
 /* CROWDFUNDING MODULE */
-/* .carousal-size {
+.carousal-size {
   height: '115px';
   width: '115px';
 }
@@ -359,10 +362,10 @@ section:empty {
 }
 .dropdown:hover .dropdown-content {
   display: block;
-} */
+}
 
 /* Campagn page */
-/* .navlink {
+.navlink {
   margin: 10px;
   margin-left: auto;
   margin-right: auto;
@@ -376,11 +379,11 @@ section:empty {
 .cambox-2 {
   flex: 1;
   background: rgba(204, 204, 204, 0.63);
-} */
+}
 
 /* CROWDFUNDING MODULE 1 */
 /* Search Bar */
-/* .searchbar {
+.searchbar {
   margin-bottom: auto;
   margin-top: auto;
   height: 4 0px;
@@ -422,10 +425,10 @@ section:empty {
   border-radius: 50%;
   color: white;
   text-decoration: none;
-} */
+}
 
 /* transition */
-/* .card-product__imgOverlay {
+.card-product__imgOverlay {
   background: rgba(255, 255, 255, 0.5);
   position: absolute;
   bottom: 0;
@@ -539,4 +542,4 @@ section:empty {
 }
 .card-product__imgOverlay {
   margin-bottom: 0rem;
-} */
+}
