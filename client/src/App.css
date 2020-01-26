@@ -256,3 +256,7 @@ section:empty {
   -ms-flex-pack: center;
   justify-content: center;
 }
+.dropdown-menu {
+  right: 0;
+  left: auto;
+}

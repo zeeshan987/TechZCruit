@@ -5,6 +5,12 @@ import { logout } from '../../actions/auth';
 import { Navbar as CustomNavbar, Nav, NavDropdown } from 'react-bootstrap';
 
 const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
+  const imageStyle = {
+    borderRadius: '50%',
+    width: '30px',
+    height: '30px'
+  };
+
   const authLinks = (
     <Nav className='ml-auto'>
       <NavDropdown title='Crowdfunding'>
@@ -14,13 +20,23 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
         </NavDropdown.Item>
       </NavDropdown>
       <NavDropdown title='Community'>
-        <NavDropdown.Item href='/dashboard'>Dashboard</NavDropdown.Item>
         <NavDropdown.Item href='/community'>Homepage</NavDropdown.Item>
         <NavDropdown.Item href='/community/my-groups'>
           My groups
         </NavDropdown.Item>
       </NavDropdown>
-      <Nav.Link onClick={logout}>Logout</Nav.Link>
+      <NavDropdown
+        title={
+          <img
+            src={user !== null ? user.avatar : ''}
+            alt=''
+            style={imageStyle}
+          />
+        }
+      >
+        <NavDropdown.Item href='/dashboard'>Dashboard</NavDropdown.Item>
+        <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+      </NavDropdown>
     </Nav>
   );
 
@@ -37,8 +53,6 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
     </Nav>
   );
 
-  
-
   return (
     <CustomNavbar bg='dark' variant='dark' fixed='top'>
       <CustomNavbar.Brand href='/'>
@@ -48,8 +62,6 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
     </CustomNavbar>
   );
 };
-
-
 
 Navbar.propTypes = {
   auth: PropTypes.object.isRequired,
