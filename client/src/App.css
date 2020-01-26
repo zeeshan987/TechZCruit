@@ -112,7 +112,7 @@ body {
   opacity: 0.9;
 }
 .landing {
-  background: url('./img/showcase.jpg');
+  background: url('./img/showcase.jpg'); 
   width: 100%;
   height: 100vh;
   overflow: hidden;

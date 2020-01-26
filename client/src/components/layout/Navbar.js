@@ -1,62 +1,52 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { logout } from '../../actions/auth';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { logout } from "../../actions/auth";
+import { Navbar as CustomNavbar, Nav, NavDropdown } from "react-bootstrap";
 
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
-    <ul className='navbar-nav ml-auto'>
-      <li className='nav-item'>
-        <Link className='nav-link' to='/dashboard'>
-          Dashboard
-        </Link>
-      </li>
-      <li className='nav-item'>
-        <Link className='nav-link' to='/profiles'>
-          Profiles
-        </Link>
-      </li>
-      <li className='nav-item'>
-        <Link className='nav-link' to='/posts'>
-          Posts
-        </Link>
-      </li>
-      <li className='nav-item'>
-        <Link className='nav-link' onClick={logout} to='/login'>
-          Logout
-        </Link>
-      </li>
-    </ul>
+    <Nav className='ml-auto'>
+      <NavDropdown title='Crowdfunding' id='basic-nav-dropdown'>
+        <NavDropdown.Item href='/crowdfunding/homepage'>
+          Homepage
+        </NavDropdown.Item>
+        <NavDropdown.Item href='/crowdfunding/campaignform'>
+          Add new campaign
+        </NavDropdown.Item>
+        <NavDropdown.Item href='/crowdfunding/searchcampaign'>
+          Search Campaigns
+        </NavDropdown.Item>
+      </NavDropdown>
+      <NavDropdown title='Community' id='basic-nav-dropdown'>
+        <NavDropdown.Item href='/dashboard'>Dashboard</NavDropdown.Item>
+        <NavDropdown.Item href='/profiles'>Profiles</NavDropdown.Item>
+        <NavDropdown.Item href='/posts'>Posts</NavDropdown.Item>
+      </NavDropdown>
+      <Nav.Link onClick={logout}>Logout</Nav.Link>
+    </Nav>
   );
 
   const normalLinks = (
-    <ul className='navbar-nav ml-auto'>
-      <li className='nav-item'>
-        <Link className='nav-link' to='/profiles'>
-          Profiles
-        </Link>
-      </li>
-      <li className='nav-item'>
-        <Link className='nav-link' to='/register'>
-          Register
-        </Link>
-      </li>
-      <li className='nav-item'>
-        <Link className='nav-link' to='/login'>
-          Login
-        </Link>
-      </li>
-    </ul>
+    <Nav className='ml-auto'>
+      <NavDropdown title='Crowdfunding' id='basic-nav-dropdown'>
+        <NavDropdown.Item href='/crowdfunding/homepage '>Homepage</NavDropdown.Item>
+      </NavDropdown>
+      <NavDropdown title='Community' id='basic-nav-dropdown'>
+        <NavDropdown.Item href='/profiles'>Profiles</NavDropdown.Item>
+      </NavDropdown>
+      <Nav.Link href='/register'>Register</Nav.Link>
+      <Nav.Link href='/login'>Login</Nav.Link>
+    </Nav>
   );
 
   return (
-    <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
-      <Link className='navbar-brand' to='/'>
+    <CustomNavbar bg='dark' variant='dark' fixed='top'>
+      <CustomNavbar.Brand href='/'>
         <i className='fab fa-connectdevelop'></i> TechZCruit
-      </Link>
+      </CustomNavbar.Brand>
       {!isAuthenticated && !loading ? normalLinks : authLinks}
-    </nav>
+    </CustomNavbar>
   );
 };
 

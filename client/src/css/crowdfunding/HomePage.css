@@ -46,7 +46,7 @@
 .btn {
   display: inline-block;
   border: #ccc 1px solid;
-  color: #333;
+  /* color: #333; */
   padding: 0.4rem 1.3rem;
   border: none;
   cursor: pointer;
@@ -100,7 +100,7 @@ img {
   display: flex;
 }
 .navbar a {
-  color: #ffff;
+  /* color: #ffff; */
   padding: 0.4rem;
   margin: 0 0.25rem;
 }
@@ -224,4 +224,24 @@ body {
 }
 .dropdown:hover .dropdown-content {
   display: block;
+}
+
+/* Campagn page */
+.navlink {
+  margin: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  /* background: #bbbbbb; */
+}
+.campaign-box {
+  display: flex;
+}
+.cambox-1 {
+  flex: 2;
+  /* background: #f56c49; */
+}
+.cambox-2 {
+  flex: 1;
+  /* background: #3798bed0; */
+  background: rgba(204, 204, 204, 0.63);
 }

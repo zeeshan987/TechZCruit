@@ -20,7 +20,9 @@ import store from "./store";
 import setAuthToken from "./utils/setAuthToken";
 import { loadUser } from "./actions/auth";
 import HomePage from "./components/crowdfunding/layout/HomePage";
-import CampaignForm from "./components/crowdfunding/layout/CampaignForm";
+import CampaignForm from "./components/crowdfunding/layout/campaign-form/CampaignForm";
+import Campaign from "./components/crowdfunding/layout/campaign/Campaign";
+import SearchCampaign from "./components/crowdfunding/layout/campaigncategory/SearchCampaign";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
@@ -48,6 +50,16 @@ const App = () => {
               <Route exact path='/profile/:id' component={Profile} />
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               <Route exact path='/crowdfunding/homepage' component={HomePage} />
+              <Route
+                exact
+                path='/crowdfunding/campaign/:id'
+                component={Campaign}
+              />
+              <Route
+                exact
+                path='/crowdfunding/searchcampaign'
+                component={SearchCampaign}
+              />
               <PrivateRoute
                 exact
                 path='/crowdfunding/campaignform'

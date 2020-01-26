@@ -37,14 +37,6 @@ const CampaignSchema = mongoose.Schema({
     type: [String],
     required: true
   },
-  // teamMembers: [
-  //   {
-  //     user: {
-  //       type: mongoose.Schema.Types.ObjectId,
-  //       ref: "user"
-  //     }
-  //   }
-  // ],
   votes: [
     {
       user: {
