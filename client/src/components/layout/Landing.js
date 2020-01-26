@@ -19,7 +19,7 @@ const Landing = ({ auth: { isAuthenticated, loading } }) => {
             become a part of the community.
           </div>
         </div>
-        <div className='buttons'>
+        <div>
           <Link to='/register' className='btn btn-primary'>
             Sign Up
           </Link>
