@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Button } from 'react-bootstrap';
 
-const ProfilePicture = props => {
+const ProfilePicture = ({ auth: { user } }) => {
   return (
     <Fragment>
       <Row>
@@ -10,9 +10,10 @@ const ProfilePicture = props => {
           <div className='lead'>Profile Picture</div>
           <div style={{ textAlign: 'center' }}>
             <img
-              src='https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200'
+              src={user !== null ? user.avatar : ''}
               alt=''
               className='round-img'
+              style={{ width: '200px', height: '200px' }}
             />
             <div>
               <Button variant='primary' className='my-3'>
@@ -27,6 +28,8 @@ const ProfilePicture = props => {
   );
 };
 
-ProfilePicture.propTypes = {};
+ProfilePicture.propTypes = {
+  auth: PropTypes.object.isRequired
+};
 
 export default ProfilePicture;

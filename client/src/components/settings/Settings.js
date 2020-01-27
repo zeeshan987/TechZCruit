@@ -1,21 +1,27 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Button, Form } from 'react-bootstrap';
 import ProfilePicture from './ProfilePicture';
 import Name from './Name';
 import ChangePassword from './ChangePassword';
+import { connect } from 'react-redux';
 
-const Settings = props => {
+const Settings = ({ auth }) => {
   return (
     <Fragment>
       <div className=' large text-primary'>Settings</div>
-      <ProfilePicture />
+      <ProfilePicture auth={auth} />
       <Name />
       <ChangePassword />
     </Fragment>
   );
 };
 
-Settings.propTypes = {};
+Settings.propTypes = {
+  auth: PropTypes.object.isRequired
+};
 
-export default Settings;
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps)(Settings);
