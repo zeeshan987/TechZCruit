@@ -119,6 +119,16 @@ body {
 section:empty {
   margin: 0;
 }
+.social-input {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.social-input i {
+  width: 4rem;
+  padding: 0.3rem;
+  text-align: center;
+}
 .social-input i.fa-facebook {
   color: #3b5998;
 }
