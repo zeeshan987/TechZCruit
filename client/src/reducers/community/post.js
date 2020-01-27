@@ -9,7 +9,7 @@ import {
   COMMENT_ADDED,
   COMMENT_REMOVED,
   COMMENT_ERROR
-} from '../actions/types';
+} from '../../actions/types';
 
 const initialState = {
   post: null,

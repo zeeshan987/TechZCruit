@@ -2,51 +2,44 @@ import React, { Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getPostById } from '../../actions/post';
-import Spinner from '../layout/Spinner';
+import { getPostById } from '../../../actions/community/post';
 import CommentForm from './CommentForm';
 import CommentItem from './CommentItem';
+import { Row, Col } from 'react-bootstrap';
 
-const Post = ({ post, getPostById, match, auth }) => {
+const Post = ({ post: { post, loading }, getPostById, match, auth }) => {
   useEffect(() => {
     getPostById(match.params.id);
   }, [getPostById, match.params.id]);
 
   return (
     <Fragment>
-      <div className='row'>
-        <div className='col-md-12'>
-          <Link to='/posts' className='btn btn-light my-3'>
-            Back to posts
-          </Link>
-        </div>
-      </div>
-
-      {post === null ? (
-        <Spinner />
-      ) : (
+      {!loading && post !== null && (
         <Fragment>
-          <div className='row post p-3 my-3'>
-            <div className='col-md-3'>
+          <Row className='post p-3 my-3'>
+            <Col md={3}>
               <Link to={`/profile/${post.user._id}`}>
                 <img src={post.user.avatar} alt='' className='round-img' />
                 <p className='text-primary my-1'>
                   <strong>{post.user.name}</strong>
                 </p>
               </Link>
-            </div>
-            <div className='col-md-9'>
-              <div>
-                <p>{post.description}</p>
-              </div>
-            </div>
-          </div>
+            </Col>
+            <Col md={9}>
+              <p>{post.description}</p>
+            </Col>
+          </Row>
           <CommentForm post={post} />
-          {post.comments.map(comment => (
-            <div key={comment._id}>
-              <CommentItem comment={comment} auth={auth} postId={post._id} />
-            </div>
-          ))}
+          {post.comments.length > 0 ? (
+            post.comments.map(comment => (
+              <div key={comment._id}>
+                <CommentItem comment={comment} auth={auth} post={post} />
+              </div>
+            ))
+          ) : (
+            <div className='lead my-3'>No comments found</div>
+          )}
+          {}
         </Fragment>
       )}
     </Fragment>
@@ -60,7 +53,7 @@ Post.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  post: state.post.post,
+  post: state.post,
   auth: state.auth
 });
 

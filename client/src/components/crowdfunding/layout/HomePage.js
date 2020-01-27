@@ -1,15 +1,15 @@
-import React, { Fragment, useEffect } from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import Carousal from "./Carousal";
-import HomeCaraosel from "./HomeCaraosel";
-import { getAllCampaigns } from "../../../actions/crowdfunding/campaign";
-import "../../../css/crowdfunding/HomePage.css";
-import square1 from "../../../img/square1.jpg";
-import square2 from "../../../img/square2.jpeg";
-import square3 from "../../../img/square3.jpeg";
-import square4 from "../../../img/square4.jpeg";
+import React, { Fragment, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Carousal from './Carousal';
+import HomeCaraosel from './HomeCaraosel';
+import { getAllCampaigns } from '../../../actions/crowdfunding/campaign';
+import '../../../App.css';
+import square1 from '../../../img/square1.jpg';
+import square2 from '../../../img/square2.jpeg';
+import square3 from '../../../img/square3.jpeg';
+import square4 from '../../../img/square4.jpeg';
 
 const HomePage = ({ getAllCampaigns, campaigns, auth }) => {
   useEffect(() => {
@@ -18,7 +18,7 @@ const HomePage = ({ getAllCampaigns, campaigns, auth }) => {
 
   return (
     <Fragment>
-      <div className='main-container' style={{ margin: "0px" }}>
+      <div className='main-container' style={{ margin: '0px' }}>
         {/* Box 1  */}
         {/* <div className='box box-1'>
           <img src={homeimg} width='100%' alt='' />
@@ -26,18 +26,16 @@ const HomePage = ({ getAllCampaigns, campaigns, auth }) => {
         <HomeCaraosel />
         {/* <!-- Box 2 --> */}
         <div className='box box-2'>
-          <div style={{ paddingLeft: "11px" }}>
+          <div style={{ paddingLeft: '11px' }}>
             <h2 className='text-primary'>Popular Projects</h2>
             <hr />
           </div>
-          {/* <Carousal /> */}
-          {/* <!-- Card rows --> */}
           <div className='cardsrow'>
             <Carousal campaigns={campaigns} />
           </div>
-        </div>
+        </div>{' '}
+        */}
         <div className='box box-3'>
-          {/* <!-- Grid --> */}
           <h1>Collection</h1>
           <hr />
           <div className='wrapper'>

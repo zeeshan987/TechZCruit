@@ -1,17 +1,17 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const auth = require("../../middleware/auth");
-const { check, validationResult } = require("express-validator");
-const Post = require("../../models/Post");
+const auth = require('../../../middleware/auth');
+const { check, validationResult } = require('express-validator');
+const Post = require('../../../models/community/Post');
 
-// @route   POST /api/posts
-// @desc    Create a post
+// @route   POST /api/community/posts/:id
+// @desc    Create a post in a group
 // @access  Private
 router.post(
-  "/",
+  '/:id',
   [
     auth,
-    check("description", "Description is required")
+    check('description', 'Description is required')
       .not()
       .isEmpty()
   ],
@@ -24,92 +24,96 @@ router.post(
     const { description } = req.body;
 
     try {
-      let post = new Post({
+      const post = new Post({
         user: req.user.id,
-        description
+        description,
+        group: req.params.id
+      });
+
+      post.populate('user', ['name', 'avatar'], (err, res) => {
+        if (err) throw err;
+        return res;
       });
 
       await post.save();
-
-      post = await Post.findOne({ _id: post.id }).populate("user", [
-        "name",
-        "avatar"
-      ]);
-
       res.json(post);
     } catch (err) {
       console.error(err.message);
-      return res.status(500).send("Server error");
+      return res.status(500).send('Server error');
     }
   }
 );
 
-// @route   DELETE /api/posts/:id
+// @route   DELETE /api/community/posts/:id
 // @desc    Delete a post
 // @access  Private
-router.delete("/:id", auth, async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
     const post = await Post.findOne({ _id: req.params.id });
 
     // Check is post exists
     if (!post) {
-      return res.status(404).json({ msg: "Post not found" });
+      return res.status(404).json({ msg: 'Post not found' });
     }
 
     // Check user
     if (post.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: "Not authorized" });
+      return res.status(401).json({ msg: 'Not authorized' });
     }
 
     await post.remove();
-    res.json({ msg: "Post removed" });
+    res.json({ msg: 'Post removed' });
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
-// @route   GET /api/posts
-// @desc    Get all posts
+// @route   GET /api/community/posts/group/:id
+// @desc    Get all posts for a group
 // @access  Public
-router.get("/", async (req, res) => {
+router.get('/group/:id', async (req, res) => {
   try {
-    const posts = await Post.find().populate("user", ["name", "avatar"]);
+    const posts = await Post.find({ group: req.params.id }).populate('user', [
+      'name',
+      'avatar'
+    ]);
 
     res.json(posts);
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
-// @route   GET /api/posts/:id
+// @route   GET /api/community/posts/:id
 // @desc    Get post by id
 // @access  Public
-router.get("/:id", async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const post = await Post.findOne({ _id: req.params.id })
-      .populate("user", ["name", "avatar"])
-      .populate("comments.user", ["name", "avatar"]);
+      .populate('user', ['name', 'avatar'])
+      .populate('comments.user', ['name', 'avatar'])
+      .populate('group', ['admin']);
 
     res.json(post);
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
-// @route   PUT /api/posts/like/:id
+// @route   PUT /api/community/posts/like/:id
 // @desc    Like a post
 // @access  Private
-router.put("/like/:id", auth, async (req, res) => {
+router.put('/like/:id', auth, async (req, res) => {
   try {
     const post = await Post.findOne({ _id: req.params.id });
 
     const index = post.likes.map(item => item.user).indexOf(req.user.id);
 
     if (index !== -1) {
-      return res.status(400).json({ msg: "Post already liked" });
+      return res.status(400).json({ msg: 'Post already liked' });
     }
 
     post.likes.push({ user: req.user.id });
@@ -118,21 +122,21 @@ router.put("/like/:id", auth, async (req, res) => {
     res.json(post);
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
-// @route   PUT /api/posts/unlike/:id
+// @route   PUT /api/community/posts/unlike/:id
 // @desc    Unlike a post
 // @access  Private
-router.put("/unlike/:id", auth, async (req, res) => {
+router.put('/unlike/:id', auth, async (req, res) => {
   try {
     const post = await Post.findOne({ _id: req.params.id });
 
     const removeIndex = post.likes.map(item => item.user).indexOf(req.user.id);
 
     if (removeIndex === -1) {
-      return res.status(400).json({ msg: "Post not liked" });
+      return res.status(400).json({ msg: 'Post not liked' });
     }
 
     post.likes.splice(removeIndex, 1);
@@ -141,18 +145,18 @@ router.put("/unlike/:id", auth, async (req, res) => {
     res.json(post);
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
-// @route   POST /api/posts/comment/:id
+// @route   POST /api/community/posts/comment/:id
 // @desc    Comment on a post
 // @access  Private
 router.post(
-  "/comment/:id",
+  '/comment/:id',
   [
     auth,
-    check("description", "Description is required")
+    check('description', 'Description is required')
       .not()
       .isEmpty()
   ],
@@ -172,7 +176,7 @@ router.post(
         description
       });
 
-      post.populate("comments.user", ["name", "avatar"], (err, res) => {
+      post.populate('comments.user', ['name', 'avatar'], (err, res) => {
         if (err) throw err;
         return res;
       });
@@ -181,15 +185,15 @@ router.post(
       res.json(post);
     } catch (err) {
       console.error(err.message);
-      return res.status(500).send("Server error");
+      return res.status(500).send('Server error');
     }
   }
 );
 
-// @route   DELETE /api/posts/comment/:id/:comment_id
+// @route   DELETE /api/community/posts/comment/:id/:comment_id
 // @desc    Delete a comment on a post
 // @access  Private
-router.delete("/comment/:id/:comment_id", auth, async (req, res) => {
+router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -203,20 +207,16 @@ router.delete("/comment/:id/:comment_id", auth, async (req, res) => {
       .indexOf(req.params.comment_id);
 
     if (removeIndex === -1) {
-      return res.status(404).json({ msg: "Comment not found" });
+      return res.status(404).json({ msg: 'Comment not found' });
     }
 
     const comment = post.comments.find(
       comment => comment.id === req.params.comment_id
     );
 
-    if (comment.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: "Not authorized" });
-    }
-
     post.comments.splice(removeIndex, 1);
 
-    post.populate("comments.user", ["name", "avatar"], (err, res) => {
+    post.populate('comments.user', ['name', 'avatar'], (err, res) => {
       if (err) throw err;
       return res;
     });
@@ -225,7 +225,7 @@ router.delete("/comment/:id/:comment_id", auth, async (req, res) => {
     res.json(post);
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 

@@ -1,9 +1,10 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
-import { createNewPost } from '../../actions/post';
 import { connect } from 'react-redux';
+import { addComment } from '../../../actions/community/post';
+import { Form, Button } from 'react-bootstrap';
 
-const PostForm = ({ createNewPost }) => {
+const CommentForm = ({ post: { _id }, addComment }) => {
   const [formData, setFormData] = useState({
     description: ''
   });
@@ -16,32 +17,36 @@ const PostForm = ({ createNewPost }) => {
 
   const onSubmit = e => {
     e.preventDefault();
-    createNewPost(formData);
+    addComment(_id, formData);
     setFormData({ description: '' });
   };
 
   return (
     <Fragment>
-      <form className='my-3' onSubmit={e => onSubmit(e)}>
-        <div className='form-group'>
-          <textarea
-            cols='30'
+      <Form className='my-3' onSubmit={e => onSubmit(e)}>
+        <Form.Group>
+          <Form.Control
+            as='textarea'
             rows='5'
             placeholder='Create a new post'
-            className='form-control'
             name='description'
             value={description}
             onChange={e => onChange(e)}
-          ></textarea>
-        </div>
-        <input type='submit' value='Submit' className='btn btn-dark' />
-      </form>
+          />
+        </Form.Group>
+        <Button variant='dark' type='submit'>
+          Submit
+        </Button>
+      </Form>
     </Fragment>
   );
 };
 
-PostForm.propTypes = {
-  createNewPost: PropTypes.func.isRequired
+CommentForm.propTypes = {
+  post: PropTypes.object.isRequired,
+  addComment: PropTypes.func.isRequired
 };
 
-export default connect(null, { createNewPost })(PostForm);
+export default connect(null, {
+  addComment
+})(CommentForm);

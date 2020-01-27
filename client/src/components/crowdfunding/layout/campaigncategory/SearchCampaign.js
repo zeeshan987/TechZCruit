@@ -1,9 +1,9 @@
-import React, { Fragment, useEffect } from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import "../../../../css/crowdfunding/SearchCampaign.css";
-import funding2 from "../../../../img/funding2.jpeg";
-import { getAllCampaigns } from "../../../../actions/crowdfunding/campaign";
+import React, { Fragment, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import '../../../../App.css';
+import funding2 from '../../../../img/funding2.jpeg';
+import { getAllCampaigns } from '../../../../actions/crowdfunding/campaign';
 
 const SearchCampaign = ({ getAllCampaigns, campaigns, auth }) => {
   // useEffect(() => {
@@ -145,21 +145,20 @@ const SearchCampaign = ({ getAllCampaigns, campaigns, auth }) => {
             <div class='col-xl-9 col-lg-8 col-md-7'>
               <div class='filter-bar d-flex flex-wrap align-items-center'>
                 <div>
-                  
-                    <div class='d-flex justify-content-center h-100'>
-                      <div class='searchbar'>
-                        <input
-                          class='search_input'
-                          type='text'
-                          name=''
-                          placeholder='Search...'
-                        />
-                        <a href='#' class='search_icon'>
-                          <i class='fas fa-search'></i>
-                        </a>
-                      </div>
+                  <div class='d-flex justify-content-center h-100'>
+                    <div class='searchbar'>
+                      <input
+                        class='search_input'
+                        type='text'
+                        name=''
+                        placeholder='Search...'
+                      />
+                      <a href='#' class='search_icon'>
+                        <i class='fas fa-search'></i>
+                      </a>
                     </div>
-                  
+                  </div>
+
                   {/* <div class='input-group filter-bar-search'>
                     <input type='text' placeholder='Search' />
                     <div class='input-group-append'>
@@ -401,7 +400,7 @@ const SearchCampaign = ({ getAllCampaigns, campaigns, auth }) => {
                 >
                   View Details
                 </Link>
-                <div style={{ position: "absolute", left: "-5000px" }}>
+                <div style={{ position: 'absolute', left: '-5000px' }}>
                   <input
                     name='b_36c4fd991d266f23781ded980_aefe40901a'
                     tabindex='-1'

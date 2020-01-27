@@ -5,6 +5,10 @@ const PostSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
   },
+  group: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'group'
+  },
   description: {
     type: String,
     required: true
