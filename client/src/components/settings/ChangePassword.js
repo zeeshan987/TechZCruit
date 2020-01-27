@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Button, Form } from 'react-bootstrap';
 
-const ChangePassword = props => {
+const ChangePassword = ({ auth: { user } }) => {
   return (
     <Fragment>
       <Row>
@@ -25,6 +25,8 @@ const ChangePassword = props => {
   );
 };
 
-ChangePassword.propTypes = {};
+ChangePassword.propTypes = {
+  auth: PropTypes.object.isRequired
+};
 
 export default ChangePassword;

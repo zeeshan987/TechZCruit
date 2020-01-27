@@ -10,8 +10,8 @@ const Settings = ({ auth }) => {
     <Fragment>
       <div className=' large text-primary'>Settings</div>
       <ProfilePicture auth={auth} />
-      <Name />
-      <ChangePassword />
+      <Name auth={auth} />
+      <ChangePassword auth={auth} />
     </Fragment>
   );
 };
