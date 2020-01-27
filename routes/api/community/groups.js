@@ -4,6 +4,7 @@ const auth = require('../../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 const Group = require('../../../models/community/Group');
 const User = require('../../../models/User');
+const Post = require('../../../models/community/Post');
 
 // @route   GET /api/community/groups
 // @desc    Get all groups
@@ -205,6 +206,8 @@ router.delete('/:id', auth, async (req, res) => {
     if (group.admin.toString() !== req.user.id) {
       return res.status(401).json({ msg: 'Not authorized' });
     }
+
+    await Post.deleteMany({ group: req.params.id });
 
     await group.remove();
     res.json({ msg: 'Group removed' });
