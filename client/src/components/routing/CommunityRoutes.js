@@ -16,6 +16,7 @@ import MyGroups from '../community/my-groups/MyGroups';
 import CreateGroup from '../community/group-forms/CreateGroup';
 import EditGroup from '../community/group-forms/EditGroup';
 import Group from '../community/group/Group';
+import Settings from '../settings/Settings';
 
 export const CommunityRoutes = () => {
   return (
@@ -29,6 +30,7 @@ export const CommunityRoutes = () => {
       <PrivateRoute exact path='/edit-profile' component={EditProfile} />
       <PrivateRoute exact path='/add-experience' component={AddExperience} />
       <PrivateRoute exact path='/add-education' component={AddEducation} />
+      <PrivateRoute exact path='/settings' component={Settings} />
       <PrivateRoute exact path='/community/post/:id' component={Post} />
       <PrivateRoute exact path='/community' component={Groups} />
       <PrivateRoute exact path='/community/my-groups' component={MyGroups} />

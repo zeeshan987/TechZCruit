@@ -43,7 +43,7 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
         <NavDropdown.Item href={`/profile/${user !== null ? user._id : ''}`}>
           My Profile
         </NavDropdown.Item>
-        <NavDropdown.Item>Settings</NavDropdown.Item>
+        <NavDropdown.Item href='/settings'>Settings</NavDropdown.Item>
         <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
       </NavDropdown>
     </Nav>
