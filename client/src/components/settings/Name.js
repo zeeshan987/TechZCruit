@@ -1,18 +1,48 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Button, Form } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { changeName } from '../../actions/auth';
+import { setAlert } from '../../actions/alert';
 
-const Name = ({ auth: { user } }) => {
+const Name = ({ changeName, setAlert }) => {
+  const [formData, setFormData] = useState({
+    name: ''
+  });
+
+  const { name } = formData;
+
+  const onChange = e => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = e => {
+    e.preventDefault();
+    if (name.trim().length === 0) {
+      setAlert('Name cannot be empty', 'danger');
+    } else {
+      changeName(name);
+      setFormData({ ...formData, name: '' });
+    }
+  };
+
   return (
     <Fragment>
       <Row>
         <Col md={12}>
           <div className='lead'>Name</div>
-          <Form>
+          <Form onSubmit={e => onSubmit(e)}>
             <Form.Group>
-              <Form.Control value={user !== null ? user.name : ''} />
+              <Form.Control
+                name='name'
+                value={name}
+                placeholder='New name'
+                onChange={e => onChange(e)}
+              />
             </Form.Group>
-            <Button variant='primary'>Update name</Button>
+            <Button variant='primary' type='submit'>
+              Update name
+            </Button>
           </Form>
           <hr />
         </Col>
@@ -22,7 +52,12 @@ const Name = ({ auth: { user } }) => {
 };
 
 Name.propTypes = {
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  changeName: PropTypes.func.isRequired,
+  setAlert: PropTypes.func.isRequired
 };
 
-export default Name;
+export default connect(null, {
+  changeName,
+  setAlert
+})(Name);

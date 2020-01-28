@@ -7,7 +7,8 @@ import {
   LOGIN_FAILED,
   LOGOUT,
   USER_DELETED,
-  PASSWORD_UPDATED
+  PASSWORD_UPDATED,
+  NAME_UPDATED
 } from '../actions/types';
 
 const initialState = {
@@ -51,6 +52,7 @@ export default function(state = initialState, action) {
         user: null
       };
     case PASSWORD_UPDATED:
+    case NAME_UPDATED:
     default:
       return state;
   }
