@@ -6,7 +6,8 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILED,
   LOGOUT,
-  CLEAR_PROFILE
+  CLEAR_PROFILE,
+  PASSWORD_UPDATED
 } from '../actions/types';
 import axios from 'axios';
 import { setAlert } from '../actions/alert';
@@ -93,6 +94,31 @@ export const login = (email, password) => async dispatch => {
     dispatch({
       type: LOGIN_FAILED
     });
+  }
+};
+
+// Change password
+export const changePassword = password => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    const body = JSON.stringify({ password });
+
+    const res = await axios.put('/api/users/password', body, config);
+
+    dispatch({ type: PASSWORD_UPDATED });
+
+    dispatch(setAlert(res.data.msg, 'success'));
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
   }
 };
 

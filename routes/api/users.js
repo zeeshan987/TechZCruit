@@ -111,7 +111,7 @@ router.put(
       user.password = await bcrypt.hash(password, salt);
 
       await user.save();
-      res.json(user);
+      res.json({ msg: 'Password updated' });
     } catch (err) {
       return res.status(500).send('Server error');
     }
@@ -143,7 +143,7 @@ router.put(
       user.name = name;
 
       await user.save();
-      res.json(user);
+      res.json({ msg: 'Name updated' });
     } catch (err) {
       return res.status(500).send('Server error');
     }

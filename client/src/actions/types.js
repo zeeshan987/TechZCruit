@@ -14,6 +14,7 @@ export const LOGIN_FAILED = 'LOGIN_FAILED';
 export const USER_LOADED = 'USER_LOADED';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const USER_DELETED = 'USER_DELETED';
+export const PASSWORD_UPDATED = 'PASSWORD_UPDATED';
 
 // LOGOUT/CLEAR PROFILE
 export const LOGOUT = 'LOGOUT';
