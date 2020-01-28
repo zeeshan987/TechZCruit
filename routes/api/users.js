@@ -111,7 +111,39 @@ router.put(
       user.password = await bcrypt.hash(password, salt);
 
       await user.save();
-      res.json({ msg: 'Password updated' });
+      res.json(user);
+    } catch (err) {
+      return res.status(500).send('Server error');
+    }
+  }
+);
+
+// @route   PUT /api/users/name
+// @desc    Change name
+// @access  Private
+router.put(
+  '/name',
+  [
+    auth,
+    check('name', 'Name is required')
+      .not()
+      .isEmpty()
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { name } = req.body;
+
+    try {
+      const user = await User.findById(req.user.id);
+
+      user.name = name;
+
+      await user.save();
+      res.json(user);
     } catch (err) {
       return res.status(500).send('Server error');
     }
