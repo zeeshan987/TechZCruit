@@ -154,7 +154,20 @@ router.put(
 // @desc    Upload profile picture
 // @access  Private
 router.put('/profile-picture/upload', auth, (req, res) => {
-  res.send('Profile picture uploaded');
+  if (req.files === null) {
+    return res.status(400).json({ msg: 'No file uploaded' });
+  }
+
+  const file = req.files.file;
+
+  file.mv(`./client/public/uploads/profile-picture/${req.user.id}`, err => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Server error');
+    }
+
+    res.json({ avatar: `/uploads/profile-picture/${req.user.id}` });
+  });
 });
 
 module.exports = router;

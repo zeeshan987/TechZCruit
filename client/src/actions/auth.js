@@ -8,11 +8,13 @@ import {
   LOGOUT,
   CLEAR_PROFILE,
   PASSWORD_UPDATED,
-  NAME_UPDATED
+  NAME_UPDATED,
+  PROFILE_PICTURE_UPLOADED
 } from '../actions/types';
 import axios from 'axios';
 import { setAlert } from '../actions/alert';
 import setAuthToken from '../utils/setAuthToken';
+import { set } from 'mongoose';
 
 // Load user
 export const loadUser = () => async dispatch => {
@@ -144,6 +146,40 @@ export const changeName = name => async dispatch => {
 
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+  }
+};
+
+// Upload profile picture
+export const uploadProfilePicture = file => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    };
+
+    // const body = JSON.stringify({ file });
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const res = await axios.put(
+      '/api/users/profile-picture/upload',
+      formData,
+      config
+    );
+
+    dispatch({
+      type: PROFILE_PICTURE_UPLOADED,
+      payload: res.data.avatar
+    });
+
+    dispatch(setAlert('Profile picture uploaded', 'success'));
+  } catch (err) {
+    if (err.response.status === 500) {
+      dispatch(setAlert('There was a problem with the server', 'danger'));
+    } else {
+      dispatch(setAlert(err.response.data.msg, 'danger'));
     }
   }
 };

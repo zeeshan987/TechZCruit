@@ -8,7 +8,8 @@ import {
   LOGOUT,
   USER_DELETED,
   PASSWORD_UPDATED,
-  NAME_UPDATED
+  NAME_UPDATED,
+  PROFILE_PICTURE_UPLOADED
 } from '../actions/types';
 
 const initialState = {
@@ -50,6 +51,12 @@ export default function(state = initialState, action) {
         isAuthenticated: false,
         loading: false,
         user: null
+      };
+    case PROFILE_PICTURE_UPLOADED:
+      return {
+        ...state,
+        loading: false,
+        user: { ...state.user, avatar: payload }
       };
     case PASSWORD_UPDATED:
     case NAME_UPDATED:

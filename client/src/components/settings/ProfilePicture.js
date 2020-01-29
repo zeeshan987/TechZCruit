@@ -1,8 +1,25 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Button, Form } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { uploadProfilePicture } from '../../actions/auth';
 
-const ProfilePicture = ({ auth: { user } }) => {
+const ProfilePicture = ({ auth: { user }, uploadProfilePicture }) => {
+  const [formData, setFormData] = useState({
+    file: ''
+  });
+
+  const { file } = formData;
+
+  const onChange = e => {
+    setFormData({ ...formData, file: e.target.files[0] });
+  };
+
+  const onSubmit = e => {
+    e.preventDefault();
+    uploadProfilePicture(file);
+  };
+
   return (
     <Fragment>
       <Row>
@@ -16,11 +33,13 @@ const ProfilePicture = ({ auth: { user } }) => {
               style={{ width: '200px', height: '200px' }}
             ></img>
           </div>
-          <Form>
+          <Form onSubmit={e => onSubmit(e)}>
             <Form.Group>
-              <Form.Control type='file' />
+              <Form.Control type='file' onChange={e => onChange(e)} />
             </Form.Group>
-            <Button variant='primary'>Upload profile picture</Button>
+            <Button variant='primary' type='submit'>
+              Upload profile picture
+            </Button>
           </Form>
           <Button variant='danger' className='my-3'>
             Remove profile picture
@@ -33,7 +52,10 @@ const ProfilePicture = ({ auth: { user } }) => {
 };
 
 ProfilePicture.propTypes = {
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  uploadProfilePicture: PropTypes.func.isRequired
 };
 
-export default ProfilePicture;
+export default connect(null, {
+  uploadProfilePicture
+})(ProfilePicture);
