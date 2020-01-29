@@ -153,21 +153,44 @@ router.put(
 // @route   PUT /api/users/profile-picture/upload
 // @desc    Upload profile picture
 // @access  Private
-router.put('/profile-picture/upload', auth, (req, res) => {
+router.put('/profile-picture/upload', auth, async (req, res) => {
   if (req.files === null) {
     return res.status(400).json({ msg: 'No file uploaded' });
   }
 
   const file = req.files.file;
+  const fileExtension = file.mimetype.split('/')[1];
 
-  file.mv(`./client/public/uploads/profile-picture/${req.user.id}`, err => {
-    if (err) {
-      console.error(err);
+  if (fileExtension === 'jpeg') {
+    file.mv(
+      `./client/public/uploads/profile-picture/${req.user.id}.${fileExtension}`,
+      err => {
+        if (err) {
+          console.error(err);
+          return res.status(500).send('Server error');
+        }
+
+        res.json({
+          avatar: `/uploads/profile-picture/${req.user.id}.${fileExtension}`
+        });
+      }
+    );
+
+    try {
+      const user = await User.findById(req.user.id);
+      user.avatar = `/uploads/profile-picture/${req.user.id}.${fileExtension}`;
+      user.save();
+    } catch (err) {
       return res.status(500).send('Server error');
     }
-
-    res.json({ avatar: `/uploads/profile-picture/${req.user.id}` });
-  });
+  } else {
+    return res.status(400).json({ msg: 'Only jpeg images can be uploaded' });
+  }
 });
+
+// @route   PUT /api/users/profile-picture/remove
+// @desc    Remove profile picture
+// @access  Private
+router.put('/profile-picture/remove', auth, (req, res) => {});
 
 module.exports = router;

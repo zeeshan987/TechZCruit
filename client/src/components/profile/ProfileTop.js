@@ -17,7 +17,7 @@ const ProfileTop = ({
         <div className='col-md-12'>
           <div className='row'>
             <div className='col-md-12'>
-              <img src={avatar} alt='' className='round-img' />
+              <img src={avatar} alt='' className='round-img' style={{width: '200px', height: '200px'}} />
             </div>
           </div>
           <div className='row'>
