@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button, Form } from 'react-bootstrap';
 
 const ProfilePicture = ({ auth: { user } }) => {
   return (
@@ -12,15 +12,19 @@ const ProfilePicture = ({ auth: { user } }) => {
             <img
               src={user !== null ? user.avatar : ''}
               alt=''
-              className='round-img'
+              className='round-img my-3'
               style={{ width: '200px', height: '200px' }}
-            />
-            <div>
-              <Button variant='primary' className='my-3'>
-                Change profile picture
-              </Button>
-            </div>
+            ></img>
           </div>
+          <Form>
+            <Form.Group>
+              <Form.Control type='file' />
+            </Form.Group>
+            <Button variant='primary'>Upload profile picture</Button>
+          </Form>
+          <Button variant='danger' className='my-3'>
+            Remove profile picture
+          </Button>
         </Col>
       </Row>
       <hr />

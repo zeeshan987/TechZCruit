@@ -150,4 +150,11 @@ router.put(
   }
 );
 
+// @route   PUT /api/users/profile-picture/upload
+// @desc    Upload profile picture
+// @access  Private
+router.put('/profile-picture/upload', auth, (req, res) => {
+  res.send('Profile picture uploaded');
+});
+
 module.exports = router;
