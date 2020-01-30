@@ -7,6 +7,7 @@ const config = require('config');
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 const User = require('../../models/User');
+const fs = require('fs');
 
 // @route   POST /api/users
 // @desc    Register a user
@@ -166,7 +167,6 @@ router.put('/profile-picture/upload', auth, async (req, res) => {
       `./client/public/uploads/profile-picture/${req.user.id}.${fileExtension}`,
       err => {
         if (err) {
-          console.error(err);
           return res.status(500).send('Server error');
         }
 
@@ -179,7 +179,7 @@ router.put('/profile-picture/upload', auth, async (req, res) => {
     try {
       const user = await User.findById(req.user.id);
       user.avatar = `/uploads/profile-picture/${req.user.id}.${fileExtension}`;
-      user.save();
+      await user.save();
     } catch (err) {
       return res.status(500).send('Server error');
     }
@@ -191,6 +191,30 @@ router.put('/profile-picture/upload', auth, async (req, res) => {
 // @route   PUT /api/users/profile-picture/remove
 // @desc    Remove profile picture
 // @access  Private
-router.put('/profile-picture/remove', auth, (req, res) => {});
+router.put('/profile-picture/remove', auth, async (req, res) => {
+  fs.unlink(
+    `./client/public/uploads/profile-picture/${req.user.id}.jpeg`,
+    err => {
+      if (err) {
+        return res.status(500).send('Server error');
+      }
+    }
+  );
+
+  try {
+    const user = await User.findById(req.user.id);
+    user.avatar = gravatar.url(user.email, {
+      s: '200',
+      r: 'pg',
+      d: 'mm'
+    });
+
+    await user.save();
+    res.json({ avatar: user.avatar });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send('Server error');
+  }
+});
 
 module.exports = router;

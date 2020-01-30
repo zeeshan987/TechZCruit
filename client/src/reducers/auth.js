@@ -9,7 +9,8 @@ import {
   USER_DELETED,
   PASSWORD_UPDATED,
   NAME_UPDATED,
-  PROFILE_PICTURE_UPLOADED
+  PROFILE_PICTURE_UPLOADED,
+  PROFILE_PICTURE_REMOVED
 } from '../actions/types';
 
 const initialState = {
@@ -53,6 +54,7 @@ export default function(state = initialState, action) {
         user: null
       };
     case PROFILE_PICTURE_UPLOADED:
+    case PROFILE_PICTURE_REMOVED:
       return {
         ...state,
         loading: false,

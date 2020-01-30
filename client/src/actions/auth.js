@@ -9,7 +9,8 @@ import {
   CLEAR_PROFILE,
   PASSWORD_UPDATED,
   NAME_UPDATED,
-  PROFILE_PICTURE_UPLOADED
+  PROFILE_PICTURE_UPLOADED,
+  PROFILE_PICTURE_REMOVED
 } from '../actions/types';
 import axios from 'axios';
 import { setAlert } from '../actions/alert';
@@ -181,6 +182,22 @@ export const uploadProfilePicture = file => async dispatch => {
     } else {
       dispatch(setAlert(err.response.data.msg, 'danger'));
     }
+  }
+};
+
+// Remove profile picture
+export const removeProfilePicture = () => async dispatch => {
+  try {
+    const res = await axios.put('/api/users/profile-picture/remove');
+
+    dispatch({
+      type: PROFILE_PICTURE_REMOVED,
+      payload: res.data.avatar
+    });
+
+    dispatch(setAlert('Profile picture removed', 'success'));
+  } catch (err) {
+    dispatch(setAlert('Profile picture already removed', 'danger'));
   }
 };
 

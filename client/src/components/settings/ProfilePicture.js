@@ -2,9 +2,13 @@ import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Button, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { uploadProfilePicture } from '../../actions/auth';
+import { uploadProfilePicture, removeProfilePicture } from '../../actions/auth';
 
-const ProfilePicture = ({ auth: { user }, uploadProfilePicture }) => {
+const ProfilePicture = ({
+  auth: { user },
+  uploadProfilePicture,
+  removeProfilePicture
+}) => {
   const [formData, setFormData] = useState({
     file: ''
   });
@@ -41,7 +45,11 @@ const ProfilePicture = ({ auth: { user }, uploadProfilePicture }) => {
               Upload profile picture
             </Button>
           </Form>
-          <Button variant='danger' className='my-3'>
+          <Button
+            variant='danger'
+            className='my-3'
+            onClick={() => removeProfilePicture()}
+          >
             Remove profile picture
           </Button>
         </Col>
@@ -53,9 +61,11 @@ const ProfilePicture = ({ auth: { user }, uploadProfilePicture }) => {
 
 ProfilePicture.propTypes = {
   auth: PropTypes.object.isRequired,
-  uploadProfilePicture: PropTypes.func.isRequired
+  uploadProfilePicture: PropTypes.func.isRequired,
+  removeProfilePicture: PropTypes.func.isRequired
 };
 
 export default connect(null, {
-  uploadProfilePicture
+  uploadProfilePicture,
+  removeProfilePicture
 })(ProfilePicture);
