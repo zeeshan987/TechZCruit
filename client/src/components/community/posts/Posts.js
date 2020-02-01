@@ -8,7 +8,7 @@ import PostItem from './PostItem';
 const Posts = ({ getAllPosts, post: { loading, posts }, auth, group }) => {
   useEffect(() => {
     getAllPosts(group._id);
-  }, [getAllPosts]);
+  }, [getAllPosts, group._id]);
 
   return (
     <Fragment>

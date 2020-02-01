@@ -15,7 +15,6 @@ import {
 import axios from 'axios';
 import { setAlert } from '../actions/alert';
 import setAuthToken from '../utils/setAuthToken';
-import { set } from 'mongoose';
 
 // Load user
 export const loadUser = () => async dispatch => {
