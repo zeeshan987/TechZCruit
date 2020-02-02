@@ -6,9 +6,9 @@ import {
   POST_LIKED,
   POST_UNLIKED,
   POST_LOADED,
-  COMMENT_ADDED,
-  COMMENT_REMOVED,
-  COMMENT_ERROR
+  COMMENT_ADDED_POST,
+  COMMENT_REMOVED_POST,
+  COMMENT_ERROR_POST
 } from '../types';
 import { setAlert } from '../alert';
 import axios from 'axios';
@@ -147,7 +147,7 @@ export const addComment = (postId, formData) => async dispatch => {
     );
 
     dispatch({
-      type: COMMENT_ADDED,
+      type: COMMENT_ADDED_POST,
       payload: res.data
     });
 
@@ -169,14 +169,14 @@ export const deleteComment = (postId, commentId) => async dispatch => {
     );
 
     dispatch({
-      type: COMMENT_REMOVED,
+      type: COMMENT_REMOVED_POST,
       payload: res.data
     });
 
     dispatch(setAlert('Comment removed', 'success'));
   } catch (err) {
     dispatch({
-      type: COMMENT_ERROR,
+      type: COMMENT_ERROR_POST,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }

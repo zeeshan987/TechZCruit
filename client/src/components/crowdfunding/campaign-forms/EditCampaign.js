@@ -52,6 +52,7 @@ const EditCampaign = ({
           ? campaign.completionDate.split('T')[0]
           : ''
     });
+    // eslint-disable-next-line
   }, [getCampaignById, loading]);
 
   return (

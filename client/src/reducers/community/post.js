@@ -6,9 +6,9 @@ import {
   POST_LIKED,
   POST_UNLIKED,
   POST_LOADED,
-  COMMENT_ADDED,
-  COMMENT_REMOVED,
-  COMMENT_ERROR
+  COMMENT_ADDED_POST,
+  COMMENT_REMOVED_POST,
+  COMMENT_ERROR_POST
 } from '../../actions/types';
 
 const initialState = {
@@ -62,8 +62,8 @@ export default function(state = initialState, action) {
           )
         ]
       };
-    case COMMENT_ADDED:
-    case COMMENT_REMOVED:
+    case COMMENT_ADDED_POST:
+    case COMMENT_REMOVED_POST:
       return {
         ...state,
         loading: false,
@@ -71,7 +71,7 @@ export default function(state = initialState, action) {
         post: { ...state.post, comments: payload.comments }
       };
     case POST_ERROR:
-    case COMMENT_ERROR:
+    case COMMENT_ERROR_POST:
       return {
         ...state,
         loading: false,

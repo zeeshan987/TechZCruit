@@ -1,8 +1,7 @@
 import {
   CAMPAIGN_CREATED,
   CAMPAIGN_LOADED,
-  CLEAR_CAMPAIGN,
-  COMMENT_ADDED,
+  COMMENT_ADDED_CAMPAIGN,
   CAMPAIGN_ERROR,
   All_CAMPAIGNS_LOADED,
   All_CAMPAIGNS_LOADED_FOR_USER,
@@ -15,7 +14,7 @@ import axios from 'axios';
 // Get all campaigns
 export const getAllCampaigns = () => async dispatch => {
   try {
-    const res = await axios.get('/api/crowdfunding/campaign');
+    const res = await axios.get('/api/crowdfunding/campaigns');
 
     dispatch({
       type: All_CAMPAIGNS_LOADED,
@@ -23,7 +22,8 @@ export const getAllCampaigns = () => async dispatch => {
     });
   } catch (err) {
     dispatch({
-      type: CAMPAIGN_ERROR
+      type: CAMPAIGN_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
 };
@@ -142,7 +142,7 @@ export const deleteCampaign = id => async dispatch => {
 };
 
 // Comment on Campaign
-export const addComment = (id, formData) => async dispatch => {
+export const addCommentOnCampaign = (id, formData) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -150,21 +150,20 @@ export const addComment = (id, formData) => async dispatch => {
   };
 
   try {
-    const res = await axios.post(
-      `/api/crowdfunding/campaign/comment/${id}`,
+    const res = await axios.put(
+      `/api/crowdfunding/campaigns/comment/${id}`,
       formData,
       config
     );
 
     dispatch({
-      type: COMMENT_ADDED,
+      type: COMMENT_ADDED_CAMPAIGN,
       payload: res.data
     });
 
     dispatch(setAlert('Comment added', 'success'));
   } catch (err) {
     const errors = err.response.data.errors;
-
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }

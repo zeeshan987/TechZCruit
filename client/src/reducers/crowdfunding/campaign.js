@@ -2,7 +2,7 @@ import {
   CAMPAIGN_CREATED,
   CAMPAIGN_ERROR,
   CAMPAIGN_LOADED,
-  COMMENT_ADDED,
+  COMMENT_ADDED_CAMPAIGN,
   All_CAMPAIGNS_LOADED,
   All_CAMPAIGNS_LOADED_FOR_USER,
   CAMPAIGN_UPDATED,
@@ -52,7 +52,7 @@ export default function(state = initialState, action) {
           ...state.campaigns.filter(campaign => campaign._id !== payload)
         ]
       };
-    case COMMENT_ADDED:
+    case COMMENT_ADDED_CAMPAIGN:
       return {
         ...state,
         loading: false,
