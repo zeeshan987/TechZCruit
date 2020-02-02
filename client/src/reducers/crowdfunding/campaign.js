@@ -4,8 +4,9 @@ import {
   CAMPAIGN_ERROR,
   CAMPAIGN_LOADED,
   COMMENT_ADDED,
-  All_CAMPAIGNS_LOADED
-} from "../../actions/types";
+  All_CAMPAIGNS_LOADED,
+  All_CAMPAIGNS_LOADED_FOR_USER
+} from '../../actions/types';
 
 const initialState = {
   campaign: null,
@@ -18,6 +19,14 @@ export default function(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
+    case All_CAMPAIGNS_LOADED:
+    case All_CAMPAIGNS_LOADED_FOR_USER:
+      return {
+        ...state,
+        campaigns: payload,
+        loading: false,
+        errors: null
+      };
     case CAMPAIGN_ADDED:
       return {
         ...state,
@@ -46,20 +55,11 @@ export default function(state = initialState, action) {
         errors: null,
         campaign: { ...state.campaign, comments: payload.comments }
       };
-    case All_CAMPAIGNS_LOADED:
-      return {
-        ...state,
-        campaigns: payload,
-        loading: false,
-        errors: null
-      };
     case CAMPAIGN_ERROR:
       return {
         ...state,
-        campaign: null,
         loading: false,
-        errors: payload,
-        campaigns: null
+        errors: payload
       };
     default:
       return state;

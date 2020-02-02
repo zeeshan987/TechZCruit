@@ -13,6 +13,7 @@ import HomePage from './components/crowdfunding/layout/HomePage';
 import CampaignForm from './components/crowdfunding/layout/campaign-form/CampaignForm';
 import Campaign from './components/crowdfunding/layout/campaign/Campaign';
 import SearchCampaign from './components/crowdfunding/layout/campaigncategory/SearchCampaign';
+import MyCampaigns from './components/crowdfunding/my-campaigns/MyCampaigns';
 import './App.css';
 
 if (localStorage.token) {
@@ -48,6 +49,11 @@ const App = () => {
                 exact
                 path='/crowdfunding/campaign-form'
                 component={CampaignForm}
+              />
+              <PrivateRoute
+                exact
+                path='/crowdfunding/my-campaigns'
+                component={MyCampaigns}
               />
               <Route component={CommunityRoutes} />
             </Switch>

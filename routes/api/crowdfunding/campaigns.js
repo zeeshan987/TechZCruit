@@ -17,6 +17,19 @@ router.get('/', async (req, res) => {
   }
 });
 
+// @route   GET /api/crowdfunding/campaigns/user
+// @desc    Get all campaigns for user
+// @access  Private
+router.get('/user', auth, async (req, res) => {
+  try {
+    const campaigns = await Campaign.find({ user: req.user.id });
+    res.json(campaigns);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send('Server error');
+  }
+});
+
 // @route   GET /api/crowdfunding/campaigns/:id
 // @desc    Get campaign by id
 // @access  Public
