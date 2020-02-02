@@ -20,8 +20,8 @@ app.use('/api/profiles', require('./routes/api/profiles'));
 app.use('/api/community/groups', require('./routes/api/community/groups'));
 app.use('/api/community/posts', require('./routes/api/community/posts'));
 app.use(
-  '/api/crowdfunding/campaign',
-  require('./routes/api/crowdfunding/campaign')
+  '/api/crowdfunding/campaigns',
+  require('./routes/api/crowdfunding/campaigns')
 );
 
 const PORT = process.env.PORT || 5000;

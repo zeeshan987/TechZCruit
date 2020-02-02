@@ -5,23 +5,23 @@ const CampaignSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
   },
-  campaignTitle: {
+  title: {
     type: String,
     required: true
   },
-  campaignDescription: {
+  description: {
     type: String,
     required: true
   },
   category: {
-    type: String,
+    type: Number,
     required: true
   },
   fundsRequired: {
     type: Number,
     required: true
   },
-  sponsers: [
+  supporters: [
     {
       user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -30,18 +30,6 @@ const CampaignSchema = mongoose.Schema({
       amount: {
         type: Number,
         required: true
-      }
-    }
-  ],
-  teamMembers: {
-    type: [String],
-    required: true
-  },
-  votes: [
-    {
-      user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user'
       }
     }
   ],
@@ -58,8 +46,8 @@ const CampaignSchema = mongoose.Schema({
       }
     }
   ],
-  timeRequired: {
-    type: String,
+  completionDate: {
+    type: Date,
     required: true
   }
 });
