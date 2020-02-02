@@ -26,7 +26,8 @@ router.get('/:id', async (req, res) => {
       _id: req.params.id
     })
       .populate('user', ['name', 'avatar'])
-      .populate('comments.user', ['name', 'avatar']);
+      .populate('comments.user', ['name', 'avatar'])
+      .populate('supporters.user', ['name', 'avatar']);
 
     res.json(campaign);
   } catch (err) {
@@ -86,6 +87,46 @@ router.post(
       res.json(campaign);
     } catch (err) {
       console.error(err.message);
+      return res.status(500).send('Server error');
+    }
+  }
+);
+
+// @route   PUT /api/crowdfunding/campaigns/support/:id
+// @desc    Support a campaign
+// @access  Private
+router.put(
+  '/support/:id',
+  [
+    auth,
+    check('amount', 'Amount is required')
+      .not()
+      .isEmpty()
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { amount } = req.body;
+
+    try {
+      const campaign = await Campaign.findById(req.params.id);
+
+      campaign.supporters.unshift({
+        user: req.user.id,
+        amount
+      });
+
+      campaign.populate('supporters.user', ['name', 'avatar'], (err, res) => {
+        if (err) throw err;
+        return res;
+      });
+
+      await campaign.save();
+      res.json(campaign);
+    } catch (err) {
       return res.status(500).send('Server error');
     }
   }

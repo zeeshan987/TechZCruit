@@ -21,6 +21,10 @@ const CampaignSchema = mongoose.Schema({
     type: Number,
     required: true
   },
+  completionDate: {
+    type: Date,
+    required: true
+  },
   supporters: [
     {
       user: {
@@ -37,19 +41,14 @@ const CampaignSchema = mongoose.Schema({
     {
       user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
-        required: true
+        ref: 'user'
       },
       description: {
         type: String,
         required: true
       }
     }
-  ],
-  completionDate: {
-    type: Date,
-    required: true
-  }
+  ]
 });
 
 module.exports = Campaign = mongoose.model('campaign', CampaignSchema);
