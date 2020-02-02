@@ -1,6 +1,5 @@
 import {
-  CAMPAIGN_ADDED,
-  CLEAR_CAMPAIGN,
+  CAMPAIGN_CREATED,
   CAMPAIGN_ERROR,
   CAMPAIGN_LOADED,
   COMMENT_ADDED,
@@ -27,10 +26,10 @@ export default function(state = initialState, action) {
         loading: false,
         errors: null
       };
-    case CAMPAIGN_ADDED:
+    case CAMPAIGN_CREATED:
       return {
         ...state,
-        campaign: [...state.campaign, payload],
+        campaigns: [...state.campaigns, payload],
         loading: false,
         errors: null
       };
@@ -38,13 +37,6 @@ export default function(state = initialState, action) {
       return {
         ...state,
         campaign: payload,
-        loading: false,
-        errors: null
-      };
-    case CLEAR_CAMPAIGN:
-      return {
-        ...state,
-        campaign: null,
         loading: false,
         errors: null
       };

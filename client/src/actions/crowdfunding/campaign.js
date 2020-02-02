@@ -1,5 +1,5 @@
 import {
-  CAMPAIGN_ADDED,
+  CAMPAIGN_CREATED,
   CAMPAIGN_LOADED,
   CLEAR_CAMPAIGN,
   COMMENT_ADDED,
@@ -44,40 +44,33 @@ export const getAllCampaignsForUser = () => async dispatch => {
 };
 
 // Create/Update profile
-export const createCampaign = (
-  formData,
-  history,
-  edit = false
-) => async dispatch => {
+export const createCampaign = (formData, history) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
     }
   };
+
   try {
     const res = await axios.post(
-      '/api/crowdfunding/campaign',
+      '/api/crowdfunding/campaigns',
       formData,
       config
     );
 
     dispatch({
-      type: CAMPAIGN_ADDED,
+      type: CAMPAIGN_CREATED,
       payload: res.data
     });
-    console.log('testing form');
-    dispatch(
-      setAlert(edit ? 'Campaign Updated' : 'Campaign Created', 'success')
-    );
-    if (!edit) {
-      history.push('/crowdfunding/homepage');
-    }
+
+    dispatch(setAlert('Campaign created', 'success'));
+
+    history.push('/crowdfunding/my-campaigns');
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
-    dispatch({ type: CLEAR_CAMPAIGN });
   }
 };
 
@@ -133,10 +126,10 @@ export const getCurrentCampaign = id => async dispatch => {
   try {
     const res = await axios.get(`/api/crowdfunding/campaign/${id}`);
 
-    dispatch({
-      type: CAMPAIGN_ADDED,
-      payload: res.data
-    });
+    // dispatch({
+    //   type: CAMPAIGN_ADDED,
+    //   payload: res.data
+    // });
   } catch (err) {
     dispatch({
       type: CAMPAIGN_ERROR,

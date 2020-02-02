@@ -20,7 +20,11 @@ const MyCampaigns = ({
         <i className='fas fa-user'></i> Below is a list of all the campaigns you
         have created
       </p>
-      <Button variant='primary' className='my-2'>
+      <Button
+        variant='primary'
+        className='my-2'
+        href='/crowdfunding/create-campaign'
+      >
         <i className='fas fa-users'></i> Create new campaign
       </Button>
       {!loading && campaigns.length > 0 ? (
