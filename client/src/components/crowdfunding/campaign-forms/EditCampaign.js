@@ -1,76 +1,33 @@
-import React, { Fragment, useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import { createProfile, getCurrentCampaign } from "../../../../actions/crowdfunding/campaign";
+import React, { Fragment, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Form, Button } from 'react-bootstrap';
+import {
+  getCampaignById,
+  updateCampaign
+} from '../../../actions/crowdfunding/campaign';
 
 const EditCampaign = ({
-  createProfile,
-  getCurrentProfile,
-  history,
-  profile: { loading, profile }
+  getCampaignById,
+  match,
+  campaign: { campaign, loading },
+  updateCampaign
 }) => {
   const [formData, setFormData] = useState({
-    status: "",
-    company: "",
-    website: "",
-    location: "",
-    skills: "",
-    githubUsername: "",
-    bio: "",
-    facebook: "",
-    twitter: "",
-    linkedin: "",
-    instagram: "",
-    youtube: ""
+    title: '',
+    description: '',
+    category: '',
+    fundsRequired: '',
+    completionDate: ''
   });
 
   const {
-    status,
-    company,
-    website,
-    location,
-    skills,
-    githubUsername,
-    bio,
-    facebook,
-    twitter,
-    linkedin,
-    instagram,
-    youtube
+    title,
+    description,
+    category,
+    fundsRequired,
+    completionDate
   } = formData;
-
-  useEffect(() => {
-    getCurrentProfile();
-
-    setFormData({
-      status: !loading && profile.status ? profile.status : "",
-      company: !loading && profile.company ? profile.company : "",
-      website: !loading && profile.website ? profile.website : "",
-      location: !loading && profile.location ? profile.location : "",
-      githubUsername:
-        !loading && profile.githubUsername ? profile.githubUsername : "",
-      bio: !loading && profile.bio ? profile.bio : "",
-      skills: !loading && profile.skills ? profile.skills.join(",") : "",
-      facebook:
-        !loading && profile.socialLinks ? profile.socialLinks.facebook : "",
-      twitter:
-        !loading && profile.socialLinks ? profile.socialLinks.twitter : "",
-      linkedin:
-        !loading && profile.socialLinks ? profile.socialLinks.linkedin : "",
-      instagram:
-        !loading && profile.socialLinks ? profile.socialLinks.instagram : "",
-      youtube:
-        !loading && profile.socialLinks ? profile.socialLinks.youtube : ""
-    });
-    // eslint-disable-next-line
-  }, [loading, getCurrentProfile]);
-
-  const [displaySocialLinks, setDisplaySocialLinks] = useState(false);
-
-  const toggleSocialLinks = () => {
-    setDisplaySocialLinks(!displaySocialLinks);
-  };
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -78,213 +35,106 @@ const EditCampaign = ({
 
   const onSubmit = e => {
     e.preventDefault();
-    createProfile(formData, history, true);
+    updateCampaign(match.params.id, formData);
   };
+
+  useEffect(() => {
+    getCampaignById(match.params.id);
+
+    setFormData({
+      title: !loading && campaign.title ? campaign.title : '',
+      description: !loading && campaign.description ? campaign.description : '',
+      category: !loading && campaign.category ? campaign.category : '',
+      fundsRequired:
+        !loading && campaign.fundsRequired ? campaign.fundsRequired : '',
+      completionDate:
+        !loading && campaign.completionDate
+          ? campaign.completionDate.split('T')[0]
+          : ''
+    });
+  }, [getCampaignById, loading]);
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Edit Profile</h1>
+      <h1 className='large text-primary'>Edit Campaign</h1>
       <p className='lead'>
         <i className='fas fa-user'></i> Fill in the following information to
-        setup your profile
+        update the campaign info
       </p>
-
-      <form onSubmit={e => onSubmit(e)}>
-        <div className='form-group'>
-          <select
-            className='form-control'
-            name='status'
-            value={status}
+      <Form onSubmit={e => onSubmit(e)}>
+        <Form.Group>
+          <Form.Control
+            as='select'
+            name='category'
+            value={category}
             onChange={e => onChange(e)}
           >
-            <option value=''>Please select your professional status</option>
-            <option value='Developer'>Developer</option>
-            <option value='Student'>Student</option>
-            <option value='Instructor'>Instructor</option>
-            <option value='Intern'>Intern</option>
-            <option value='Other'>Other</option>
-          </select>
-          <small className='form-text text-muted'>
-            Select your current status from the above mentioned options
-          </small>
-        </div>
-
-        <div className='form-group'>
-          <input
+            <option value=''>Please select campaign category</option>
+            <option value='1'>Technology</option>
+            <option value='2'>Games</option>
+            <option value='3'>Sports</option>
+            <option value='4'>Photography</option>
+            <option value='5'>Food</option>
+            <option value='6'>Films & Video</option>
+            <option value='7'>Music</option>
+            <option value='8'>Design</option>
+            <option value='9'>Other</option>
+          </Form.Control>
+        </Form.Group>
+        <Form.Group>
+          <Form.Control
             type='text'
-            className='form-control'
-            placeholder='Company'
-            name='company'
-            value={company}
+            placeholder='Campaign title'
+            name='title'
+            value={title}
             onChange={e => onChange(e)}
           />
-          <small className='form-text text-muted'>
-            This can be your own company and also a company that you work for
-          </small>
-        </div>
-
-        <div className='form-group'>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='Website'
-            name='website'
-            value={website}
-            onChange={e => onChange(e)}
-          />
-          <small className='form-text text-muted'>
-            This is the webiste website where you showcase your work
-          </small>
-        </div>
-
-        <div className='form-group'>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='Location'
-            name='location'
-            value={location}
-            onChange={e => onChange(e)}
-          />
-          <small className='form-text text-muted'>
-            This is your location where you live or work at
-          </small>
-        </div>
-
-        <div className='form-group'>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='Skills'
-            name='skills'
-            value={skills}
-            onChange={e => onChange(e)}
-          />
-          <small className='form-text text-muted'>
-            Please enter your skills separated by commas such as HTML, CSS,
-            JavaScript etc.
-          </small>
-        </div>
-
-        <div className='form-group'>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='GitHub username'
-            name='githubUsername'
-            value={githubUsername}
-            onChange={e => onChange(e)}
-          />
-          <small className='form-text text-muted'>
-            Please enter your GitHub username
-          </small>
-        </div>
-
-        <div className='form-group'>
-          <textarea
-            cols='30'
+        </Form.Group>
+        <Form.Group>
+          <Form.Control
+            as='textarea'
             rows='5'
-            placeholder='A short bio about yourself'
-            className='form-control'
-            name='bio'
-            value={bio}
+            placeholder='Campaign description'
+            name='description'
+            value={description}
             onChange={e => onChange(e)}
-          ></textarea>
-          <small className='form-text text-muted'>
-            Please enter some information so that people may get to know you
-          </small>
-        </div>
-
-        <div className='my-3'>
-          <button
-            onClick={toggleSocialLinks}
-            type='button'
-            className='btn btn-light'
-          >
-            Add Social Network Links
-          </button>
-          <span>Optional</span>
-        </div>
-
-        {displaySocialLinks && (
-          <Fragment>
-            <div className='form-group social-input'>
-              <i className='fab fa-facebook fa-2x'></i>
-              <input
-                type='text'
-                className='form-control'
-                placeholder='Fabebook URL'
-                name='facebook'
-                value={facebook}
-                onChange={e => onChange(e)}
-              />
-            </div>
-
-            <div className='form-group social-input'>
-              <i className='fab fa-twitter fa-2x'></i>
-              <input
-                type='text'
-                className='form-control'
-                placeholder='Twitter URL'
-                name='twitter'
-                value={twitter}
-                onChange={e => onChange(e)}
-              />
-            </div>
-
-            <div className='form-group social-input'>
-              <i className='fab fa-linkedin fa-2x'></i>
-              <input
-                type='text'
-                className='form-control'
-                placeholder='Linkedin URL'
-                name='linkedin'
-                value={linkedin}
-                onChange={e => onChange(e)}
-              />
-            </div>
-
-            <div className='form-group social-input'>
-              <i className='fab fa-instagram fa-2x'></i>
-              <input
-                type='text'
-                className='form-control'
-                placeholder='Instagram URL'
-                name='instagram'
-                value={instagram}
-                onChange={e => onChange(e)}
-              />
-            </div>
-
-            <div className='form-group social-input'>
-              <i className='fab fa-youtube fa-2x'></i>
-              <input
-                type='text'
-                className='form-control'
-                placeholder='Youtube URL'
-                name='youtube'
-                value={youtube}
-                onChange={e => onChange(e)}
-              />
-            </div>
-          </Fragment>
-        )}
-        <input type='submit' value='Submit' className='btn btn-primary my-2' />
-      </form>
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Control
+            type='text'
+            placeholder='Required funds'
+            name='fundsRequired'
+            value={fundsRequired}
+            onChange={e => onChange(e)}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Completion date</Form.Label>
+          <Form.Control
+            type='date'
+            name='completionDate'
+            value={completionDate}
+            onChange={e => onChange(e)}
+          />
+        </Form.Group>
+        <Button type='submit'>Submit</Button>
+      </Form>
     </Fragment>
   );
 };
 
 EditCampaign.propTypes = {
-  createProfile: PropTypes.func.isRequired,
-  getCurrentProfile: PropTypes.func.isRequired,
-  profile: PropTypes.object.isRequired
+  getCampaignById: PropTypes.func.isRequired,
+  campaign: PropTypes.object.isRequired,
+  updateCampaign: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  profile: state.profile
+  campaign: state.campaign
 });
 
-export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
-  withRouter(EditCampaign)
-);
+export default connect(mapStateToProps, {
+  getCampaignById,
+  updateCampaign
+})(EditCampaign);

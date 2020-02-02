@@ -5,7 +5,9 @@ import {
   COMMENT_ADDED,
   CAMPAIGN_ERROR,
   All_CAMPAIGNS_LOADED,
-  All_CAMPAIGNS_LOADED_FOR_USER
+  All_CAMPAIGNS_LOADED_FOR_USER,
+  CAMPAIGN_UPDATED,
+  CAMPAIGN_DELETED
 } from '../types';
 import { setAlert } from '../alert';
 import axios from 'axios';
@@ -74,15 +76,63 @@ export const createCampaign = (formData, history) => async dispatch => {
   }
 };
 
-//  Get Campaign by id
+//  Get campaign by id
 export const getCampaignById = id => async dispatch => {
   try {
-    const res = await axios.get(`/api/crowdfunding/campaign/${id}`);
+    const res = await axios.get(`/api/crowdfunding/campaigns/${id}`);
 
     dispatch({
       type: CAMPAIGN_LOADED,
       payload: res.data
     });
+  } catch (err) {
+    dispatch({
+      type: CAMPAIGN_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Update a campaign
+export const updateCampaign = (id, formData) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  try {
+    const res = await axios.put(
+      `/api/crowdfunding/campaigns/${id}`,
+      formData,
+      config
+    );
+
+    dispatch({
+      type: CAMPAIGN_UPDATED,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Campaign updated', 'success'));
+  } catch (err) {
+    dispatch({
+      type: CAMPAIGN_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Delete a campaign
+export const deleteCampaign = id => async dispatch => {
+  try {
+    const res = await axios.delete(`/api/crowdfunding/campaigns/${id}`);
+
+    dispatch({
+      type: CAMPAIGN_DELETED,
+      payload: id
+    });
+
+    dispatch(setAlert(res.data.msg, 'success'));
   } catch (err) {
     dispatch({
       type: CAMPAIGN_ERROR,
@@ -118,22 +168,5 @@ export const addComment = (id, formData) => async dispatch => {
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
-  }
-};
-
-// Get current campaign
-export const getCurrentCampaign = id => async dispatch => {
-  try {
-    const res = await axios.get(`/api/crowdfunding/campaign/${id}`);
-
-    // dispatch({
-    //   type: CAMPAIGN_ADDED,
-    //   payload: res.data
-    // });
-  } catch (err) {
-    dispatch({
-      type: CAMPAIGN_ERROR,
-      payload: err.response.data
-    });
   }
 };

@@ -4,7 +4,9 @@ import {
   CAMPAIGN_LOADED,
   COMMENT_ADDED,
   All_CAMPAIGNS_LOADED,
-  All_CAMPAIGNS_LOADED_FOR_USER
+  All_CAMPAIGNS_LOADED_FOR_USER,
+  CAMPAIGN_UPDATED,
+  CAMPAIGN_DELETED
 } from '../../actions/types';
 
 const initialState = {
@@ -34,11 +36,21 @@ export default function(state = initialState, action) {
         errors: null
       };
     case CAMPAIGN_LOADED:
+    case CAMPAIGN_UPDATED:
       return {
         ...state,
         campaign: payload,
         loading: false,
         errors: null
+      };
+    case CAMPAIGN_DELETED:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        campaigns: [
+          ...state.campaigns.filter(campaign => campaign._id !== payload)
+        ]
       };
     case COMMENT_ADDED:
       return {
