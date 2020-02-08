@@ -25,7 +25,11 @@ const Campaign = ({
       </h1>
       <Row className='mb-3'>
         <Col md={8}>
-          <img src={placeholder} style={{ width: '100%', height: '500px' }} />
+          <img
+            src={placeholder}
+            alt=''
+            style={{ width: '100%', height: '500px' }}
+          />
         </Col>
         <Col className='post p-3' md={4}>
           <div>

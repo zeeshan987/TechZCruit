@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Row, Col } from 'react-bootstrap';
+import { Form, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { getAllCampaigns } from '../../../actions/crowdfunding/campaign';
 import CampaignItem from './CampaignItem';
@@ -23,7 +23,9 @@ const Campaigns = ({ getAllCampaigns, campaign: { loading, campaigns } }) => {
       </Form>
       <Row>
         {!loading && campaigns.length > 0 ? (
-          campaigns.map(campaign => <CampaignItem campaign={campaign} />)
+          campaigns.map(campaign => (
+            <CampaignItem key={campaign._id} campaign={campaign} />
+          ))
         ) : (
           <div className='lead'>No campaigns found</div>
         )}

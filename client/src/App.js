@@ -9,8 +9,6 @@ import store from './store';
 import setAuthToken from './utils/setAuthToken';
 import { loadUser } from './actions/auth';
 import CommunityRoutes from './components/routing/CommunityRoutes';
-import CampaignForm from './components/crowdfunding/layout/campaign-form/CampaignForm';
-import SearchCampaign from './components/crowdfunding/layout/campaigncategory/SearchCampaign';
 import HomePage from './components/crowdfunding/campaigns/Campaigns';
 import MyCampaigns from './components/crowdfunding/my-campaigns/MyCampaigns';
 import CreateCampaign from './components/crowdfunding/campaign-forms/CreateCampaign';
@@ -36,17 +34,7 @@ const App = () => {
           <section className='container'>
             <Alert />
             <Switch>
-              <Route exact path='/crowdfunding' component={HomePage} />
-              <Route
-                exact
-                path='/crowdfunding/searchcampaign'
-                component={SearchCampaign}
-              />
-              <PrivateRoute
-                exact
-                path='/crowdfunding/campaign-form'
-                component={CampaignForm}
-              />
+              <PrivateRoute exact path='/crowdfunding' component={HomePage} />
               <PrivateRoute
                 exact
                 path='/crowdfunding/campaign/:id'
