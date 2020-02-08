@@ -32,7 +32,11 @@ const CampaignNavigationTabs = ({ campaign, auth }) => {
                 {campaign !== null && <CommentForm campaign={campaign} />}
                 {campaign !== null && campaign.comments.length > 0 ? (
                   campaign.comments.map(comment => (
-                    <CommentItem comment={comment} />
+                    <CommentItem
+                      comment={comment}
+                      auth={auth}
+                      campaign={campaign}
+                    />
                   ))
                 ) : (
                   <div className='lead mt-3'>No comments found</div>

@@ -2,9 +2,10 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
+import { deleteCommentOnCampaign } from '../../../actions/crowdfunding/campaign';
 
-const CommentItem = ({ comment, auth, campaignId }) => {
+const CommentItem = ({ comment, auth, campaign, deleteCommentOnCampaign }) => {
   return (
     <Fragment>
       <Row className='post p-3 my-3'>
@@ -23,12 +24,20 @@ const CommentItem = ({ comment, auth, campaignId }) => {
         </Col>
         <Col md={9}>
           <p>{comment.description}</p>
-          {/* <div className='my-1'>
-            {(auth.user._id === comment.user._id ||
-              auth.user._id === post.group.admin) && (
-              <button className='btn btn-danger'>Delete comment</button>
-            )}
-          </div> */}
+          <div>
+            {auth.user !== null &&
+              (auth.user._id === campaign.user._id ||
+                auth.user._id === comment.user._id) && (
+                <Button
+                  variant='danger'
+                  onClick={() =>
+                    deleteCommentOnCampaign(campaign._id, comment._id)
+                  }
+                >
+                  Delete comment
+                </Button>
+              )}
+          </div>
         </Col>
       </Row>
     </Fragment>
@@ -38,7 +47,10 @@ const CommentItem = ({ comment, auth, campaignId }) => {
 CommentItem.propTypes = {
   comment: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  campaignId: PropTypes.string.isRequired
+  campaign: PropTypes.object.isRequired,
+  deleteCommentOnCampaign: PropTypes.func.isRequired
 };
 
-export default connect(null, {})(CommentItem);
+export default connect(null, {
+  deleteCommentOnCampaign
+})(CommentItem);

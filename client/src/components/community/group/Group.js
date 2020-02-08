@@ -18,7 +18,7 @@ const Group = ({
 }) => {
   useEffect(() => {
     getGroupById(match.params.id);
-  }, [getGroupById]);
+  }, [getGroupById, match.params.id]);
 
   return (
     <Fragment>

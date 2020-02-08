@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import uuid from 'uuid';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';

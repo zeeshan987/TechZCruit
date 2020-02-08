@@ -6,7 +6,9 @@ import {
   All_CAMPAIGNS_LOADED,
   All_CAMPAIGNS_LOADED_FOR_USER,
   CAMPAIGN_UPDATED,
-  CAMPAIGN_DELETED
+  CAMPAIGN_DELETED,
+  COMMENT_ERROR_CAMPAIGN,
+  COMMENT_REMOVED_CAMPAIGN
 } from '../types';
 import { setAlert } from '../alert';
 import axios from 'axios';
@@ -141,7 +143,7 @@ export const deleteCampaign = id => async dispatch => {
   }
 };
 
-// Comment on Campaign
+// Comment on campaign
 export const addCommentOnCampaign = (id, formData) => async dispatch => {
   const config = {
     headers: {
@@ -167,5 +169,29 @@ export const addCommentOnCampaign = (id, formData) => async dispatch => {
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
+  }
+};
+
+// Delete comment on campaign
+export const deleteCommentOnCampaign = (
+  campaignId,
+  commentId
+) => async dispatch => {
+  try {
+    const res = await axios.delete(
+      `/api/crowdfunding/campaigns/comment/${campaignId}/${commentId}`
+    );
+
+    dispatch({
+      type: COMMENT_REMOVED_CAMPAIGN,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Comment removed', 'success'));
+  } catch (err) {
+    dispatch({
+      type: COMMENT_ERROR_CAMPAIGN,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
   }
 };
