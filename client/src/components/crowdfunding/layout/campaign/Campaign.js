@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { getCampaignById } from "../../../../actions/crowdfunding/campaign";
 import Spinner from "../../../../components/layout/Spinner";
 import { connect } from "react-redux";
-// import { getCampaignById } from "../../../../actions/crowdfunding/campaign";
 import square2 from "../../../../img/square2.jpeg";
 import Navlinks from "./Navlinks";
 import TeamProfile from "./TeamProfile";
@@ -27,7 +26,7 @@ const Campaign = ({ campaign, getCampaignById, match, auth }) => {
                   <h2 className='text-primary'>{campaign.campaignTitle}</h2>
                 </div>
               </div>
-            </div>  
+            </div>
           </div>
           <div className='row' style={{ backgroundColor: "#ffffff" }}>
             {/* campaign pic */}
@@ -99,7 +98,7 @@ const Campaign = ({ campaign, getCampaignById, match, auth }) => {
               <Navlinks campaign={campaign} auth={auth} />
             </div>
             <div className='cambox-2'>
-              <TeamProfile campaign={Campaign}/>
+              <TeamProfile campaign={Campaign} />
             </div>
           </div>
           {/* user and ites teams memmbers on right side */}

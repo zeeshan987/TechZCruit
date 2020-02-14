@@ -1,19 +1,22 @@
-import React, { Fragment, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import Navbar from './components/layout/Navbar';
-import Landing from './components/layout/Landing';
-import Alert from './components/layout/Alert';
-import PrivateRoute from './components/routing/PrivateRoute';
-import store from './store';
-import setAuthToken from './utils/setAuthToken';
-import { loadUser } from './actions/auth';
-import CommunityRoutes from './components/routing/CommunityRoutes';
-import HomePage from './components/crowdfunding/layout/HomePage';
-import CampaignForm from './components/crowdfunding/layout/campaign-form/CampaignForm';
-import Campaign from './components/crowdfunding/layout/campaign/Campaign';
-import SearchCampaign from './components/crowdfunding/layout/campaigncategory/SearchCampaign';
-import './App.css';
+import React, { Fragment, useEffect } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Provider } from "react-redux";
+import Navbar from "./components/layout/Navbar";
+import Landing from "./components/layout/Landing";
+import Alert from "./components/layout/Alert";
+import PrivateRoute from "./components/routing/PrivateRoute";
+import store from "./store";
+import setAuthToken from "./utils/setAuthToken";
+import { loadUser } from "./actions/auth";
+import CommunityRoutes from "./components/routing/CommunityRoutes";
+import HomePage from "./components/crowdfunding/layout/HomePage";
+import CampaignForm from "./components/crowdfunding/layout/campaign-form/CampaignForm";
+import Campaign from "./components/crowdfunding/layout/campaign/Campaign";
+import SearchCampaign from "./components/crowdfunding/layout/campaigncategory/SearchCampaign";
+import AddProduct from "./components/eccomerce/forms/AddProduct";
+import ProductPage from "./components/eccomerce/homepage/HomePage";
+
+import "./App.css";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -49,6 +52,10 @@ const App = () => {
                 path='/crowdfunding/campaign-form'
                 component={CampaignForm}
               />
+              <Route exact path='/ecommerce' component={AddProduct} />
+              <Route exact path='/ecommerce/homepage' component={ProductPage} />
+
+              {/* <Route component={ecommerceRoutes} /> */}
               <Route component={CommunityRoutes} />
             </Switch>
           </section>

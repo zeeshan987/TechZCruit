@@ -95,12 +95,12 @@
   justify-content: center;
 }
 body {
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
   font-size: 1rem;
   line-height: 1.6;
 }
 .landing {
-  background: url('./img/showcase.jpg');
+  background: url("./img/showcase.jpg");
   width: 100%;
   height: 100vh;
   overflow: hidden;
@@ -113,8 +113,8 @@ body {
   margin: 0 auto;
 }
 .container {
-  margin: 8rem auto;
-  min-width: 85%;
+  /* margin: auto; */
+  min-width: 100%;
 }
 section:empty {
   margin: 0;
@@ -252,8 +252,8 @@ section:empty {
 
 /* CROWDFUNDING MODULE */
 .carousal-size {
-  height: '115px';
-  width: '115px';
+  height: "115px";
+  width: "115px";
 }
 .main-container {
   display: -webkit-box;
@@ -480,7 +480,7 @@ section:empty {
   color: #384aeb;
 }
 .offer {
-  background: url('./img/funding2.jpeg') right center no-repeat;
+  background: url("./img/funding2.jpeg") right center no-repeat;
   background-size: cover;
 }
 
@@ -493,7 +493,7 @@ section:empty {
   position: relative;
 }
 .hero-carousel__slide::after {
-  content: '';
+  content: "";
   display: block;
   position: absolute;
   bottom: 0;

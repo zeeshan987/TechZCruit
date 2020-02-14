@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import Moment from 'react-moment';
-import { connect } from 'react-redux';
-import { removeEducation } from '../../actions/profile';
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
+import Moment from "react-moment";
+import { connect } from "react-redux";
+import { removeEducation } from "../../actions/profile";
 
 const Education = ({ education, removeEducation }) => {
   return (
@@ -26,7 +26,7 @@ const Education = ({ education, removeEducation }) => {
               </td>
               <td>
                 {education.current ? (
-                  'Now'
+                  "Now"
                 ) : (
                   <Moment format='DD-MMM-YYYY'>{education.to}</Moment>
                 )}
@@ -52,7 +52,4 @@ Education.propTypes = {
   removeEducation: PropTypes.func.isRequired
 };
 
-export default connect(
-  null,
-  { removeEducation }
-)(Education);
+export default connect(null, { removeEducation })(Education);
