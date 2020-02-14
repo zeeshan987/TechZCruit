@@ -8,7 +8,8 @@ import {
   CAMPAIGN_UPDATED,
   CAMPAIGN_DELETED,
   COMMENT_ERROR_CAMPAIGN,
-  COMMENT_REMOVED_CAMPAIGN
+  COMMENT_REMOVED_CAMPAIGN,
+  CAMPAIGN_SUPPORTED
 } from '../../actions/types';
 
 const initialState = {
@@ -68,6 +69,13 @@ export default function(state = initialState, action) {
         ...state,
         loading: false,
         errors: payload
+      };
+    case CAMPAIGN_SUPPORTED:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        campaign: { ...state.campaign, supporters: payload.supporters }
       };
     default:
       return state;

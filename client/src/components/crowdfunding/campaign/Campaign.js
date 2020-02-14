@@ -1,12 +1,14 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { getCampaignById } from '../../../actions/crowdfunding/campaign';
 import { connect } from 'react-redux';
 import CampaignNavigationTabs from './CampaignNavigationTabs';
 import UserInfo from './UserInfo';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button, Modal } from 'react-bootstrap';
 import placeholder from '../../../img/placeholder.png';
 import Moment from 'react-moment';
+import { StripeProvider, Elements } from 'react-stripe-elements';
+import SupportForm from './SupportForm';
 
 const Campaign = ({
   campaign: { campaign, loading },
@@ -18,8 +20,29 @@ const Campaign = ({
     getCampaignById(match.params.id);
   }, [getCampaignById, match.params.id]);
 
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+
+  const toggleModal = () => {
+    setShowPaymentModal(!showPaymentModal);
+  };
+
   return (
     <Fragment>
+      <Modal show={showPaymentModal} onHide={() => toggleModal()} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Campaign title</Modal.Title>
+        </Modal.Header>
+        <StripeProvider apiKey='pk_test_qFCTODVMoaT4TXgRvnQ75GPR00dFX40yVb'>
+          <Elements>
+            <SupportForm
+              campaignId={campaign !== null ? campaign._id : ''}
+              toggleModal={toggleModal}
+              auth={auth}
+            />
+          </Elements>
+        </StripeProvider>
+      </Modal>
+
       <h1 className='large text-primary'>
         {!loading && campaign !== null ? campaign.title : ''}
       </h1>
@@ -61,7 +84,11 @@ const Campaign = ({
               )}
             </h3>
           </div>
-          <Button variant='primary' className='mt-3'>
+          <Button
+            variant='primary'
+            className='mt-3'
+            onClick={() => toggleModal()}
+          >
             Support this campaign
           </Button>
         </Col>

@@ -8,7 +8,8 @@ import {
   CAMPAIGN_UPDATED,
   CAMPAIGN_DELETED,
   COMMENT_ERROR_CAMPAIGN,
-  COMMENT_REMOVED_CAMPAIGN
+  COMMENT_REMOVED_CAMPAIGN,
+  CAMPAIGN_SUPPORTED
 } from '../types';
 import { setAlert } from '../alert';
 import axios from 'axios';
@@ -191,6 +192,39 @@ export const deleteCommentOnCampaign = (
   } catch (err) {
     dispatch({
       type: COMMENT_ERROR_CAMPAIGN,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Support a campaign
+export const supportCampaign = (campaignId, amount) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  const body = JSON.stringify({ amount });
+
+  try {
+    const res = await axios.put(
+      `/api/crowdfunding/campaigns/support/${campaignId}`,
+      body,
+      config
+    );
+
+    dispatch({
+      type: CAMPAIGN_SUPPORTED,
+      payload: res.data.campaign
+    });
+
+    dispatch(setAlert('Campaign supported', 'success'));
+
+    return res.data.clientSecret;
+  } catch (err) {
+    dispatch({
+      type: CAMPAIGN_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }

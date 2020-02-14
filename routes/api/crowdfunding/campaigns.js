@@ -3,6 +3,7 @@ const router = express.Router();
 const auth = require('../../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 const Campaign = require('../../../models/crowdfunding/Campaign');
+const stripe = require('stripe')('sk_test_XlhQvFYUTZ4qdeqnN3X3RVTX00CoTYt5Sz');
 
 // @route   GET /api/crowdfunding/campaigns
 // @desc    Get all campaigns
@@ -132,13 +133,17 @@ router.put(
         amount
       });
 
-      campaign.populate('supporters.user', ['name', 'avatar'], (err, res) => {
-        if (err) throw err;
-        return res;
+      await campaign.save();
+
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: amount * 100,
+        currency: 'usd'
       });
 
-      await campaign.save();
-      res.json(campaign);
+      res.json({
+        campaign: campaign,
+        clientSecret: paymentIntent.client_secret
+      });
     } catch (err) {
       return res.status(500).send('Server error');
     }
