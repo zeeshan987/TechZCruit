@@ -71,7 +71,7 @@ const SupportForm = ({
             <CardElement style={cardElementStyle} />
           </Form.Group>
           <Form.Group>
-            <Form.Label>Please enter support amount</Form.Label>
+            <Form.Label>Please enter support amount in US dollars</Form.Label>
             <Form.Control
               type='number'
               name='amount'
