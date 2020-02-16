@@ -34,29 +34,25 @@ router.get('/user', auth, async (req, res) => {
 // @route   GET /api/crowdfunding/campaigns/search
 // @desc    Search for a particular campaign
 // @access  Private
-router.get(
-  '/search',
-  [
-    auth,
-    check('description', 'Description is required')
-      .not()
-      .isEmpty()
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+router.get('/search/:description', auth, async (req, res) => {
+  const description = req.params.description;
+
+  try {
+    let campaigns;
+
+    if (description === '') {
+      campaigns = await Campaign.find();
+    } else {
+      campaigns = await Campaign.find({
+        title: new RegExp(description, 'i')
+      });
     }
 
-    const { description } = req.body;
-
-    const campaigns = await Campaign.find({
-      title: new RegExp(description, 'i')
-    });
-
     res.send(campaigns);
+  } catch (err) {
+    return res.status(500).send('Server error');
   }
-);
+});
 
 // @route   GET /api/crowdfunding/campaigns/:id
 // @desc    Get campaign by id
@@ -72,7 +68,6 @@ router.get('/:id', async (req, res) => {
 
     res.json(campaign);
   } catch (err) {
-    console.error(err.message);
     return res.status(500).send('Server error');
   }
 });

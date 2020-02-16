@@ -229,3 +229,23 @@ export const supportCampaign = (campaignId, amount) => async dispatch => {
     });
   }
 };
+
+// Search for a campaign
+export const searchCampaign = description => async dispatch => {
+  try {
+    const res = await axios.get(
+      `/api/crowdfunding/campaigns/search/${description}`
+    );
+
+    dispatch({
+      type: All_CAMPAIGNS_LOADED,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log(err);
+    dispatch({
+      type: CAMPAIGN_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
