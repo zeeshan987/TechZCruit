@@ -31,6 +31,33 @@ router.get('/user', auth, async (req, res) => {
   }
 });
 
+// @route   GET /api/crowdfunding/campaigns/search
+// @desc    Search for a particular campaign
+// @access  Private
+router.get(
+  '/search',
+  [
+    auth,
+    check('description', 'Description is required')
+      .not()
+      .isEmpty()
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { description } = req.body;
+
+    const campaigns = await Campaign.find({
+      title: new RegExp(description, 'i')
+    });
+
+    res.send(campaigns);
+  }
+);
+
 // @route   GET /api/crowdfunding/campaigns/:id
 // @desc    Get campaign by id
 // @access  Public
