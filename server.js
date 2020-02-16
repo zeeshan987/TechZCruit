@@ -23,6 +23,7 @@ app.use(
   '/api/crowdfunding/campaigns',
   require('./routes/api/crowdfunding/campaigns')
 );
+app.use('/api/testing/projects', require('./routes/api/testing/projects'));
 
 const PORT = process.env.PORT || 5000;
 
