@@ -41,7 +41,7 @@ const ProjectSchema = new mongoose.Schema({
       },
       status: {
         type: Boolean,
-        required: false
+        default: false
       }
     }
   ],
@@ -55,19 +55,14 @@ const ProjectSchema = new mongoose.Schema({
         type: String,
         required: true
       },
-      actualResult: [
+      actualResults: [
         {
           user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'user'
           },
           status: {
-            type: Boolean,
-            required: false
-          },
-          description: {
-            type: String,
-            required: true
+            type: Boolean
           }
         }
       ]
