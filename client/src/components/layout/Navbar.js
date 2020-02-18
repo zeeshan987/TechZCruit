@@ -13,6 +13,11 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
 
   const authLinks = (
     <Nav className='ml-auto'>
+      <NavDropdown title='Testing'>
+        <NavDropdown.Item href='/testing'>Homepage</NavDropdown.Item>
+        <NavDropdown.Item>Ongoing projects</NavDropdown.Item>
+        <NavDropdown.Item>My projects</NavDropdown.Item>
+      </NavDropdown>
       <NavDropdown title='Crowdfunding'>
         <NavDropdown.Item href='/crowdfunding'>Homepage</NavDropdown.Item>
         <NavDropdown.Item href='/crowdfunding/my-campaigns'>
