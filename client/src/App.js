@@ -15,6 +15,7 @@ import './App.css';
 
 import Projects from './components/testing/projects/Projects';
 import Project from './components/testing/project/Project';
+import MyProjects from './components/testing/my-projects/MyProjects';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -39,6 +40,11 @@ const App = () => {
                 exact
                 path='/testing/project/:id'
                 component={Project}
+              />
+              <PrivateRoute
+                exact
+                path='/testing/my-projects'
+                component={MyProjects}
               />
               <Route path='/community' component={CommunityRoutes} />
               <Route path='/crowdfunding' component={CrowdfundingRoutes} />

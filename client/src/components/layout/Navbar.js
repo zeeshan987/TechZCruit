@@ -16,7 +16,9 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
       <NavDropdown title='Testing'>
         <NavDropdown.Item href='/testing'>Homepage</NavDropdown.Item>
         <NavDropdown.Item>Ongoing projects</NavDropdown.Item>
-        <NavDropdown.Item>My projects</NavDropdown.Item>
+        <NavDropdown.Item href='/testing/my-projects'>
+          My projects
+        </NavDropdown.Item>
       </NavDropdown>
       <NavDropdown title='Crowdfunding'>
         <NavDropdown.Item href='/crowdfunding'>Homepage</NavDropdown.Item>

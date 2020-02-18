@@ -124,7 +124,6 @@ const Project = ({
       </Row>
       <Row>
         <Col md={8}>
-          {/* <CampaignNavigationTabs campaign={campaign} auth={auth} /> */}
           <div className='lead mt-3'>Description:</div>
           {!loading && project !== null ? project.description : ''}
         </Col>

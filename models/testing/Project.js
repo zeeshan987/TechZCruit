@@ -67,6 +67,18 @@ const ProjectSchema = new mongoose.Schema({
         }
       ]
     }
+  ],
+  comments: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
+      },
+      description: {
+        type: String,
+        required: true
+      }
+    }
   ]
 });
 
