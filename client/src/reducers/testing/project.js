@@ -1,7 +1,8 @@
 import {
   ALL_PROJECTS_LOADED,
   PROJECT_ERROR,
-  PROJECT_LOADED
+  PROJECT_LOADED,
+  PROJECT_OFFER_SENT
 } from '../../actions/types';
 
 const initialState = {
@@ -28,6 +29,13 @@ export default function(state = initialState, action) {
         loading: false,
         errors: null,
         project: payload
+      };
+    case PROJECT_OFFER_SENT:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        project: { ...state.project, offers: payload.offers }
       };
     case PROJECT_ERROR:
       return {

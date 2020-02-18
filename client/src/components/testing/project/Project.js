@@ -3,10 +3,18 @@ import PropTypes from 'prop-types';
 import { Modal, Row, Col, Button } from 'react-bootstrap';
 import placeholder from '../../../img/placeholder.png';
 import { connect } from 'react-redux';
-import { getProjectById } from '../../../actions/testing/project';
+import {
+  getProjectById,
+  sendOfferForProject
+} from '../../../actions/testing/project';
 import UserInfo from './UserInfo';
 
-const Project = ({ project: { loading, project }, getProjectById, match }) => {
+const Project = ({
+  project: { loading, project },
+  getProjectById,
+  match,
+  sendOfferForProject
+}) => {
   useEffect(() => {
     getProjectById(match.params.id);
   }, [getProjectById, match.params.id]);
@@ -55,7 +63,11 @@ const Project = ({ project: { loading, project }, getProjectById, match }) => {
             )}
           </div>
           <div>
-            <Button variant='primary' className='mt-3'>
+            <Button
+              variant='primary'
+              className='mt-3'
+              onClick={() => sendOfferForProject(project._id, project.amount)}
+            >
               Accept offer
             </Button>
           </div>
@@ -82,7 +94,8 @@ const Project = ({ project: { loading, project }, getProjectById, match }) => {
 
 Project.propTypes = {
   project: PropTypes.object.isRequired,
-  getProjectById: PropTypes.func.isRequired
+  getProjectById: PropTypes.func.isRequired,
+  sendOfferForProject: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -90,5 +103,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  getProjectById
+  getProjectById,
+  sendOfferForProject
 })(Project);

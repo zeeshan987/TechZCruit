@@ -282,6 +282,11 @@ router.put(
         amount
       });
 
+      project.populate('offers.user', ['name', 'avatar'], (err, res) => {
+        if (err) throw err;
+        return res;
+      });
+
       await project.save();
       res.json(project);
     } catch (err) {
