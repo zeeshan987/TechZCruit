@@ -1,22 +1,19 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getGroupById, updateGroup } from '../../../actions/community/group';
-import { useEffect } from 'react';
+import { createProject } from '../../../actions/testing/project';
 
-const EditGroup = ({
-  getGroupById,
-  match,
-  group: { loading, group },
-  updateGroup
-}) => {
+const CreateProject = ({ history, createProject }) => {
   const [formData, setFormData] = useState({
     name: '',
-    description: ''
+    description: '',
+    url: '',
+    amount: ''
   });
 
-  const { name, description } = formData;
+  const { name, description, url, amount } = formData;
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,25 +21,15 @@ const EditGroup = ({
 
   const onSubmit = e => {
     e.preventDefault();
-    updateGroup(formData, match.params.id);
+    createProject(formData, history);
   };
-
-  useEffect(() => {
-    getGroupById(match.params.id);
-
-    setFormData({
-      name: !loading && group.name ? group.name : '',
-      description: !loading && group.description ? group.description : ''
-    });
-    // eslint-disable-next-line
-  }, [getGroupById, loading, match.params.id]);
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Edit Group</h1>
+      <h1 className='large text-primary'>Create Project</h1>
       <p className='lead'>
         <i className='fas fa-user'></i> Fill in the following information to
-        update the group info
+        create a new project
       </p>
       <Form onSubmit={e => onSubmit(e)}>
         <Form.Group>
@@ -64,6 +51,24 @@ const EditGroup = ({
             onChange={e => onChange(e)}
           />
         </Form.Group>
+        <Form.Group>
+          <Form.Control
+            type='text'
+            placeholder='URL'
+            name='url'
+            value={url}
+            onChange={e => onChange(e)}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Control
+            type='number'
+            placeholder='Amount'
+            name='amount'
+            value={amount}
+            onChange={e => onChange(e)}
+          />
+        </Form.Group>
         <Button variant='primary' type='submit'>
           Submit
         </Button>
@@ -72,17 +77,10 @@ const EditGroup = ({
   );
 };
 
-EditGroup.propTypes = {
-  getGroupById: PropTypes.func.isRequired,
-  group: PropTypes.object.isRequired,
-  updateGroup: PropTypes.func.isRequired
+CreateProject.propTypes = {
+  createProject: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-  group: state.group
-});
-
-export default connect(mapStateToProps, {
-  getGroupById,
-  updateGroup
-})(EditGroup);
+export default connect(null, {
+  createProject
+})(withRouter(CreateProject));

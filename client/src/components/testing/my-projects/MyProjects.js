@@ -11,7 +11,7 @@ const MyProjects = ({
 }) => {
   useEffect(() => {
     getAllProjectsForCurrentUser();
-  }, [getAllProjectsForCurrentUser]);
+  }, [getAllProjectsForCurrentUser, loading]);
 
   return (
     <Fragment>

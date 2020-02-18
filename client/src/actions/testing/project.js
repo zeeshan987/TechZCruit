@@ -4,7 +4,9 @@ import {
   PROJECT_LOADED,
   PROJECT_OFFER_SENT,
   ALL_PROJECTS_LOADED_FOR_USER,
-  PROJECT_DELETED
+  PROJECT_DELETED,
+  PROJECT_CREATED,
+  PROJECT_UPDATED
 } from '../../actions/types';
 import axios from 'axios';
 import { setAlert } from '../../actions/alert';
@@ -53,6 +55,74 @@ export const getAllProjectsForCurrentUser = () => async dispatch => {
       payload: res.data
     });
   } catch (err) {
+    dispatch({
+      type: PROJECT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Create a new project
+export const createProject = (formData, history) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  try {
+    const res = await axios.post('/api/testing/projects', formData, config);
+
+    dispatch({
+      type: PROJECT_CREATED,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Project created', 'success'));
+
+    history.push('/testing/my-projects');
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+
+    dispatch({
+      type: PROJECT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Update a project
+export const updateProject = (id, formData) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  try {
+    const res = await axios.put(
+      `/api/testing/projects/${id}`,
+      formData,
+      config
+    );
+
+    dispatch({
+      type: PROJECT_UPDATED,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Project updated', 'success'));
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+
     dispatch({
       type: PROJECT_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }

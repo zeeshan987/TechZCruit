@@ -4,7 +4,9 @@ import {
   PROJECT_LOADED,
   PROJECT_OFFER_SENT,
   ALL_PROJECTS_LOADED_FOR_USER,
-  PROJECT_DELETED
+  PROJECT_DELETED,
+  PROJECT_CREATED,
+  PROJECT_UPDATED
 } from '../../actions/types';
 
 const initialState = {
@@ -22,16 +24,24 @@ export default function(state = initialState, action) {
     case ALL_PROJECTS_LOADED_FOR_USER:
       return {
         ...state,
+        projects: payload,
         loading: false,
-        errors: null,
-        projects: payload
+        errors: null
       };
-    case PROJECT_LOADED:
+    case PROJECT_CREATED:
       return {
         ...state,
         loading: false,
         errors: null,
-        project: payload
+        projects: [...state.projects, payload]
+      };
+    case PROJECT_LOADED:
+    case PROJECT_UPDATED:
+      return {
+        ...state,
+        project: payload,
+        loading: false,
+        errors: null
       };
     case PROJECT_OFFER_SENT:
       return {
