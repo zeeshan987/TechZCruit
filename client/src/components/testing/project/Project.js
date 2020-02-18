@@ -1,6 +1,6 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Row, Col, Button } from 'react-bootstrap';
+import { Modal, Row, Col, Button, Form } from 'react-bootstrap';
 import placeholder from '../../../img/placeholder.png';
 import { connect } from 'react-redux';
 import {
@@ -19,22 +19,62 @@ const Project = ({
     getProjectById(match.params.id);
   }, [getProjectById, match.params.id]);
 
+  const [showPaymentModal, setshowPaymentModal] = useState(false);
+
+  const toggleModal = () => {
+    setshowPaymentModal(!showPaymentModal);
+  };
+
+  const [formData, setFormData] = useState({
+    amount: ''
+  });
+
+  const { amount } = formData;
+
+  const onChange = e => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = e => {
+    e.preventDefault();
+    if (amount === '') {
+      alert('Amount cannot be zero');
+    } else {
+      sendOfferForProject(project._id, amount);
+      toggleModal();
+    }
+  };
+
   return (
     <Fragment>
-      {/* <Modal show={showPaymentModal} onHide={() => toggleModal()} centered>
+      <Modal show={showPaymentModal} onHide={() => toggleModal()} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Campaign title</Modal.Title>
+          <Modal.Title>Project title</Modal.Title>
         </Modal.Header>
-        <StripeProvider apiKey='pk_test_qFCTODVMoaT4TXgRvnQ75GPR00dFX40yVb'>
-          <Elements>
-            <SupportForm
-              campaignId={campaign !== null ? campaign._id : ''}
-              toggleModal={toggleModal}
-              auth={auth}
-            />
-          </Elements>
-        </StripeProvider>
-      </Modal> */}
+        <Form onSubmit={e => onSubmit(e)}>
+          <Modal.Body>
+            <Form.Group>
+              <Form.Label>
+                Please enter the offer amount in US dollars
+              </Form.Label>
+              <Form.Control
+                type='number'
+                name='amount'
+                value={amount}
+                onChange={e => onChange(e)}
+              />
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant='secondary' onClick={() => toggleModal()}>
+              Close
+            </Button>
+            <Button variant='success' type='submit'>
+              Submit
+            </Button>
+          </Modal.Footer>
+        </Form>
+      </Modal>
 
       <h1 className='large text-primary'>
         {!loading && project !== null ? project.name : ''}
@@ -72,7 +112,11 @@ const Project = ({
             </Button>
           </div>
           <div>
-            <Button variant='dark' className='mt-3'>
+            <Button
+              variant='dark'
+              className='mt-3'
+              onClick={() => toggleModal()}
+            >
               Send custom offer
             </Button>
           </div>

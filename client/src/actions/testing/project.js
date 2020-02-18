@@ -69,5 +69,7 @@ export const sendOfferForProject = (id, amount) => async dispatch => {
       type: PROJECT_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
+
+    dispatch(setAlert(err.response.data.msg, 'danger'));
   }
 };
