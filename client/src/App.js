@@ -1,8 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import Register from './components/auth/Register';
-import Login from './components/auth/Login';
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Alert from './components/layout/Alert';
@@ -14,6 +12,9 @@ import CommunityRoutes from './components/routing/CommunityRoutes';
 import CrowdfundingRoutes from './components/routing/CrowdfundingRoutes';
 import BasicRoutes from './components/routing/BasicRoutes';
 import './App.css';
+
+import Projects from './components/testing/projects/Projects';
+import Project from './components/testing/project/Project';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -33,7 +34,12 @@ const App = () => {
           <section className='container'>
             <Alert />
             <Switch>
-              <PrivateRoute exact path='/testing' />
+              <PrivateRoute exact path='/testing' component={Projects} />
+              <PrivateRoute
+                exact
+                path='/testing/project/:id'
+                component={Project}
+              />
               <Route path='/community' component={CommunityRoutes} />
               <Route path='/crowdfunding' component={CrowdfundingRoutes} />
               <Route component={BasicRoutes} />

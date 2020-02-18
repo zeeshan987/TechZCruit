@@ -34,6 +34,7 @@ router.get('/user', auth, async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const project = await Project.findById(req.params.id)
+      .populate('user', ['name', 'avatar'])
       .populate('offers.user', ['name', 'avatar'])
       .populate('testers.user', ['name', 'avatar']);
     res.json(project);

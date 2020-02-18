@@ -1,10 +1,73 @@
-import React from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Form, Button, Row } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { getAllProjects } from '../../../actions/testing/project';
+import ProjectItem from './ProjectItem';
 
-const Projects = props => {
-  return <div>Projects page</div>;
+const Projects = ({ project: { loading, projects }, getAllProjects }) => {
+  useEffect(() => {
+    getAllProjects();
+  }, [getAllProjects]);
+
+  const [formData, setFormData] = useState({
+    description: ''
+  });
+
+  const { description } = formData;
+
+  const onChange = e => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = e => {
+    e.preventDefault();
+  };
+
+  return (
+    <Fragment>
+      <h1 className='large text-primary'>Product Testing</h1>
+      <p className='lead'>
+        <i className='fas fa-user'></i> Use this platform to test your own
+        software products and offer your services to other people in the
+        community
+      </p>
+      <Form onSubmit={e => onSubmit(e)}>
+        <Form.Group>
+          <Form.Control
+            type='text'
+            name='description'
+            value={description}
+            placeholder='Search projects'
+            onChange={e => onChange(e)}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Button type='submit' hidden />
+        </Form.Group>
+      </Form>
+      <Row>
+        {!loading && projects.length > 0 ? (
+          projects.map(project => (
+            <ProjectItem key={project._id} project={project} />
+          ))
+        ) : (
+          <div className='lead'>No projects found</div>
+        )}
+      </Row>
+    </Fragment>
+  );
 };
 
-Projects.propTypes = {};
+Projects.propTypes = {
+  project: PropTypes.object.isRequired,
+  getAllProjects: PropTypes.func.isRequired
+};
 
-export default Projects;
+const mapStateToProps = state => ({
+  project: state.project
+});
+
+export default connect(mapStateToProps, {
+  getAllProjects
+})(Projects);

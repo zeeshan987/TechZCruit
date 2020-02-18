@@ -5,6 +5,7 @@ import profile from './profile';
 import post from './community/post';
 import group from './community/group';
 import campaign from './crowdfunding/campaign';
+import project from './testing/project';
 
 export default combineReducers({
   alert,
@@ -12,5 +13,6 @@ export default combineReducers({
   profile,
   post,
   group,
-  campaign
+  campaign,
+  project
 });
