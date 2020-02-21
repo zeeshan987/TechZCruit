@@ -6,7 +6,9 @@ import {
   ALL_PROJECTS_LOADED_FOR_USER,
   PROJECT_DELETED,
   PROJECT_CREATED,
-  PROJECT_UPDATED
+  PROJECT_UPDATED,
+  PROJECT_TESTCASE_DELETED,
+  PROJECT_TESTCASE_CREATED
 } from '../../actions/types';
 
 const initialState = {
@@ -56,6 +58,14 @@ export default function(state = initialState, action) {
         loading: false,
         errors: null,
         projects: [...state.projects.filter(item => item._id !== payload)]
+      };
+    case PROJECT_TESTCASE_CREATED:
+    case PROJECT_TESTCASE_DELETED:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        project: { ...state.project, testCases: payload.testCases }
       };
     case PROJECT_ERROR:
       return {

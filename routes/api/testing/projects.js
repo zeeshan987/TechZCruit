@@ -189,6 +189,9 @@ router.put(
   '/testcase/:id',
   [
     auth,
+    check('name', 'Name is required')
+      .not()
+      .isEmpty(),
     check('description', 'Description is required')
       .not()
       .isEmpty(),
@@ -202,7 +205,7 @@ router.put(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { description, expectedResult } = req.body;
+    const { name, description, expectedResult } = req.body;
 
     try {
       const project = await Project.findById(req.params.id);
@@ -212,6 +215,7 @@ router.put(
       }
 
       project.testCases.push({
+        name,
         description,
         expectedResult
       });

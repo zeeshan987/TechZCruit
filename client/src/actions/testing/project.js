@@ -6,7 +6,9 @@ import {
   ALL_PROJECTS_LOADED_FOR_USER,
   PROJECT_DELETED,
   PROJECT_CREATED,
-  PROJECT_UPDATED
+  PROJECT_UPDATED,
+  PROJECT_TESTCASE_DELETED,
+  PROJECT_TESTCASE_CREATED
 } from '../../actions/types';
 import axios from 'axios';
 import { setAlert } from '../../actions/alert';
@@ -177,6 +179,71 @@ export const deleteProject = id => async dispatch => {
 
     dispatch(setAlert('Project removed', 'success'));
   } catch (err) {
+    dispatch({
+      type: PROJECT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Delete a testcase for a project
+export const deleteTestcaseForProject = (
+  projectId,
+  testCaseId
+) => async dispatch => {
+  try {
+    const res = await axios.delete(
+      `/api/testing/projects/testcase/${projectId}/${testCaseId}`
+    );
+
+    dispatch({
+      type: PROJECT_TESTCASE_DELETED,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Test case removed', 'success'));
+  } catch (err) {
+    dispatch({
+      type: PROJECT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Create a testcase for a project
+export const createTestcaseForProject = (
+  projectId,
+  formData,
+  history
+) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  try {
+    const res = await axios.put(
+      `/api/testing/projects/testcase/${projectId}`,
+      formData,
+      config
+    );
+
+    dispatch({
+      type: PROJECT_TESTCASE_CREATED,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Test case created', 'success'));
+
+    history.push(`/testing/project/testcases/${projectId}`);
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+
     dispatch({
       type: PROJECT_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }

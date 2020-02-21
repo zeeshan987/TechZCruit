@@ -1,8 +1,22 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Table } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import {
+  getProjectById,
+  deleteTestcaseForProject
+} from '../../../actions/testing/project';
 
-const ProjectTestcases = props => {
+const ProjectTestcases = ({
+  project: { loading, project },
+  getProjectById,
+  match,
+  deleteTestcaseForProject
+}) => {
+  useEffect(() => {
+    getProjectById(match.params.id);
+  }, [getProjectById, match.params.id]);
+
   return (
     <Fragment>
       <h1 className='large text-primary'>Project testcases</h1>
@@ -18,33 +32,54 @@ const ProjectTestcases = props => {
         <i className='fas fa-users'></i> Create new testcase
       </Button>
 
-      <Table striped hover>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Expected result</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Register a user</td>
-            <td>
-              This testcase is used to check the functionality of registration
-              of new user
-            </td>
-            <td>A new user is registerd and dashboard is opened</td>
-            <td>
-              <Button variant='danger'>Delete</Button>
-            </td>
-          </tr>
-        </tbody>
-      </Table>
+      {!loading && project !== null && project.testCases.length > 0 ? (
+        <Table striped hover>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Expected result</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {project.testCases.map(testcase => (
+              <tr>
+                <td>{testcase.name}</td>
+                <td>{testcase.description}</td>
+                <td>{testcase.expectedResult}</td>
+                <td>
+                  <Button
+                    variant='danger'
+                    onClick={() =>
+                      deleteTestcaseForProject(project._id, testcase._id)
+                    }
+                  >
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      ) : (
+        <div className='lead'>No testcases found</div>
+      )}
     </Fragment>
   );
 };
 
-ProjectTestcases.propTypes = {};
+ProjectTestcases.propTypes = {
+  project: PropTypes.object.isRequired,
+  getProjectById: PropTypes.func.isRequired,
+  deleteTestcaseForProject: PropTypes.func.isRequired
+};
 
-export default ProjectTestcases;
+const mapStateToProps = state => ({
+  project: state.project
+});
+
+export default connect(mapStateToProps, {
+  getProjectById,
+  deleteTestcaseForProject
+})(ProjectTestcases);

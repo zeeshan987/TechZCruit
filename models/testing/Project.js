@@ -47,6 +47,10 @@ const ProjectSchema = new mongoose.Schema({
   ],
   testCases: [
     {
+      name: {
+        type: String,
+        required: true
+      },
       description: {
         type: String,
         required: true
