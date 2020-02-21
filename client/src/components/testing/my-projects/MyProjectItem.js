@@ -23,6 +23,15 @@ const MyProjectItem = ({
           </h2>
           <p>{description}</p>
           <div className='my-2'>
+            <Button
+              variant='primary'
+              href={`/testing/project/testcases/${_id}`}
+            >
+              Manage testcases
+            </Button>
+            <Button variant='dark' href={`/testing/project/stats/${_id}`}>
+              View stats
+            </Button>
             <Button variant='success' href={`/testing/edit-project/${_id}`}>
               Update project
             </Button>

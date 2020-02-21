@@ -18,6 +18,9 @@ import Project from './components/testing/project/Project';
 import MyProjects from './components/testing/my-projects/MyProjects';
 import CreateProject from './components/testing/project-forms/CreateProject';
 import EditProject from './components/testing/project-forms/EditProject';
+import ProjectStats from './components/testing/project-stats/ProjectStats';
+import ProjectTestcases from './components/testing/project-testcases/ProjectTestcases';
+import CreateTestcase from './components/testing/project-testcases/CreateTestcase';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -57,6 +60,21 @@ const App = () => {
                 exact
                 path='/testing/edit-project/:id'
                 component={EditProject}
+              />
+              <PrivateRoute
+                exact
+                path='/testing/project/stats/:id'
+                component={ProjectStats}
+              />
+              <PrivateRoute
+                exact
+                path='/testing/project/testcases/:id'
+                component={ProjectTestcases}
+              />
+              <PrivateRoute
+                exact
+                path='/testing/project/testcases/:id/create-testcase'
+                component={CreateTestcase}
               />
               <Route path='/community' component={CommunityRoutes} />
               <Route path='/crowdfunding' component={CrowdfundingRoutes} />
