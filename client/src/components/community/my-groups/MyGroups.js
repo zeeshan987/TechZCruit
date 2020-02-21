@@ -8,7 +8,7 @@ import { Button } from 'react-bootstrap';
 const MyGroups = ({ getAllGroupsForUser, group: { loading, groups } }) => {
   useEffect(() => {
     getAllGroupsForUser();
-  }, [getAllGroupsForUser, loading]);
+  }, [getAllGroupsForUser]);
 
   return (
     <Fragment>

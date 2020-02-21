@@ -96,7 +96,7 @@ export const createProject = (formData, history) => async dispatch => {
 };
 
 // Update a project
-export const updateProject = (id, formData) => async dispatch => {
+export const updateProject = (id, formData, history) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -116,6 +116,8 @@ export const updateProject = (id, formData) => async dispatch => {
     });
 
     dispatch(setAlert('Project updated', 'success'));
+
+    history.push('/testing/my-projects');
   } catch (err) {
     const errors = err.response.data.errors;
 

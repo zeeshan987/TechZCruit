@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import {
@@ -11,7 +12,8 @@ const EditCampaign = ({
   getCampaignById,
   match,
   campaign: { campaign, loading },
-  updateCampaign
+  updateCampaign,
+  history
 }) => {
   const [formData, setFormData] = useState({
     title: '',
@@ -35,7 +37,7 @@ const EditCampaign = ({
 
   const onSubmit = e => {
     e.preventDefault();
-    updateCampaign(match.params.id, formData);
+    updateCampaign(match.params.id, formData, history);
   };
 
   useEffect(() => {
@@ -138,4 +140,4 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   getCampaignById,
   updateCampaign
-})(EditCampaign);
+})(withRouter(EditCampaign));

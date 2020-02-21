@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import {
@@ -11,7 +12,8 @@ const EditProjects = ({
   getProjectById,
   match,
   project: { loading, project },
-  updateProject
+  updateProject,
+  history
 }) => {
   const [formData, setFormData] = useState({
     name: '',
@@ -28,7 +30,7 @@ const EditProjects = ({
 
   const onSubmit = e => {
     e.preventDefault();
-    updateProject(project._id, formData);
+    updateProject(project._id, formData, history);
   };
 
   useEffect(() => {
@@ -45,10 +47,10 @@ const EditProjects = ({
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Create Project</h1>
+      <h1 className='large text-primary'>Edit Project</h1>
       <p className='lead'>
         <i className='fas fa-user'></i> Fill in the following information to
-        create a new project
+        edit your project
       </p>
       <Form onSubmit={e => onSubmit(e)}>
         <Form.Group>
@@ -109,4 +111,4 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   getProjectById,
   updateProject
-})(EditProjects);
+})(withRouter(EditProjects));

@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { getGroupById, updateGroup } from '../../../actions/community/group';
@@ -9,7 +10,8 @@ const EditGroup = ({
   getGroupById,
   match,
   group: { loading, group },
-  updateGroup
+  updateGroup,
+  history
 }) => {
   const [formData, setFormData] = useState({
     name: '',
@@ -24,7 +26,7 @@ const EditGroup = ({
 
   const onSubmit = e => {
     e.preventDefault();
-    updateGroup(formData, match.params.id);
+    updateGroup(formData, match.params.id, history);
   };
 
   useEffect(() => {
@@ -85,4 +87,4 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   getGroupById,
   updateGroup
-})(EditGroup);
+})(withRouter(EditGroup));

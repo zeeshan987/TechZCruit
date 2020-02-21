@@ -97,7 +97,7 @@ export const getCampaignById = id => async dispatch => {
 };
 
 // Update a campaign
-export const updateCampaign = (id, formData) => async dispatch => {
+export const updateCampaign = (id, formData, history) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -117,6 +117,8 @@ export const updateCampaign = (id, formData) => async dispatch => {
     });
 
     dispatch(setAlert('Campaign updated', 'success'));
+
+    history.push('/crowdfunding/my-campaigns');
   } catch (err) {
     dispatch({
       type: CAMPAIGN_ERROR,

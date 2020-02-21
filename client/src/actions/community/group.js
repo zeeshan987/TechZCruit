@@ -99,7 +99,7 @@ export const createGroup = (formData, history) => async dispatch => {
 };
 
 // Update a group
-export const updateGroup = (formData, id) => async dispatch => {
+export const updateGroup = (formData, id, history) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -119,6 +119,8 @@ export const updateGroup = (formData, id) => async dispatch => {
     });
 
     dispatch(setAlert('Group updated', 'success'));
+
+    history.push('/community/my-groups');
   } catch (err) {
     const errors = err.response.data.errors;
 

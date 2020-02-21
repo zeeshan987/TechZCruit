@@ -11,7 +11,7 @@ const MyCampaigns = ({
 }) => {
   useEffect(() => {
     getAllCampaignsForUser();
-  }, [getAllCampaignsForUser, loading]);
+  }, [getAllCampaignsForUser]);
 
   return (
     <Fragment>
