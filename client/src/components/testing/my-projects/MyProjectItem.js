@@ -27,7 +27,7 @@ const MyProjectItem = ({
               variant='primary'
               href={`/testing/project/testcases/${_id}`}
             >
-              Manage testcases
+              Manage test cases
             </Button>
             <Button variant='dark' href={`/testing/project/stats/${_id}`}>
               View stats

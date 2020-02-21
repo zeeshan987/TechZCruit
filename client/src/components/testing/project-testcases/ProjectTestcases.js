@@ -19,7 +19,7 @@ const ProjectTestcases = ({
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Project testcases</h1>
+      <h1 className='large text-primary'>Project test cases</h1>
       <p className='lead'>
         <i className='fas fa-user'></i> Below is a list of all the testcases to
         be checked for the project
@@ -29,7 +29,7 @@ const ProjectTestcases = ({
         className='my-3'
         href={`/testing/project/testcases/5e4bb2e3340f141f58d465b9/create-testcase`}
       >
-        <i className='fas fa-users'></i> Create new testcase
+        <i className='fas fa-users'></i> Create new test case
       </Button>
 
       {!loading && project !== null && project.testCases.length > 0 ? (

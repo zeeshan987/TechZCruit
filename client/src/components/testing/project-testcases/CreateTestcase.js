@@ -25,7 +25,7 @@ const CreateTestcases = ({ history, createTestcaseForProject, match }) => {
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Create testcase</h1>
+      <h1 className='large text-primary'>Create test case</h1>
       <p className='lead'>
         <i className='fas fa-user'></i> Fill in the following information to
         create a new testcase for the project
