@@ -17,11 +17,32 @@ router.get('/', async (req, res) => {
 });
 
 // @route   GET /api/testing/projects/user
-// @desc    Get project for current user
+// @desc    Get projects for current user
 // @access  Private
 router.get('/user', auth, async (req, res) => {
   try {
     const projects = await Project.find({ user: req.user.id });
+    res.json(projects);
+  } catch (err) {
+    return res.status(500).send('Server error');
+  }
+});
+
+// @route   GET /api/testing/projects/user/ongoing
+// @desc    Get ongoing projects for current user
+// @access  Private
+router.get('/user/ongoing', auth, async (req, res) => {
+  try {
+    let projects = await Project.find();
+    projects = projects.filter(project => {
+      const index = project.testers
+        .map(tester => tester.user)
+        .indexOf(req.user.id);
+      if (index !== -1) {
+        return project;
+      }
+    });
+
     res.json(projects);
   } catch (err) {
     return res.status(500).send('Server error');

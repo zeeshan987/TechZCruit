@@ -15,7 +15,9 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
     <Nav className='ml-auto'>
       <NavDropdown title='Testing'>
         <NavDropdown.Item href='/testing'>Homepage</NavDropdown.Item>
-        <NavDropdown.Item>Ongoing projects</NavDropdown.Item>
+        <NavDropdown.Item href='/testing/ongoing-projects'>
+          Ongoing projects
+        </NavDropdown.Item>
         <NavDropdown.Item href='/testing/my-projects'>
           My projects
         </NavDropdown.Item>

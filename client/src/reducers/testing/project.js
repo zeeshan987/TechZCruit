@@ -10,7 +10,9 @@ import {
   PROJECT_TESTCASE_DELETED,
   PROJECT_TESTCASE_CREATED,
   PROJECT_OFFER_DELETED,
-  PROJECT_TESTER_ADDED
+  PROJECT_TESTER_ADDED,
+  ALL_ONGOING_PROJECTS_LOADED_FOR_USER,
+  PROJECT_TESTING_FINISHED
 } from '../../actions/types';
 
 const initialState = {
@@ -26,6 +28,7 @@ export default function(state = initialState, action) {
   switch (type) {
     case ALL_PROJECTS_LOADED:
     case ALL_PROJECTS_LOADED_FOR_USER:
+    case ALL_ONGOING_PROJECTS_LOADED_FOR_USER:
       return {
         ...state,
         projects: payload,
@@ -56,6 +59,7 @@ export default function(state = initialState, action) {
         project: { ...state.project, offers: payload.offers }
       };
     case PROJECT_DELETED:
+    case PROJECT_TESTING_FINISHED:
       return {
         ...state,
         loading: false,

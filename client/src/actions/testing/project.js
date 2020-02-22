@@ -10,7 +10,9 @@ import {
   PROJECT_TESTCASE_DELETED,
   PROJECT_TESTCASE_CREATED,
   PROJECT_OFFER_DELETED,
-  PROJECT_TESTER_ADDED
+  PROJECT_TESTER_ADDED,
+  ALL_ONGOING_PROJECTS_LOADED_FOR_USER,
+  PROJECT_TESTING_FINISHED
 } from '../../actions/types';
 import axios from 'axios';
 import { setAlert } from '../../actions/alert';
@@ -22,6 +24,23 @@ export const getAllProjects = () => async dispatch => {
 
     dispatch({
       type: ALL_PROJECTS_LOADED,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: PROJECT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Get all ongoing projects for user
+export const getAllOngoingProjectsForCurrentUser = () => async dispatch => {
+  try {
+    const res = await axios.get('/api/testing/projects/user/ongoing');
+
+    dispatch({
+      type: ALL_ONGOING_PROJECTS_LOADED_FOR_USER,
       payload: res.data
     });
   } catch (err) {
@@ -285,6 +304,25 @@ export const addTesterToProject = (projectId, userId) => async dispatch => {
     });
 
     dispatch(setAlert('Tester added', 'success'));
+  } catch (err) {
+    dispatch({
+      type: PROJECT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Finish testing for a project
+export const finishTestingForProject = projectId => async dispatch => {
+  try {
+    const res = await axios.put(`/api/testing/projects/finish/${projectId}`);
+
+    dispatch({
+      type: PROJECT_TESTING_FINISHED,
+      payload: res.data._id
+    });
+
+    dispatch(setAlert('Project testing finished', 'success'));
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
