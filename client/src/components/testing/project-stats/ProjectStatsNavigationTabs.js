@@ -3,6 +3,7 @@ import { Tab, Row, Col, Nav, Table, ProgressBar } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import ProjectTestcases from './ProjectTestcases';
 import ProjectTesters from './ProjectTesters';
+import ProjectOffers from './ProjectOffers';
 
 const ProjectStatsNavigationTabs = ({ project }) => {
   return (
@@ -41,16 +42,12 @@ const ProjectStatsNavigationTabs = ({ project }) => {
                 )}
               </Tab.Pane>
               <Tab.Pane eventKey='offers'>
-                Offers appear here
-                {/* <GroupMembers group={group} auth={auth} /> */}
+                {project !== null && project.offers.length > 0 ? (
+                  <ProjectOffers offers={project.offers} />
+                ) : (
+                  <div className='lead my-3'>No offers found</div>
+                )}
               </Tab.Pane>
-              {/* {auth.user !== null &&
-                group !== null &&
-                group.admin._id === auth.user._id && (
-                  <Tab.Pane eventKey='requests'>
-                    <GroupRequests group={group} />
-                  </Tab.Pane>
-                )} */}
             </Tab.Content>
           </Col>
         </Row>
