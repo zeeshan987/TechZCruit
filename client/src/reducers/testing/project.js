@@ -8,7 +8,9 @@ import {
   PROJECT_CREATED,
   PROJECT_UPDATED,
   PROJECT_TESTCASE_DELETED,
-  PROJECT_TESTCASE_CREATED
+  PROJECT_TESTCASE_CREATED,
+  PROJECT_OFFER_DELETED,
+  PROJECT_TESTER_ADDED
 } from '../../actions/types';
 
 const initialState = {
@@ -46,6 +48,7 @@ export default function(state = initialState, action) {
         errors: null
       };
     case PROJECT_OFFER_SENT:
+    case PROJECT_OFFER_DELETED:
       return {
         ...state,
         loading: false,
@@ -66,6 +69,13 @@ export default function(state = initialState, action) {
         loading: false,
         errors: null,
         project: { ...state.project, testCases: payload.testCases }
+      };
+    case PROJECT_TESTER_ADDED:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        project: { ...state.project, testers: payload.testers }
       };
     case PROJECT_ERROR:
       return {

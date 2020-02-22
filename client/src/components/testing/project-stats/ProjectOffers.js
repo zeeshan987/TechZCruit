@@ -2,8 +2,17 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Row, Col, Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import {
+  deleteOfferForProject,
+  addTesterToProject
+} from '../../../actions/testing/project';
 
-const ProjectOffers = ({ offers }) => {
+const ProjectOffers = ({
+  project: { _id, offers },
+  deleteOfferForProject,
+  addTesterToProject
+}) => {
   return (
     <Fragment>
       {offers.map(offer => (
@@ -19,8 +28,21 @@ const ProjectOffers = ({ offers }) => {
               <strong>Amount: </strong>${offer.amount}
             </div>
             <div className='my-2'>
-              <Button variant='success'>Accept</Button>
-              <Button variant='danger'>Reject</Button>
+              <Button
+                variant='success'
+                onClick={() => {
+                  addTesterToProject(_id, offer.user._id);
+                  deleteOfferForProject(_id, offer._id);
+                }}
+              >
+                Accept
+              </Button>
+              <Button
+                variant='danger'
+                onClick={() => deleteOfferForProject(_id, offer._id)}
+              >
+                Reject
+              </Button>
             </div>
           </Col>
         </Row>
@@ -30,7 +52,12 @@ const ProjectOffers = ({ offers }) => {
 };
 
 ProjectOffers.propTypes = {
-  offers: PropTypes.array.isRequired
+  project: PropTypes.object.isRequired,
+  deleteOfferForProject: PropTypes.func.isRequired,
+  addTesterToProject: PropTypes.func.isRequired
 };
 
-export default ProjectOffers;
+export default connect(null, {
+  deleteOfferForProject,
+  addTesterToProject
+})(ProjectOffers);

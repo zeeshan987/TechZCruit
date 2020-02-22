@@ -8,7 +8,9 @@ import {
   PROJECT_CREATED,
   PROJECT_UPDATED,
   PROJECT_TESTCASE_DELETED,
-  PROJECT_TESTCASE_CREATED
+  PROJECT_TESTCASE_CREATED,
+  PROJECT_OFFER_DELETED,
+  PROJECT_TESTER_ADDED
 } from '../../actions/types';
 import axios from 'axios';
 import { setAlert } from '../../actions/alert';
@@ -244,6 +246,46 @@ export const createTestcaseForProject = (
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
 
+    dispatch({
+      type: PROJECT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Delete an offer for a project
+export const deleteOfferForProject = (projectId, offerId) => async dispatch => {
+  try {
+    const res = await axios.delete(
+      `/api/testing/projects/offer/${projectId}/${offerId}`
+    );
+
+    dispatch({
+      type: PROJECT_OFFER_DELETED,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Offer removed', 'success'));
+  } catch (err) {
+    dispatch({
+      type: PROJECT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Add tester to a project
+export const addTesterToProject = (projectId, userId) => async dispatch => {
+  try {
+    const res = await axios.put(`/api/testing/projects/${projectId}/${userId}`);
+
+    dispatch({
+      type: PROJECT_TESTER_ADDED,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Tester added', 'success'));
+  } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
