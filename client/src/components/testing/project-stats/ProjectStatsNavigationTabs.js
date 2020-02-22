@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { Tab, Row, Col, Nav, Table, ProgressBar } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import ProjectTestcases from './ProjectTestcases';
+import ProjectTesters from './ProjectTesters';
 
 const ProjectStatsNavigationTabs = ({ project }) => {
   return (
@@ -33,8 +34,11 @@ const ProjectStatsNavigationTabs = ({ project }) => {
                 )}
               </Tab.Pane>
               <Tab.Pane eventKey='testers'>
-                Testers appear here
-                {/* <GroupMembers group={group} auth={auth} /> */}
+                {project !== null && project.testers.length > 0 ? (
+                  <ProjectTesters testers={project.testers} />
+                ) : (
+                  <div className='lead my-3'>No testers found</div>
+                )}
               </Tab.Pane>
               <Tab.Pane eventKey='offers'>
                 Offers appear here
