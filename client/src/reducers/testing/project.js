@@ -12,7 +12,9 @@ import {
   PROJECT_OFFER_DELETED,
   PROJECT_TESTER_ADDED,
   ALL_ONGOING_PROJECTS_LOADED_FOR_USER,
-  PROJECT_TESTING_FINISHED
+  PROJECT_TESTING_FINISHED,
+  PROJECT_TESTCASE_PASSED,
+  PROJECT_TESTCASE_FAILED
 } from '../../actions/types';
 
 const initialState = {
@@ -80,6 +82,14 @@ export default function(state = initialState, action) {
         loading: false,
         errors: null,
         project: { ...state.project, testers: payload.testers }
+      };
+    case PROJECT_TESTCASE_PASSED:
+    case PROJECT_TESTCASE_FAILED:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        project: { ...state.project, testCases: payload.testCases }
       };
     case PROJECT_ERROR:
       return {
