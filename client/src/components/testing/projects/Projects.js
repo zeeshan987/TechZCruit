@@ -2,10 +2,17 @@ import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { getAllProjects } from '../../../actions/testing/project';
+import {
+  getAllProjects,
+  searchProject
+} from '../../../actions/testing/project';
 import ProjectItem from './ProjectItem';
 
-const Projects = ({ project: { loading, projects }, getAllProjects }) => {
+const Projects = ({
+  project: { loading, projects },
+  getAllProjects,
+  searchProject
+}) => {
   useEffect(() => {
     getAllProjects();
   }, [getAllProjects]);
@@ -22,6 +29,11 @@ const Projects = ({ project: { loading, projects }, getAllProjects }) => {
 
   const onSubmit = e => {
     e.preventDefault();
+    if (description === '') {
+      getAllProjects();
+    } else {
+      searchProject(description);
+    }
   };
 
   return (
@@ -61,7 +73,8 @@ const Projects = ({ project: { loading, projects }, getAllProjects }) => {
 
 Projects.propTypes = {
   project: PropTypes.object.isRequired,
-  getAllProjects: PropTypes.func.isRequired
+  getAllProjects: PropTypes.func.isRequired,
+  searchProject: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -69,5 +82,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  getAllProjects
+  getAllProjects,
+  searchProject
 })(Projects);

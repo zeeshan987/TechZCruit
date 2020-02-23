@@ -53,6 +53,23 @@ router.get('/user/ongoing', auth, async (req, res) => {
   }
 });
 
+// @route   GET /api/testing/projects/search/:description
+// @desc    Search for a particular campaign
+// @access  Private
+router.get('/search/:description', auth, async (req, res) => {
+  const description = req.params.description;
+
+  try {
+    const projects = await Project.find({
+      name: new RegExp(description, 'i')
+    });
+
+    res.send(projects);
+  } catch (err) {
+    return res.status(500).send('Server error');
+  }
+});
+
 // @route   GET /api/testing/projects/:id
 // @desc    Get project by id
 // @access  Public

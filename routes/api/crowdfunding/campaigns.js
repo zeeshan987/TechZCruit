@@ -38,15 +38,9 @@ router.get('/search/:description', auth, async (req, res) => {
   const description = req.params.description;
 
   try {
-    let campaigns;
-
-    if (description === '') {
-      campaigns = await Campaign.find();
-    } else {
-      campaigns = await Campaign.find({
-        title: new RegExp(description, 'i')
-      });
-    }
+    const campaigns = await Campaign.find({
+      title: new RegExp(description, 'i')
+    });
 
     res.send(campaigns);
   } catch (err) {

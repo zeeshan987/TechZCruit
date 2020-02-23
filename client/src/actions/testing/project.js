@@ -380,3 +380,21 @@ export const failTestcaseForProject = (
     });
   }
 };
+
+// Search for a project
+export const searchProject = description => async dispatch => {
+  try {
+    const res = await axios.get(`/api/testing/projects/search/${description}`);
+
+    dispatch({
+      type: ALL_PROJECTS_LOADED,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log(err);
+    dispatch({
+      type: PROJECT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
