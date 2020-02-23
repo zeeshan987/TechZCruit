@@ -36,7 +36,11 @@ router.get('/user/ongoing', auth, async (req, res) => {
     let projects = await Project.find();
     projects = projects.filter(project => {
       const index = project.testers
-        .map(tester => tester.user)
+        .map(tester => {
+          if (!tester.status) {
+            return tester.user;
+          }
+        })
         .indexOf(req.user.id);
       if (index !== -1) {
         return project;

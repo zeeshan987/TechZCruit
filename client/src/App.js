@@ -22,6 +22,7 @@ import ProjectStats from './components/testing/project-stats/ProjectStats';
 import ProjectTestcases from './components/testing/project-testcases/ProjectTestcases';
 import CreateTestcase from './components/testing/project-testcases/CreateTestcase';
 import OngoingProjects from './components/testing/ongoing-projects/OngoingProjects';
+import OngoingProjectTestcases from './components/testing/ongoing-project-testcases/OngoingProjectTestcases';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -76,6 +77,11 @@ const App = () => {
                 exact
                 path='/testing/project/testcases/:id'
                 component={ProjectTestcases}
+              />
+              <PrivateRoute
+                exact
+                path='/testing/ongoing-project/testcases/:id'
+                component={OngoingProjectTestcases}
               />
               <PrivateRoute
                 exact

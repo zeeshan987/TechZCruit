@@ -23,7 +23,12 @@ const OngoingProjectItem = ({
           </h2>
           <p>{description}</p>
           <div className='my-2'>
-            <Button variant='primary'>Manage test cases</Button>
+            <Button
+              variant='primary'
+              href={`/testing/ongoing-project/testcases/${_id}`}
+            >
+              Manage test cases
+            </Button>
             <Button
               variant='success'
               onClick={() => finishTestingForProject(_id)}
