@@ -1,12 +1,12 @@
-import React, { Fragment, useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { Fragment, useEffect } from "react";
+import { connect } from "react-redux";
 import {
   getGroupById,
   removeMemberFromGroup
-} from '../../../actions/community/group';
-import PropTypes from 'prop-types';
-import GroupNavigationTabs from './GroupNavigationTabs';
-import { Button } from 'react-bootstrap';
+} from "../../../actions/community/group";
+import PropTypes from "prop-types";
+import GroupNavigationTabs from "./GroupNavigationTabs";
+import { Button } from "react-bootstrap";
 
 const Group = ({
   getGroupById,
@@ -23,13 +23,13 @@ const Group = ({
   return (
     <Fragment>
       <h1 className='large text-primary'>
-        {!loading && group !== null ? group.name : ''}
+        {!loading && group !== null ? group.name : ""}
       </h1>
       <p className='lead'>
-        <i className='fas fa-users'></i>{' '}
-        {!loading && group !== null ? group.description : ''}
+        <i className='fas fa-users'></i>{" "}
+        {!loading && group !== null ? group.description : ""}
       </p>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div style={{ display: "flex", flexDirection: "column" }}>
         {!loading &&
           auth.user !== null &&
           group !== null &&
@@ -39,7 +39,7 @@ const Group = ({
             <div>
               <Button
                 className='my-2'
-                style={{ float: 'right' }}
+                style={{ float: "right" }}
                 onClick={() => removeMemberFromGroup(group._id, auth.user._id)}
               >
                 Leave group

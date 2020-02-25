@@ -1,11 +1,11 @@
-import React, { Fragment, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { getPostById } from '../../../actions/community/post';
-import CommentForm from './CommentForm';
-import CommentItem from './CommentItem';
-import { Row, Col } from 'react-bootstrap';
+import React, { Fragment, useEffect } from "react";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { getPostById } from "../../../actions/community/post";
+import CommentForm from "./CommentForm";
+import CommentItem from "./CommentItem";
+import { Row, Col } from "react-bootstrap";
 
 const Post = ({ post: { post, loading }, getPostById, match, auth }) => {
   useEffect(() => {

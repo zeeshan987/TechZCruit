@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import uuid from 'uuid';
 import { Link } from 'react-router-dom';
 
-const ProfileItem = ({ profile }) => {
+const ProfileItem = ({ profile }) => { 
   return (
     <Fragment>
       <div className='profile p-3'>
