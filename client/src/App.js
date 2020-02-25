@@ -1,28 +1,31 @@
-import React, { Fragment, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import Navbar from './components/layout/Navbar';
-import Landing from './components/layout/Landing';
-import Alert from './components/layout/Alert';
-import PrivateRoute from './components/routing/PrivateRoute';
-import store from './store';
-import setAuthToken from './utils/setAuthToken';
-import { loadUser } from './actions/auth';
-import CommunityRoutes from './components/routing/CommunityRoutes';
-import CrowdfundingRoutes from './components/routing/CrowdfundingRoutes';
-import BasicRoutes from './components/routing/BasicRoutes';
-import './App.css';
+import React, { Fragment, useEffect } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Provider } from "react-redux";
+import Navbar from "./components/layout/Navbar";
+import Landing from "./components/layout/Landing";
+import Alert from "./components/layout/Alert";
+import PrivateRoute from "./components/routing/PrivateRoute";
+import store from "./store";
+import setAuthToken from "./utils/setAuthToken";
+import { loadUser } from "./actions/auth";
+import CommunityRoutes from "./components/routing/CommunityRoutes";
+import CrowdfundingRoutes from "./components/routing/CrowdfundingRoutes";
+import BasicRoutes from "./components/routing/BasicRoutes";
+import Chat from "./components/chatapp/Chat/Chat";
+import Join from "./components/chatapp/Join/Join";
+import EccomerceRoutes from "./components/routing/EcommerceRoutes";
+import "./App.css";
 
-import Projects from './components/testing/projects/Projects';
-import Project from './components/testing/project/Project';
-import MyProjects from './components/testing/my-projects/MyProjects';
-import CreateProject from './components/testing/project-forms/CreateProject';
-import EditProject from './components/testing/project-forms/EditProject';
-import ProjectStats from './components/testing/project-stats/ProjectStats';
-import ProjectTestcases from './components/testing/project-testcases/ProjectTestcases';
-import CreateTestcase from './components/testing/project-testcases/CreateTestcase';
-import OngoingProjects from './components/testing/ongoing-projects/OngoingProjects';
-import OngoingProjectTestcases from './components/testing/ongoing-project-testcases/OngoingProjectTestcases';
+import Projects from "./components/testing/projects/Projects";
+import Project from "./components/testing/project/Project";
+import MyProjects from "./components/testing/my-projects/MyProjects";
+import CreateProject from "./components/testing/project-forms/CreateProject";
+import EditProject from "./components/testing/project-forms/EditProject";
+import ProjectStats from "./components/testing/project-stats/ProjectStats";
+import ProjectTestcases from "./components/testing/project-testcases/ProjectTestcases";
+import CreateTestcase from "./components/testing/project-testcases/CreateTestcase";
+import OngoingProjects from "./components/testing/ongoing-projects/OngoingProjects";
+import OngoingProjectTestcases from "./components/testing/ongoing-project-testcases/OngoingProjectTestcases";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -88,11 +91,19 @@ const App = () => {
                 path='/testing/project/testcases/:id/create-testcase'
                 component={CreateTestcase}
               />
+
+              {/* Chat App Routes */}
+              <Route exact path='/chatapp/chat' component={Chat} />
+              <Route exact path='/chatapp/join' component={Join} />
+
               <Route path='/community' component={CommunityRoutes} />
               <Route path='/crowdfunding' component={CrowdfundingRoutes} />
               <Route component={BasicRoutes} />
             </Switch>
           </section>
+          <Switch>
+            <Route component={EccomerceRoutes} />
+          </Switch>
         </Fragment>
       </Router>
     </Provider>
