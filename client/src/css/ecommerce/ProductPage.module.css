@@ -22,7 +22,7 @@
       rgba(0, 168, 255, 0.3),
       rgba(0, 168, 255, 0.3)
     ),
-    url("../../img/showcase.jpg");
+    url('../../img/placeholder.png');
   background-repeat: no-repeat;
   background-size: 100% 100%;
   position: relative;
@@ -30,7 +30,7 @@
   clip-path: polygon(100% 0%, 100% 75%, 50% 100%, 0 75%, 0 0);
 }
 .header:before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0%;
   bottom: 0%;
@@ -171,8 +171,8 @@
   margin-bottom: 20px;
 }
 .box a::after {
-  content: "\f10d";
-  font-family: "FontAwesome";
+  content: '\f10d';
+  font-family: 'FontAwesome';
   width: 40px;
   height: 40px;
   background: linear-gradient(to right, #1e5799 0%, #3ccdbb 0%, #16c9f6 100%);
