@@ -7,7 +7,6 @@ import group from "./community/group";
 import campaign from "./crowdfunding/campaign";
 import project from "./testing/project";
 import product from "./ecommerce/product";
-import { combineReducers } from "redux";
 
 export default combineReducers({
   alert,

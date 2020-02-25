@@ -18,7 +18,7 @@ const Products = ({
 }) => {
   return (
     <Fragment>
-      <div className={`col-md-3`}>
+      <div className={`col-md-3`} style={bottomspace}>
         <div className={Styles.card}>
           <div className={Styles.top_section}>
             <img src={Image} alt='' />
@@ -104,4 +104,7 @@ const paragragh = {
 };
 const Inline = {
   display: "inline"
+};
+const bottomspace = {
+  "margin-bottom": "25px"
 };

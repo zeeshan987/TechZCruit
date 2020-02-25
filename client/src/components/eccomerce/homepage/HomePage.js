@@ -30,7 +30,6 @@ const HomePage = ({
             <p className={`web-paragragh`}>We create world best websites</p>
             <div className={styles.header_buttons}>
               <a href='./products'>Search Product</a>
-              <a href='#'>Contact</a>
             </div>
           </div>
         </section>

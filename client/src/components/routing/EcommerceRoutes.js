@@ -7,6 +7,7 @@ import ProductDetail from "../eccomerce/productdetail/ProductDetail";
 import Products from "../eccomerce/products/Products";
 import Store from "../eccomerce/store/Store";
 import ProductPage from "../eccomerce/homepage/HomePage";
+import UpdateProduct from "../eccomerce/forms/UpdateProduct";
 
 const EccomerceRoutes = () => {
   return (
@@ -15,6 +16,7 @@ const EccomerceRoutes = () => {
       <PrivateRoute exact path='/ecommerce/homepage' component={ProductPage} />
       <PrivateRoute exact path='/ecommerce/products' component={Products} />
       <PrivateRoute exact path='/ecommerce/store/:id' component={Store} />
+      <PrivateRoute exact path='/ecommerce/updateproduct/:id' component={UpdateProduct} />
       <PrivateRoute
         exact
         path='/ecommerce/product/:id'

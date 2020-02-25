@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Image from "../../../img/placeholder.png";
 import style from "../../../css/ecommerce/ProductDetail.module.css";
@@ -66,7 +67,12 @@ const ProductDetail = ({
                         className={`${style.button} ${style.primary_btn}`}
                         href='#'
                       >
-                        Add to Cart
+                        <Link
+                          to={`/ecommerce/updateproduct/${match.params.id}`}
+                          style={{ textDecoration: "none", color: "inherit" }}
+                        >
+                          Update a Product
+                        </Link>
                       </Button>
                     </div>
 

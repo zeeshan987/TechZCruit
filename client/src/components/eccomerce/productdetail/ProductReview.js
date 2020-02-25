@@ -18,17 +18,6 @@ const ProductReview = ({ product, auth }) => {
             </Tab>
             <Tab eventKey='profile' title='Comment'>
               <ReviewSection product={product} auth={auth} />
-
-              {/* <CommentForm campaign={campaign} /> */}
-              {/* {campaign.comments.map(comment => (
-                  <div key={comment._id}>
-                    <CommentItem
-                      comment={comment}
-                      auth={auth}
-                      campaignId={campaign._id}
-                    />
-                  </div>
-                ))} */}
             </Tab>
           </Tabs>
         </div>
