@@ -1,121 +1,23 @@
-/* .bg-primary {
-  background: #17a2b8;
-  color: set-text-color(#17a2b8);
+.padlr {
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
-.bg-light {
-  background: #f4f4f4;
-  color: set-text-color(#f4f4f4);
-  border: #ccc 1px solid;
+.padcontainer {
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-left: 25px;
+  margin-right: 25px;
 }
-.bg-dark {
-  background: #343a40;
-  color: set-text-color(#343a40);
-}
-.bg-success {
-  background: #281745;
-  color: set-text-color(#281745);
-}
-.bg-danger {
-  background: #dc3545;
-  color: set-text-color(#dc3545);
-}
-.bg-white {
-  background: #fff;
-  color: set-text-color(#fff);
-}
-.bg-primary {
-  background: #17a2b8;
-  color: set-text-color(#17a2b8);
-  border: #ccc 1px solid;
-} */
-/* .bg .btn {
-  display: inline-block;
-  border: #ccc 1px solid;
-  color: #333;
-  padding: 0.4rem 1.3rem;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-  margin-right: 0.5rem;
-  outline: none;
-  -webkit-transition: all 0.2s ease-in;
-  transition: all 0.2s ease-in;
-}
-.bg .btn.btn-primary {
-  background: #17a2b8;
-  color: set-text-color(#17a2b8);
-}
-.bg .btn.btn-primary:hover {
-  background: #1ab6cf;
-}
-.bg .btn.btn-dark {
-  background: #343a40;
-  color: set-text-color(#343a40);
-}
-.bg .btn.btn-dark:hover {
-  background: #3f474e;
-}
-.bg .btn.btn-success {
-  background: #281745;
-  color: set-text-color(#281745);
-}
-.bg .btn.btn-success:hover {
-  background: #331d58;
-}
-.bg .btn.btn-danger {
-  background: #dc3545;
-  color: set-text-color(#dc3545);
-}
-.bg .btn.btn-danger:hover {
-  background: #e04b59;
-}
-.bg .btn:hover {
-  background: #626d78;
-  color: white;
-}
-* {
-  margin: 0;
-  padding: 0;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-a {
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: none;
-}
-li {
-  list-style: none;
-}
-i {
-  color: #2fccd0;
-} */
-.header_div .servicediv {
+.header_div {
   width: 100%;
   height: auto;
   margin: 100px 0;
   text-align: center;
 }
-.header_div .servicediv h2 {
-  font-size: 0.9rem;
-  margin: 20px 0 15px 0;
-  font-weight: bold;
-  line-height: 1.1;
-  word-spacing: 4px;
-}
 .header {
   width: 100%;
   height: 100vh;
   background-color: 55;
-  background-image: -webkit-gradient(
-      linear,
-      left top,
-      left bottom,
-      from(rgba(0, 168, 255, 0.3)),
-      to(rgba(0, 168, 255, 0.3))
-    ),
-    url("../../img/caro2.jpg");
   background-image: linear-gradient(
       rgba(0, 168, 255, 0.3),
       rgba(0, 168, 255, 0.3)
@@ -136,38 +38,7 @@ i {
   right: 0;
   opacity: 0.4;
   z-index: -1;
-  background: -webkit-gradient(
-    linear,
-    left top,
-    right top,
-    from(#484949),
-    color-stop(0%, #3ccdbb),
-    to(#16c9f6)
-  );
   background: linear-gradient(to right, #484949 0%, #3ccdbb 0%, #16c9f6 100%);
-}
-.navbar:before {
-  content: "";
-  position: absolute;
-  top: 0%;
-  bottom: 0%;
-  left: 0;
-  right: 0;
-  opacity: 0.4;
-  z-index: -1;
-  background: -webkit-gradient(
-    linear,
-    left top,
-    right top,
-    from(#484949),
-    color-stop(0%, #3ccdbb),
-    to(#16c9f6)
-  );
-  background: linear-gradient(to right, #484949 0%, #3ccdbb 0%, #16c9f6 100%);
-}
-.nav-item a {
-  color: #fff !important;
-  font-weight: bold;
 }
 .header_section {
   width: 100%;
@@ -273,11 +144,11 @@ i {
 .box:hover p {
   color: white;
 }
-.transition-box:hover {
+.transition_box:hover {
   -webkit-box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.2);
   -webkit-transform: translateY(-10px);
-  transform: translateY(-10px);
+  transform: translateY(-8px);
 }
 .box a {
   position: relative;
@@ -304,14 +175,6 @@ i {
   font-family: "FontAwesome";
   width: 40px;
   height: 40px;
-  /* background: -webkit-gradient(
-      linear,
-      left top,
-      right top,
-      from(#1e5799),
-      color-stop(0%, #3ccdbb),
-      to(#16c9f6)
-    ); */
   background: linear-gradient(to right, #1e5799 0%, #3ccdbb 0%, #16c9f6 100%);
   color: white;
   position: absolute;
@@ -328,10 +191,19 @@ i {
   -ms-flex-align: center;
   align-items: center;
 }
-.pad-store {
+.pad_store {
   margin-bottom: 20px;
 }
 .el-inline h2 {
   display: inline;
   position: relative;
+}
+.carouselCard {
+  background-color: linear-gradient(
+    rgba(0, 168, 255, 0.3),
+    rgba(0, 168, 255, 0.3)
+  );
+}
+.carouselCard:hover {
+  background-color: #1ab6cf;
 }

@@ -2,10 +2,11 @@ import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import "../../../css/ecommerce/AddProduct-form.css";
-import MultiCarousel from "../carousel/MultiCarousel";
+import style from "../../../css/ecommerce/AddProduct-form.module.css";
+import { addProduct } from "../../../actions/ecommerce/product";
+import styled from "styled-components";
 
-export const AddProduct = () => {
+export const AddProduct = ({ addProduct, history }) => {
   const [formData, setFormData] = useState({
     productTitle: "",
     productDescription: "",
@@ -28,63 +29,98 @@ export const AddProduct = () => {
 
   const onSubmit = e => {
     e.preventDefault();
-    // addExperience(formData, history);
+    addProduct(formData, history);
   };
 
   return (
     <Fragment>
-      {/* <div class='wrapper'>
-        <div class='inner'> */}
-      <form action=''>
-        <h3>Registration Form</h3>
-        <div class='form-wrapper'>
-          <label for=''>Title</label>
-          <input
-            type='text'
-            class='form-control'
-            placeholder='i.e.,Eccomerce site'
-          />
-        </div>
-        <div class='form-wrapper'>
-          <label for=''>Discription</label>
-          <input
-            type='text'
-            class='form-control'
-            placeholder='i.e.,It is an android application.'
-          />
-        </div>
-        <div class='form-wrapper'>
-          <label for=''>Category</label>
-          <input
-            type='text'
-            class='form-control'
-            placeholder='i.e.,Android or Web'
-          />
-        </div>
-        <div class='form-wrapper'>
-          <label for=''>Technology</label>
-          <input
-            type='text'
-            class='form-control'
-            placeholder='i.e.,Html, Css, Javascript'
-          />
-        </div>
-        <div class='form-wrapper'>
-          <label for=''>Price</label>
-          <input type='text' class='form-control' placeholder='i.e,30' />
-        </div>
-        <div class='checkbox'>
-          <label>
-            <input type='checkbox' /> I can accept the Terms of Use & Privacy
-            Policy.
-            <span class='checkmark'></span>
-          </label>
-        </div>{" "}
-        <button>Register Now</button>
-      </form>
-      {/* <MultiCarousel /> */}
+      <Body>
+        <h1 className={`large text-primary`} style={heading}>
+          Add Product
+        </h1>
+        <p className={`lead`}>
+          <i className={`fas fa-book`}></i> Fill in the the following
+          information to add an select in the store
+        </p>
+        <form onSubmit={e => onSubmit(e)}>
+          <h3>Registration Form</h3>
+          <div className={style.form_wrapper}>
+            <label for=''>Title</label>
+            <input
+              type='text'
+              className={style.form_control}
+              placeholder='i.e.,Eccomerce site'
+              name='productTitle'
+              value={productTitle}
+              onChange={e => onChange(e)}
+            />
+          </div>
+          <div className={style.form_wrapper}>
+            <label for=''>Discription</label>
+            <input
+              type='text'
+              className={style.form_control}
+              placeholder='i.e.,It is an android application.'
+              name='productDescription'
+              value={productDescription}
+              onChange={e => onChange(e)}
+            />
+          </div>
+          <div className={style.form_wrapper}>
+            <label for=''>Category</label>
+            <input
+              type='text'
+              className={style.form_control}
+              placeholder='i.e.,Android or Web'
+              name='productCategory'
+              value={productCategory}
+              onChange={e => onChange(e)}
+            />
+          </div>
+          <div className={style.form_wrapper}>
+            <label for=''>Technology</label>
+            <input
+              type='text'
+              className={style.form_control}
+              placeholder='i.e.,Html, Css, Javascript'
+              name='productTechnology'
+              value={productTechnology}
+              onChange={e => onChange(e)}
+            />
+          </div>
+          <div className={style.form_wrapper}>
+            <label for=''>Price</label>
+            <input
+              type='text'
+              className={style.form_control}
+              placeholder='i.e,30'
+              name='price'
+              value={price}
+              onChange={e => onChange(e)}
+            />
+          </div>
+          {/* <input type='submit' value='Save Product' className={style.button} /> */}
+          <button type='submit' value='Submit' className={style.button}>
+            Save Product
+          </button>
+        </form>
+      </Body>
     </Fragment>
   );
 };
 
-export default AddProduct;
+AddProduct.propTypes = {
+  addProduct: PropTypes.func.isRequired
+};
+export default connect(null, { addProduct })(withRouter(AddProduct));
+
+const Body = styled.body`
+  font-family: "Muli-Regular";
+  color: #666;
+  font-size: 13px;
+  margin: 0;
+`;
+
+const heading = {
+  // marginTop: "6rem"
+};

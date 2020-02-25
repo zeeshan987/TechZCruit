@@ -114,7 +114,7 @@ body {
 }
 .container {
   /* margin: auto; */
-  min-width: 100%;
+  min-width: 85%;
 }
 section:empty {
   margin: 0;

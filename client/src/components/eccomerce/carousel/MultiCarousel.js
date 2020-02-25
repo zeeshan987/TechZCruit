@@ -3,19 +3,11 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import classes from "./carousel.module.css";
 import Slider from "react-slick";
+import styles from "../../../css/ecommerce/ProductPage.module.css";
+import Image from "../../../img/placeholder.png";
+import { Link } from "react-router-dom";
 
-export const MultiCarousel = () => {
-  const [suggestions, setSuggestions] = useState([]);
-
-  useEffect(() => {
-    // data from mongo will be fetch here through action calling api class
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then(res => res.json())
-      .then(data => {
-        setSuggestions(data);
-      });
-  });
-
+export const MultiCarousel = ({ products, profiles }) => {
   let settings = {
     infinite: false,
     speed: 1000,
@@ -42,42 +34,63 @@ export const MultiCarousel = () => {
   };
   return (
     <Fragment>
-      <div className={classes.container}>
-        <h6 className='text-muted'>Friend Suggestions</h6>
-        {suggestions.length === 0 ? (
-          <div className='spinner-border' role='status'>
-            <span className='sr-only'>Loading...</span>
+      {/* {console.log(products, "container  ==?")}  ${styles.pad_store*/}
+      <div className={`${classes.container}`}>
+        {products.length === 0 ? (
+          <div className={`spinner-border`} role='status'>
+            <span className={`sr-only`}>Loading...</span>
           </div>
         ) : (
           <Slider {...settings}>
-            {suggestions.map(current => (
-              <div className='out' key={current.id}>
-                <div className={classes.card}>
-                  <img
-                    className='rounded-circle'
-                    alt={"users here"}
-                    src={`https://source.unsplash.com/random/${current.id}`}
-                    height={56}
-                    width={56}
-                  />
-                  <div className='card-body'>
-                    <h5 className={classes.cardtitle}>{current.username}</h5>
-                    <small className='card-text text-sm-center text-muted'>
-                      In your contacts
-                    </small>
-                    <br />
-                    <button className='btn btn-sm follow btn-primary'>
-                      Follow
-                    </button>
+            {/* {products.map(product => ( */}
+            {profiles.map(profile =>
+              profile.user.storeOwner === true ? (
+                // return  profile.user.storeOwner === true ? 'and':('kjh')
+                <div className={`out`} key={profile._id}>
+                  {console.log(profile, "I am here")}
+                  <div
+                    className={`${classes.card} ${styles.carouselCard} ${styles.transition_box}`}
+                  >
+                    <img
+                      className={`rounded-circle`}
+                      alt={"users here"}
+                      src={Image}
+                      height={56}
+                      width={56}
+                      style={img}
+                    />
+                    <div className='card-body'>
+                      <h5 className={classes.cardtitle}>{profile.user.name}</h5>
+                      <small className='card-text text-sm-center text-muted'>
+                        {/* {profile.productDescription} */}
+                      </small>
+                      <br />
+                      <button className='btn btn-sm follow btn-primary'>
+                        <Link
+                          to={`/ecommerce/store/${profile.user._id}`}
+                          style={{ textDecoration: "none", color: "inherit" }}
+                        >
+                          View Product
+                        </Link>
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ) : (
+                "Not Store Found"
+              )
+            )}
           </Slider>
         )}
       </div>
     </Fragment>
   );
+};
+
+const img = {
+  borderradius: "50%",
+  margintop: "20px",
+  border: "2px solid #dee2e6"
 };
 
 export default MultiCarousel;

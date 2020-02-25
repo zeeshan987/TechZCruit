@@ -13,6 +13,13 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
 
   const authLinks = (
     <Nav className='ml-auto'>
+      <NavDropdown title='Ecommerce'>
+        <NavDropdown.Item href='/ecommerce/homepage'>Homepage</NavDropdown.Item>
+        <NavDropdown.Item href='/ecommerce/products'>
+          Search Products
+        </NavDropdown.Item>
+        <NavDropdown.Item href='/ecommerce'>Add New Product</NavDropdown.Item>
+      </NavDropdown>
       <NavDropdown title='Crowdfunding'>
         <NavDropdown.Item href='/crowdfunding/homepage'>
           Homepage
@@ -53,13 +60,11 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
     <Nav className='ml-auto'>
       <Nav.Link href='/register'>Register</Nav.Link>
       <Nav.Link href='/login'>Login</Nav.Link>
-      <Nav.Link href='/ecommerce'>Addproduct</Nav.Link>
-      <Nav.Link href='/ecommerce/homepage'>Homepage</Nav.Link>
     </Nav>
   );
 
   return (
-    <CustomNavbar bg='dark' variant='dark' fixed='top'>
+    <CustomNavbar bg='dark' variant='dark' relative='top'>
       <CustomNavbar.Brand href='/'>
         <i className='fab fa-connectdevelop'></i> TechZCruit
       </CustomNavbar.Brand>

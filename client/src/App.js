@@ -14,8 +14,10 @@ import CampaignForm from "./components/crowdfunding/layout/campaign-form/Campaig
 import Campaign from "./components/crowdfunding/layout/campaign/Campaign";
 import SearchCampaign from "./components/crowdfunding/layout/campaigncategory/SearchCampaign";
 import AddProduct from "./components/eccomerce/forms/AddProduct";
-import ProductPage from "./components/eccomerce/homepage/HomePage";
 
+import Chat from "./components/chatapp/Chat/Chat";
+import Join from "./components/chatapp/Join/Join";
+import EccomerceRoutes from "./components/routing/EcommerceRoutes";
 import "./App.css";
 
 if (localStorage.token) {
@@ -52,13 +54,18 @@ const App = () => {
                 path='/crowdfunding/campaign-form'
                 component={CampaignForm}
               />
-              <Route exact path='/ecommerce' component={AddProduct} />
-              <Route exact path='/ecommerce/homepage' component={ProductPage} />
+
+              {/* Chat App Routes */}
+              <Route exact path='/chatapp/chat' component={Chat} />
+              <Route exact path='/chatapp/join' component={Join} />
 
               {/* <Route component={ecommerceRoutes} /> */}
               <Route component={CommunityRoutes} />
             </Switch>
           </section>
+          <Switch>
+            <Route component={EccomerceRoutes} />
+          </Switch>
         </Fragment>
       </Router>
     </Provider>

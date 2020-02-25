@@ -9,9 +9,9 @@ import {
   COMMENT_ADDED,
   COMMENT_REMOVED,
   COMMENT_ERROR
-} from '../types';
-import { setAlert } from '../alert';
-import axios from 'axios';
+} from "../types";
+import { setAlert } from "../alert";
+import axios from "axios";
 
 // Get all posts
 export const getAllPosts = groupId => async dispatch => {
@@ -51,7 +51,7 @@ export const getPostById = postId => async dispatch => {
 export const createNewPost = (groupId, formData) => async dispatch => {
   const config = {
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
     }
   };
 
@@ -67,12 +67,12 @@ export const createNewPost = (groupId, formData) => async dispatch => {
       payload: res.data
     });
 
-    dispatch(setAlert('Post Added', 'success'));
+    dispatch(setAlert("Post Added", "success"));
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
     }
   }
 };
@@ -87,12 +87,12 @@ export const deletePost = postId => async dispatch => {
       payload: postId
     });
 
-    dispatch(setAlert('Post Removed', 'success'));
+    dispatch(setAlert("Post Removed", "success"));
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
     }
   }
 };
@@ -135,7 +135,7 @@ export const unlikePost = postId => async dispatch => {
 export const addComment = (postId, formData) => async dispatch => {
   const config = {
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
     }
   };
 
@@ -151,12 +151,12 @@ export const addComment = (postId, formData) => async dispatch => {
       payload: res.data
     });
 
-    dispatch(setAlert('Comment added', 'success'));
+    dispatch(setAlert("Comment added", "success"));
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
     }
   }
 };
@@ -173,7 +173,7 @@ export const deleteComment = (postId, commentId) => async dispatch => {
       payload: res.data
     });
 
-    dispatch(setAlert('Comment removed', 'success'));
+    dispatch(setAlert("Comment removed", "success"));
   } catch (err) {
     dispatch({
       type: COMMENT_ERROR,

@@ -3,9 +3,10 @@ const router = express.Router();
 const auth = require("../../../middleware/auth");
 const { check, validationResult } = require("express-validator");
 const Product = require("../../../models/eccomerce/Product");
+const userModel = require("../../../models/User");
 
-// @route   POST /api/eccomerce/products
-// @desc    Create a product in a group
+// @route   POST /api/ecommerce/products
+// @desc    Add a product in a user store
 // @access  Private
 router.post(
   "/",
@@ -28,6 +29,7 @@ router.post(
       .isEmpty()
   ],
   async (req, res) => {
+    // e;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -37,45 +39,28 @@ router.post(
       productTitle,
       productDescription,
       productCategory,
-      sales,
-      rating,
       price,
       productTechnology
     } = req.body;
 
-    // Build product object
-    const productFields = {};
-    productFields.seller = req.user.id;
-    if (productTitle) productFields.productTitle = productTitle;
-    if (productDescription)
-      productFields.productDescription = productDescription;
-    if (productCategory) productFields.productCategory = productCategory;
-    if (price) productFields.price = price;
-    if (sales) productFields.sales = sales;
-    if (rating) productFields.rating = rating;
-    if (productTechnology) {
-      productFields.productTechnology = productTechnology
-        .split(",")
-        .map(productTechnology => productTechnology.trim());
-    }
+    const product = new Product({
+      seller: req.user.id,
+      productTitle,
+      productDescription,
+      productCategory,
+      price,
+      productTechnology
+    });
+
     try {
-      let product = await Product.findOne({ user: req.user.id });
-
-      // Updating the product
-      //   if (product) {
-      //     product = await Product.findOneAndUpdate(
-      //       { user: req.user.id },
-      //       { $set: productFields },
-      //       { new: true }
-      //     );
-
-      //     return res.json(product);
-      //   }
-
-      // Create new product
-      product = new Product(productFields);
-
       await product.save();
+
+      const userId = await userModel.findById(req.user.id);
+      if (!userId.storeOwner) {
+        userId.storeOwner = true;
+      }
+
+      await userId.save();
       res.json(product);
     } catch (err) {
       console.error(err.message);
@@ -85,7 +70,7 @@ router.post(
 );
 
 // @route   GET /api/eccomerce/products
-// @desc    Get all campaign
+// @desc    Get all products
 // @access  Public
 router.get("/", async (req, res) => {
   try {
@@ -98,13 +83,13 @@ router.get("/", async (req, res) => {
 });
 
 // @route   DELETE /api/eccomerce/products/:id
-// @desc    Delete a campaign
+// @desc    Delete a Product
 // @access  Private
 router.delete("/:id", auth, async (req, res) => {
   try {
     const product = await Product.findOne({ _id: req.params.id });
 
-    // Check is product exists
+    // Check if product exists
     if (!product) {
       return res.status(404).json({ msg: "Product not found" });
     }
@@ -122,7 +107,7 @@ router.delete("/:id", auth, async (req, res) => {
   }
 });
 
-// @route   GET /api/eccomerce/products/:id
+// @route   GET /api/ecommerce/products/:id
 // @desc    Get product by id
 // @access  Public
 router.get("/:id", async (req, res) => {
@@ -189,7 +174,7 @@ router.put("/unfavourite/:id", auth, async (req, res) => {
   }
 });
 
-// @route   POST /api/eccomerce/products/review/:id
+// @route   POST /api/ecommerce/products/review/:id
 // @desc    review on a product
 // @access  Private
 router.post(

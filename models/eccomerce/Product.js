@@ -6,6 +6,7 @@ const ProductSchema = mongoose.Schema({
     ref: "user"
   },
   productTitle: {
+    
     type: String,
     required: true
   },
@@ -19,7 +20,7 @@ const ProductSchema = mongoose.Schema({
   },
   sales: {
     type: Number,
-    required: true
+    default: 0
   },
   price: {
     type: Number,
@@ -53,7 +54,7 @@ const ProductSchema = mongoose.Schema({
     {
       user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
+        ref: "user",
         required: true
       },
       description: {

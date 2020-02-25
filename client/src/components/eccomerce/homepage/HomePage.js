@@ -1,32 +1,47 @@
 import React, { useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
-// import { Link } from "react-router-dom";
 import Spinner from "../../../components/layout/Spinner";
 import { connect } from "react-redux";
-import style from "../../../css/ecommerce/ProductPage.module.css";
+import { getAllProducts } from "../../../actions/ecommerce/product";
+import styles from "../../../css/ecommerce/ProductPage.module.css";
+import FeaturedProducts from "./FeaturedProducts";
+import ProductCard from "./ProductCard";
+import MultiCarousel from "../carousel/MultiCarousel";
+import { getAllProfiles } from "../../../actions/profile";
 
-const HomePage = () => {
+const HomePage = ({
+  getAllProducts,
+  product: { loading, products },
+  auth,
+  profile: { profiles },
+  getAllProfiles
+}) => {
+  useEffect(() => {
+    getAllProducts();
+    getAllProfiles();
+  }, [getAllProducts, loading, getAllProfiles]);
+
   return (
     <Fragment>
-      <div class={style.header} id='topheader'>
-        <section class={style.header_section}>
-          <div class={style.center_div}>
-            <h1 class={`font-weight-bold`}>Welcome to Digital Shop</h1>
-            <p class={`web-paragragh`}>We create world best websites</p>
-            <div class={style.header_buttons}>
-              <a href='#'>AboutUs</a>
+      <div className={styles.header} id='topheader'>
+        <section className={styles.header_section}>
+          <div className={styles.center_div}>
+            <h1 className={`font-weight-bold`}>Welcome to Digital Shop</h1>
+            <p className={`web-paragragh`}>We create world best websites</p>
+            <div className={styles.header_buttons}>
+              <a href='./products'>Search Product</a>
               <a href='#'>Contact</a>
             </div>
           </div>
         </section>
       </div>
       {/* <!-- ************ header part end ************ --> */}
-      <section class={style.header_div}>
-        <div class={`container`}>
-          <div class={`row`}>
-            <div class={`${style.extra_div} col-lg-4 col-md-4 col-12`}>
+      <section className={styles.header_div}>
+        <div className={`container`} style={container}>
+          <div className={`row`}>
+            <div className={`${styles.extra_div} col-lg-4 col-md-4 col-12`}>
               <a href='#'>
-                <i class={`fa-3x fa fa-desktop`}></i>{" "}
+                <i className={`fa-3x fa fa-desktop`}></i>{" "}
               </a>
               <h2>EASY TO USE</h2>
               <p>
@@ -34,9 +49,9 @@ const HomePage = () => {
                 used in laying out print, graphic or web designs.
               </p>
             </div>
-            <div class={`${style.extra_div} col-lg-4 col-md-4 col-12`}>
+            <div className={`${styles.extra_div} col-lg-4 col-md-4 col-12`}>
               <a href='#'>
-                <i class='fa-3x fa fa-trophy' aria-hidden='true'>
+                <i className='fa-3x fa fa-trophy' aria-hidden='true'>
                   {" "}
                 </i>
               </a>
@@ -46,9 +61,9 @@ const HomePage = () => {
                 used in laying out print, graphic or web designs.
               </p>
             </div>
-            <div class={`${style.extra_div} col-lg-4 col-md-4 col-12`}>
+            <div className={`${styles.extra_div} col-lg-4 col-md-4 col-12`}>
               <a href='#'>
-                <i class={`fa-3x fa fa-magic`} aria-hidden='true'>
+                <i className={`fa-3x fa fa-magic`} aria-hidden='true'>
                   {" "}
                 </i>
               </a>
@@ -62,121 +77,78 @@ const HomePage = () => {
         </div>
       </section>
       {/* <!-- ************ Three header div start ************ --> */}
-      <section class={style.serviceoffers} id='servicediv'>
-        <div class={`container ${style.headings} text-center`}>
-          <h1 class={`text-center font-weight-bold`}>What do we offer</h1>
-          <p class={`text-center`}>
+      <FeaturedProducts />
+      {/* <!-- ************ three header div end ************ --> */}
+      {/* Stores */}
+      <div className={styles.padcontainer}>
+        <div className={`container ${styles.headings} text-center`}>
+          <h1 className={`text-center font-weight-bold`}>
+            OUR FEATURED STORES
+          </h1>
+          <p className={`text-center`}>
             Lorem ipsum, or lipsum as it is sometimes known, is dummy text used
             in laying out print, graphic or web designs.
           </p>
         </div>
-        <div class={`container`}>
-          <div class={`row`}>
-            <div class={`col-lg-6 col-md-12 col-10 offset-lg-0`}>
-              <div class={`${style.names} my-3`}>
-                <h1>Html</h1>
-                <div class={`${style.progress} w-75`}>
-                  <div
-                    class={`progress-bar progress-bar-striped progress-bar-animated`}
-                    style={{ width: "100%" }}
-                  >
-                    100%
-                  </div>
-                </div>
-              </div>
-              <div class={`${style.names} my-3`}>
-                <h1>Css</h1>
-                <div class={`${style.progress} w-75`}>
-                  <div
-                    class={`progress-bar progress-bar-striped progress-bar-animated bg-warning`}
-                    style={{ width: "100%" }}
-                  >
-                    90%
-                  </div>
-                </div>
-              </div>
-              <div class={`${style.names} my-3`}>
-                <h1>React</h1>
-                <div class='progress w-75'>
-                  <div
-                    class={`progress-bar progress-bar-striped progress-bar-animated bg-secondary`}
-                    style={{ width: "100%" }}
-                  >
-                    65%
-                  </div>
-                </div>
-              </div>
-              <div class={`${style.names} my-3`}>
-                <h1>Jacavascript</h1>
-                <div class={`${style.progress} w-75`}>
-                  <div
-                    class={`progress-bar progress-bar-striped progress-bar-animated bg-info`}
-                    style={{ width: "100%" }}
-                  >
-                    70%
-                  </div>
-                </div>
-              </div>
-              <div class={`${style.names} my-3`}>
-                <h1>Css</h1>
-                <div class={`${style.progress} w-75`}>
-                  <div
-                    class={`progress-bar progress-bar-striped progress-bar-animated bg-success`}
-                    style={{ width: "100%" }}
-                  >
-                    80%
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class={`col-lg-6 col-md-12 col-12 ${style.servicediv}`}>
-              <div class={`row`}>
-                <div class={`col-lg-2 col-2 ${style.service_icons}`}>
-                  <i class='fa-3x fa fa-desktop' aria-hidden='true'></i>
-                </div>
-                <div class={`col-lg-10 col-10`}>
-                  <h2>Website Development</h2>
-                  <p>
-                    Lorem ipsum, or lipsum as it is sometimes known, is dummy
-                    text used in laying out print, graphic or web designs.
-                  </p>
-                </div>
-              </div>
-              <div class={`row`}>
-                <div class={`col-lg-2 col-2 ${style.servicediv}`}>
-                  <i class={`fa-3x fa fa-wifi`} aria-hidden='true'></i>
-                </div>
-                <div class={`col-lg-10 col-10`}>
-                  <h2>Digital Marketing</h2>
-                  <p>
-                    Lorem ipsum, or lipsum as it is sometimes known, is dummy
-                    text used in laying out print, graphic or web designs.
-                  </p>
-                </div>
-              </div>
-              <div class={`row`}>
-                <div class={`col-lg-2 col-2 ${style.servicediv}`}>
-                  <i class={`fa-3x fa fa-phone`} aria-hidden='true'></i>
-                </div>
-                <div class={`col-lg-10 col-10`}>
-                  <h2>Support24/7</h2>
-                  <p>
-                    Lorem ipsum, or lipsum as it is sometimes known, is dummy
-                    text used in laying out print, graphic or web designs.
-                  </p>
-                </div>
-              </div>
-            </div>
+        <div className={styles.padlr}>
+          {/* {profiles.length > 0 ? (
+            <MultiCarousel products={products} profiles={profiles} />
+          ) : (
+            <div className='lead'>No Stores found</div>
+            // profiles.map(profile => (
+            //   <ProfileItem key={profile._id} profile={profile} />
+            // ))
+          )} */}
+          {/* <MultiCarousel products={products} /> */}
+        </div>
+        {/* Products */}
+        <div className={`container headings text-center`}>
+          <h1 className={`text-center font-weight-bold`}>
+            OUR FEATURED PRODUCTS
+          </h1>
+          <h5 className={`text-capitalilize pt-1`}>OUR BEST PRODUCTS</h5>
+        </div>
+        <div className={`container-fluid`}>
+          <div className={`row`}>
+            {!loading && products.length > 0 ? (
+              products.map(product => (
+                <ProductCard key={product._id} product={product} auth={auth} />
+              ))
+            ) : (
+              <div className='lead'>No products found</div>
+            )}
           </div>
         </div>
-      </section>
-      {/* <!-- ************ three header div end ************ --> */}
+      </div>
     </Fragment>
   );
 };
 
-HomePage.propTypes = {};
+HomePage.propTypes = {
+  product: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
+  profiles: PropTypes.array.isRequired,
+  getAllProfiles: PropTypes.func.isRequired
+};
 
-export default HomePage;
-// export default connect(mapStateToProps, { getCampaignById })(Campaign);
+const mapStateToProps = state => ({
+  product: state.product,
+  auth: state.auth,
+  profile: state.profile
+});
 
+export default connect(mapStateToProps, { getAllProducts, getAllProfiles })(
+  HomePage
+);
+const container = {
+  "max-width": "720px",
+  "min-width": "70%"
+};
+// const heading = {
+//   "font-size": "2rem",
+//   "margin-bottom": ".5rem",
+//   "font-family": "inherit",
+//   "font-weight": "500",
+//   "line-height": "1.2",
+//   color: "inherit"
+// };
