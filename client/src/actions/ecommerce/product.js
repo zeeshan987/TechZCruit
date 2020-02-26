@@ -6,6 +6,7 @@ import {
   PRODUCT_REMOVED,
   PRODUCT_FAVOURITE,
   REVIEW_ADDED,
+  PRODUCT_UPDATED,
   PRODUCT_UNFAVOURITE,
   All_PRODUCTS_LOADED
 } from "../types";
@@ -129,7 +130,7 @@ export const getAllProducts = () => async dispatch => {
 // Delete product
 export const deleteProduct = productId => async dispatch => {
   try {
-    await axios.delete(`/api/eccomerce/products/${productId}`);
+    await axios.delete(`/api/ecommerce/products/${productId}`);
 
     dispatch({
       type: PRODUCT_REMOVED,
@@ -184,5 +185,33 @@ export const unfavouriteProduct = productId => async dispatch => {
   }
 };
 
-// Comment on post
-//**  next
+// Update a product
+export const updateProduct = (id, formData, history) => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  try {
+    const res = await axios.put(
+      `/api/ecommerce/products/${id}`,
+      formData,
+      config
+    );
+
+    dispatch({
+      type: PRODUCT_UPDATED,
+      payload: res.data
+    });
+
+    dispatch(setAlert("Product updated", "success"));
+
+    history.push("/ecommerce/homepage");
+  } catch (err) {
+    dispatch({
+      type: PRODUCT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
