@@ -81,7 +81,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// @route   DELETE /api/eccomerce/products/:id
+// @route   DELETE /api/ecommerce/products/:id
 // @desc    Delete a Product
 // @access  Private
 router.delete("/:id", auth, async (req, res) => {
@@ -113,7 +113,8 @@ router.get("/:id", async (req, res) => {
   try {
     const product = await Product.findOne({
       _id: req.params.id
-    }).populate("user", ["name", "avatar"]);
+    }).populate("reviews.user", ["name", "avatar"]);
+    //.populate("user", ["name", "avatar"]);
 
     res.json(product);
   } catch (err) {
@@ -254,6 +255,88 @@ router.delete("/review/:id/:review_id", auth, async (req, res) => {
   } catch (err) {
     console.error(err.message);
     return res.status(500).send("Server error");
+  }
+});
+
+// @route   PUT /api/ecommerce/products
+// @desc    Update a Product
+// @access  Private
+router.put(
+  "/:id",
+  [
+    auth,
+    check("productTitle", "Title is required")
+      .not()
+      .isEmpty(),
+    check("productDescription", "Description is required")
+      .not()
+      .isEmpty(),
+    check("productCategory", "Category is required")
+      .not()
+      .isEmpty(),
+    check("price", "price required")
+      .not()
+      .isEmpty(),
+    check("productTechnology", "Technology required")
+      .not()
+      .isEmpty()
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      let product = await Product.findById(req.params.id);
+
+      if (!product) {
+        return res.status(400).json({ msg: "Product does not exist" });
+      }
+
+      if (product.seller.toString() !== req.user.id) {
+        return res.status(401).json({ msg: "Not authorized" });
+      }
+
+      const {
+        productTitle,
+        productDescription,
+        productCategory,
+        price,
+        productTechnology
+      } = req.body;
+
+      product = await Product.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $set: {
+            productTitle,
+            productDescription,
+            productCategory,
+            price,
+            productTechnology
+          }
+        },
+        { new: true }
+      );
+
+      res.json(product);
+    } catch (err) {
+      return res.status(500).send("Server error");
+    }
+  }
+);
+
+// @route   Get /api/ecommerce/products
+// @desc    Get all Products by user
+// @access  Private
+router.get("/user", auth, async (req, res) => {
+  try {
+    const products = await Product.find({ seller: req.user.id });
+    res.json(products);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send("Server error here occur");
   }
 });
 
