@@ -1,9 +1,7 @@
 import React, { Fragment } from "react";
-import PropTypes from "prop-types";
 import style from "../../../css/ecommerce/ProductDetail.module.css";
 import Image from "../../../img/placeholder.png";
 import ReviewForm from "./ReviewForm";
-import { Button } from "react-bootstrap";
 
 const ReviewSection = ({ product: { _id, reviews }, auth }) => {
   return (
@@ -26,19 +24,17 @@ const ReviewSection = ({ product: { _id, reviews }, auth }) => {
                 <div className={style.review_item}>
                   <div className={style.media}>
                     <div className={style.d_flex}>
-                      {/* <img
-                        src={user !== null ? user.avatar : ""}
-                        alt=''
-                        style={imageStyle}
-                      /> */}
                       <img
                         className={`${style.image} rounded-circle`}
-                        src={review.user.avatar}
+                        src={review.user !== null ? review.user.avatar : ""}
                         alt={Image}
+                        style={imageStyle}
                       />
                     </div>
                     <div className={style.media_body}>
-                      <h4>{review.user.name}</h4>
+                      <h4>
+                        <strong>{review.user.name}</strong>
+                      </h4>
                       <i className={`fa fa-star`}></i>
                       <i className={`fa fa-star`}></i>
                       <i className={`fa fa-star`}></i>
@@ -94,6 +90,10 @@ const ReviewSection = ({ product: { _id, reviews }, auth }) => {
   );
 };
 
-ReviewSection.propTypes = {};
+const imageStyle = {
+  borderRadius: "50%",
+  width: "35px",
+  height: "35px"
+};
 
 export default ReviewSection;

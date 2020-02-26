@@ -48,7 +48,7 @@ export const getAllCampaignsForUser = () => async dispatch => {
   }
 };
 
-// Create/Update profile
+// Create campaign
 export const createCampaign = (formData, history) => async dispatch => {
   const config = {
     headers: {
