@@ -11,15 +11,12 @@ const Store = ({
   getAllProducts,
   product: { loading, products },
   auth,
-  match,
-  getProfileById,
-  profile: { profile }
-  // profile: {
-  //   user: { name }
-  // }
+  match
+  // getProfileById
+  // profile: { profile }
 }) => {
   useEffect(() => {
-    getProfileById(match.params.id);
+    // getProfileById(match.params.id);
     getAllProducts();
   }, [getAllProducts, getProfileById, loading, match.params.id]);
 
@@ -43,7 +40,7 @@ const Store = ({
                   <h1
                     className={`${style.t_heading} ${style.h_display_inlineblock} ${style.h_m0} ${style.h_p0} ${style._size_m}`}
                   >
-                    {/* {profile.user.name} */}name
+                    {/* {profile.user._id} */}
                   </h1>
                 </a>
 
@@ -147,17 +144,16 @@ const Store = ({
 Store.propTypes = {
   product: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  getProfileById: PropTypes.func.isRequired,
-  profile: PropTypes.object.isRequired
+  getProfileById: PropTypes.func.isRequired
+  // profile: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   product: state.product,
-  auth: state.auth,
-  profile: state.profile
+  auth: state.auth
+  // profile: state.profile
 });
 
 export default connect(mapStateToProps, {
-  getAllProducts,
-  getProfileById
+  getAllProducts
 })(Store);
