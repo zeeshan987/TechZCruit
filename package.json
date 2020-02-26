@@ -20,8 +20,8 @@
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.8.9",
-    "stripe": "^8.14.0",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.3.0",
+    "stripe": "^8.14.0"
   },
   "devDependencies": {
     "concurrently": "^5.1.0",
