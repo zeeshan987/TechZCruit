@@ -6,6 +6,8 @@ import {
   REVIEW_ADDED,
   PRODUCT_FAVOURITE,
   PRODUCT_UNFAVOURITE,
+  PRODUCT_UPDATED,
+  PRODUCT_REMOVED,
   PRODUCT_ERROR
 } from "../../actions/types";
 
@@ -28,6 +30,7 @@ export default function(state = initialState, action) {
         errors: null
       };
     case PRODUCT_LOADED:
+    case PRODUCT_UPDATED:
       return {
         ...state,
         product: payload,
@@ -55,7 +58,6 @@ export default function(state = initialState, action) {
         errors: null
       };
     case REVIEW_ADDED:
-      // case COMMENT_REMOVED:
       return {
         ...state,
         loading: false,
@@ -63,11 +65,21 @@ export default function(state = initialState, action) {
         product: { ...state.product, reviews: payload.reviews }
       };
     case PRODUCT_FAVOURITE:
+    case PRODUCT_UNFAVOURITE:
       return {
         ...state,
         loading: false,
         errors: null,
         product: { ...state.product, favorite: payload.favorite }
+      };
+    case PRODUCT_REMOVED:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        products: [
+          ...state.campaigns.filter(campaign => campaign._id !== payload)
+        ]
       };
     default:
       return state;

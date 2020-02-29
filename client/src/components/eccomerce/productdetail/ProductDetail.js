@@ -65,7 +65,7 @@ const ProductDetail = ({
                       <Button className={style.btn}>BUY</Button>
                       <Button
                         className={`${style.button} ${style.primary_btn}`}
-                        href='#'
+                        variant='success'
                       >
                         <Link
                           to={`/ecommerce/updateproduct/${match.params.id}`}
@@ -73,6 +73,12 @@ const ProductDetail = ({
                         >
                           Update a Product
                         </Link>
+                      </Button>
+                      <Button
+                        variant='danger'
+                        // onClick={() => deleteCampaign(_id)}
+                      >
+                        Delete Product
                       </Button>
                     </div>
 

@@ -100,7 +100,7 @@
 .s_product_text .card_area .icon_btn {
   position: relative;
   height: 40px;
-  width: 40px;
+  width: auto;
   text-align: center;
   background: #e8f0f2;
   border-radius: 3px;
@@ -716,7 +716,7 @@
 }
 .review_item .media {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
 }
 .review_item .media .d_flex {
   padding-right: 15px;
