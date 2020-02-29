@@ -72,11 +72,14 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   );
 
   return (
-    <CustomNavbar bg='dark' variant='dark' relative='top'>
+    <CustomNavbar bg='dark' expand='lg'>
       <CustomNavbar.Brand href='/'>
         <i className='fab fa-connectdevelop'></i> TechZCruit
       </CustomNavbar.Brand>
-      {!isAuthenticated && !loading ? normalLinks : authLinks}
+      <CustomNavbar.Toggle aria-controls='basic-navbar-nav' />
+      <CustomNavbar.Collapse id='basic-navbar-nav'>
+        {!isAuthenticated && !loading ? normalLinks : authLinks}
+      </CustomNavbar.Collapse>
     </CustomNavbar>
   );
 };

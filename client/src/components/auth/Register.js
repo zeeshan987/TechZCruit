@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
@@ -37,7 +36,7 @@ const Register = ({
   };
 
   if (isAuthenticated && !loading) {
-    return <Redirect to='/dashboard' />;
+    return <Redirect to='/' />;
   }
 
   return (
@@ -46,8 +45,8 @@ const Register = ({
         <Alert />
         <div className={styles.heading}>Register</div>
         <Form className={styles.form} onSubmit={e => onSubmit(e)}>
-          <Form.Group className='form-group'>
-            <input
+          <Form.Group>
+            <Form.Control
               type='text'
               className='form-control'
               placeholder='Name'
@@ -56,8 +55,8 @@ const Register = ({
               onChange={e => onChange(e)}
             />
           </Form.Group>
-          <Form.Group className='form-group'>
-            <input
+          <Form.Group>
+            <Form.Control
               type='email'
               className='form-control'
               placeholder='Email'
@@ -66,8 +65,8 @@ const Register = ({
               onChange={e => onChange(e)}
             />
           </Form.Group>
-          <Form.Group className='form-group'>
-            <input
+          <Form.Group>
+            <Form.Control
               type='password'
               className='form-control'
               placeholder='Password'
@@ -76,8 +75,8 @@ const Register = ({
               onChange={e => onChange(e)}
             />
           </Form.Group>
-          <Form.Group className='form-group'>
-            <input
+          <Form.Group>
+            <Form.Control
               type='password'
               className='form-control'
               placeholder='Confirm Password'
@@ -91,7 +90,7 @@ const Register = ({
             type='submit'
             className={styles.btn_primary}
           >
-            Submit
+            Register
           </Button>
           <div class={styles.form_text}>
             Already have an account? <Link to='/login'>Click here</Link> to

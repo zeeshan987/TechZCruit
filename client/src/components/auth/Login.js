@@ -1,8 +1,11 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login } from '../../actions/auth';
+import styles from '../../css/auth/style.module.css';
+import { Form, Button } from 'react-bootstrap';
+import Alert from '../layout/Alert';
 
 const Login = ({ login, auth: { isAuthenticated, loading } }) => {
   const [formData, setFormData] = useState({
@@ -22,38 +25,52 @@ const Login = ({ login, auth: { isAuthenticated, loading } }) => {
   };
 
   if (isAuthenticated && !loading) {
-    return <Redirect to='/dashboard' />;
+    return <Redirect to='/' />;
   }
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Sign In</h1>
-      <p className='lead'>
-        <i className='fas fa-user'></i> Login to your account
-      </p>
-      <form onSubmit={e => onSubmit(e)}>
-        <div className='form-group'>
-          <input
-            type='email'
-            className='form-control'
-            placeholder='Email'
-            name='email'
-            value={email}
-            onChange={e => onChange(e)}
-          />
-        </div>
-        <div className='form-group'>
-          <input
-            type='password'
-            className='form-control'
-            placeholder='Password'
-            name='password'
-            value={password}
-            onChange={e => onChange(e)}
-          />
-        </div>
-        <input type='submit' value='Login' className='btn btn-primary' />
-      </form>
+      <section className={styles.section}>
+        <Alert />
+        <div className={styles.heading}>Login</div>
+        <Form onSubmit={e => onSubmit(e)} className={styles.form}>
+          <Form.Group className='form-group'>
+            <Form.Control
+              type='email'
+              className='form-control'
+              placeholder='Email'
+              name='email'
+              value={email}
+              onChange={e => onChange(e)}
+            />
+          </Form.Group>
+          <Form.Group className='form-group'>
+            <Form.Control
+              type='password'
+              className='form-control'
+              placeholder='Password'
+              name='password'
+              value={password}
+              onChange={e => onChange(e)}
+            />
+          </Form.Group>
+          <Button
+            variant='primary'
+            type='submit'
+            className={styles.btn_primary}
+          >
+            Login
+          </Button>
+          <div class={styles.form_text}>
+            Don't have an account? <Link to='/register'>Click here</Link> to
+            register
+          </div>
+        </Form>
+      </section>
+
+      <div class={styles.footer}>
+        <div>© Copyright 2020 TechZCruit</div>
+      </div>
     </Fragment>
   );
 };
@@ -67,7 +84,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(
-  mapStateToProps,
-  { login }
-)(Login);
+export default connect(mapStateToProps, { login })(Login);
