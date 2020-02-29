@@ -7,7 +7,8 @@ import { uploadProfilePicture, removeProfilePicture } from '../../actions/auth';
 const ProfilePicture = ({
   auth: { user },
   uploadProfilePicture,
-  removeProfilePicture
+  removeProfilePicture,
+  styles
 }) => {
   const [formData, setFormData] = useState({
     file: ''
@@ -28,7 +29,7 @@ const ProfilePicture = ({
     <Fragment>
       <Row>
         <Col md={12}>
-          <div className='lead'>Profile Picture</div>
+          <div className={styles.sub_heading}>Profile Picture</div>
           <div style={{ textAlign: 'center' }}>
             <img
               src={user !== null ? user.avatar : ''}
@@ -41,17 +42,21 @@ const ProfilePicture = ({
             <Form.Group>
               <Form.Control type='file' onChange={e => onChange(e)} />
             </Form.Group>
-            <Button variant='primary' type='submit'>
+            <Button
+              variant='primary'
+              type='submit'
+              className={styles.btn_primary}
+            >
               Upload profile picture
             </Button>
+            <Button
+              variant='danger'
+              className='my-3'
+              onClick={() => removeProfilePicture()}
+            >
+              Remove profile picture
+            </Button>
           </Form>
-          <Button
-            variant='danger'
-            className='my-3'
-            onClick={() => removeProfilePicture()}
-          >
-            Remove profile picture
-          </Button>
         </Col>
       </Row>
       <hr />
@@ -62,7 +67,8 @@ const ProfilePicture = ({
 ProfilePicture.propTypes = {
   auth: PropTypes.object.isRequired,
   uploadProfilePicture: PropTypes.func.isRequired,
-  removeProfilePicture: PropTypes.func.isRequired
+  removeProfilePicture: PropTypes.func.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
 export default connect(null, {
