@@ -1,5 +1,5 @@
 .button {
-  font-family: "Muli-Regular";
+  font-family: 'Muli-Regular';
   color: #333;
   font-size: 13px;
 }
@@ -20,7 +20,7 @@
   margin: auto;
   padding-top: 68px;
   padding-bottom: 48px;
-  background: url("#");
+  background: url('#');
 }
 .inner h3 {
   text-transform: uppercase;
@@ -32,7 +32,7 @@
   letter-spacing: 2px;
 }
 
-form {
+.form {
   width: 50%;
   padding-left: 45px;
 }
@@ -63,7 +63,7 @@ form {
   padding: 0 20px;
   border-radius: 20px;
   background: none;
-  font-family: "Muli-Regular";
+  font-family: 'Muli-Regular';
   color: #333;
   font-size: 13px;
 }
@@ -77,7 +77,7 @@ select {
   cursor: pointer;
   padding-left: 20px;
 }
-select option[value=""][disabled] {
+select option[value=''][disabled] {
   display: none;
 }
 
@@ -109,7 +109,7 @@ select option[value=""][disabled] {
   transition-duration: 0.5s;
 }
 .button:before {
-  content: "";
+  content: '';
   position: absolute;
   z-index: -1;
   top: 0;
@@ -172,7 +172,7 @@ select option[value=""][disabled] {
   left: 50%;
   transform: translate(-50%, -50%);
   display: none;
-  content: "\f26b";
+  content: '\f26b';
 }
 
 @media (max-width: 991px) {

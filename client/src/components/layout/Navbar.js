@@ -1,14 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { logout } from "../../actions/auth";
-import { Navbar as CustomNavbar, Nav, NavDropdown } from "react-bootstrap";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { logout } from '../../actions/auth';
+import { Navbar as CustomNavbar, Nav, NavDropdown } from 'react-bootstrap';
 
 const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const imageStyle = {
-    borderRadius: "50%",
-    width: "30px",
-    height: "30px"
+    borderRadius: '50%',
+    width: '30px',
+    height: '30px'
   };
 
   const authLinks = (
@@ -48,14 +48,14 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
       <NavDropdown
         title={
           <img
-            src={user !== null ? user.avatar : ""}
+            src={user !== null ? user.avatar : ''}
             alt=''
             style={imageStyle}
           />
         }
       >
         <NavDropdown.Item href='/dashboard'>Dashboard</NavDropdown.Item>
-        <NavDropdown.Item href={`/profile/${user !== null ? user._id : ""}`}>
+        <NavDropdown.Item href={`/profile/${user !== null ? user._id : ''}`}>
           My Profile
         </NavDropdown.Item>
         <NavDropdown.Item href='/settings'>Settings</NavDropdown.Item>
@@ -66,8 +66,8 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
 
   const normalLinks = (
     <Nav className='ml-auto'>
-      <Nav.Link href='/register'>Register</Nav.Link>
-      <Nav.Link href='/login'>Login</Nav.Link>
+      <Nav.Link href='/register'>REGISTER</Nav.Link>
+      <Nav.Link href='/login'>LOGIN</Nav.Link>
     </Nav>
   );
 
