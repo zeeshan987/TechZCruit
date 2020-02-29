@@ -54,17 +54,13 @@
 }
 
 .heading {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: bold;
 }
 
-.heading i {
-  font-size: 3rem;
-}
-
 .sub_heading {
-  font-size: 1.8rem;
-  margin-top: 0.8rem;
+  font-size: 1.3rem;
+  margin-top: 0.3rem;
 }
 
 .btn_primary {
@@ -87,6 +83,41 @@
   background: #e38b07 !important;
   box-shadow: none !important;
   border-color: transparent !important;
+}
+
+.profile_top {
+  text-align: center;
+  color: white;
+  background: #e38b07;
+}
+
+.profile_about {
+  text-align: center;
+  background: #e0e0e0;
+}
+
+.skills {
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.profile_exp,
+.profile_edu {
+  background: #e0e0e0;
+}
+
+.exp,
+.edu {
+  margin: 0.8rem 0;
+}
+
+.social_links {
+  padding-top: 0.8rem;
+}
+
+.social_links > a {
+  color: white;
+  margin-right: 1rem;
 }
 
 .footer,

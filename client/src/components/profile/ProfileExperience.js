@@ -1,19 +1,20 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
+import { Row, Col } from 'react-bootstrap';
 
-const ProfileExperience = ({ experiences }) => {
+const ProfileExperience = ({ experiences, styles }) => {
   return (
     <Fragment>
-      <div className='col-md-6 profile-exp p-3'>
-        <div className='row'>
-          <div className='col-md-12'>
-            <h2 className='text-primary'>Experiences</h2>
-          </div>
-        </div>
+      <Col md={6} className={`p-3 ${styles.profile_exp}`}>
+        <Row>
+          <Col md={12}>
+            <div className={styles.heading}>Experiences</div>
+          </Col>
+        </Row>
         {experiences.map(experience => (
-          <div className='row exp' key={experience._id}>
-            <div className='col-md-12'>
+          <Row key={experience._id} className={styles.exp}>
+            <Col md={12}>
               <div>
                 <strong>{experience.company}</strong>
               </div>
@@ -27,16 +28,17 @@ const ProfileExperience = ({ experiences }) => {
                   <Moment format='DD-MMM-YYYY'>{experience.to}</Moment>
                 )}
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
         ))}
-      </div>
+      </Col>
     </Fragment>
   );
 };
 
 ProfileExperience.propTypes = {
-  experiences: PropTypes.array.isRequired
+  experiences: PropTypes.array.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
 export default ProfileExperience;
