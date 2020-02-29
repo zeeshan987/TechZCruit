@@ -5,23 +5,17 @@ import { logout } from '../../actions/auth';
 import { Navbar as CustomNavbar, Nav, NavDropdown } from 'react-bootstrap';
 
 const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
-  const imageStyle = {
-    borderRadius: '50%',
-    width: '30px',
-    height: '30px'
-  };
-
   const authLinks = (
     <Nav className='ml-auto'>
-      <NavDropdown title='Ecommerce'>
+      {/* <NavDropdown title='Ecommerce'>
         <NavDropdown.Item href='/ecommerce/homepage'>Homepage</NavDropdown.Item>
         <NavDropdown.Item href='/ecommerce/products'>
           Search Products
         </NavDropdown.Item>
         <NavDropdown.Item href='/ecommerce'>Add New Product</NavDropdown.Item>
-      </NavDropdown>
+      </NavDropdown> */}
 
-      <NavDropdown title='Testing'>
+      {/* <NavDropdown title='Testing'>
         <NavDropdown.Item href='/testing'>Homepage</NavDropdown.Item>
         <NavDropdown.Item href='/testing/ongoing-projects'>
           Ongoing projects
@@ -29,32 +23,37 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
         <NavDropdown.Item href='/testing/my-projects'>
           My projects
         </NavDropdown.Item>
-      </NavDropdown>
+      </NavDropdown> */}
 
-      <NavDropdown title='Crowdfunding'>
+      {/* <NavDropdown title='Crowdfunding'>
         <NavDropdown.Item href='/crowdfunding'>Homepage</NavDropdown.Item>
         <NavDropdown.Item href='/crowdfunding/my-campaigns'>
           My Campaigns
         </NavDropdown.Item>
-      </NavDropdown>
+      </NavDropdown> */}
 
-      <NavDropdown title='Community'>
+      {/* <NavDropdown title='Community'>
         <NavDropdown.Item href='/community'>Homepage</NavDropdown.Item>
         <NavDropdown.Item href='/community/my-groups'>
           My groups
         </NavDropdown.Item>
-      </NavDropdown>
+      </NavDropdown> */}
 
       <NavDropdown
         title={
           <img
             src={user !== null ? user.avatar : ''}
             alt=''
-            style={imageStyle}
+            className='round-img'
           />
         }
       >
-        <NavDropdown.Item href='/dashboard'>Dashboard</NavDropdown.Item>
+        <img src={user !== null ? user.avatar : ''} alt='' class='round-img' />
+        <div>
+          <strong>{user !== null ? user.name : ''}</strong>
+        </div>
+        <div>{user !== null ? user.email : ''}</div>
+        <NavDropdown.Divider />
         <NavDropdown.Item href={`/profile/${user !== null ? user._id : ''}`}>
           My Profile
         </NavDropdown.Item>
