@@ -33,6 +33,16 @@
   border-color: transparent;
 }
 
+.btn_primary:focus {
+  box-shadow: none;
+}
+
+.btn_primary:active {
+  background: #e38b07 !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+
 .form_text {
   text-align: center;
   margin-top: 2rem;

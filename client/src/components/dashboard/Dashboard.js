@@ -9,6 +9,9 @@ import Experience from './Experience';
 import Education from './Education';
 import styles from '../../css/dashboard/style.module.css';
 import { Button } from 'react-bootstrap';
+import Footer from '../layout/Footer';
+import Alert from '../layout/Alert';
+import SideNav from '../layout/SideNav';
 
 const Dashboard = ({
   auth: { user },
@@ -25,15 +28,10 @@ const Dashboard = ({
   ) : (
     <Fragment>
       <section className={styles.section}>
-        <div class={styles.side_nav}>
-          <div className={styles.side_nav_heading}>User Management</div>
-          <Link to='/dashboard'>Dashboard</Link>
-          <div className={styles.side_nav_heading}>Community</div>
-          <Link to='/community'>All groups</Link>
-          <Link to='/community/my-groups'>My groups</Link>
-        </div>
+        <SideNav styles={styles} />
 
         <div className={styles.content}>
+          <Alert />
           <div class={styles.heading}>
             <i class='fas fa-user'></i> Dashboard
           </div>
@@ -62,7 +60,9 @@ const Dashboard = ({
             </Fragment>
           ) : (
             <Fragment>
-              <p>You have not yet setup a profile, please add some info</p>
+              <p className='my-2'>
+                You have not yet setup a profile, please add some info
+              </p>
               <Button
                 href='/create-profile'
                 variant='primary'
@@ -75,9 +75,7 @@ const Dashboard = ({
         </div>
       </section>
 
-      <div class={styles.footer}>
-        <div>© Copyright 2020 TechZCruit</div>
-      </div>
+      <Footer styles={styles} />
     </Fragment>
   );
 };

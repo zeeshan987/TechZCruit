@@ -7,6 +7,7 @@ import { register } from '../../actions/auth';
 import styles from '../../css/auth/style.module.css';
 import { Form, Button } from 'react-bootstrap';
 import Alert from '../layout/Alert';
+import Footer from '../layout/Footer';
 
 const Register = ({
   setAlert,
@@ -99,9 +100,7 @@ const Register = ({
         </Form>
       </section>
 
-      <div class={styles.footer}>
-        <div>© Copyright 2020 TechZCruit</div>
-      </div>
+      <Footer styles={styles} />
     </Fragment>
   );
 };

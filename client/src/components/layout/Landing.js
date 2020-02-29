@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../../css/landing/style.module.css';
 import { Row, Col } from 'react-bootstrap';
+import Footer from './Footer';
 
 const Landing = () => {
   return (
@@ -91,9 +92,7 @@ const Landing = () => {
         </div>
       </section>
 
-      <div className={styles.footer}>
-        <div>© Copyright 2020 TechZCruit</div>
-      </div>
+      <Footer styles={styles} />
     </Fragment>
   );
 };

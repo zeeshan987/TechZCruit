@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { createProfile } from '../../actions/profile';
+import { Form, Button } from 'react-bootstrap';
+import styles from '../../css/profile-forms/style.module.css';
+import SideNav from '../layout/SideNav';
+import Alert from '../layout/Alert';
+import Footer from '../layout/Footer';
 
 const CreateProfile = ({ createProfile, history }) => {
   const [formData, setFormData] = useState({
@@ -52,194 +57,212 @@ const CreateProfile = ({ createProfile, history }) => {
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Create Profile</h1>
-      <p className='lead'>
-        <i className='fas fa-user'></i> Fill in the following information to
-        setup your profile
-      </p>
+      <section className={styles.section}>
+        <SideNav styles={styles} />
 
-      <form onSubmit={e => onSubmit(e)}>
-        <div className='form-group'>
-          <select
-            className='form-control'
-            name='status'
-            value={status}
-            onChange={e => onChange(e)}
-          >
-            <option value=''>Please select your professional status</option>
-            <option value='Developer'>Developer</option>
-            <option value='Student'>Student</option>
-            <option value='Instructor'>Instructor</option>
-            <option value='Intern'>Intern</option>
-            <option value='Other'>Other</option>
-          </select>
-          <small className='form-text text-muted'>
-            Select your current status from the above mentioned options
-          </small>
-        </div>
+        <div className={styles.content}>
+          <Alert />
+          <div className={styles.heading}>
+            <i className='fas fa-user'></i> Create Profile
+          </div>
+          <div className={styles.sub_heading}>
+            Fill in the following information to setup your profile
+          </div>
+          <Form onSubmit={e => onSubmit(e)}>
+            <Form.Group>
+              <Form.Control
+                as='select'
+                name='status'
+                value={status}
+                onChange={e => onChange(e)}
+              >
+                <option value=''>Please select your professional status</option>
+                <option value='Developer'>Developer</option>
+                <option value='Student'>Student</option>
+                <option value='Instructor'>Instructor</option>
+                <option value='Intern'>Intern</option>
+                <option value='Other'>Other</option>
+              </Form.Control>
+              <Form.Text className='text-muted'>
+                Select your current status from the above mentioned options
+              </Form.Text>
+            </Form.Group>
 
-        <div className='form-group'>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='Company'
-            name='company'
-            value={company}
-            onChange={e => onChange(e)}
-          />
-          <small className='form-text text-muted'>
-            This can be your own company and also a company that you work for
-          </small>
-        </div>
-
-        <div className='form-group'>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='Website'
-            name='website'
-            value={website}
-            onChange={e => onChange(e)}
-          />
-          <small className='form-text text-muted'>
-            This is the webiste website where you showcase your work
-          </small>
-        </div>
-
-        <div className='form-group'>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='Location'
-            name='location'
-            value={location}
-            onChange={e => onChange(e)}
-          />
-          <small className='form-text text-muted'>
-            This is your location where you live or work at
-          </small>
-        </div>
-
-        <div className='form-group'>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='Skills'
-            name='skills'
-            value={skills}
-            onChange={e => onChange(e)}
-          />
-          <small className='form-text text-muted'>
-            Please enter your skills separated by commas such as HTML, CSS,
-            JavaScript etc.
-          </small>
-        </div>
-
-        <div className='form-group'>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='GitHub username'
-            name='githubUsername'
-            value={githubUsername}
-            onChange={e => onChange(e)}
-          />
-          <small className='form-text text-muted'>
-            Please enter your GitHub username
-          </small>
-        </div>
-
-        <div className='form-group'>
-          <textarea
-            cols='30'
-            rows='5'
-            placeholder='A short bio about yourself'
-            className='form-control'
-            name='bio'
-            value={bio}
-            onChange={e => onChange(e)}
-          ></textarea>
-          <small className='form-text text-muted'>
-            Please enter some information so that people may get to know you
-          </small>
-        </div>
-
-        <div className='my-3'>
-          <button
-            onClick={toggleSocialLinks}
-            type='button'
-            className='btn btn-light'
-          >
-            Add Social Network Links
-          </button>
-          <span>Optional</span>
-        </div>
-
-        {displaySocialLinks && (
-          <Fragment>
-            <div className='form-group social-input'>
-              <i className='fab fa-facebook fa-2x'></i>
-              <input
+            <Form.Group>
+              <Form.Control
                 type='text'
-                className='form-control'
-                placeholder='Fabebook URL'
-                name='facebook'
-                value={facebook}
+                placeholder='Company'
+                name='company'
+                value={company}
                 onChange={e => onChange(e)}
               />
-            </div>
+              <Form.Text className='text-muted'>
+                This can be your own company and also a company that you work
+                for
+              </Form.Text>
+            </Form.Group>
 
-            <div className='form-group social-input'>
-              <i className='fab fa-twitter fa-2x'></i>
-              <input
+            <Form.Group>
+              <Form.Control
                 type='text'
-                className='form-control'
-                placeholder='Twitter URL'
-                name='twitter'
-                value={twitter}
+                placeholder='Website'
+                name='website'
+                value={website}
                 onChange={e => onChange(e)}
               />
-            </div>
+              <Form.Text className='text-muted'>
+                This is the webiste website where you showcase your work
+              </Form.Text>
+            </Form.Group>
 
-            <div className='form-group social-input'>
-              <i className='fab fa-linkedin fa-2x'></i>
-              <input
+            <Form.Group>
+              <Form.Control
                 type='text'
-                className='form-control'
-                placeholder='Linkedin URL'
-                name='linkedin'
-                value={linkedin}
+                placeholder='Location'
+                name='location'
+                value={location}
                 onChange={e => onChange(e)}
               />
-            </div>
+              <Form.Text className='text-muted'>
+                This is your location where you live or work at
+              </Form.Text>
+            </Form.Group>
 
-            <div className='form-group social-input'>
-              <i className='fab fa-instagram fa-2x'></i>
-              <input
+            <Form.Group>
+              <Form.Control
                 type='text'
-                className='form-control'
-                placeholder='Instagram URL'
-                name='instagram'
-                value={instagram}
+                placeholder='Skills'
+                name='skills'
+                value={skills}
                 onChange={e => onChange(e)}
               />
-            </div>
+              <Form.Text className='text-muted'>
+                Please enter your skills separated by commas such as HTML, CSS,
+                JavaScript etc.
+              </Form.Text>
+            </Form.Group>
 
-            <div className='form-group social-input'>
-              <i className='fab fa-youtube fa-2x'></i>
-              <input
+            <Form.Group>
+              <Form.Control
                 type='text'
-                className='form-control'
-                placeholder='Youtube URL'
-                name='youtube'
-                value={youtube}
+                placeholder='GitHub username'
+                name='githubUsername'
+                value={githubUsername}
                 onChange={e => onChange(e)}
               />
+              <Form.Text className='text-muted'>
+                Please enter your GitHub username
+              </Form.Text>
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Control
+                as='textarea'
+                cols='30'
+                rows='5'
+                placeholder='A short bio about yourself'
+                name='bio'
+                value={bio}
+                onChange={e => onChange(e)}
+              ></Form.Control>
+              <Form.Text className='text-muted'>
+                Please enter some information so that people may get to know you
+              </Form.Text>
+            </Form.Group>
+
+            <div className='my-3'>
+              <Button onClick={toggleSocialLinks} variant='light'>
+                Add Social Network Links (Optional)
+              </Button>
             </div>
-          </Fragment>
-        )}
-        <input type='submit' value='Submit' className='btn btn-primary my-2' />
-      </form>
+
+            {displaySocialLinks && (
+              <Fragment>
+                <div className={styles.social_input}>
+                  <i
+                    className={`fab fa-facebook fa-2x ${styles.fa_facebook}`}
+                  ></i>
+                  <Form.Control
+                    type='text'
+                    placeholder='Fabebook URL'
+                    name='facebook'
+                    value={facebook}
+                    onChange={e => onChange(e)}
+                  />
+                </div>
+
+                <div className={styles.social_input}>
+                  <i
+                    className={`fab fa-twitter fa-2x ${styles.fa_twitter}`}
+                  ></i>
+                  <Form.Control
+                    type='text'
+                    placeholder='Twitter URL'
+                    name='twitter'
+                    value={twitter}
+                    onChange={e => onChange(e)}
+                  />
+                </div>
+
+                <div className={styles.social_input}>
+                  <i
+                    className={`fab fa-linkedin fa-2x ${styles.fa_linkedin}`}
+                  ></i>
+                  <Form.Control
+                    type='text'
+                    placeholder='Linkedin URL'
+                    name='linkedin'
+                    value={linkedin}
+                    onChange={e => onChange(e)}
+                  />
+                </div>
+
+                <div className={styles.social_input}>
+                  <i
+                    className={`fab fa-instagram fa-2x ${styles.fa_instagram}`}
+                  ></i>
+                  <Form.Control
+                    type='text'
+                    placeholder='Instagram URL'
+                    name='instagram'
+                    value={instagram}
+                    onChange={e => onChange(e)}
+                  />
+                </div>
+
+                <div className={styles.social_input}>
+                  <i
+                    className={`fab fa-youtube fa-2x ${styles.fa_youtube}`}
+                  ></i>
+                  <Form.Control
+                    type='text'
+                    placeholder='Youtube URL'
+                    name='youtube'
+                    value={youtube}
+                    onChange={e => onChange(e)}
+                  />
+                </div>
+              </Fragment>
+            )}
+            <Button
+              variant='primary'
+              type='submit'
+              className={`${styles.btn_primary} my-2`}
+            >
+              Submit
+            </Button>
+            <Button
+              variant='danger'
+              className='my-2'
+              onClick={() => history.push('/dashboard')}
+            >
+              Cancel
+            </Button>
+          </Form>
+        </div>
+      </section>
+
+      <Footer styles={styles} />
     </Fragment>
   );
 };
@@ -248,7 +271,4 @@ CreateProfile.propTypes = {
   createProfile: PropTypes.func.isRequired
 };
 
-export default connect(
-  null,
-  { createProfile }
-)(withRouter(CreateProfile));
+export default connect(null, { createProfile })(withRouter(CreateProfile));
