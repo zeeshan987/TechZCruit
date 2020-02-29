@@ -36,7 +36,7 @@ const Register = ({
   };
 
   if (isAuthenticated && !loading) {
-    return <Redirect to='/' />;
+    return <Redirect to='/dashboard' />;
   }
 
   return (

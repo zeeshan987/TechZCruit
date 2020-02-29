@@ -54,6 +54,7 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
         </div>
         <div>{user !== null ? user.email : ''}</div>
         <NavDropdown.Divider />
+        <NavDropdown.Item href='/dashboard'>Dashboard</NavDropdown.Item>
         <NavDropdown.Item href={`/profile/${user !== null ? user._id : ''}`}>
           My Profile
         </NavDropdown.Item>
