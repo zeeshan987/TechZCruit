@@ -8,7 +8,8 @@ import {
   REVIEW_ADDED,
   PRODUCT_UPDATED,
   PRODUCT_UNFAVOURITE,
-  All_PRODUCTS_LOADED
+  All_PRODUCTS_LOADED,
+  GET_ALL_USERS
 } from "../types";
 import { setAlert } from "../alert";
 import axios from "axios";
@@ -110,6 +111,24 @@ export const getAllProducts = () => async dispatch => {
   }
 };
 
+// Get all campaigns for user
+export const getAllProductForUser = () => async dispatch => {
+  try {
+    const res = await axios.get("/api/ecommerce/products/user");
+    console.log(res.data.length);
+
+    dispatch({
+      type: All_PRODUCTS_LOADED,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: PRODUCT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
 // Get current Product
 // export const getCurrentProduct = id => async dispatch => {
 //   try {
@@ -128,19 +147,21 @@ export const getAllProducts = () => async dispatch => {
 // };
 
 // Delete product
-export const deleteProduct = productId => async dispatch => {
+export const deleteProduct = (pId, history) => async dispatch => {
   try {
-    await axios.delete(`/api/ecommerce/products/${productId}`);
-
+    console.log("came up", pId);
+    await axios.delete(`/api/ecommerce/products/${pId}`);
+    console.log("came down");
     dispatch({
       type: PRODUCT_REMOVED,
-      payload: productId
+      payload: pId
     });
 
     dispatch(setAlert("Product Removed", "success"));
+    history.push("/ecommerce/homepage");
   } catch (err) {
     const errors = err.response.data.errors;
-
+    console.log("error", errors);
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
     }
@@ -213,5 +234,45 @@ export const updateProduct = (id, formData, history) => async dispatch => {
       type: PRODUCT_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
+  }
+};
+
+// Search for a product
+export const searchProduct = description => async dispatch => {
+  try {
+    const res = await axios.get(
+      `/api/ecommerce/products/search/${description}`
+    );
+
+    dispatch({
+      type: All_PRODUCTS_LOADED,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log(err);
+    dispatch({
+      type: PRODUCT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Get all users
+export const getAllUsers = () => async dispatch => {
+  try {
+    const res = await axios.get("/api/users/store");
+    console.log(res.data);
+
+    dispatch({
+      type: GET_ALL_USERS,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log(err);
+    dispatch({
+      type: PRODUCT_ERROR
+    });
+
+    dispatch(setAlert("Error occured while loading all Store owner", "danger"));
   }
 };

@@ -1,11 +1,11 @@
-import React, { Fragment, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Button, Table } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import React, { Fragment, useEffect } from "react";
+import PropTypes from "prop-types";
+import { Button, Table } from "react-bootstrap";
+import { connect } from "react-redux";
 import {
   getProjectById,
   deleteTestcaseForProject
-} from '../../../actions/testing/project';
+} from "../../../actions/testing/project";
 
 const ProjectTestcases = ({
   project: { loading, project },
@@ -27,7 +27,9 @@ const ProjectTestcases = ({
       <Button
         variant='primary'
         className='my-3'
-        href={`/testing/project/testcases/5e4bb2e3340f141f58d465b9/create-testcase`}
+        href={`/testing/project/testcases/${
+          !loading && project !== null ? project._id : ""
+        }/create-testcase`}
       >
         <i className='fas fa-users'></i> Create new test case
       </Button>

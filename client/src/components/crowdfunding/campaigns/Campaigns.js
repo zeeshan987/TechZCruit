@@ -1,12 +1,12 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Form, Row, Button } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import React, { Fragment, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { Form, Row, Button } from "react-bootstrap";
+import { connect } from "react-redux";
 import {
   getAllCampaigns,
   searchCampaign
-} from '../../../actions/crowdfunding/campaign';
-import CampaignItem from './CampaignItem';
+} from "../../../actions/crowdfunding/campaign";
+import CampaignItem from "./CampaignItem";
 
 const Campaigns = ({
   getAllCampaigns,
@@ -18,7 +18,7 @@ const Campaigns = ({
   }, [getAllCampaigns]);
 
   const [formData, setFormData] = useState({
-    description: ''
+    description: ""
   });
 
   const { description } = formData;
@@ -29,7 +29,7 @@ const Campaigns = ({
 
   const onSubmit = e => {
     e.preventDefault();
-    if (description === '') {
+    if (description === "") {
       getAllCampaigns();
     } else {
       searchCampaign(description);

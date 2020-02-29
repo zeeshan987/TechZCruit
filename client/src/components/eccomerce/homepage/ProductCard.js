@@ -1,28 +1,32 @@
-import React, { useEffect, Fragment } from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import Styles from "../../../css/ecommerce/ProductCard.module.css";
 import Image from "../../../img/placeholder.png";
+import { deleteProduct } from "../../../actions/ecommerce/product";
 import { Button } from "react-bootstrap";
-
 const Products = ({
   product: {
     _id,
+    seller,
     productTitle,
     productDescription,
-    productTechnology,
     price,
     rating,
     sales
   },
   auth
 }) => {
+  const onClick = e => {
+    console.log("click th menu", _id);
+    deleteProduct();
+  };
   return (
     <Fragment>
       <div className={`col-md-3`} style={bottomspace}>
         <div className={Styles.card}>
           <div className={Styles.top_section}>
             <img src={Image} alt='' />
-            <div className={Styles.menuicon}>
+            <div className={Styles.menuicon} onClick={e => onClick(e)}>
               <span className={Styles.s1}></span>
               <span className={Styles.s2}></span>
             </div>
@@ -71,6 +75,18 @@ const Products = ({
                 View Product
               </Link>
             </button>
+            {/* <button
+              className={Styles.cardbutton}
+              style={Price}
+              variant='success'
+            >
+              <Link
+                to={`/ecommerce/updateproduct/${seller._id}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                Update a Product
+              </Link>
+            </button> */}
           </div>
         </div>
       </div>
