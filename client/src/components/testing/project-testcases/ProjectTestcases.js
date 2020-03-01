@@ -27,7 +27,9 @@ const ProjectTestcases = ({
       <Button
         variant='primary'
         className='my-3'
-        href={`/testing/project/testcases/5e4bb2e3340f141f58d465b9/create-testcase`}
+        href={`/testing/project/testcases/${
+          !loading && project !== null ? project._id : ''
+        }/create-testcase`}
       >
         <i className='fas fa-users'></i> Create new test case
       </Button>
