@@ -16,6 +16,9 @@ const SideNav = ({ styles, auth: { loading, user } }) => {
         <div className={styles.side_nav_heading}>Community</div>
         <Link to='/community'>All groups</Link>
         <Link to='/community/my-groups'>My groups</Link>
+        <div className={styles.side_nav_heading}>Crowdfunding</div>
+        <Link to='/crowdfunding'>All campaigns</Link>
+        <Link to='/crowdfunding/my-campaigns'>My campaigns</Link>
       </div>
     </Fragment>
   );

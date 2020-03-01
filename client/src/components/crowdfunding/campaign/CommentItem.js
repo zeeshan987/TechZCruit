@@ -5,25 +5,24 @@ import { connect } from 'react-redux';
 import { Row, Col, Button } from 'react-bootstrap';
 import { deleteCommentOnCampaign } from '../../../actions/crowdfunding/campaign';
 
-const CommentItem = ({ comment, auth, campaign, deleteCommentOnCampaign }) => {
+const CommentItem = ({
+  comment,
+  auth,
+  campaign,
+  deleteCommentOnCampaign,
+  styles
+}) => {
   return (
     <Fragment>
-      <Row className='post p-3 my-3'>
+      <Row className={styles.list_item}>
         <Col md={3}>
           <Link to={`/profile/${comment.user._id}`}>
-            <img
-              src={comment.user.avatar}
-              alt=''
-              className='round-img'
-              style={{ width: '150px', height: '150px' }}
-            />
-            <p className='text-primary my-1'>
-              <strong>{comment.user.name}</strong>
-            </p>
+            <img src={comment.user.avatar} alt='' className='round-img' />
+            <div className={styles.user_name}>{comment.user.name}</div>
           </Link>
         </Col>
         <Col md={9}>
-          <p>{comment.description}</p>
+          <div className='my-3'>{comment.description}</div>
           <div>
             {auth.user !== null &&
               (auth.user._id === campaign.user._id ||
@@ -48,7 +47,8 @@ CommentItem.propTypes = {
   comment: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   campaign: PropTypes.object.isRequired,
-  deleteCommentOnCampaign: PropTypes.func.isRequired
+  deleteCommentOnCampaign: PropTypes.func.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
 export default connect(null, {

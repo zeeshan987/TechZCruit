@@ -7,22 +7,21 @@ import { deleteCampaign } from '../../../actions/crowdfunding/campaign';
 
 const MyCampaignItem = ({
   campaign: { _id, title, description, supporters, fundsRequired },
-  deleteCampaign
+  deleteCampaign,
+  styles
 }) => {
   return (
     <Fragment>
-      <Row className='post p-3 my-3'>
+      <Row className={styles.list_item}>
         <Col md={12}>
-          <h2>
-            <Link
-              to={`/crowdfunding/campaign/${_id}`}
-              style={{ textDecoration: 'none', color: 'inherit' }}
-            >
-              {title}
-            </Link>
-          </h2>
-          <p>{description}</p>
-          <div>
+          <Link
+            to={`/crowdfunding/campaign/${_id}`}
+            className={styles.group_name}
+          >
+            {title}
+          </Link>
+          <div className='mt-2'>{description}</div>
+          <div className='mt-2'>
             <strong>Funds raised:</strong>{' '}
             {Math.round(
               (supporters
@@ -33,7 +32,7 @@ const MyCampaignItem = ({
             )}
             {'%'}
           </div>
-          <div className='my-2'>
+          <div className='mt-2'>
             <Button
               variant='success'
               href={`/crowdfunding/edit-campaign/${_id}`}
@@ -52,7 +51,8 @@ const MyCampaignItem = ({
 
 MyCampaignItem.propTypes = {
   campaign: PropTypes.object.isRequired,
-  deleteCampaign: PropTypes.func.isRequired
+  deleteCampaign: PropTypes.func.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
 export default connect(null, {

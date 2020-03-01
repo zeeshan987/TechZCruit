@@ -7,6 +7,10 @@ import {
   searchCampaign
 } from '../../../actions/crowdfunding/campaign';
 import CampaignItem from './CampaignItem';
+import styles from '../../../css/crowdfunding/campaigns/style.module.css';
+import SideNav from '../../layout/SideNav';
+import Alert from '../../layout/Alert';
+import Footer from '../../layout/Footer';
 
 const Campaigns = ({
   getAllCampaigns,
@@ -38,34 +42,48 @@ const Campaigns = ({
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Crowdfunding</h1>
-      <p className='lead'>
-        <i className='fas fa-user'></i> Support a campaign or acquire funding
-        for your own campaigns
-      </p>
-      <Form onSubmit={e => onSubmit(e)}>
-        <Form.Group>
-          <Form.Control
-            type='text'
-            name='description'
-            value={description}
-            placeholder='Search campaigns'
-            onChange={e => onChange(e)}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Button type='submit' hidden />
-        </Form.Group>
-      </Form>
-      <Row>
-        {!loading && campaigns.length > 0 ? (
-          campaigns.map(campaign => (
-            <CampaignItem key={campaign._id} campaign={campaign} />
-          ))
-        ) : (
-          <div className='lead'>No campaigns found</div>
-        )}
-      </Row>
+      <section className={styles.section}>
+        <SideNav styles={styles} />
+
+        <div className={styles.content}>
+          <Alert />
+          <div className={styles.heading}>
+            <i className='fas fa-user'></i> Crowdfunding
+          </div>
+          <div className={styles.sub_heading}>
+            Support a campaign or acquire funding for your own campaigns
+          </div>
+          <Form onSubmit={e => onSubmit(e)}>
+            <Form.Group>
+              <Form.Control
+                type='text'
+                name='description'
+                value={description}
+                placeholder='Search campaigns'
+                onChange={e => onChange(e)}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Button type='submit' hidden />
+            </Form.Group>
+          </Form>
+          <Row>
+            {!loading && campaigns.length > 0 ? (
+              campaigns.map(campaign => (
+                <CampaignItem
+                  key={campaign._id}
+                  campaign={campaign}
+                  styles={styles}
+                />
+              ))
+            ) : (
+              <div className={styles.sub_heading}>No campaigns found</div>
+            )}
+          </Row>
+        </div>
+      </section>
+
+      <Footer styles={styles} />
     </Fragment>
   );
 };

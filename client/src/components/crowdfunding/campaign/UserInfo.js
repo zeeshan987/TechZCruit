@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-bootstrap';
 
-const UserInfo = ({ campaign }) => {
+const UserInfo = ({ campaign, styles }) => {
   return (
     <Fragment>
       <div className='lead'>Campaign owner:</div>
@@ -11,10 +11,10 @@ const UserInfo = ({ campaign }) => {
           <img
             src={campaign !== null ? campaign.user.avatar : ''}
             alt=''
-            style={{ width: '200px', height: '200px' }}
+            style={{ width: '150px', height: '150px' }}
             className='round-img'
           />
-          <h3 className='text-primary mt-3'>
+          <h3 className={styles.sub_heading}>
             {campaign !== null ? campaign.user.name : ''}
           </h3>
         </Col>
@@ -24,7 +24,8 @@ const UserInfo = ({ campaign }) => {
 };
 
 UserInfo.propTypes = {
-  campaign: PropTypes.object.isRequired
+  campaign: PropTypes.object.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
 export default UserInfo;

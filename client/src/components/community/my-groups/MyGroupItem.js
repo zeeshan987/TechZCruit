@@ -5,24 +5,22 @@ import { connect } from 'react-redux';
 import { deleteGroup } from '../../../actions/community/group';
 import { Link } from 'react-router-dom';
 
-const MyGroupItem = ({ group, deleteGroup }) => {
+const MyGroupItem = ({ group, deleteGroup, styles }) => {
   return (
     <Fragment>
-      <Row className='post p-3 my-3'>
+      <Row className={styles.list_item}>
         <Col md={12}>
-          <h2>
-            <Link
-              to={`/community/group/${group._id}`}
-              style={{ textDecoration: 'none', color: 'inherit' }}
-            >
-              {group.name}
-            </Link>
-          </h2>
-          <p>{group.description}</p>
-          <div>
+          <Link
+            to={`/community/group/${group._id}`}
+            className={styles.group_name}
+          >
+            {group.name}
+          </Link>
+          <div className='mt-2'>{group.description}</div>
+          <div className='mt-2'>
             <strong>Members:</strong> {group.members.length + 1}
           </div>
-          <div className='my-2'>
+          <div className='mt-2'>
             <Button
               variant='success'
               href={`/community/edit-group/${group._id}`}
@@ -41,7 +39,8 @@ const MyGroupItem = ({ group, deleteGroup }) => {
 
 MyGroupItem.propTypes = {
   group: PropTypes.object.isRequired,
-  deleteGroup: PropTypes.func.isRequired
+  deleteGroup: PropTypes.func.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
 export default connect(null, {
