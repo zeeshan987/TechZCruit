@@ -64,7 +64,7 @@
 
 .sub_heading {
   font-size: 1.8rem;
-  margin-top: 0.8rem;
+  margin: 0.8rem 0;
 }
 
 .title {
@@ -110,6 +110,21 @@ form {
 
 .form-text a {
   font-size: inherit;
+}
+
+.card {
+  transition-duration: 300ms;
+}
+
+.card:hover {
+  transform: scale(1.1);
+  box-shadow: 2px 2px rgb(177, 177, 177);
+}
+
+.card_title a {
+  font-size: 1.3rem;
+  text-decoration: none;
+  font-weight: bold;
 }
 
 .footer,

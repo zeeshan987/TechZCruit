@@ -64,7 +64,7 @@
 
 .sub_heading {
   font-size: 1.8rem;
-  margin-top: 0.8rem;
+  margin: 0.8rem 0;
 }
 
 .title {
@@ -110,6 +110,63 @@ form {
 
 .form-text a {
   font-size: inherit;
+}
+
+.card {
+  transition-duration: 300ms;
+}
+
+.card:hover {
+  transform: scale(1.1);
+  box-shadow: 2px 2px rgb(177, 177, 177);
+}
+
+.card_title a {
+  font-size: 1.3rem;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.list_item {
+  background: rgb(218, 218, 218);
+  padding: 1rem;
+  margin-top: 0.8rem;
+}
+
+.list_item > div:first-child {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.list_item img {
+  width: 150px;
+  height: 150px;
+}
+
+.list_item a:first-child {
+  text-decoration: none;
+  color: black;
+}
+
+.user_name {
+  font-size: 1.3rem;
+  text-align: center;
+  margin: 0.5rem 0;
+}
+
+.list_item > div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.list_item > div:nth-child(2) button {
+  margin-right: 0.3rem;
+}
+
+.list_item > div:nth-child(2) a {
+  margin-right: 0.3rem;
 }
 
 .footer,

@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import GroupRequestItem from './GroupRequestItem';
 
-const GroupRequests = ({ group }) => {
+const GroupRequests = ({ group, styles }) => {
   return (
     <Fragment>
       {group !== null && group.requests.length > 0 ? (
@@ -11,6 +11,7 @@ const GroupRequests = ({ group }) => {
             key={request._id}
             request={request}
             groupId={group._id}
+            styles={styles}
           />
         ))
       ) : (
@@ -21,7 +22,8 @@ const GroupRequests = ({ group }) => {
 };
 
 GroupRequests.propTypes = {
-  group: PropTypes.object.isRequired
+  group: PropTypes.object.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
 export default GroupRequests;
