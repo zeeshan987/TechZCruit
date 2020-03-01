@@ -15,7 +15,7 @@ const GroupRequests = ({ group, styles }) => {
           />
         ))
       ) : (
-        <div className='lead my-3'>No requests found</div>
+        <div className={styles.sub_heading}>No requests found</div>
       )}
     </Fragment>
   );

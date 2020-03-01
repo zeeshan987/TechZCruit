@@ -26,7 +26,7 @@ const Posts = ({
           </div>
         ))
       ) : (
-        <div className='lead my-3'>No posts found</div>
+        <div className={styles.sub_heading}>No posts found</div>
       )}
     </Fragment>
   );

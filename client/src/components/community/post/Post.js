@@ -1,11 +1,15 @@
-import React, { Fragment, useEffect } from "react";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { getPostById } from "../../../actions/community/post";
-import CommentForm from "./CommentForm";
-import CommentItem from "./CommentItem";
-import { Row, Col } from "react-bootstrap";
+import React, { Fragment, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getPostById } from '../../../actions/community/post';
+import CommentForm from './CommentForm';
+import CommentItem from './CommentItem';
+import { Row, Col } from 'react-bootstrap';
+import SideNav from '../../layout/SideNav';
+import Alert from '../../layout/Alert';
+import Footer from '../../layout/Footer';
+import styles from '../../../css/community/group/style.module.css';
 
 const Post = ({ post: { post, loading }, getPostById, match, auth }) => {
   useEffect(() => {
@@ -16,30 +20,39 @@ const Post = ({ post: { post, loading }, getPostById, match, auth }) => {
     <Fragment>
       {!loading && post !== null && (
         <Fragment>
-          <Row className='post p-3 my-3'>
-            <Col md={3}>
-              <Link to={`/profile/${post.user._id}`}>
-                <img src={post.user.avatar} alt='' className='round-img' />
-                <p className='text-primary my-1'>
-                  <strong>{post.user.name}</strong>
-                </p>
-              </Link>
-            </Col>
-            <Col md={9}>
-              <p>{post.description}</p>
-            </Col>
-          </Row>
-          <CommentForm post={post} />
-          {post.comments.length > 0 ? (
-            post.comments.map(comment => (
-              <div key={comment._id}>
-                <CommentItem comment={comment} auth={auth} post={post} />
-              </div>
-            ))
-          ) : (
-            <div className='lead my-3'>No comments found</div>
-          )}
-          {}
+          <section className={styles.section}>
+            <SideNav styles={styles} />
+
+            <div className={styles.content}>
+              <Alert />
+              <Row className={styles.list_item}>
+                <Col md={2}>
+                  <Link to={`/profile/${post.user._id}`}>
+                    <img src={post.user.avatar} alt='' className='round-img' />
+                    <div className={styles.user_name}>{post.user.name}</div>
+                  </Link>
+                </Col>
+                <Col md={10}>{post.description}</Col>
+              </Row>
+              <CommentForm post={post} />
+              {post.comments.length > 0 ? (
+                post.comments.map(comment => (
+                  <div key={comment._id}>
+                    <CommentItem
+                      comment={comment}
+                      auth={auth}
+                      post={post}
+                      styles={styles}
+                    />
+                  </div>
+                ))
+              ) : (
+                <div className={styles.sub_heading}>No comments found</div>
+              )}
+            </div>
+          </section>
+
+          <Footer styles={styles} />
         </Fragment>
       )}
     </Fragment>

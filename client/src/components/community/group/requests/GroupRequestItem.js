@@ -25,8 +25,8 @@ const GroupRequestItem = ({
           </Link>
         </Col>
         <Col md={10}>
-          <div className='profile-info'>
-            <h2>{user.name}</h2>
+          <h2>{user.name}</h2>
+          <div>
             <Button
               variant='success'
               className='my-2'
