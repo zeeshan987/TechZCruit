@@ -228,7 +228,7 @@ body > #root {
   font-weight: bold;
 }
 
-.navbar-nav > div:first-child > a {
+.navbar-nav > div > a {
   color: #ffffff !important;
   font-weight: bold;
   padding: 0;
