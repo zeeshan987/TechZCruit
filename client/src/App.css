@@ -38,6 +38,7 @@ body {
   font-family: "Raleway", sans-serif;
   font-size: 1rem;
   line-height: 1.6;
+  min-width: 50rem;
 }
 .landing {
   background: url("./img/showcase.jpg");
@@ -54,7 +55,7 @@ body {
 }
 .container {
   /* margin: auto; */
-  min-width: 85%;
+  /* min-width: 85%; */
 }
 section:empty {
   margin: 0;

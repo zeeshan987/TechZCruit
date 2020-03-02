@@ -20,14 +20,18 @@ const ProductDetail = ({
   auth,
   history,
   favouriteProduct,
-  unfavouriteProduct
+  unfavouriteProduct,
+  deleteProduct
 }) => {
   useEffect(() => {
     getProductById(match.params.id);
   }, [getProductById, match.params.id]);
 
   const pId = match.params.id;
-  
+
+  const DeleteProduct = e => {
+    deleteProduct(pId, history);
+  };
   return (
     <Fragment>
       {!loading && product !== null && (
@@ -87,7 +91,7 @@ const ProductDetail = ({
                           </Button>
                           <Button
                             variant='danger'
-                            onClick={() => deleteProduct(pId, history)}
+                            onClick={e => DeleteProduct(e)}
                           >
                             Delete Product
                           </Button>
@@ -145,7 +149,8 @@ ProductDetail.propTypes = {
   getProductById: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   favouriteProduct: PropTypes.func.isRequired,
-  unfavouriteProduct: PropTypes.func.isRequired
+  unfavouriteProduct: PropTypes.func.isRequired,
+  deleteProduct: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -156,5 +161,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   getProductById,
   favouriteProduct,
-  unfavouriteProduct
+  unfavouriteProduct,
+  deleteProduct
 })(ProductDetail);

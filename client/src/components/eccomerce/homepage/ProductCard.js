@@ -54,6 +54,22 @@ const Products = ({
                 className={`fa fa-star ${Styles.checked}`}
                 style={Inline}
               ></span>
+              <span
+                className={`fa fa-star ${Styles.checked}`}
+                style={Inline}
+              ></span>
+              <span
+                className={`fa fa-star ${Styles.checked}`}
+                style={Inline}
+              ></span>
+              <span
+                className={`fa fa-star ${Styles.checked}`}
+                style={Inline}
+              ></span>
+              <span
+                className={`fa fa-star ${Styles.checked}`}
+                style={Inline}
+              ></span>
             </div>
 
             <div className={Styles.inlineelement}>

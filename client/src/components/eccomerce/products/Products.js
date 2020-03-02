@@ -51,13 +51,13 @@ const Products = ({
               type='text'
               name='description'
               value={description}
-              placeholder='Search campaigns'
+              placeholder='Search Products'
               onChange={e => onChange(e)}
             />
           </Form.Group>
-          <Form.Group>
+          {/* <Form.Group>
             <Button type='submit' />
-          </Form.Group>
+          </Form.Group> */}
         </Form>
         {/* <form
           className={`form-inline my-2 my-lg-0 `}
@@ -76,8 +76,8 @@ const Products = ({
         </form> */}
         <div className={style.searchHeading}>
           <h1 className={style.heading}>
-            Ready to create an app? With our software apps built by our creative
-            community -- of course you are
+            Ready to create or buy an app? With our software apps built by our
+            creative community -- of course you are
           </h1>
         </div>
       </div>
