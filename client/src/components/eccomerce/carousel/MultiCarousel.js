@@ -7,7 +7,7 @@ import styles from "../../../css/ecommerce/ProductPage.module.css";
 import Image from "../../../img/placeholder.png";
 import { Link } from "react-router-dom";
 
-export const MultiCarousel = ({ products, profiles }) => {
+export const MultiCarousel = ({ user }) => {
   let settings = {
     infinite: false,
     speed: 1000,
@@ -34,54 +34,39 @@ export const MultiCarousel = ({ products, profiles }) => {
   };
   return (
     <Fragment>
-      {/* {console.log(products, "container  ==?")}  ${styles.pad_store*/}
       <div className={`${classes.container}`}>
-        {products.length === 0 ? (
-          <div className={`spinner-border`} role='status'>
-            <span className={`sr-only`}>Loading...</span>
-          </div>
-        ) : (
-          <Slider {...settings}>
-            {/* {products.map(product => ( */}
-            {profiles.map(profile =>
-              profile.user.storeOwner === true ? (
-                // return  profile.user.storeOwner === true ? 'and':('kjh')
-                <div className={`out`} key={profile._id}>
-                  {console.log(profile, "I am here")}
-                  <div
-                    className={`${classes.card} ${styles.carouselCard} ${styles.transition_box}`}
+        {/* <div className={`spinner-border`} role='status'>
+          <span className={`sr-only`}>Loading...</span>
+        </div> */}
+        <Slider {...settings}>
+          <div className={`out`} key={user._id} style={box}>
+            <div
+              className={`${classes.card} ${styles.carouselCard} ${styles.transition_box}`}
+            >
+              <img
+                className={`rounded-circle`}
+                alt={"users here"}
+                src={Image}
+                height={56}
+                width={56}
+                style={img}
+              />
+              <div className='card-body'>
+                <h5 className={classes.cardtitle}>{user.name}</h5>
+                <small className='card-text text-sm-center text-muted'></small>
+                <br />
+                <button className='btn btn-sm follow btn-primary'>
+                  <Link
+                    to={`/ecommerce/store`}
+                    style={{ textDecoration: "none", color: "inherit" }}
                   >
-                    <img
-                      className={`rounded-circle`}
-                      alt={"users here"}
-                      src={Image}
-                      height={56}
-                      width={56}
-                      style={img}
-                    />
-                    <div className='card-body'>
-                      <h5 className={classes.cardtitle}>{profile.user.name}</h5>
-                      <small className='card-text text-sm-center text-muted'>
-                        {/* {profile.productDescription} */}
-                      </small>
-                      <br />
-                      <button className='btn btn-sm follow btn-primary'>
-                        <Link
-                          to={`/ecommerce/store/${profile.user._id}`}
-                          style={{ textDecoration: "none", color: "inherit" }}
-                        >
-                          View Product
-                        </Link>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                "Not Store Found"
-              )
-            )}
-          </Slider>
-        )}
+                    View Product
+                  </Link>
+                </button>
+              </div>
+            </div>
+          </div>
+        </Slider>
       </div>
     </Fragment>
   );
@@ -92,5 +77,7 @@ const img = {
   margintop: "20px",
   border: "2px solid #dee2e6"
 };
-
+const box = {
+  "background-color": "#D3D3D3"
+};
 export default MultiCarousel;

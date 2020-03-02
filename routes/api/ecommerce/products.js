@@ -81,6 +81,23 @@ router.get("/", async (req, res) => {
   }
 });
 
+// @route   GET /api/ecommerce/products
+// @desc    Search for a particular Product
+// @access  Private
+router.get("/search/:description", auth, async (req, res) => {
+  const description = req.params.description;
+
+  try {
+    const products = await Product.find({
+      productTitle: new RegExp(description, "i")
+    });
+
+    res.send(products);
+  } catch (err) {
+    return res.status(500).send("Server error");
+  }
+});
+
 // @route   DELETE /api/ecommerce/products/:id
 // @desc    Delete a Product
 // @access  Private
@@ -106,6 +123,21 @@ router.delete("/:id", auth, async (req, res) => {
   }
 });
 
+// @route   Get /api/ecommerce/products
+// @desc    Get all Products by user
+// @access  Private
+router.get("/user", auth, async (req, res) => {
+  try {
+    const products = await Product.find({
+      seller: req.user.id
+    }).populate("seller", ["name", "avatar"]);
+    res.json(products);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send("Server error here occur");
+  }
+});
+
 // @route   GET /api/ecommerce/products/:id
 // @desc    Get product by id
 // @access  Public
@@ -114,7 +146,6 @@ router.get("/:id", async (req, res) => {
     const product = await Product.findOne({
       _id: req.params.id
     }).populate("reviews.user", ["name", "avatar"]);
-    //.populate("user", ["name", "avatar"]);
 
     res.json(product);
   } catch (err) {
@@ -326,18 +357,5 @@ router.put(
     }
   }
 );
-
-// @route   Get /api/ecommerce/products
-// @desc    Get all Products by user
-// @access  Private
-router.get("/user", auth, async (req, res) => {
-  try {
-    const products = await Product.find({ seller: req.user.id });
-    res.json(products);
-  } catch (err) {
-    console.error(err.message);
-    return res.status(500).send("Server error here occur");
-  }
-});
 
 module.exports = router;

@@ -1,14 +1,43 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getAllProducts } from "../../../actions/ecommerce/product";
+import {
+  getAllProducts,
+  searchProduct
+} from "../../../actions/ecommerce/product";
 import style from "../../../css/ecommerce/Products.module.css";
 import ProductCard from "../homepage/ProductCard";
+import { Form, Row, Button } from "react-bootstrap";
 
-const Products = ({ getAllProducts, product: { loading, products }, auth }) => {
+const Products = ({
+  getAllProducts,
+  product: { loading, products },
+  auth,
+  searchProduct
+}) => {
   useEffect(() => {
     getAllProducts();
   }, [getAllProducts, loading]);
+
+  const [formData, setFormData] = useState({
+    description: ""
+  });
+
+  const { description } = formData;
+
+  const onChange = e => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = e => {
+    e.preventDefault();
+    if (description === "") {
+      getAllProducts();
+    } else {
+      console.log(description);
+      searchProduct(description);
+    }
+  };
 
   return (
     <Fragment>
@@ -16,7 +45,24 @@ const Products = ({ getAllProducts, product: { loading, products }, auth }) => {
         className={`container-fluid`}
         // style='min-height: 130px; border-bottom: 1px solid #e6e6e6;'
       >
-        <form className={`form-inline my-2 my-lg-0 `}>
+        <Form onSubmit={e => onSubmit(e)}>
+          <Form.Group>
+            <Form.Control
+              type='text'
+              name='description'
+              value={description}
+              placeholder='Search Products'
+              onChange={e => onChange(e)}
+            />
+          </Form.Group>
+          {/* <Form.Group>
+            <Button type='submit' />
+          </Form.Group> */}
+        </Form>
+        {/* <form
+          className={`form-inline my-2 my-lg-0 `}
+          onSubmit={e => onSubmit(e)}
+        >
           <input
             className={`form-control`}
             type='search'
@@ -27,11 +73,11 @@ const Products = ({ getAllProducts, product: { loading, products }, auth }) => {
           <button className={style.btn} type='submit'>
             Search
           </button>
-        </form>
+        </form> */}
         <div className={style.searchHeading}>
           <h1 className={style.heading}>
-            Ready to create an app? With our 8,427 mobile app templates built by
-            our creative community -- of course you are
+            Ready to create or buy an app? With our software apps built by our
+            creative community -- of course you are
           </h1>
         </div>
       </div>
@@ -82,69 +128,7 @@ const Products = ({ getAllProducts, product: { loading, products }, auth }) => {
       </div>
       <div className={`container-fluid`}>
         <div className={`row`}>
-          <div className={`col-md-4`}>
-            {/* <ul className={style.sideBar}>
-              <li>
-                <a
-                  className={`nav-link1 nav-link-ltr collapsed`}
-                  data-toggle='collapse'
-                  role='button'
-                  href='#shop-woman'
-                  // style='opacity: 1;'
-                  aria-expanded='false'
-                >
-                  Tags
-                </a>
-                <ul className={`sub nav collapse show`} id='shop-woman'>
-                  <div className={`tagMenu`}>
-                    <input
-                      className={`form-check-input`}
-                      type='checkbox'
-                      value=''
-                      id='defaultCheck1'
-                      // style='transform: scale(1);'
-                    />
-                    <label
-                      className={`form-check-label`}
-                      htmlFor='defaultCheck1'
-                    >
-                      Android
-                    </label>
-                  </div>
-                  <div className={style.tagMenu}>
-                    <input
-                      className={`form-check-input`}
-                      type='checkbox'
-                      value=''
-                      id='defaultCheck1'
-                      // style='transform: scale(1);'
-                    />
-                    <label
-                      className={`form-check-label`}
-                      htmlFor='defaultCheck1'
-                    >
-                      Android
-                    </label>
-                  </div>
-                  <div className={`tagMenu`}>
-                    <input
-                      className={`form-check-input`}
-                      type='checkbox'
-                      value=''
-                      id='defaultCheck1'
-                      // style='transform: scale(1);'
-                    />
-                    <label
-                      className={`form-check-label`}
-                      htmlFor='defaultCheck1'
-                    >
-                      Android
-                    </label>
-                  </div>
-                </ul>
-              </li>
-            </ul> */}
-          </div>
+          <div className={`col-md-4`}></div>
           <div className={`col-md-8`}></div>
         </div>
       </div>
@@ -165,7 +149,8 @@ const Products = ({ getAllProducts, product: { loading, products }, auth }) => {
 
 Products.propTypes = {
   product: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  searchProduct: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -174,5 +159,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  getAllProducts
+  getAllProducts,
+  searchProduct
 })(Products);

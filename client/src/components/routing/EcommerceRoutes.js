@@ -15,8 +15,12 @@ const EccomerceRoutes = () => {
       <PrivateRoute exact path='/ecommerce' component={AddProduct} />
       <PrivateRoute exact path='/ecommerce/homepage' component={ProductPage} />
       <PrivateRoute exact path='/ecommerce/products' component={Products} />
-      <PrivateRoute exact path='/ecommerce/store/:id' component={Store} />
-      <PrivateRoute exact path='/ecommerce/updateproduct/:id' component={UpdateProduct} />
+      <PrivateRoute exact path='/ecommerce/store' component={Store} />
+      <PrivateRoute
+        exact
+        path='/ecommerce/updateproduct/:id'
+        component={UpdateProduct}
+      />
       <PrivateRoute
         exact
         path='/ecommerce/product/:id'

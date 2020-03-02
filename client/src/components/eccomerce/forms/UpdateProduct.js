@@ -42,7 +42,7 @@ const UpdateProduct = ({
 
   useEffect(() => {
     getProductById(match.params.id);
-
+    console.log("useeffecet update", match.params.id);
     setFormData({
       productTitle:
         !loading && product.productTitle ? product.productTitle : "",
