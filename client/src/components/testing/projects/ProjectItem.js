@@ -4,14 +4,17 @@ import { Col, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import placeholder from '../../../img/placeholder.png';
 
-const ProjectItem = ({ project: { _id, name, description, url, amount } }) => {
+const ProjectItem = ({
+  project: { _id, name, description, url, amount },
+  styles
+}) => {
   return (
     <Fragment>
       <Col md={3}>
-        <Card className='mb-3'>
+        <Card className={styles.card}>
           <Card.Img variant='top' src={placeholder} />
           <Card.Body>
-            <Card.Title>
+            <Card.Title className={styles.card_title}>
               <Link
                 to={`/testing/project/${_id}`}
                 style={{ textDecoration: 'none', color: 'inherit' }}
@@ -41,7 +44,8 @@ const ProjectItem = ({ project: { _id, name, description, url, amount } }) => {
 };
 
 ProjectItem.propTypes = {
-  project: PropTypes.object.isRequired
+  project: PropTypes.object.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
 export default ProjectItem;

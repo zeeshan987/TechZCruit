@@ -13,12 +13,19 @@ const SideNav = ({ styles, auth: { loading, user } }) => {
           My Profile
         </Link>
         <Link to='/settings'>Settings</Link>
+
         <div className={styles.side_nav_heading}>Community</div>
         <Link to='/community'>All groups</Link>
         <Link to='/community/my-groups'>My groups</Link>
+
         <div className={styles.side_nav_heading}>Crowdfunding</div>
         <Link to='/crowdfunding'>All campaigns</Link>
         <Link to='/crowdfunding/my-campaigns'>My campaigns</Link>
+
+        <div className={styles.side_nav_heading}>Testing</div>
+        <Link to='/testing'>Homepage</Link>
+        <Link to='/testing/ongoing-projects'>Ongoing projects</Link>
+        <Link to='/testing/my-projects'>My projects</Link>
       </div>
     </Fragment>
   );

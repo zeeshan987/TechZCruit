@@ -7,6 +7,10 @@ import {
   searchProject
 } from '../../../actions/testing/project';
 import ProjectItem from './ProjectItem';
+import styles from '../../../css/testing/projects/style.module.css';
+import SideNav from '../../layout/SideNav';
+import Alert from '../../layout/Alert';
+import Footer from '../../layout/Footer';
 
 const Projects = ({
   project: { loading, projects },
@@ -38,35 +42,49 @@ const Projects = ({
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Product Testing</h1>
-      <p className='lead'>
-        <i className='fas fa-user'></i> Use this platform to test your own
-        software products and offer your services to other people in the
-        community
-      </p>
-      <Form onSubmit={e => onSubmit(e)}>
-        <Form.Group>
-          <Form.Control
-            type='text'
-            name='description'
-            value={description}
-            placeholder='Search projects'
-            onChange={e => onChange(e)}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Button type='submit' hidden />
-        </Form.Group>
-      </Form>
-      <Row>
-        {!loading && projects.length > 0 ? (
-          projects.map(project => (
-            <ProjectItem key={project._id} project={project} />
-          ))
-        ) : (
-          <div className='lead'>No projects found</div>
-        )}
-      </Row>
+      <section className={styles.section}>
+        <SideNav styles={styles} />
+
+        <div className={styles.content}>
+          <Alert />
+          <h1 className={styles.heading}>
+            <i className='fas fa-user'></i> Product Testing
+          </h1>
+          <p className={styles.sub_heading}>
+            Use this platform to test your own software products and offer your
+            services to other people in the community
+          </p>
+          <Form onSubmit={e => onSubmit(e)}>
+            <Form.Group>
+              <Form.Control
+                type='text'
+                name='description'
+                value={description}
+                placeholder='Search projects'
+                onChange={e => onChange(e)}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Button type='submit' hidden />
+            </Form.Group>
+          </Form>
+          <Row>
+            {!loading && projects.length > 0 ? (
+              projects.map(project => (
+                <ProjectItem
+                  key={project._id}
+                  project={project}
+                  styles={styles}
+                />
+              ))
+            ) : (
+              <div className={styles.sub_heading}>No projects found</div>
+            )}
+          </Row>
+        </div>
+      </section>
+
+      <Footer styles={styles} />
     </Fragment>
   );
 };
