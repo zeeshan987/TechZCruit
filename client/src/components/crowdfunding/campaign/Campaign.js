@@ -63,7 +63,7 @@ const Campaign = ({
                 style={{ width: '100%', height: '500px' }}
               />
             </Col>
-            <Col className='post p-3' md={4}>
+            <Col className='p-3' md={4}>
               <div>
                 <div>Funds raised:</div>
                 <div className={styles.sub_heading}>

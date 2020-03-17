@@ -2,10 +2,10 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-bootstrap';
 
-const UserInfo = ({ project }) => {
+const UserInfo = ({ project, styles }) => {
   return (
     <Fragment>
-      <div className='lead'>Project owner:</div>
+      <div className={styles.sub_heading}>Project owner</div>
       <Row>
         <Col md={12} style={{ textAlign: 'center' }}>
           <img
@@ -24,7 +24,8 @@ const UserInfo = ({ project }) => {
 };
 
 UserInfo.propTypes = {
-  project: PropTypes.object.isRequired
+  project: PropTypes.object.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
 export default UserInfo;
