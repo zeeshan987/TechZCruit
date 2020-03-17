@@ -1,8 +1,8 @@
-import React, { Fragment } from "react";
-import PropTypes from "prop-types";
-import styles from "../../../css/ecommerce/ServiceSection.module.css";
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import styles from '../../../css/ecommerce/ServiceSection.module.css';
 
-const FeaturedProducts = () => {
+const ServiceSection = () => {
   return (
     <Fragment>
       <div class={styles.services_section}>
@@ -82,6 +82,6 @@ const FeaturedProducts = () => {
   );
 };
 
-FeaturedProducts.propTypes = {};
+ServiceSection.propTypes = {};
 
-export default FeaturedProducts;
+export default ServiceSection;
