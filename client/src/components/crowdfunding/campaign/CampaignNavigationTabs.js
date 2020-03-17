@@ -4,7 +4,7 @@ import { Tab, Row, Col, Nav } from 'react-bootstrap';
 import CommentForm from './CommentForm';
 import CommentItem from './CommentItem';
 
-const CampaignNavigationTabs = ({ campaign, auth }) => {
+const CampaignNavigationTabs = ({ campaign, auth, styles }) => {
   return (
     <Fragment>
       <Tab.Container defaultActiveKey='description'>
@@ -36,10 +36,11 @@ const CampaignNavigationTabs = ({ campaign, auth }) => {
                       comment={comment}
                       auth={auth}
                       campaign={campaign}
+                      styles={styles}
                     />
                   ))
                 ) : (
-                  <div className='lead mt-3'>No comments found</div>
+                  <div className={styles.sub_heading}>No comments found</div>
                 )}
               </Tab.Pane>
             </Tab.Content>
@@ -52,7 +53,8 @@ const CampaignNavigationTabs = ({ campaign, auth }) => {
 
 CampaignNavigationTabs.propTypes = {
   campaign: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
 export default CampaignNavigationTabs;

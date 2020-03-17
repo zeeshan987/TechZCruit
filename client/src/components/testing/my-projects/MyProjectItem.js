@@ -7,22 +7,18 @@ import { deleteProject } from '../../../actions/testing/project';
 
 const MyProjectItem = ({
   project: { _id, name, description },
-  deleteProject
+  deleteProject,
+  styles
 }) => {
   return (
     <Fragment>
-      <Row className='post p-3 my-3'>
+      <Row className={styles.list_item}>
         <Col md={12}>
-          <h2>
-            <Link
-              to={`/testing/project/${_id}`}
-              style={{ textDecoration: 'none', color: 'inherit' }}
-            >
-              {name}
-            </Link>
-          </h2>
-          <p>{description}</p>
-          <div className='my-2'>
+          <Link to={`/testing/project/${_id}`} className={styles.group_name}>
+            {name}
+          </Link>
+          <div className='mt-2'>{description}</div>
+          <div className='mt-2'>
             <Button
               variant='primary'
               href={`/testing/project/testcases/${_id}`}
@@ -47,7 +43,8 @@ const MyProjectItem = ({
 
 MyProjectItem.propTypes = {
   project: PropTypes.object.isRequired,
-  deleteProject: PropTypes.func.isRequired
+  deleteProject: PropTypes.func.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
 export default connect(null, {

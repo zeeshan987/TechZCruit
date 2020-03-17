@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { changeName } from '../../actions/auth';
 import { setAlert } from '../../actions/alert';
 
-const Name = ({ changeName, setAlert }) => {
+const Name = ({ changeName, setAlert, styles }) => {
   const [formData, setFormData] = useState({
     name: ''
   });
@@ -30,7 +30,7 @@ const Name = ({ changeName, setAlert }) => {
     <Fragment>
       <Row>
         <Col md={12}>
-          <div className='lead'>Name</div>
+          <div className={styles.sub_heading}>Name</div>
           <Form onSubmit={e => onSubmit(e)}>
             <Form.Group>
               <Form.Control
@@ -40,7 +40,11 @@ const Name = ({ changeName, setAlert }) => {
                 onChange={e => onChange(e)}
               />
             </Form.Group>
-            <Button variant='primary' type='submit'>
+            <Button
+              variant='primary'
+              type='submit'
+              className={styles.btn_primary}
+            >
               Update name
             </Button>
           </Form>
@@ -54,7 +58,8 @@ const Name = ({ changeName, setAlert }) => {
 Name.propTypes = {
   auth: PropTypes.object.isRequired,
   changeName: PropTypes.func.isRequired,
-  setAlert: PropTypes.func.isRequired
+  setAlert: PropTypes.func.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
 export default connect(null, {

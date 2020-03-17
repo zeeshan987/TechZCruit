@@ -14,24 +14,21 @@ const PostItem = ({
   auth,
   deletePost,
   likePost,
-  unlikePost
+  unlikePost,
+  styles
 }) => {
   return (
     <Fragment>
-      <Row className='post p-3 my-3'>
-        <Col md={3}>
+      <Row className={styles.list_item}>
+        <Col md={2}>
           <Link to={`/profile/${user._id}`}>
             <img src={user.avatar} alt='' className='round-img' />
-            <p className='text-primary my-1'>
-              <strong>{user.name}</strong>
-            </p>
+            <div className={styles.user_name}>{user.name}</div>
           </Link>
         </Col>
-        <Col md={9}>
-          <div>
-            <p>{description}</p>
-          </div>
-          <div className='my-1'>
+        <Col md={10}>
+          <div className='text-truncate'>{description}</div>
+          <div className='my-3'>
             <Button variant='dark' onClick={() => likePost(_id)}>
               <i className='fas fa-thumbs-up'></i>{' '}
               <span>{likes.length > 0 ? likes.length : ''}</span>
@@ -39,16 +36,13 @@ const PostItem = ({
             <Button variant='dark' onClick={() => unlikePost(_id)}>
               <i className='fas fa-thumbs-down'></i>
             </Button>
-            <Link to={`/community/post/${_id}`} className='btn btn-dark'>
+            <Button variant='dark' href={`/community/post/${_id}`}>
               View Post
-            </Link>
+            </Button>
             {auth.user._id === user._id && (
-              <button
-                className='btn btn-danger'
-                onClick={() => deletePost(_id)}
-              >
+              <Button variant='danger' onClick={() => deletePost(_id)}>
                 Delete post
-              </button>
+              </Button>
             )}
           </div>
         </Col>
@@ -62,7 +56,8 @@ PostItem.propTypes = {
   auth: PropTypes.object.isRequired,
   deletePost: PropTypes.func.isRequired,
   likePost: PropTypes.func.isRequired,
-  unlikePost: PropTypes.func.isRequired
+  unlikePost: PropTypes.func.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
 export default connect(null, {

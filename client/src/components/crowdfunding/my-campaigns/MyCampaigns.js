@@ -4,6 +4,10 @@ import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { getAllCampaignsForUser } from '../../../actions/crowdfunding/campaign';
 import MyCampaignItem from './MyCampaignItem';
+import styles from '../../../css/crowdfunding/my-campaigns/style.module.css';
+import SideNav from '../../layout/SideNav';
+import Alert from '../../layout/Alert';
+import Footer from '../../layout/Footer';
 
 const MyCampaigns = ({
   getAllCampaignsForUser,
@@ -15,23 +19,35 @@ const MyCampaigns = ({
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>My Campaigns</h1>
-      <p className='lead'>
-        <i className='fas fa-user'></i> Below is a list of all the campaigns you
-        have created
-      </p>
-      <Button
-        variant='primary'
-        className='my-2'
-        href='/crowdfunding/create-campaign'
-      >
-        <i className='fas fa-users'></i> Create new campaign
-      </Button>
-      {!loading && campaigns.length > 0 ? (
-        campaigns.map(campaign => <MyCampaignItem campaign={campaign} />)
-      ) : (
-        <div className='lead'>No campaigns found</div>
-      )}
+      <section className={styles.section}>
+        <SideNav styles={styles} />
+
+        <div className={styles.content}>
+          <Alert />
+          <div className={styles.heading}>
+            <i className='fas fa-user'></i> My Campaigns
+          </div>
+          <div className={styles.sub_heading}>
+            Below is a list of all the campaigns you have created
+          </div>
+          <Button
+            variant='primary'
+            className={`my-2 ${styles.btn_primary}`}
+            href='/crowdfunding/create-campaign'
+          >
+            <i className='fas fa-users'></i> Create new campaign
+          </Button>
+          {!loading && campaigns.length > 0 ? (
+            campaigns.map(campaign => (
+              <MyCampaignItem campaign={campaign} styles={styles} />
+            ))
+          ) : (
+            <div className={styles.sub_heading}>No campaigns found</div>
+          )}
+        </div>
+      </section>
+
+      <Footer styles={styles} />
     </Fragment>
   );
 };

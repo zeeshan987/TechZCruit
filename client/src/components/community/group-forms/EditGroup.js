@@ -1,10 +1,13 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { getGroupById, updateGroup } from '../../../actions/community/group';
-import { useEffect } from 'react';
+import styles from '../../../css/community/group-forms/style.module.css';
+import SideNav from '../../layout/SideNav';
+import Alert from '../../layout/Alert';
+import Footer from '../../layout/Footer';
 
 const EditGroup = ({
   getGroupById,
@@ -41,35 +44,56 @@ const EditGroup = ({
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Edit Group</h1>
-      <p className='lead'>
-        <i className='fas fa-user'></i> Fill in the following information to
-        update the group info
-      </p>
-      <Form onSubmit={e => onSubmit(e)}>
-        <Form.Group>
-          <Form.Control
-            type='text'
-            placeholder='Name'
-            name='name'
-            value={name}
-            onChange={e => onChange(e)}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Control
-            as='textarea'
-            rows='5'
-            placeholder='Description'
-            name='description'
-            value={description}
-            onChange={e => onChange(e)}
-          />
-        </Form.Group>
-        <Button variant='primary' type='submit'>
-          Submit
-        </Button>
-      </Form>
+      <section className={styles.section}>
+        <SideNav styles={styles} />
+
+        <div className={styles.content}>
+          <Alert />
+          <div className={styles.heading}>
+            <i className='fas fa-user'></i> Edit Group
+          </div>
+          <div className={styles.sub_heading}>
+            Fill in the following information to edit the group info
+          </div>
+          <Form onSubmit={e => onSubmit(e)}>
+            <Form.Group>
+              <Form.Control
+                type='text'
+                placeholder='Name'
+                name='name'
+                value={name}
+                onChange={e => onChange(e)}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Control
+                as='textarea'
+                rows='5'
+                placeholder='Description'
+                name='description'
+                value={description}
+                onChange={e => onChange(e)}
+              />
+            </Form.Group>
+            <Button
+              variant='primary'
+              type='submit'
+              className={styles.btn_primary}
+            >
+              Submit
+            </Button>
+            <Button
+              variant='danger'
+              className='my-2'
+              onClick={() => history.push('/community/my-groups')}
+            >
+              Cancel
+            </Button>
+          </Form>
+        </div>
+      </section>
+
+      <Footer styles={styles} />
     </Fragment>
   );
 };

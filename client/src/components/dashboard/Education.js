@@ -1,14 +1,15 @@
-import React, { Fragment } from "react";
-import PropTypes from "prop-types";
-import Moment from "react-moment";
-import { connect } from "react-redux";
-import { removeEducation } from "../../actions/profile";
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import Moment from 'react-moment';
+import { connect } from 'react-redux';
+import { removeEducation } from '../../actions/profile';
+import { Table } from 'react-bootstrap';
 
-const Education = ({ education, removeEducation }) => {
+const Education = ({ styles, education, removeEducation }) => {
   return (
     <Fragment>
-      <p className='lead my-2'>Education Credentials</p>
-      <table className='table table-striped'>
+      <div class={styles.title}>Education Credentials</div>
+      <Table className='table table-striped'>
         <thead>
           <tr>
             <th scope='col'>School</th>
@@ -26,7 +27,7 @@ const Education = ({ education, removeEducation }) => {
               </td>
               <td>
                 {education.current ? (
-                  "Now"
+                  'Now'
                 ) : (
                   <Moment format='DD-MMM-YYYY'>{education.to}</Moment>
                 )}
@@ -42,14 +43,15 @@ const Education = ({ education, removeEducation }) => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
     </Fragment>
   );
 };
 
 Education.propTypes = {
   education: PropTypes.array.isRequired,
-  removeEducation: PropTypes.func.isRequired
+  removeEducation: PropTypes.func.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
 export default connect(null, { removeEducation })(Education);

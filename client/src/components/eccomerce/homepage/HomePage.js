@@ -2,24 +2,25 @@ import React, { useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import Spinner from "../../../components/layout/Spinner";
 import { connect } from "react-redux";
-import { getAllProducts } from "../../../actions/ecommerce/product";
+import {
+  getAllProducts,
+  getAllUsers
+} from "../../../actions/ecommerce/product";
 import styles from "../../../css/ecommerce/ProductPage.module.css";
-import FeaturedProducts from "./FeaturedProducts";
+import ServiceSection from "./ServiceSection";
 import ProductCard from "./ProductCard";
 import MultiCarousel from "../carousel/MultiCarousel";
-import { getAllProfiles } from "../../../actions/profile";
 
 const HomePage = ({
   getAllProducts,
-  product: { loading, products },
+  product: { loading, products, users },
   auth,
-  profile: { profiles },
-  getAllProfiles
+  getAllUsers
 }) => {
   useEffect(() => {
     getAllProducts();
-    getAllProfiles();
-  }, [getAllProducts, loading, getAllProfiles]);
+    getAllUsers();
+  }, [getAllProducts, loading, getAllUsers]);
 
   return (
     <Fragment>
@@ -76,7 +77,7 @@ const HomePage = ({
         </div>
       </section>
       {/* <!-- ************ Three header div start ************ --> */}
-      <FeaturedProducts />
+      <ServiceSection />
       {/* <!-- ************ three header div end ************ --> */}
       {/* Stores */}
       <div className={styles.padcontainer}>
@@ -90,15 +91,9 @@ const HomePage = ({
           </p>
         </div>
         <div className={styles.padlr}>
-          {/* {profiles.length > 0 ? (
-            <MultiCarousel products={products} profiles={profiles} />
-          ) : (
-            <div className='lead'>No Stores found</div>
-            // profiles.map(profile => (
-            //   <ProfileItem key={profile._id} profile={profile} />
-            // ))
-          )} */}
-          {/* <MultiCarousel products={products} /> */}
+          {!loading && users.length >= 0
+            ? users.map(user => <MultiCarousel user={user} />)
+            : "No Store Created"}
         </div>
         {/* Products */}
         <div className={`container headings text-center`}>
@@ -126,28 +121,19 @@ const HomePage = ({
 HomePage.propTypes = {
   product: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  profiles: PropTypes.array.isRequired,
-  getAllProfiles: PropTypes.func.isRequired
+  users: PropTypes.array.isRequired,
+  getAllUsers: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   product: state.product,
-  auth: state.auth,
-  profile: state.profile
+  auth: state.auth
 });
 
-export default connect(mapStateToProps, { getAllProducts, getAllProfiles })(
+export default connect(mapStateToProps, { getAllProducts, getAllUsers })(
   HomePage
 );
 const container = {
   "max-width": "720px",
   "min-width": "70%"
 };
-// const heading = {
-//   "font-size": "2rem",
-//   "margin-bottom": ".5rem",
-//   "font-family": "inherit",
-//   "font-weight": "500",
-//   "line-height": "1.2",
-//   color: "inherit"
-// };

@@ -8,7 +8,8 @@ import ProductReview from "./ProductReview";
 import {
   favouriteProduct,
   unfavouriteProduct,
-  getProductById
+  getProductById,
+  deleteProduct
 } from "../../../actions/ecommerce/product";
 import { Button } from "react-bootstrap";
 
@@ -17,12 +18,20 @@ const ProductDetail = ({
   getProductById,
   match,
   auth,
+  history,
   favouriteProduct,
-  unfavouriteProduct
+  unfavouriteProduct,
+  deleteProduct
 }) => {
   useEffect(() => {
     getProductById(match.params.id);
   }, [getProductById, match.params.id]);
+
+  const pId = match.params.id;
+
+  const DeleteProduct = e => {
+    deleteProduct(pId, history);
+  };
   return (
     <Fragment>
       {!loading && product !== null && (
@@ -63,17 +72,33 @@ const ProductDetail = ({
 
                     <div className={style.product_count}>
                       <Button className={style.btn}>BUY</Button>
-                      <Button
-                        className={`${style.button} ${style.primary_btn}`}
-                        href='#'
-                      >
-                        <Link
-                          to={`/ecommerce/updateproduct/${match.params.id}`}
-                          style={{ textDecoration: "none", color: "inherit" }}
-                        >
-                          Update a Product
-                        </Link>
-                      </Button>
+                      {auth.user !== null &&
+                      product.seller === auth.user._id ? (
+                        <Fragment>
+                          <Button
+                            className={`${style.button} ${style.primary_btn}`}
+                            variant='success'
+                          >
+                            <Link
+                              to={`/ecommerce/updateproduct/${match.params.id}`}
+                              style={{
+                                textDecoration: "none",
+                                color: "inherit"
+                              }}
+                            >
+                              Update a Product
+                            </Link>
+                          </Button>
+                          <Button
+                            variant='danger'
+                            onClick={e => DeleteProduct(e)}
+                          >
+                            Delete Product
+                          </Button>
+                        </Fragment>
+                      ) : (
+                        ""
+                      )}
                     </div>
 
                     <div className={`${style.card_area} ${style.d_flex}`}>
@@ -85,7 +110,7 @@ const ProductDetail = ({
                         >
                           <i className='far fa-thumbs-up'></i>{" "}
                           <span>
-                            {product.favourite.length > 0
+                            {!loading && product.favourite.length > 0
                               ? product.favourite.length
                               : ""}
                           </span>
@@ -124,7 +149,8 @@ ProductDetail.propTypes = {
   getProductById: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   favouriteProduct: PropTypes.func.isRequired,
-  unfavouriteProduct: PropTypes.func.isRequired
+  unfavouriteProduct: PropTypes.func.isRequired,
+  deleteProduct: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -135,5 +161,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   getProductById,
   favouriteProduct,
-  unfavouriteProduct
+  unfavouriteProduct,
+  deleteProduct
 })(ProductDetail);

@@ -5,7 +5,7 @@ import { setAlert } from '../../actions/alert';
 import { connect } from 'react-redux';
 import { changePassword } from '../../actions/auth';
 
-const ChangePassword = ({ setAlert, changePassword }) => {
+const ChangePassword = ({ setAlert, changePassword, styles }) => {
   const [formData, setFormData] = useState({
     password: '',
     password1: ''
@@ -38,7 +38,7 @@ const ChangePassword = ({ setAlert, changePassword }) => {
     <Fragment>
       <Row>
         <Col md={12}>
-          <div className='lead'>Change password</div>
+          <div className={styles.sub_heading}>Change password</div>
           <Form onSubmit={e => onSubmit(e)}>
             <Form.Group>
               <Form.Control
@@ -58,7 +58,11 @@ const ChangePassword = ({ setAlert, changePassword }) => {
                 onChange={e => onChange(e)}
               />
             </Form.Group>
-            <Button variant='primary' type='submit'>
+            <Button
+              variant='primary'
+              type='submit'
+              className={styles.btn_primary}
+            >
               Update password
             </Button>
           </Form>
@@ -70,7 +74,8 @@ const ChangePassword = ({ setAlert, changePassword }) => {
 
 ChangePassword.propTypes = {
   setAlert: PropTypes.func.isRequired,
-  changePassword: PropTypes.func.isRequired
+  changePassword: PropTypes.func.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
 export default connect(null, {

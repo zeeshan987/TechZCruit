@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import { removeExperience } from '../../actions/profile';
+import { Table } from 'react-bootstrap';
 
-const Experience = ({ experiences, removeExperience }) => {
+const Experience = ({ styles, experiences, removeExperience }) => {
   return (
     <Fragment>
-      <p className='lead my-2'>Experience Credentials</p>
-      <table className='table table-striped'>
+      <div class={styles.title}>Experience Credentials</div>
+      <Table striped>
         <thead>
           <tr>
             <th scope='col'>Company</th>
@@ -42,17 +43,15 @@ const Experience = ({ experiences, removeExperience }) => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
     </Fragment>
   );
 };
 
 Experience.propTypes = {
   experiences: PropTypes.array.isRequired,
-  removeExperience: PropTypes.func.isRequired
+  removeExperience: PropTypes.func.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
-export default connect(
-  null,
-  { removeExperience }
-)(Experience);
+export default connect(null, { removeExperience })(Experience);

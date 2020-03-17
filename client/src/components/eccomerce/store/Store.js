@@ -2,26 +2,21 @@ import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import style from "../../../css/ecommerce/Store.module.css";
 import Image from "../../../img/placeholder.png";
-import { getAllProducts } from "../../../actions/ecommerce/product";
+import { getAllProductForUser } from "../../../actions/ecommerce/product";
 import ProductCard from "../homepage/ProductCard";
 import PropTypes from "prop-types";
-import { getProfileById } from "../../../actions/profile";
 
 const Store = ({
-  getAllProducts,
+  getAllProductForUser,
   product: { loading, products },
-  auth,
-  match,
-  getProfileById,
-  profile: { profile }
-  // profile: {
-  //   user: { name }
-  // }
+  auth
+  // getProfileById
+  // profile: { profile }
 }) => {
   useEffect(() => {
-    getProfileById(match.params.id);
-    getAllProducts();
-  }, [getAllProducts, getProfileById, loading, match.params.id]);
+    // getProfileById(match.params.id);
+    getAllProductForUser();
+  }, [getAllProductForUser]);
 
   return (
     <Fragment>
@@ -43,14 +38,14 @@ const Store = ({
                   <h1
                     className={`${style.t_heading} ${style.h_display_inlineblock} ${style.h_m0} ${style.h_p0} ${style._size_m}`}
                   >
-                    {/* {profile.user.name} */}name
+                    {/* {products.product.seller.name} */}
                   </h1>
                 </a>
 
                 <p
                   className={`${style.t_body} ${style._size_m} ${style.h_p0} ${style.h_mb0}`}
                 >
-                  Indonesia, Member since January 2015
+                  Seller in TechZCruit
                 </p>
 
                 {/* <div className={style.user_info_header__cta_buttons}>
@@ -109,12 +104,12 @@ const Store = ({
             <div className={style.page_tabs}>
               <ul>
                 <li>
-                  <a
+                  {/* <a
                     className={`${style.t_link} ${style._decoration_none}`}
                     href='#'
                   >
                     Profile
-                  </a>
+                  </a> */}
                 </li>
                 <li className={style.selected}>
                   <a
@@ -147,17 +142,16 @@ const Store = ({
 Store.propTypes = {
   product: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  getProfileById: PropTypes.func.isRequired,
-  profile: PropTypes.object.isRequired
+  getAllProductForUser: PropTypes.func.isRequired
+  // profile: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   product: state.product,
-  auth: state.auth,
-  profile: state.profile
+  auth: state.auth
+  // profile: state.profile
 });
 
 export default connect(mapStateToProps, {
-  getAllProducts,
-  getProfileById
+  getAllProductForUser
 })(Store);

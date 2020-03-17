@@ -5,15 +5,16 @@ import { Link } from 'react-router-dom';
 import placeholder from '../../../img/placeholder.png';
 
 const CampaignItem = ({
-  campaign: { _id, title, description, supporters, fundsRequired }
+  campaign: { _id, title, description, supporters, fundsRequired },
+  styles
 }) => {
   return (
     <Fragment>
       <Col md={3}>
-        <Card className='mb-3'>
+        <Card className={styles.card}>
           <Card.Img variant='top' src={placeholder} />
           <Card.Body>
-            <Card.Title>
+            <Card.Title className={styles.card_title}>
               <Link
                 to={`/crowdfunding/campaign/${_id}`}
                 style={{ textDecoration: 'none', color: 'inherit' }}
@@ -41,7 +42,8 @@ const CampaignItem = ({
 };
 
 CampaignItem.propTypes = {
-  campaign: PropTypes.object.isRequired
+  campaign: PropTypes.object.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
 export default CampaignItem;

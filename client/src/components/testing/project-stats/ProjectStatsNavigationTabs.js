@@ -5,7 +5,7 @@ import ProjectTestcases from './ProjectTestcases';
 import ProjectTesters from './ProjectTesters';
 import ProjectOffers from './ProjectOffers';
 
-const ProjectStatsNavigationTabs = ({ project }) => {
+const ProjectStatsNavigationTabs = ({ project, styles }) => {
   return (
     <Fragment>
       <Tab.Container defaultActiveKey='testCases'>
@@ -31,21 +31,21 @@ const ProjectStatsNavigationTabs = ({ project }) => {
                 {project !== null && project.testCases.length > 0 ? (
                   <ProjectTestcases testCases={project.testCases} />
                 ) : (
-                  <div className='lead my-3'>No testcases found</div>
+                  <div className={styles.sub_heading}>No testcases found</div>
                 )}
               </Tab.Pane>
               <Tab.Pane eventKey='testers'>
                 {project !== null && project.testers.length > 0 ? (
-                  <ProjectTesters testers={project.testers} />
+                  <ProjectTesters testers={project.testers} styles={styles} />
                 ) : (
-                  <div className='lead my-3'>No testers found</div>
+                  <div className={styles.sub_heading}>No testers found</div>
                 )}
               </Tab.Pane>
               <Tab.Pane eventKey='offers'>
                 {project !== null && project.offers.length > 0 ? (
-                  <ProjectOffers project={project} />
+                  <ProjectOffers project={project} styles={styles} />
                 ) : (
-                  <div className='lead my-3'>No offers found</div>
+                  <div className={styles.sub_heading}>No offers found</div>
                 )}
               </Tab.Pane>
             </Tab.Content>
@@ -57,7 +57,8 @@ const ProjectStatsNavigationTabs = ({ project }) => {
 };
 
 ProjectStatsNavigationTabs.propTypes = {
-  project: PropTypes.object.isRequired
+  project: PropTypes.object.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
 export default ProjectStatsNavigationTabs;

@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addExperience } from '../../actions/profile';
+import styles from '../../css/profile-forms/style.module.css';
+import SideNav from '../layout/SideNav';
+import Alert from '../layout/Alert';
+import Footer from '../layout/Footer';
+import { Form, Button } from 'react-bootstrap';
 
 const AddExperience = ({ addExperience, history }) => {
   const [formData, setFormData] = useState({
@@ -43,111 +48,130 @@ const AddExperience = ({ addExperience, history }) => {
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Add Experience</h1>
-      <p className='lead'>
-        <i className='fab fa-black-tie'></i> Fill in the following information
-        to add an experience
-      </p>
+      <section className={styles.section}>
+        <SideNav styles={styles} />
 
-      <form onSubmit={e => onSubmit(e)}>
-        <div className='form-group'>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='Company'
-            name='company'
-            value={company}
-            onChange={e => onChange(e)}
-          />
-          <small className='form-text text-muted'>
-            This can be your own company and also a company that you work for
-          </small>
+        <div className={styles.content}>
+          <Alert />
+          <div className={styles.heading}>
+            <i className='fab fa-black-tie'></i> Add Experience
+          </div>
+          <div className={styles.sub_heading}>
+            Fill in the following information to add an experience
+          </div>
+
+          <Form onSubmit={e => onSubmit(e)}>
+            <Form.Group>
+              <Form.Control
+                type='text'
+                className='form-control'
+                placeholder='Company'
+                name='company'
+                value={company}
+                onChange={e => onChange(e)}
+              />
+              <Form.Text className='text-muted'>
+                This can be your own company and also a company that you work
+                for
+              </Form.Text>
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Control
+                type='text'
+                className='form-control'
+                placeholder='Position'
+                name='position'
+                value={position}
+                onChange={e => onChange(e)}
+              />
+              <Form.Text className='text-muted'>
+                Your position at that company
+              </Form.Text>
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Control
+                type='text'
+                className='form-control'
+                placeholder='Location'
+                name='location'
+                value={location}
+                onChange={e => onChange(e)}
+              />
+              <Form.Text className='text-muted'>
+                The location where the company is located
+              </Form.Text>
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Control
+                as='textarea'
+                cols='30'
+                rows='5'
+                placeholder='Description'
+                name='description'
+                value={description}
+                onChange={e => onChange(e)}
+              />
+              <Form.Text className='text-muted'>
+                A description of the tasks you performed at the company
+              </Form.Text>
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label htmlFor='from-date'>From Date</Form.Label>
+              <Form.Control
+                id='from-date'
+                type='date'
+                name='from'
+                value={from}
+                onChange={e => onChange(e)}
+              />
+            </Form.Group>
+
+            <Form.Group className='form-group form-check'>
+              <Form.Check
+                id='current'
+                name='current'
+                type='checkbox'
+                label='Current'
+                value={current}
+                onChange={toggleDisplayToDate}
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label htmlFor='to-date'>To Date</Form.Label>
+              <Form.Control
+                id='to-date'
+                type='date'
+                disabled={disableToDate}
+                name='to'
+                value={to}
+                onChange={e => onChange(e)}
+              />
+            </Form.Group>
+
+            <Button
+              variant='primary'
+              type='submit'
+              className={`${styles.btn_primary} my-2`}
+            >
+              Submit
+            </Button>
+            <Button
+              variant='danger'
+              className='my-2'
+              onClick={() => history.push('/dashboard')}
+            >
+              Cancel
+            </Button>
+          </Form>
         </div>
+      </section>
 
-        <div className='form-group'>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='Position'
-            name='position'
-            value={position}
-            onChange={e => onChange(e)}
-          />
-          <small className='form-text text-muted'>
-            Your position at that company
-          </small>
-        </div>
-
-        <div className='form-group'>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='Location'
-            name='location'
-            value={location}
-            onChange={e => onChange(e)}
-          />
-          <small className='form-text text-muted'>
-            The location where the company is located
-          </small>
-        </div>
-
-        <div className='form-group'>
-          <textarea
-            cols='30'
-            rows='5'
-            className='form-control'
-            placeholder='Description'
-            name='description'
-            value={description}
-            onChange={e => onChange(e)}
-          />
-          <small className='form-text text-muted'>
-            A description of the tasks you performed at the company
-          </small>
-        </div>
-
-        <div className='form-group'>
-          <label htmlFor='from-date'>From Date</label>
-          <input
-            id='from-date'
-            type='date'
-            className='form-control'
-            name='from'
-            value={from}
-            onChange={e => onChange(e)}
-          />
-        </div>
-
-        <div className='form-group form-check'>
-          <input
-            id='current'
-            type='checkbox'
-            className='form-check-input'
-            name='current'
-            value={current}
-            onChange={toggleDisplayToDate}
-          />
-          <label htmlFor='current' className='form-check-label'>
-            Current
-          </label>
-        </div>
-
-        <div className='form-group'>
-          <label htmlFor='to-date'>To Date</label>
-          <input
-            id='to-date'
-            type='date'
-            className='form-control'
-            disabled={disableToDate}
-            name='to'
-            value={to}
-            onChange={e => onChange(e)}
-          />
-        </div>
-
-        <input type='submit' value='Submit' className='btn btn-primary' />
-      </form>
+      <Footer styles={styles} />
     </Fragment>
   );
 };
@@ -156,7 +180,4 @@ AddExperience.propTypes = {
   addExperience: PropTypes.func.isRequired
 };
 
-export default connect(
-  null,
-  { addExperience }
-)(withRouter(AddExperience));
+export default connect(null, { addExperience })(withRouter(AddExperience));

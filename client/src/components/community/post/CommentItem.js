@@ -5,30 +5,29 @@ import { connect } from 'react-redux';
 import { deleteComment } from '../../../actions/community/post';
 import { Row, Col } from 'react-bootstrap';
 
-const CommentItem = ({ comment, auth, deleteComment, post }) => {
+const CommentItem = ({ comment, auth, deleteComment, post, styles }) => {
   return (
     <Fragment>
-      <Row className='post p-3 my-3'>
-        <Col md={3}>
+      <Row className={styles.list_item}>
+        <Col md={2}>
           <Link to={`/profile/${comment.user._id}`}>
             <img src={comment.user.avatar} alt='' className='round-img' />
-            <p className='text-primary my-1'>
-              <strong>{comment.user.name}</strong>
-            </p>
+            <div className={styles.user_name}>{comment.user.name}</div>
           </Link>
         </Col>
-        <Col md={9}>
+        <Col md={10}>
           <p>{comment.description}</p>
           <div className='my-1'>
-            {(auth.user._id === comment.user._id ||
-              auth.user._id === post.group.admin) && (
-              <button
-                className='btn btn-danger'
-                onClick={() => deleteComment(post._id, comment._id)}
-              >
-                Delete comment
-              </button>
-            )}
+            {auth.user !== null &&
+              (auth.user._id === comment.user._id ||
+                auth.user._id === post.group.admin) && (
+                <button
+                  className='btn btn-danger'
+                  onClick={() => deleteComment(post._id, comment._id)}
+                >
+                  Delete comment
+                </button>
+              )}
           </div>
         </Col>
       </Row>
@@ -40,7 +39,8 @@ CommentItem.propTypes = {
   comment: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   deleteComment: PropTypes.func.isRequired,
-  post: PropTypes.object.isRequired
+  post: PropTypes.object.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
 export default connect(null, {
