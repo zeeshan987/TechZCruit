@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styles from '../../../css/ecommerce/ServiceSection.module.css';
 
-const ServiceSection = () => {
+const FeaturedProducts = () => {
   return (
     <Fragment>
       <div class={styles.services_section}>
@@ -82,6 +82,6 @@ const ServiceSection = () => {
   );
 };
 
-ServiceSection.propTypes = {};
+FeaturedProducts.propTypes = {};
 
-export default ServiceSection;
+export default FeaturedProducts;
