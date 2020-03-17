@@ -47,13 +47,13 @@ const Projects = ({
 
         <div className={styles.content}>
           <Alert />
-          <h1 className={styles.heading}>
+          <div className={styles.heading}>
             <i className='fas fa-user'></i> Product Testing
-          </h1>
-          <p className={styles.sub_heading}>
+          </div>
+          <div className={styles.sub_heading}>
             Use this platform to test your own software products and offer your
             services to other people in the community
-          </p>
+          </div>
           <Form onSubmit={e => onSubmit(e)}>
             <Form.Group>
               <Form.Control
