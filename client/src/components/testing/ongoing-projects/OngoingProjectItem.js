@@ -7,22 +7,18 @@ import { finishTestingForProject } from '../../../actions/testing/project';
 
 const OngoingProjectItem = ({
   project: { _id, name, description },
-  finishTestingForProject
+  finishTestingForProject,
+  styles
 }) => {
   return (
     <Fragment>
-      <Row className='post p-3 my-3'>
+      <Row className={styles.list_item}>
         <Col md={12}>
-          <h2>
-            <Link
-              to={`/testing/project/${_id}`}
-              style={{ textDecoration: 'none', color: 'inherit' }}
-            >
-              {name}
-            </Link>
-          </h2>
-          <p>{description}</p>
-          <div className='my-2'>
+          <Link to={`/testing/project/${_id}`} className={styles.group_name}>
+            {name}
+          </Link>
+          <div className='mt-2'>{description}</div>
+          <div className='mt-2'>
             <Button
               variant='primary'
               href={`/testing/ongoing-project/testcases/${_id}`}
@@ -44,7 +40,8 @@ const OngoingProjectItem = ({
 
 OngoingProjectItem.propTypes = {
   project: PropTypes.object.isRequired,
-  finishTestingForProject: PropTypes.func.isRequired
+  finishTestingForProject: PropTypes.func.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
 export default connect(null, {
