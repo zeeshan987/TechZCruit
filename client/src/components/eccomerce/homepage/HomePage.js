@@ -30,6 +30,7 @@ const HomePage = ({
         <SideNav styles={styles} />
 
         <div className={styles.content}>
+          <Alert />
           <div className={styles.header} id='topheader'>
             <section className={styles.header_section}>
               <div className={styles.center_div}>
