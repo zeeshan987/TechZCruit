@@ -1,16 +1,16 @@
-import React, { Fragment, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Form, Button, Row } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import React, { Fragment, useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { Form, Button, Row } from "react-bootstrap";
+import { connect } from "react-redux";
 import {
   getAllProjects,
   searchProject
-} from '../../../actions/testing/project';
-import ProjectItem from './ProjectItem';
-import styles from '../../../css/testing/projects/style.module.css';
-import SideNav from '../../layout/SideNav';
-import Alert from '../../layout/Alert';
-import Footer from '../../layout/Footer';
+} from "../../../actions/testing/project";
+import ProjectItem from "./ProjectItem";
+import styles from "../../../css/testing/projects/style.module.css";
+import SideNav from "../../layout/SideNav";
+import Alert from "../../layout/Alert";
+import Footer from "../../layout/Footer";
 
 const Projects = ({
   project: { loading, projects },
@@ -22,7 +22,7 @@ const Projects = ({
   }, [getAllProjects]);
 
   const [formData, setFormData] = useState({
-    description: ''
+    description: ""
   });
 
   const { description } = formData;
@@ -33,7 +33,7 @@ const Projects = ({
 
   const onSubmit = e => {
     e.preventDefault();
-    if (description === '') {
+    if (description === "") {
       getAllProjects();
     } else {
       searchProject(description);
