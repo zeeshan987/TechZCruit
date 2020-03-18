@@ -1,3 +1,75 @@
+.side_nav {
+  height: 100%;
+  width: 230px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgb(44, 44, 44);
+  overflow-x: hidden;
+  color: white;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  padding-right: 0.7rem;
+  padding-left: 0.7rem;
+}
+
+.side_nav a {
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  display: block;
+  padding: 0.5rem;
+  border-radius: 10px;
+  margin-left: 1.1rem;
+}
+
+.side_nav a:hover {
+  background: rgb(27, 27, 27);
+}
+
+.side_nav_heading {
+  color: white;
+  font-size: 1.2rem;
+  display: block;
+  padding: 0.8rem;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.section {
+  min-height: 100%;
+  margin-bottom: -70px;
+}
+
+.section::after {
+  content: '';
+  display: block;
+}
+
+.content {
+  margin-left: 230px;
+  padding-top: 3.5rem;
+  padding-bottom: 3rem;
+  /* padding-left: 2.5rem;
+  padding-right: 2.5rem; */
+}
+
+.footer,
+section::after {
+  height: 70px;
+}
+
+.footer {
+  text-align: center;
+  width: 100%;
+  background: rgb(44, 44, 44);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-top: solid 1px white;
+}
+
 .padlr {
   margin-left: 1rem;
   margin-right: 1rem;
@@ -24,7 +96,7 @@
       rgba(233, 171, 1, 0.651),
       rgba(226, 167, 5, 0.575)
     ),
-    url("../../img/placeholder.png");
+    url('../../img/placeholder.png');
   /* background-image: linear-gradient(
       rgba(0, 168, 255, 0.3),
       rgba(0, 168, 255, 0.3)
@@ -37,7 +109,7 @@
   clip-path: polygon(100% 0%, 100% 75%, 50% 100%, 0 75%, 0 0);
 }
 .header:before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0%;
   bottom: 0%;
@@ -178,8 +250,8 @@
   margin-bottom: 20px;
 }
 .box a::after {
-  content: "\f10d";
-  font-family: "FontAwesome";
+  content: '\f10d';
+  font-family: 'FontAwesome';
   width: 40px;
   height: 40px;
   background: linear-gradient(to right, #1e5799 0%, #3ccdbb 0%, #16c9f6 100%);
