@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import Styles from "../../../css/ecommerce/ProductCard.module.css";
-import Image from "../../../img/placeholder.png";
+import Image from "../../../img/gigpic.png";
 import { deleteProduct } from "../../../actions/ecommerce/product";
 import { Button } from "react-bootstrap";
 const Products = ({

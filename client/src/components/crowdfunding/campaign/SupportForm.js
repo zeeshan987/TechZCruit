@@ -1,9 +1,9 @@
-import React, { Fragment, useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { supportCampaign } from '../../../actions/crowdfunding/campaign';
-import { Form, Modal, Button } from 'react-bootstrap';
-import { CardElement, injectStripe } from 'react-stripe-elements';
+import React, { Fragment, useState } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { supportCampaign } from "../../../actions/crowdfunding/campaign";
+import { Form, Modal, Button } from "react-bootstrap";
+import { CardElement, injectStripe } from "react-stripe-elements";
 
 const SupportForm = ({
   campaignId,
@@ -14,24 +14,24 @@ const SupportForm = ({
   auth
 }) => {
   const [formData, setFormData] = useState({
-    amount: ''
+    amount: ""
   });
 
   const { amount } = formData;
 
   const cardElementStyle = {
     base: {
-      color: '#32325d',
+      color: "#32325d",
       fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-      fontSmoothing: 'antialiased',
-      fontSize: '16px',
-      '::placeholder': {
-        color: '#aab7c4'
+      fontSmoothing: "antialiased",
+      fontSize: "16px",
+      "::placeholder": {
+        color: "#aab7c4"
       }
     },
     invalid: {
-      color: '#fa755a',
-      iconColor: '#fa755a'
+      color: "#fa755a",
+      iconColor: "#fa755a"
     }
   };
 
@@ -42,18 +42,18 @@ const SupportForm = ({
   const onSubmit = async e => {
     e.preventDefault();
 
-    const cardElement = elements.getElement('card');
+    const cardElement = elements.getElement("card");
 
-    if (!cardElement._complete || amount === '') {
-      alert('Invlalid details entered');
+    if (!cardElement._complete || amount === "") {
+      alert("Invlalid details entered");
     } else {
       const clientSecret = await supportCampaign(campaignId, amount);
 
       stripe.confirmCardPayment(clientSecret, {
         payment_method: {
-          card: elements.getElement('card'),
+          card: elements.getElement("card"),
           billing_details: {
-            email: auth.user !== null ? auth.user.email : ''
+            email: auth.user !== null ? auth.user.email : ""
           }
         }
       });
