@@ -4,6 +4,10 @@ import { withRouter } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { createTestcaseForProject } from '../../../actions/testing/project';
+import styles from '../../../css/testing/projects-testcases/style.module.css';
+import SideNav from '../../layout/SideNav';
+import Alert from '../../layout/Alert';
+import Footer from '../../layout/Footer';
 
 const CreateTestcases = ({ history, createTestcaseForProject, match }) => {
   const [formData, setFormData] = useState({
@@ -25,45 +29,67 @@ const CreateTestcases = ({ history, createTestcaseForProject, match }) => {
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Create test case</h1>
-      <p className='lead'>
-        <i className='fas fa-user'></i> Fill in the following information to
-        create a new testcase for the project
-      </p>
-      <Form onSubmit={e => onSubmit(e)}>
-        <Form.Group>
-          <Form.Control
-            type='text'
-            name='name'
-            value={name}
-            placeholder='Name'
-            onChange={e => onChange(e)}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Control
-            as='textarea'
-            rows='5'
-            name='description'
-            value={description}
-            placeholder='Description'
-            onChange={e => onChange(e)}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Control
-            as='textarea'
-            rows='5'
-            name='expectedResult'
-            value={expectedResult}
-            placeholder='Expected result'
-            onChange={e => onChange(e)}
-          />
-        </Form.Group>
-        <Button variant='primary' type='submit'>
-          Submit
-        </Button>
-      </Form>
+      <section className={styles.section}>
+        <SideNav styles={styles} />
+
+        <div className={styles.content}>
+          <Alert />
+          <div className={styles.heading}>
+            <i className='fas fa-user'></i> Create test case
+          </div>
+          <div className={styles.sub_heading}>
+            Fill in the following information to create a new testcase for the
+            project
+          </div>
+          <Form onSubmit={e => onSubmit(e)}>
+            <Form.Group>
+              <Form.Control
+                type='text'
+                name='name'
+                value={name}
+                placeholder='Name'
+                onChange={e => onChange(e)}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Control
+                as='textarea'
+                rows='5'
+                name='description'
+                value={description}
+                placeholder='Description'
+                onChange={e => onChange(e)}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Control
+                as='textarea'
+                rows='5'
+                name='expectedResult'
+                value={expectedResult}
+                placeholder='Expected result'
+                onChange={e => onChange(e)}
+              />
+            </Form.Group>
+            <Button
+              variant='primary'
+              className={styles.btn_primary}
+              type='submit'
+            >
+              Submit
+            </Button>
+            <Button
+              variant='danger'
+              className='my-2'
+              onClick={() => history.push('/testing/my-projects')}
+            >
+              Cancel
+            </Button>
+          </Form>
+        </div>
+      </section>
+
+      <Footer styles={styles} />
     </Fragment>
   );
 };

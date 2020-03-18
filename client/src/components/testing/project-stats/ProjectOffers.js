@@ -11,19 +11,20 @@ import {
 const ProjectOffers = ({
   project: { _id, offers },
   deleteOfferForProject,
-  addTesterToProject
+  addTesterToProject,
+  styles
 }) => {
   return (
     <Fragment>
       {offers.map(offer => (
-        <Row className='post p-3 my-3'>
-          <Col md={3}>
+        <Row className={styles.list_item}>
+          <Col md={2}>
             <Link to={`/profile/${offer.user._id}`}>
               <img src={offer.user.avatar} alt='' className='round-img' />
             </Link>
           </Col>
-          <Col md={9}>
-            <div className='text-primary lead'>{offer.user.name}</div>
+          <Col md={10}>
+            <h2>{offer.user.name}</h2>
             <div>
               <strong>Amount: </strong>${offer.amount}
             </div>
@@ -54,7 +55,8 @@ const ProjectOffers = ({
 ProjectOffers.propTypes = {
   project: PropTypes.object.isRequired,
   deleteOfferForProject: PropTypes.func.isRequired,
-  addTesterToProject: PropTypes.func.isRequired
+  addTesterToProject: PropTypes.func.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
 export default connect(null, {

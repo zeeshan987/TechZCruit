@@ -8,6 +8,10 @@ import {
   sendOfferForProject
 } from '../../../actions/testing/project';
 import UserInfo from './UserInfo';
+import styles from '../../../css/testing/project/style.module.css';
+import SideNav from '../../layout/SideNav';
+import Alert from '../../layout/Alert';
+import Footer from '../../layout/Footer';
 
 const Project = ({
   project: { loading, project },
@@ -47,90 +51,101 @@ const Project = ({
 
   return (
     <Fragment>
-      <Modal show={showPaymentModal} onHide={() => toggleModal()} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Project title</Modal.Title>
-        </Modal.Header>
-        <Form onSubmit={e => onSubmit(e)}>
-          <Modal.Body>
-            <Form.Group>
-              <Form.Label>
-                Please enter the offer amount in US dollars
-              </Form.Label>
-              <Form.Control
-                type='number'
-                name='amount'
-                value={amount}
-                onChange={e => onChange(e)}
-              />
-            </Form.Group>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant='secondary' onClick={() => toggleModal()}>
-              Close
-            </Button>
-            <Button variant='success' type='submit'>
-              Submit
-            </Button>
-          </Modal.Footer>
-        </Form>
-      </Modal>
+      <section className={styles.section}>
+        <SideNav styles={styles} />
 
-      <h1 className='large text-primary'>
-        {!loading && project !== null ? project.name : ''}
-      </h1>
-      <Row className='mb-3'>
-        <Col md={8}>
-          <img
-            src={placeholder}
-            alt=''
-            style={{ width: '100%', height: '500px' }}
-          />
-        </Col>
-        <Col className='post p-3' md={4}>
-          <div>
-            <div className='lead'>Amount being offered:</div>
-            <h3 className='text-primary'>
-              ${!loading && project !== null ? project.amount : ''}
-            </h3>
+        <div className={styles.content}>
+          <Alert />
+          <Modal show={showPaymentModal} onHide={() => toggleModal()} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Project title</Modal.Title>
+            </Modal.Header>
+            <Form onSubmit={e => onSubmit(e)}>
+              <Modal.Body>
+                <Form.Group>
+                  <Form.Label>
+                    Please enter the offer amount in US dollars
+                  </Form.Label>
+                  <Form.Control
+                    type='number'
+                    name='amount'
+                    value={amount}
+                    onChange={e => onChange(e)}
+                  />
+                </Form.Group>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant='secondary' onClick={() => toggleModal()}>
+                  Close
+                </Button>
+                <Button variant='success' type='submit'>
+                  Submit
+                </Button>
+              </Modal.Footer>
+            </Form>
+          </Modal>
+
+          <div className={styles.heading}>
+            {!loading && project !== null ? project.name : ''}
           </div>
-          <div>
-            <div className='lead mt-3'>URL:</div>
-            {!loading && project !== null ? (
-              <a href={project.url}>{project.url}</a>
-            ) : (
-              ''
-            )}
-          </div>
-          <div>
-            <Button
-              variant='primary'
-              className='mt-3'
-              onClick={() => sendOfferForProject(project._id, project.amount)}
-            >
-              Accept offer
-            </Button>
-          </div>
-          <div>
-            <Button
-              variant='dark'
-              className='mt-3'
-              onClick={() => toggleModal()}
-            >
-              Send custom offer
-            </Button>
-          </div>
-        </Col>
-      </Row>
-      <Row>
-        <Col md={8}>
-          <div className='lead mt-3'>Description:</div>
-          {!loading && project !== null ? project.description : ''}
-        </Col>
-        <Col className='p-3' md={4}>
-          <UserInfo project={project} />
-        </Col>
-      </Row>
+          <Row className='my-3'>
+            <Col md={8}>
+              <img
+                src={placeholder}
+                alt=''
+                style={{ width: '100%', height: '500px' }}
+              />
+            </Col>
+            <Col className='p-3' md={4}>
+              <div>
+                <div>Amount being offered:</div>
+                <h3 className={styles.sub_heading}>
+                  ${!loading && project !== null ? project.amount : ''}
+                </h3>
+              </div>
+              <div>
+                <div className='mt-3'>URL:</div>
+                {!loading && project !== null ? (
+                  <a href={project.url}>{project.url}</a>
+                ) : (
+                  ''
+                )}
+              </div>
+              <div>
+                <Button
+                  variant='primary'
+                  className={`mt-3 ${styles.btn_primary}`}
+                  onClick={() =>
+                    sendOfferForProject(project._id, project.amount)
+                  }
+                >
+                  Accept offer
+                </Button>
+              </div>
+              <div>
+                <Button
+                  variant='dark'
+                  className='mt-3'
+                  onClick={() => toggleModal()}
+                >
+                  Send custom offer
+                </Button>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={8}>
+              <div className={styles.sub_heading}>Description</div>
+              {!loading && project !== null ? project.description : ''}
+            </Col>
+            <Col md={4}>
+              <UserInfo project={project} styles={styles} />
+            </Col>
+          </Row>
+        </div>
+      </section>
+
+      <Footer styles={styles} />
     </Fragment>
   );
 };

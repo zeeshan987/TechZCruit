@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 
-const ProjectTesters = ({ testers }) => {
+const ProjectTesters = ({ testers, styles }) => {
   return (
     <Fragment>
       {testers.map(tester => (
-        <Row className='post p-3 my-3'>
-          <Col md={3}>
+        <Row className={styles.list_item}>
+          <Col md={2}>
             <Link to={`/profile/${tester.user._id}`}>
               <img src={tester.user.avatar} alt='' className='round-img' />
             </Link>
           </Col>
-          <Col md={9}>
-            <div className='text-primary lead'>{tester.user.name}</div>
+          <Col md={10}>
+            <h2>{tester.user.name}</h2>
             <div>
               <strong>Testing status: </strong>
               {tester.status ? 'Finished' : 'Not finished'}
@@ -27,7 +27,8 @@ const ProjectTesters = ({ testers }) => {
 };
 
 ProjectTesters.propTypes = {
-  testers: PropTypes.array.isRequired
+  testers: PropTypes.array.isRequired,
+  styles: PropTypes.object.isRequired
 };
 
 export default ProjectTesters;
