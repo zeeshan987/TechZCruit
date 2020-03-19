@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import ProjectTestcases from './ProjectTestcases';
 import ProjectTesters from './ProjectTesters';
 import ProjectOffers from './ProjectOffers';
+import { StripeProvider, Elements } from 'react-stripe-elements';
 
 const ProjectStatsNavigationTabs = ({ project, styles }) => {
   return (
@@ -42,11 +43,15 @@ const ProjectStatsNavigationTabs = ({ project, styles }) => {
                 )}
               </Tab.Pane>
               <Tab.Pane eventKey='offers'>
-                {project !== null && project.offers.length > 0 ? (
-                  <ProjectOffers project={project} styles={styles} />
-                ) : (
-                  <div className={styles.sub_heading}>No offers found</div>
-                )}
+                <StripeProvider apiKey='pk_test_qFCTODVMoaT4TXgRvnQ75GPR00dFX40yVb'>
+                  <Elements>
+                    {project !== null && project.offers.length > 0 ? (
+                      <ProjectOffers project={project} styles={styles} />
+                    ) : (
+                      <div className={styles.sub_heading}>No offers found</div>
+                    )}
+                  </Elements>
+                </StripeProvider>
               </Tab.Pane>
             </Tab.Content>
           </Col>

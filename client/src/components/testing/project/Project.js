@@ -12,6 +12,8 @@ import styles from '../../../css/testing/project/style.module.css';
 import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';
+import { StripeProvider, Elements } from 'react-stripe-elements';
+import CustomOfferFrom from './CustomOfferForm';
 
 const Project = ({
   project: { loading, project },
@@ -36,20 +38,6 @@ const Project = ({
 
   const { amount } = formData;
 
-  const onChange = e => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const onSubmit = e => {
-    e.preventDefault();
-    if (amount === '') {
-      alert('Amount cannot be zero');
-    } else {
-      sendOfferForProject(project._id, amount);
-      toggleModal();
-    }
-  };
-
   return (
     <Fragment>
       <section className={styles.section}>
@@ -61,29 +49,14 @@ const Project = ({
             <Modal.Header closeButton>
               <Modal.Title>Project title</Modal.Title>
             </Modal.Header>
-            <Form onSubmit={e => onSubmit(e)}>
-              <Modal.Body>
-                <Form.Group>
-                  <Form.Label>
-                    Please enter the offer amount in US dollars
-                  </Form.Label>
-                  <Form.Control
-                    type='number'
-                    name='amount'
-                    value={amount}
-                    onChange={e => onChange(e)}
-                  />
-                </Form.Group>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant='secondary' onClick={() => toggleModal()}>
-                  Close
-                </Button>
-                <Button variant='success' type='submit'>
-                  Submit
-                </Button>
-              </Modal.Footer>
-            </Form>
+            <StripeProvider apiKey='pk_test_qFCTODVMoaT4TXgRvnQ75GPR00dFX40yVb'>
+              <Elements>
+                <CustomOfferFrom
+                  projectId={project !== null ? project._id : ''}
+                  toggleModal={toggleModal}
+                />
+              </Elements>
+            </StripeProvider>
           </Modal>
 
           <div className={styles.heading}>

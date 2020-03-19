@@ -1,17 +1,16 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { supportCampaign } from '../../../actions/crowdfunding/campaign';
 import { Form, Modal, Button } from 'react-bootstrap';
 import { CardElement, injectStripe } from 'react-stripe-elements';
+import { sendOfferForProject } from '../../../actions/testing/project';
 
-const SupportForm = ({
-  campaignId,
-  supportCampaign,
+const CustomOfferForm = ({
+  projectId,
+  sendOfferForProject,
   toggleModal,
   stripe,
-  elements,
-  auth
+  elements
 }) => {
   const [formData, setFormData] = useState({
     amount: ''
@@ -47,13 +46,14 @@ const SupportForm = ({
     if (!cardElement._complete || amount === '') {
       alert('Invlalid details entered');
     } else {
-      const clientSecret = await supportCampaign(campaignId, amount);
-
-      await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: elements.getElement('card')
-        }
+      const { error, paymentMethod } = await stripe.createPaymentMethod({
+        type: 'card',
+        card: elements.getElement('card')
       });
+
+      if (error) throw error;
+
+      sendOfferForProject(projectId, amount, paymentMethod.id);
 
       toggleModal();
     }
@@ -68,13 +68,12 @@ const SupportForm = ({
             <CardElement style={cardElementStyle} />
           </Form.Group>
           <Form.Group>
-            <Form.Label>Please enter support amount in US dollars</Form.Label>
+            <Form.Label>Please enter the offer amount in US dollars</Form.Label>
             <Form.Control
               type='number'
               name='amount'
               value={amount}
               onChange={e => onChange(e)}
-              placeholder='Support amount'
             />
           </Form.Group>
         </Modal.Body>
@@ -91,15 +90,14 @@ const SupportForm = ({
   );
 };
 
-SupportForm.propTypes = {
-  campaignId: PropTypes.string.isRequired,
-  supportCampaign: PropTypes.func.isRequired,
+CustomOfferForm.propTypes = {
+  projectId: PropTypes.string.isRequired,
+  sendOfferForProject: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   stripe: PropTypes.object.isRequired,
-  elements: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  elements: PropTypes.object.isRequired
 };
 
 export default connect(null, {
-  supportCampaign
-})(injectStripe(SupportForm));
+  sendOfferForProject
+})(injectStripe(CustomOfferForm));
