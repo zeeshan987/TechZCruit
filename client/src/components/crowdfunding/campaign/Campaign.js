@@ -39,7 +39,7 @@ const Campaign = ({
           <Alert />
           <Modal show={showPaymentModal} onHide={() => toggleModal()} centered>
             <Modal.Header closeButton>
-              <Modal.Title>Campaign title</Modal.Title>
+              <Modal.Title>{campaign !== null && campaign.title}</Modal.Title>
             </Modal.Header>
             <StripeProvider apiKey='pk_test_qFCTODVMoaT4TXgRvnQ75GPR00dFX40yVb'>
               <Elements>

@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal, Row, Col, Button, Form } from 'react-bootstrap';
 import placeholder from '../../../img/placeholder.png';
 import { connect } from 'react-redux';
-import {
-  getProjectById,
-  sendOfferForProject
-} from '../../../actions/testing/project';
+import { getProjectById } from '../../../actions/testing/project';
 import UserInfo from './UserInfo';
 import styles from '../../../css/testing/project/style.module.css';
 import SideNav from '../../layout/SideNav';
@@ -14,29 +11,35 @@ import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';
 import { StripeProvider, Elements } from 'react-stripe-elements';
 import CustomOfferFrom from './CustomOfferForm';
+import DefaultOfferForm from './DefaultOfferForm';
 
 const Project = ({
   project: { loading, project },
   getProjectById,
   match,
-  sendOfferForProject,
   auth
 }) => {
   useEffect(() => {
     getProjectById(match.params.id);
   }, [getProjectById, match.params.id]);
 
-  const [showPaymentModal, setshowPaymentModal] = useState(false);
+  const [
+    showCustomOfferPaymentModal,
+    setshowCustomOfferPaymentModal
+  ] = useState(false);
 
-  const toggleModal = () => {
-    setshowPaymentModal(!showPaymentModal);
+  const toggleCustomOfferPaymentModal = () => {
+    setshowCustomOfferPaymentModal(!showCustomOfferPaymentModal);
   };
 
-  const [formData, setFormData] = useState({
-    amount: ''
-  });
+  const [
+    showDefaultOfferPaymentModal,
+    setShowDefaultOfferPaymentModal
+  ] = useState(false);
 
-  const { amount } = formData;
+  const toggleDefaultOfferPaymentModal = () => {
+    setShowDefaultOfferPaymentModal(!showDefaultOfferPaymentModal);
+  };
 
   return (
     <Fragment>
@@ -45,15 +48,39 @@ const Project = ({
 
         <div className={styles.content}>
           <Alert />
-          <Modal show={showPaymentModal} onHide={() => toggleModal()} centered>
+
+          <Modal
+            show={showDefaultOfferPaymentModal}
+            onHide={() => toggleDefaultOfferPaymentModal()}
+            centered
+          >
             <Modal.Header closeButton>
-              <Modal.Title>Project title</Modal.Title>
+              <Modal.Title>{project !== null && project.name}</Modal.Title>
+            </Modal.Header>
+            <StripeProvider apiKey='pk_test_qFCTODVMoaT4TXgRvnQ75GPR00dFX40yVb'>
+              <Elements>
+                <DefaultOfferForm
+                  projectId={project !== null ? project._id : ''}
+                  toggleModal={toggleDefaultOfferPaymentModal}
+                  amount={project !== null ? project.amount : ''}
+                />
+              </Elements>
+            </StripeProvider>
+          </Modal>
+
+          <Modal
+            show={showCustomOfferPaymentModal}
+            onHide={() => toggleCustomOfferPaymentModal()}
+            centered
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>{project !== null && project.name}</Modal.Title>
             </Modal.Header>
             <StripeProvider apiKey='pk_test_qFCTODVMoaT4TXgRvnQ75GPR00dFX40yVb'>
               <Elements>
                 <CustomOfferFrom
                   projectId={project !== null ? project._id : ''}
-                  toggleModal={toggleModal}
+                  toggleModal={toggleCustomOfferPaymentModal}
                 />
               </Elements>
             </StripeProvider>
@@ -102,7 +129,8 @@ const Project = ({
                         variant='primary'
                         className={`mt-3 ${styles.btn_primary}`}
                         onClick={() =>
-                          sendOfferForProject(project._id, project.amount)
+                          // sendOfferForProject(project._id, project.amount)
+                          toggleDefaultOfferPaymentModal()
                         }
                       >
                         Accept offer
@@ -112,7 +140,7 @@ const Project = ({
                       <Button
                         variant='dark'
                         className='mt-3'
-                        onClick={() => toggleModal()}
+                        onClick={() => toggleCustomOfferPaymentModal()}
                       >
                         Send custom offer
                       </Button>
@@ -141,7 +169,6 @@ const Project = ({
 Project.propTypes = {
   project: PropTypes.object.isRequired,
   getProjectById: PropTypes.func.isRequired,
-  sendOfferForProject: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
 
@@ -151,6 +178,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  getProjectById,
-  sendOfferForProject
+  getProjectById
 })(Project);
