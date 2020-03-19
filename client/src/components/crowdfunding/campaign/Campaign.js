@@ -97,13 +97,18 @@ const Campaign = ({
                   )}
                 </div>
               </div>
-              <Button
-                variant='primary'
-                className={`mt-3 ${styles.btn_primary}`}
-                onClick={() => toggleModal()}
-              >
-                Support this campaign
-              </Button>
+              {!loading &&
+                auth.user !== null &&
+                campaign !== null &&
+                auth.user._id !== campaign.user._id && (
+                  <Button
+                    variant='primary'
+                    className={`mt-3 ${styles.btn_primary}`}
+                    onClick={() => toggleModal()}
+                  >
+                    Support this campaign
+                  </Button>
+                )}
             </Col>
           </Row>
           <Row>
