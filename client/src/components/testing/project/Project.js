@@ -17,7 +17,8 @@ const Project = ({
   project: { loading, project },
   getProjectById,
   match,
-  sendOfferForProject
+  sendOfferForProject,
+  auth
 }) => {
   useEffect(() => {
     getProjectById(match.params.id);
@@ -111,26 +112,40 @@ const Project = ({
                   ''
                 )}
               </div>
-              <div>
-                <Button
-                  variant='primary'
-                  className={`mt-3 ${styles.btn_primary}`}
-                  onClick={() =>
-                    sendOfferForProject(project._id, project.amount)
-                  }
-                >
-                  Accept offer
-                </Button>
-              </div>
-              <div>
-                <Button
-                  variant='dark'
-                  className='mt-3'
-                  onClick={() => toggleModal()}
-                >
-                  Send custom offer
-                </Button>
-              </div>
+              {!loading &&
+                auth.user !== null &&
+                project !== null &&
+                auth.user._id !== project.user._id &&
+                project.offers
+                  .map(offer => offer.user._id)
+                  .indexOf(auth.user._id) === -1 &&
+                project.testers
+                  .map(tester => tester.user._id)
+                  .indexOf(auth.user._id) === -1 && (
+                  <Fragment>
+                    {' '}
+                    <div>
+                      <Button
+                        variant='primary'
+                        className={`mt-3 ${styles.btn_primary}`}
+                        onClick={() =>
+                          sendOfferForProject(project._id, project.amount)
+                        }
+                      >
+                        Accept offer
+                      </Button>
+                    </div>
+                    <div>
+                      <Button
+                        variant='dark'
+                        className='mt-3'
+                        onClick={() => toggleModal()}
+                      >
+                        Send custom offer
+                      </Button>
+                    </div>
+                  </Fragment>
+                )}
             </Col>
           </Row>
           <Row>
@@ -153,11 +168,13 @@ const Project = ({
 Project.propTypes = {
   project: PropTypes.object.isRequired,
   getProjectById: PropTypes.func.isRequired,
-  sendOfferForProject: PropTypes.func.isRequired
+  sendOfferForProject: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  project: state.project
+  project: state.project,
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, {

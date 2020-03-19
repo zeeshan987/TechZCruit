@@ -4,9 +4,10 @@ import { Table, ProgressBar } from 'react-bootstrap';
 
 const ProjectTestcases = ({ testCases }) => {
   const getSuccessRate = testCase => {
-    return Math.round(
+    if (testCase.actualResults.length === 0) return 0;
+    return (
       testCase.actualResults.filter(result => result.status === true).length /
-        testCase.actualResults.length
+      testCase.actualResults.length
     );
   };
 
@@ -29,8 +30,8 @@ const ProjectTestcases = ({ testCases }) => {
                 <ProgressBar
                   striped
                   variant='success'
-                  now={getSuccessRate(testCase) * 100}
-                  label={`${getSuccessRate(testCase) * 100}%`}
+                  now={Math.round(getSuccessRate(testCase) * 100)}
+                  label={`${Math.round(getSuccessRate(testCase) * 100)}%`}
                 />
               </td>
             </tr>
