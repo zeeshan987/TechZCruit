@@ -100,18 +100,112 @@ router.post(
   }
 );
 
-// // @route   GET /api/eccomerce/products
-// // @desc    Get all products
-// // @access  Public
-// router.get('/', async (req, res) => {
-//   try {
-//     const products = await Product.find();
-//     res.json(products);
-//   } catch (err) {
-//     console.error(err.message);
-//     return res.status(500).send('Server error');
-//   }
-// });
+// @route   PUT /api/eccomerce/products/like/:id
+// @desc    Like a product
+// @access  Private
+router.put('/like/:id', auth, async (req, res) => {
+  try {
+    const product = await Product.findOne({
+      _id: req.params.id
+    });
+
+    //Check if the product already has a favourite by login user
+    const index = product.likes.map(item => item.user).indexOf(req.user.id);
+
+    if (index !== -1) {
+      return res.status(400).json({ msg: 'Already liked' });
+    }
+
+    product.likes.push({ user: req.user.id });
+
+    await product.save();
+    res.json(product);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send('Server error');
+  }
+});
+
+// @route   PUT /api/eccomerce/products/unlike/:id
+// @desc    Unlike a product
+// @access  Private
+router.put('/unlike/:id', auth, async (req, res) => {
+  try {
+    const product = await Product.findOne({ _id: req.params.id });
+
+    const removeIndex = product.likes
+      .map(item => item.user)
+      .indexOf(req.user.id);
+
+    if (removeIndex === -1) {
+      return res.status(400).json({ msg: 'Product not liked' });
+    }
+
+    product.likes.splice(removeIndex, 1);
+
+    await product.save();
+    res.json(product);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send('Server error');
+  }
+});
+
+// @route   PUT /api/ecommerce/products/:id
+// @desc    Update a Product
+// @access  Private
+router.put(
+  '/:id',
+  [
+    auth,
+    check('title', 'Title is required')
+      .not()
+      .isEmpty(),
+    check('description', 'Description is required')
+      .not()
+      .isEmpty(),
+    check('category', 'Category is required').isInt(),
+    check('price', 'Price is required').isInt()
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      let product = await Product.findById(req.params.id);
+
+      if (!product) {
+        return res.status(400).json({ msg: 'Product does not exist' });
+      }
+
+      if (product.user.toString() !== req.user.id) {
+        return res.status(401).json({ msg: 'Not authorized' });
+      }
+
+      const { title, description, category, price } = req.body;
+
+      product = await Product.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $set: {
+            title,
+            description,
+            category,
+            price
+          }
+        },
+        { new: true }
+      );
+
+      res.json(product);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).send('Server error');
+    }
+  }
+);
 
 // // @route   GET /api/ecommerce/products
 // // @desc    Search for a particular Product
@@ -149,88 +243,6 @@ router.post(
 
 //     await product.remove();
 //     res.json({ msg: 'Product removed' });
-//   } catch (err) {
-//     console.error(err.message);
-//     return res.status(500).send('Server error');
-//   }
-// });
-
-// // @route   Get /api/ecommerce/products
-// // @desc    Get all Products by user
-// // @access  Private
-// router.get('/user', auth, async (req, res) => {
-//   try {
-//     const products = await Product.find({
-//       seller: req.user.id
-//     }).populate('seller', ['name', 'avatar']);
-//     res.json(products);
-//   } catch (err) {
-//     console.error(err.message);
-//     return res.status(500).send('Server error here occur');
-//   }
-// });
-
-// // @route   GET /api/ecommerce/products/:id
-// // @desc    Get product by id
-// // @access  Public
-// router.get('/:id', async (req, res) => {
-//   try {
-//     const product = await Product.findOne({
-//       _id: req.params.id
-//     }).populate('reviews.user', ['name', 'avatar']);
-
-//     res.json(product);
-//   } catch (err) {
-//     console.error(err.message);
-//     return res.status(500).send('Server error');
-//   }
-// });
-
-// // @route   PUT /api/eccomerce/products/favourite:id
-// // @desc    favourite a product
-// // @access  Private
-// router.put('/favourite/:id', auth, async (req, res) => {
-//   try {
-//     const product = await Product.findOne({
-//       _id: req.params.id
-//     });
-
-//     //Check if the product already has a favourite by login user
-//     const index = product.favourite.map(item => item.user).indexOf(req.user.id);
-
-//     if (index !== -1) {
-//       return res.status(400).json({ msg: 'Already favourite by user' });
-//     }
-
-//     product.favourite.push({ user: req.user.id });
-
-//     await product.save();
-//     res.json(product.favourite); //? before:res.json(product)
-//   } catch (err) {
-//     console.error(err.message);
-//     return res.status(500).send('Server error');
-//   }
-// });
-
-// // @route   PUT  /api/eccomerce/products/unfavourite/:id
-// // @desc    Unfavourite a product
-// // @access  Private
-// router.put('/unfavourite/:id', auth, async (req, res) => {
-//   try {
-//     const product = await Product.findOne({ _id: req.params.id });
-
-//     const removeIndex = product.favourite
-//       .map(item => item.user)
-//       .indexOf(req.user.id);
-
-//     if (removeIndex === -1) {
-//       return res.status(400).json({ msg: 'Product not into favourite' });
-//     }
-
-//     product.favourite.splice(removeIndex, 1);
-
-//     await product.save();
-//     res.json(product.favourite);
 //   } catch (err) {
 //     console.error(err.message);
 //     return res.status(500).send('Server error');
@@ -320,74 +332,5 @@ router.post(
 //     return res.status(500).send('Server error');
 //   }
 // });
-
-// // @route   PUT /api/ecommerce/products
-// // @desc    Update a Product
-// // @access  Private
-// router.put(
-//   '/:id',
-//   [
-//     auth,
-//     check('productTitle', 'Title is required')
-//       .not()
-//       .isEmpty(),
-//     check('productDescription', 'Description is required')
-//       .not()
-//       .isEmpty(),
-//     check('productCategory', 'Category is required')
-//       .not()
-//       .isEmpty(),
-//     check('price', 'price required')
-//       .not()
-//       .isEmpty(),
-//     check('productTechnology', 'Technology required')
-//       .not()
-//       .isEmpty()
-//   ],
-//   async (req, res) => {
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//       return res.status(400).json({ errors: errors.array() });
-//     }
-
-//     try {
-//       let product = await Product.findById(req.params.id);
-
-//       if (!product) {
-//         return res.status(400).json({ msg: 'Product does not exist' });
-//       }
-
-//       if (product.seller.toString() !== req.user.id) {
-//         return res.status(401).json({ msg: 'Not authorized' });
-//       }
-
-//       const {
-//         productTitle,
-//         productDescription,
-//         productCategory,
-//         price,
-//         productTechnology
-//       } = req.body;
-
-//       product = await Product.findOneAndUpdate(
-//         { _id: req.params.id },
-//         {
-//           $set: {
-//             productTitle,
-//             productDescription,
-//             productCategory,
-//             price,
-//             productTechnology
-//           }
-//         },
-//         { new: true }
-//       );
-
-//       res.json(product);
-//     } catch (err) {
-//       return res.status(500).send('Server error');
-//     }
-//   }
-// );
 
 module.exports = router;
