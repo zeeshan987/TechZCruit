@@ -35,8 +35,8 @@ router.get('/user', auth, async (req, res) => {
 // @access  Private
 router.get('/:id', auth, async (req, res) => {
   try {
-    const stores = await Store.find({ _id: req.params.id });
-    res.json(stores);
+    const store = await Store.findById(req.params.id);
+    res.json(store);
   } catch (err) {
     console.log(err);
     return res.status(500).send('Server error');

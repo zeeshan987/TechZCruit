@@ -5,55 +5,7 @@ const { check, validationResult } = require('express-validator');
 const Product = require('../../../models/ecommerce/Product');
 const userModel = require('../../../models/User');
 
-// @route   POST /api/ecommerce/products
-// @desc    Create a new store
-// @access  Private
-router.post(
-  '/',
-  [
-    auth,
-    check('name', 'Name is required')
-      .not()
-      .isEmpty(),
-    check('description', 'Description is required')
-      .not()
-      .isEmpty()
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    const { name, description } = req.body;
-
-    const product = new Product({
-      seller: req.user.id,
-      productTitle,
-      productDescription,
-      productCategory,
-      price,
-      productTechnology
-    });
-
-    try {
-      await product.save();
-
-      const userId = await userModel.findById(req.user.id);
-      if (!userId.storeOwner) {
-        userId.storeOwner = true;
-      }
-
-      await userId.save();
-      res.json(product);
-    } catch (err) {
-      console.error(err.message);
-      return res.status(500).send('Server error');
-    }
-  }
-);
-
-// @route   GET /api/eccomerce/products
+// @route   GET /api/ecommerce/products
 // @desc    Get all products
 // @access  Public
 router.get('/', async (req, res) => {
@@ -61,145 +13,65 @@ router.get('/', async (req, res) => {
     const products = await Product.find();
     res.json(products);
   } catch (err) {
-    console.error(err.message);
+    console.log(err);
     return res.status(500).send('Server error');
   }
 });
 
-// @route   GET /api/ecommerce/products
-// @desc    Search for a particular Product
+// @route   GET /api/ecommerce/products/store/:id
+// @desc    Get all products for store
 // @access  Private
-router.get('/search/:description', auth, async (req, res) => {
-  const description = req.params.description;
-
+router.get('/store/:id', auth, async (req, res) => {
   try {
-    const products = await Product.find({
-      productTitle: new RegExp(description, 'i')
-    });
-
-    res.send(products);
+    const products = await Product.find({ store: req.params.id });
+    res.json(products);
   } catch (err) {
+    console.log(err);
     return res.status(500).send('Server error');
   }
 });
 
-// @route   DELETE /api/ecommerce/products/:id
-// @desc    Delete a Product
-// @access  Private
-router.delete('/:id', auth, async (req, res) => {
-  try {
-    const product = await Product.findOne({ _id: req.params.id });
-
-    // Check if product exists
-    if (!product) {
-      return res.status(404).json({ msg: 'Product not found' });
-    }
-
-    // Check product
-    if (product.seller.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'Not authorized' });
-    }
-
-    await product.remove();
-    res.json({ msg: 'Product removed' });
-  } catch (err) {
-    console.error(err.message);
-    return res.status(500).send('Server error');
-  }
-});
-
-// @route   Get /api/ecommerce/products
-// @desc    Get all Products by user
+// @route   GET /api/ecommerce/products/user
+// @desc    Get all products for current user
 // @access  Private
 router.get('/user', auth, async (req, res) => {
   try {
-    const products = await Product.find({
-      seller: req.user.id
-    }).populate('seller', ['name', 'avatar']);
+    const products = await Product.find({ user: req.user.id });
     res.json(products);
   } catch (err) {
-    console.error(err.message);
-    return res.status(500).send('Server error here occur');
+    console.log(err);
+    return res.status(500).send('Server error');
   }
 });
 
 // @route   GET /api/ecommerce/products/:id
 // @desc    Get product by id
-// @access  Public
-router.get('/:id', async (req, res) => {
+// @access  Private
+router.get('/:id', auth, async (req, res) => {
   try {
-    const product = await Product.findOne({
-      _id: req.params.id
-    }).populate('reviews.user', ['name', 'avatar']);
-
+    const product = await Product.findById(req.params.id);
     res.json(product);
   } catch (err) {
-    console.error(err.message);
+    console.log(err);
     return res.status(500).send('Server error');
   }
 });
 
-// @route   PUT /api/eccomerce/products/favourite:id
-// @desc    favourite a product
-// @access  Private
-router.put('/favourite/:id', auth, async (req, res) => {
-  try {
-    const product = await Product.findOne({
-      _id: req.params.id
-    });
-
-    //Check if the product already has a favourite by login user
-    const index = product.favourite.map(item => item.user).indexOf(req.user.id);
-
-    if (index !== -1) {
-      return res.status(400).json({ msg: 'Already favourite by user' });
-    }
-
-    product.favourite.push({ user: req.user.id });
-
-    await product.save();
-    res.json(product.favourite); //? before:res.json(product)
-  } catch (err) {
-    console.error(err.message);
-    return res.status(500).send('Server error');
-  }
-});
-
-// @route   PUT  /api/eccomerce/products/unfavourite/:id
-// @desc    Unfavourite a product
-// @access  Private
-router.put('/unfavourite/:id', auth, async (req, res) => {
-  try {
-    const product = await Product.findOne({ _id: req.params.id });
-
-    const removeIndex = product.favourite
-      .map(item => item.user)
-      .indexOf(req.user.id);
-
-    if (removeIndex === -1) {
-      return res.status(400).json({ msg: 'Product not into favourite' });
-    }
-
-    product.favourite.splice(removeIndex, 1);
-
-    await product.save();
-    res.json(product.favourite);
-  } catch (err) {
-    console.error(err.message);
-    return res.status(500).send('Server error');
-  }
-});
-
-// @route   POST /api/ecommerce/products/review/:id
-// @desc    review on a product
+// @route   POST /api/ecommerce/products/:id
+// @desc    Create a new product
 // @access  Private
 router.post(
-  '/review/:id',
+  '/:id',
   [
     auth,
+    check('title', 'Title is required')
+      .not()
+      .isEmpty(),
     check('description', 'Description is required')
       .not()
-      .isEmpty()
+      .isEmpty(),
+    check('category', 'Category is required').isInt(),
+    check('price', 'Price is required').isInt()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -207,21 +79,18 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { description } = req.body;
+    const { title, description, category, price } = req.body;
+
+    const product = new Product({
+      user: req.user.id,
+      store: req.params.id,
+      title,
+      description,
+      category,
+      price
+    });
 
     try {
-      const product = await Product.findOne({ _id: req.params.id });
-
-      product.reviews.unshift({
-        user: req.user.id,
-        description
-      });
-
-      product.populate('reviews.user', ['name', 'avatar'], (err, res) => {
-        if (err) throw err;
-        return res;
-      });
-
       await product.save();
       res.json(product);
     } catch (err) {
@@ -231,116 +100,294 @@ router.post(
   }
 );
 
-// @route   DELETE /api/eccomerce/products/review/:id/:review_id
-// @desc    Delete a review on a product
-// @access  Private
-router.delete('/review/:id/:review_id', auth, async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
+// // @route   GET /api/eccomerce/products
+// // @desc    Get all products
+// // @access  Public
+// router.get('/', async (req, res) => {
+//   try {
+//     const products = await Product.find();
+//     res.json(products);
+//   } catch (err) {
+//     console.error(err.message);
+//     return res.status(500).send('Server error');
+//   }
+// });
 
-  try {
-    const product = await Product.findById({ _id: req.params.id });
+// // @route   GET /api/ecommerce/products
+// // @desc    Search for a particular Product
+// // @access  Private
+// router.get('/search/:description', auth, async (req, res) => {
+//   const description = req.params.description;
 
-    const removeIndex = product.reviews
-      .map(item => item.id)
-      .indexOf(req.params.review_id);
+//   try {
+//     const products = await Product.find({
+//       productTitle: new RegExp(description, 'i')
+//     });
 
-    if (removeIndex === -1) {
-      return res.status(404).json({ msg: 'review not found' });
-    }
+//     res.send(products);
+//   } catch (err) {
+//     return res.status(500).send('Server error');
+//   }
+// });
 
-    const review = product.reviews.find(
-      review => review.id === req.params.review_id
-    );
+// // @route   DELETE /api/ecommerce/products/:id
+// // @desc    Delete a Product
+// // @access  Private
+// router.delete('/:id', auth, async (req, res) => {
+//   try {
+//     const product = await Product.findOne({ _id: req.params.id });
 
-    if (review.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'Not authorized' });
-    }
+//     // Check if product exists
+//     if (!product) {
+//       return res.status(404).json({ msg: 'Product not found' });
+//     }
 
-    product.reviews.splice(removeIndex, 1);
+//     // Check product
+//     if (product.seller.toString() !== req.user.id) {
+//       return res.status(401).json({ msg: 'Not authorized' });
+//     }
 
-    product.populate('reviews.user', ['name', 'avatar'], (err, res) => {
-      if (err) throw err;
-      return res;
-    });
+//     await product.remove();
+//     res.json({ msg: 'Product removed' });
+//   } catch (err) {
+//     console.error(err.message);
+//     return res.status(500).send('Server error');
+//   }
+// });
 
-    await product.save();
-    res.json(product);
-  } catch (err) {
-    console.error(err.message);
-    return res.status(500).send('Server error');
-  }
-});
+// // @route   Get /api/ecommerce/products
+// // @desc    Get all Products by user
+// // @access  Private
+// router.get('/user', auth, async (req, res) => {
+//   try {
+//     const products = await Product.find({
+//       seller: req.user.id
+//     }).populate('seller', ['name', 'avatar']);
+//     res.json(products);
+//   } catch (err) {
+//     console.error(err.message);
+//     return res.status(500).send('Server error here occur');
+//   }
+// });
 
-// @route   PUT /api/ecommerce/products
-// @desc    Update a Product
-// @access  Private
-router.put(
-  '/:id',
-  [
-    auth,
-    check('productTitle', 'Title is required')
-      .not()
-      .isEmpty(),
-    check('productDescription', 'Description is required')
-      .not()
-      .isEmpty(),
-    check('productCategory', 'Category is required')
-      .not()
-      .isEmpty(),
-    check('price', 'price required')
-      .not()
-      .isEmpty(),
-    check('productTechnology', 'Technology required')
-      .not()
-      .isEmpty()
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+// // @route   GET /api/ecommerce/products/:id
+// // @desc    Get product by id
+// // @access  Public
+// router.get('/:id', async (req, res) => {
+//   try {
+//     const product = await Product.findOne({
+//       _id: req.params.id
+//     }).populate('reviews.user', ['name', 'avatar']);
 
-    try {
-      let product = await Product.findById(req.params.id);
+//     res.json(product);
+//   } catch (err) {
+//     console.error(err.message);
+//     return res.status(500).send('Server error');
+//   }
+// });
 
-      if (!product) {
-        return res.status(400).json({ msg: 'Product does not exist' });
-      }
+// // @route   PUT /api/eccomerce/products/favourite:id
+// // @desc    favourite a product
+// // @access  Private
+// router.put('/favourite/:id', auth, async (req, res) => {
+//   try {
+//     const product = await Product.findOne({
+//       _id: req.params.id
+//     });
 
-      if (product.seller.toString() !== req.user.id) {
-        return res.status(401).json({ msg: 'Not authorized' });
-      }
+//     //Check if the product already has a favourite by login user
+//     const index = product.favourite.map(item => item.user).indexOf(req.user.id);
 
-      const {
-        productTitle,
-        productDescription,
-        productCategory,
-        price,
-        productTechnology
-      } = req.body;
+//     if (index !== -1) {
+//       return res.status(400).json({ msg: 'Already favourite by user' });
+//     }
 
-      product = await Product.findOneAndUpdate(
-        { _id: req.params.id },
-        {
-          $set: {
-            productTitle,
-            productDescription,
-            productCategory,
-            price,
-            productTechnology
-          }
-        },
-        { new: true }
-      );
+//     product.favourite.push({ user: req.user.id });
 
-      res.json(product);
-    } catch (err) {
-      return res.status(500).send('Server error');
-    }
-  }
-);
+//     await product.save();
+//     res.json(product.favourite); //? before:res.json(product)
+//   } catch (err) {
+//     console.error(err.message);
+//     return res.status(500).send('Server error');
+//   }
+// });
+
+// // @route   PUT  /api/eccomerce/products/unfavourite/:id
+// // @desc    Unfavourite a product
+// // @access  Private
+// router.put('/unfavourite/:id', auth, async (req, res) => {
+//   try {
+//     const product = await Product.findOne({ _id: req.params.id });
+
+//     const removeIndex = product.favourite
+//       .map(item => item.user)
+//       .indexOf(req.user.id);
+
+//     if (removeIndex === -1) {
+//       return res.status(400).json({ msg: 'Product not into favourite' });
+//     }
+
+//     product.favourite.splice(removeIndex, 1);
+
+//     await product.save();
+//     res.json(product.favourite);
+//   } catch (err) {
+//     console.error(err.message);
+//     return res.status(500).send('Server error');
+//   }
+// });
+
+// // @route   POST /api/ecommerce/products/review/:id
+// // @desc    review on a product
+// // @access  Private
+// router.post(
+//   '/review/:id',
+//   [
+//     auth,
+//     check('description', 'Description is required')
+//       .not()
+//       .isEmpty()
+//   ],
+//   async (req, res) => {
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//       return res.status(400).json({ errors: errors.array() });
+//     }
+
+//     const { description } = req.body;
+
+//     try {
+//       const product = await Product.findOne({ _id: req.params.id });
+
+//       product.reviews.unshift({
+//         user: req.user.id,
+//         description
+//       });
+
+//       product.populate('reviews.user', ['name', 'avatar'], (err, res) => {
+//         if (err) throw err;
+//         return res;
+//       });
+
+//       await product.save();
+//       res.json(product);
+//     } catch (err) {
+//       console.error(err.message);
+//       return res.status(500).send('Server error');
+//     }
+//   }
+// );
+
+// // @route   DELETE /api/eccomerce/products/review/:id/:review_id
+// // @desc    Delete a review on a product
+// // @access  Private
+// router.delete('/review/:id/:review_id', auth, async (req, res) => {
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     return res.status(400).json({ errors: errors.array() });
+//   }
+
+//   try {
+//     const product = await Product.findById({ _id: req.params.id });
+
+//     const removeIndex = product.reviews
+//       .map(item => item.id)
+//       .indexOf(req.params.review_id);
+
+//     if (removeIndex === -1) {
+//       return res.status(404).json({ msg: 'review not found' });
+//     }
+
+//     const review = product.reviews.find(
+//       review => review.id === req.params.review_id
+//     );
+
+//     if (review.user.toString() !== req.user.id) {
+//       return res.status(401).json({ msg: 'Not authorized' });
+//     }
+
+//     product.reviews.splice(removeIndex, 1);
+
+//     product.populate('reviews.user', ['name', 'avatar'], (err, res) => {
+//       if (err) throw err;
+//       return res;
+//     });
+
+//     await product.save();
+//     res.json(product);
+//   } catch (err) {
+//     console.error(err.message);
+//     return res.status(500).send('Server error');
+//   }
+// });
+
+// // @route   PUT /api/ecommerce/products
+// // @desc    Update a Product
+// // @access  Private
+// router.put(
+//   '/:id',
+//   [
+//     auth,
+//     check('productTitle', 'Title is required')
+//       .not()
+//       .isEmpty(),
+//     check('productDescription', 'Description is required')
+//       .not()
+//       .isEmpty(),
+//     check('productCategory', 'Category is required')
+//       .not()
+//       .isEmpty(),
+//     check('price', 'price required')
+//       .not()
+//       .isEmpty(),
+//     check('productTechnology', 'Technology required')
+//       .not()
+//       .isEmpty()
+//   ],
+//   async (req, res) => {
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//       return res.status(400).json({ errors: errors.array() });
+//     }
+
+//     try {
+//       let product = await Product.findById(req.params.id);
+
+//       if (!product) {
+//         return res.status(400).json({ msg: 'Product does not exist' });
+//       }
+
+//       if (product.seller.toString() !== req.user.id) {
+//         return res.status(401).json({ msg: 'Not authorized' });
+//       }
+
+//       const {
+//         productTitle,
+//         productDescription,
+//         productCategory,
+//         price,
+//         productTechnology
+//       } = req.body;
+
+//       product = await Product.findOneAndUpdate(
+//         { _id: req.params.id },
+//         {
+//           $set: {
+//             productTitle,
+//             productDescription,
+//             productCategory,
+//             price,
+//             productTechnology
+//           }
+//         },
+//         { new: true }
+//       );
+
+//       res.json(product);
+//     } catch (err) {
+//       return res.status(500).send('Server error');
+//     }
+//   }
+// );
 
 module.exports = router;

@@ -7,7 +7,7 @@ const ProductSchema = mongoose.Schema({
   },
   store: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true
+    ref: 'store'
   },
   title: {
     type: String,
@@ -29,18 +29,6 @@ const ProductSchema = mongoose.Schema({
     type: Number,
     required: true
   },
-  rating: [
-    {
-      user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user'
-      },
-      stars: {
-        type: Number,
-        required: false
-      }
-    }
-  ],
   likes: [
     {
       user: {
@@ -53,11 +41,14 @@ const ProductSchema = mongoose.Schema({
     {
       user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
-        required: true
+        ref: 'user'
       },
       description: {
         type: String,
+        required: true
+      },
+      stars: {
+        type: Number,
         required: true
       }
     }
