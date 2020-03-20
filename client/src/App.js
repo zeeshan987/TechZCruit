@@ -13,7 +13,7 @@ import TestingRoutes from './components/routing/TestingRoutes';
 import BasicRoutes from './components/routing/BasicRoutes';
 import Chat from './components/chatapp/Chat/Chat';
 import Join from './components/chatapp/Join/Join';
-import EccomerceRoutes from './components/routing/EcommerceRoutes';
+import EcommerceRoutes from './components/routing/EcommerceRoutes';
 import './App.css';
 
 if (localStorage.token) {
@@ -39,10 +39,8 @@ const App = () => {
             <Route path='/community' component={CommunityRoutes} />
             <Route path='/crowdfunding' component={CrowdfundingRoutes} />
             <Route path='/testing' component={TestingRoutes} />
+            <Route path='/ecommerce' component={EcommerceRoutes} />
             <Route component={BasicRoutes} />
-          </Switch>
-          <Switch>
-            <Route component={EccomerceRoutes} />
           </Switch>
         </Fragment>
       </Router>

@@ -13,7 +13,7 @@ const app = express();
 // const io = socketio(http); //change
 // var server = require("http").Server(app);
 // var io = require("socket.io")(server);
-const socketIO = require("socket.io");
+const socketIO = require('socket.io');
 // Connect to database
 connectDB();
 
@@ -24,25 +24,26 @@ connectDB();
 app.use(express.json({ extended: false }));
 app.use(fileUpload());
 
-app.get("/", (req, res) => res.send("API Running"));
+app.get('/', (req, res) => res.send('API Running'));
 
 // io.on("connection", function(socket) {
 //   console.log("Socket connected");
 // });
 
 // Define Routes
-app.use("/api/users", require("./routes/api/users"));
-app.use("/api/auth", require("./routes/api/auth"));
-app.use("/api/profiles", require("./routes/api/profiles"));
-app.use("/api/community/groups", require("./routes/api/community/groups"));
-app.use("/api/community/posts", require("./routes/api/community/posts"));
+app.use('/api/users', require('./routes/api/users'));
+app.use('/api/auth', require('./routes/api/auth'));
+app.use('/api/profiles', require('./routes/api/profiles'));
+app.use('/api/community/groups', require('./routes/api/community/groups'));
+app.use('/api/community/posts', require('./routes/api/community/posts'));
 app.use(
   '/api/crowdfunding/campaigns',
   require('./routes/api/crowdfunding/campaigns')
 );
 app.use('/api/testing/projects', require('./routes/api/testing/projects'));
 
-app.use("/api/ecommerce/products", require("./routes/api/ecommerce/products"));
+app.use('/api/ecommerce/products', require('./routes/api/ecommerce/products'));
+app.use('/api/ecommerce/stores', require('./routes/api/ecommerce/stores'));
 
 const PORT = process.env.PORT || 5000;
 
@@ -57,10 +58,10 @@ const server = app.listen(PORT, () =>
 
 const io = socketIO(server);
 
-io.on("connection", function(socket) {
-  socket.emit("news", { hello: "world" });
-  socket.on("my other event", function(data) {
-    console.log(data + " connection data");
+io.on('connection', function(socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function(data) {
+    console.log(data + ' connection data');
   });
 });
 
@@ -74,8 +75,8 @@ const addUser = ({ id, name, room }) => {
     user => user.room === room && user.name === name
   );
 
-  if (!name || !room) return { error: "Username and room are required." };
-  if (existingUser) return { error: "Username is taken." };
+  if (!name || !room) return { error: 'Username and room are required.' };
+  if (existingUser) return { error: 'Username is taken.' };
 
   // if room not taken: new user created
   const user = { id, name, room };
@@ -95,69 +96,69 @@ const removeUser = id => {
 };
 const getUser = id => {
   users.find(user => user.id === id);
-  console.log("id succese called");
+  console.log('id succese called');
 };
 // socket io connection
-io.on("connection", socket => {
-  console.log("user connected");
-  socket.on("join", ({ name, room }, callback) => {
+io.on('connection', socket => {
+  console.log('user connected');
+  socket.on('join', ({ name, room }, callback) => {
     const { error, user } = addUser({ id: socket.id, name, room });
     // users.push({ id: socket.id, name, room });
 
-    console.log(users, "users array of user");
+    console.log(users, 'users array of user');
 
     if (error) return callback(error);
-    console.log("user has join");
+    console.log('user has join');
     users.map(item => {
-      console.log("join run", item.name, item.room, item);
-      io.to(item.room).emit("roomData", {
+      console.log('join run', item.name, item.room, item);
+      io.to(item.room).emit('roomData', {
         room: item.room,
         user: getUsersInRoom(item.room)
       });
 
-      socket.emit("message", {
-        user: "admin",
+      socket.emit('message', {
+        user: 'admin',
         text: `${item.name}, welcome to the room ${item.room}`
       });
-      console.log("admin welcome,", item);
+      console.log('admin welcome,', item);
       // const { user, name } = users;
 
       socket.broadcast
         .to(item.room)
-        .emit("message", { user: "admin", text: `${item.name} has joined!` });
-      console.log("admin  join", item.name, item.room);
+        .emit('message', { user: 'admin', text: `${item.name} has joined!` });
+      console.log('admin  join', item.name, item.room);
       socket.join(item.room);
       callback();
-      console.log("callback end");
+      console.log('callback end');
     });
   });
 
-  socket.on("sendMessage", (message, callback) => {
-    console.log(users , " msg ");
+  socket.on('sendMessage', (message, callback) => {
+    console.log(users, ' msg ');
     // const user = users.find(user => user.id === socket.id);
     const user = getUser(socket.id);
     // const user = ;
-    console.log(user , "send msg2");
+    console.log(user, 'send msg2');
 
-    io.to(user.room).emit("message", { user: user.name, text: message });
-    io.to(user.room).emit("roomData", {
+    io.to(user.room).emit('message', { user: user.name, text: message });
+    io.to(user.room).emit('roomData', {
       room: user.room,
       users: getUsersInRoom(user.room)
     });
 
     callback();
-    console.log("send message call hota ha");
+    console.log('send message call hota ha');
   });
 
-  socket.on("disconnect", () => {
+  socket.on('disconnect', () => {
     const user = removeUser(socket.id);
 
     if (user) {
-      io.to(user.room).emit("message", {
-        user: "Admin",
+      io.to(user.room).emit('message', {
+        user: 'Admin',
         text: `${user.name} has left.`
       });
-      io.to(user.room).emit("roomData", {
+      io.to(user.room).emit('roomData', {
         room: user.room,
         users: getUsersInRoom(user.room)
       });

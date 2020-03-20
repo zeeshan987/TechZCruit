@@ -1,30 +1,21 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const auth = require("../../../middleware/auth");
-const { check, validationResult } = require("express-validator");
-const Product = require("../../../models/eccomerce/Product");
-const userModel = require("../../../models/User");
+const auth = require('../../../middleware/auth');
+const { check, validationResult } = require('express-validator');
+const Product = require('../../../models/ecommerce/Product');
+const userModel = require('../../../models/User');
 
 // @route   POST /api/ecommerce/products
-// @desc    Add a product in a user store
+// @desc    Create a new store
 // @access  Private
 router.post(
-  "/",
+  '/',
   [
     auth,
-    check("productTitle", "Title is required")
+    check('name', 'Name is required')
       .not()
       .isEmpty(),
-    check("productDescription", "Description is required")
-      .not()
-      .isEmpty(),
-    check("productCategory", "Category is required")
-      .not()
-      .isEmpty(),
-    check("price", "price required")
-      .not()
-      .isEmpty(),
-    check("productTechnology", "Technology required")
+    check('description', 'Description is required')
       .not()
       .isEmpty()
   ],
@@ -34,13 +25,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const {
-      productTitle,
-      productDescription,
-      productCategory,
-      price,
-      productTechnology
-    } = req.body;
+    const { name, description } = req.body;
 
     const product = new Product({
       seller: req.user.id,
@@ -63,7 +48,7 @@ router.post(
       res.json(product);
     } catch (err) {
       console.error(err.message);
-      return res.status(500).send("Server error");
+      return res.status(500).send('Server error');
     }
   }
 );
@@ -71,93 +56,93 @@ router.post(
 // @route   GET /api/eccomerce/products
 // @desc    Get all products
 // @access  Public
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const products = await Product.find();
     res.json(products);
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
 // @route   GET /api/ecommerce/products
 // @desc    Search for a particular Product
 // @access  Private
-router.get("/search/:description", auth, async (req, res) => {
+router.get('/search/:description', auth, async (req, res) => {
   const description = req.params.description;
 
   try {
     const products = await Product.find({
-      productTitle: new RegExp(description, "i")
+      productTitle: new RegExp(description, 'i')
     });
 
     res.send(products);
   } catch (err) {
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
 // @route   DELETE /api/ecommerce/products/:id
 // @desc    Delete a Product
 // @access  Private
-router.delete("/:id", auth, async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
     const product = await Product.findOne({ _id: req.params.id });
 
     // Check if product exists
     if (!product) {
-      return res.status(404).json({ msg: "Product not found" });
+      return res.status(404).json({ msg: 'Product not found' });
     }
 
     // Check product
     if (product.seller.toString() !== req.user.id) {
-      return res.status(401).json({ msg: "Not authorized" });
+      return res.status(401).json({ msg: 'Not authorized' });
     }
 
     await product.remove();
-    res.json({ msg: "Product removed" });
+    res.json({ msg: 'Product removed' });
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
 // @route   Get /api/ecommerce/products
 // @desc    Get all Products by user
 // @access  Private
-router.get("/user", auth, async (req, res) => {
+router.get('/user', auth, async (req, res) => {
   try {
     const products = await Product.find({
       seller: req.user.id
-    }).populate("seller", ["name", "avatar"]);
+    }).populate('seller', ['name', 'avatar']);
     res.json(products);
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send("Server error here occur");
+    return res.status(500).send('Server error here occur');
   }
 });
 
 // @route   GET /api/ecommerce/products/:id
 // @desc    Get product by id
 // @access  Public
-router.get("/:id", async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const product = await Product.findOne({
       _id: req.params.id
-    }).populate("reviews.user", ["name", "avatar"]);
+    }).populate('reviews.user', ['name', 'avatar']);
 
     res.json(product);
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
 // @route   PUT /api/eccomerce/products/favourite:id
 // @desc    favourite a product
 // @access  Private
-router.put("/favourite/:id", auth, async (req, res) => {
+router.put('/favourite/:id', auth, async (req, res) => {
   try {
     const product = await Product.findOne({
       _id: req.params.id
@@ -167,7 +152,7 @@ router.put("/favourite/:id", auth, async (req, res) => {
     const index = product.favourite.map(item => item.user).indexOf(req.user.id);
 
     if (index !== -1) {
-      return res.status(400).json({ msg: "Already favourite by user" });
+      return res.status(400).json({ msg: 'Already favourite by user' });
     }
 
     product.favourite.push({ user: req.user.id });
@@ -176,14 +161,14 @@ router.put("/favourite/:id", auth, async (req, res) => {
     res.json(product.favourite); //? before:res.json(product)
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
 // @route   PUT  /api/eccomerce/products/unfavourite/:id
 // @desc    Unfavourite a product
 // @access  Private
-router.put("/unfavourite/:id", auth, async (req, res) => {
+router.put('/unfavourite/:id', auth, async (req, res) => {
   try {
     const product = await Product.findOne({ _id: req.params.id });
 
@@ -192,7 +177,7 @@ router.put("/unfavourite/:id", auth, async (req, res) => {
       .indexOf(req.user.id);
 
     if (removeIndex === -1) {
-      return res.status(400).json({ msg: "Product not into favourite" });
+      return res.status(400).json({ msg: 'Product not into favourite' });
     }
 
     product.favourite.splice(removeIndex, 1);
@@ -201,7 +186,7 @@ router.put("/unfavourite/:id", auth, async (req, res) => {
     res.json(product.favourite);
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
@@ -209,10 +194,10 @@ router.put("/unfavourite/:id", auth, async (req, res) => {
 // @desc    review on a product
 // @access  Private
 router.post(
-  "/review/:id",
+  '/review/:id',
   [
     auth,
-    check("description", "Description is required")
+    check('description', 'Description is required')
       .not()
       .isEmpty()
   ],
@@ -232,7 +217,7 @@ router.post(
         description
       });
 
-      product.populate("reviews.user", ["name", "avatar"], (err, res) => {
+      product.populate('reviews.user', ['name', 'avatar'], (err, res) => {
         if (err) throw err;
         return res;
       });
@@ -241,7 +226,7 @@ router.post(
       res.json(product);
     } catch (err) {
       console.error(err.message);
-      return res.status(500).send("Server error");
+      return res.status(500).send('Server error');
     }
   }
 );
@@ -249,7 +234,7 @@ router.post(
 // @route   DELETE /api/eccomerce/products/review/:id/:review_id
 // @desc    Delete a review on a product
 // @access  Private
-router.delete("/review/:id/:review_id", auth, async (req, res) => {
+router.delete('/review/:id/:review_id', auth, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -263,7 +248,7 @@ router.delete("/review/:id/:review_id", auth, async (req, res) => {
       .indexOf(req.params.review_id);
 
     if (removeIndex === -1) {
-      return res.status(404).json({ msg: "review not found" });
+      return res.status(404).json({ msg: 'review not found' });
     }
 
     const review = product.reviews.find(
@@ -271,12 +256,12 @@ router.delete("/review/:id/:review_id", auth, async (req, res) => {
     );
 
     if (review.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: "Not authorized" });
+      return res.status(401).json({ msg: 'Not authorized' });
     }
 
     product.reviews.splice(removeIndex, 1);
 
-    product.populate("reviews.user", ["name", "avatar"], (err, res) => {
+    product.populate('reviews.user', ['name', 'avatar'], (err, res) => {
       if (err) throw err;
       return res;
     });
@@ -285,7 +270,7 @@ router.delete("/review/:id/:review_id", auth, async (req, res) => {
     res.json(product);
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
@@ -293,22 +278,22 @@ router.delete("/review/:id/:review_id", auth, async (req, res) => {
 // @desc    Update a Product
 // @access  Private
 router.put(
-  "/:id",
+  '/:id',
   [
     auth,
-    check("productTitle", "Title is required")
+    check('productTitle', 'Title is required')
       .not()
       .isEmpty(),
-    check("productDescription", "Description is required")
+    check('productDescription', 'Description is required')
       .not()
       .isEmpty(),
-    check("productCategory", "Category is required")
+    check('productCategory', 'Category is required')
       .not()
       .isEmpty(),
-    check("price", "price required")
+    check('price', 'price required')
       .not()
       .isEmpty(),
-    check("productTechnology", "Technology required")
+    check('productTechnology', 'Technology required')
       .not()
       .isEmpty()
   ],
@@ -322,11 +307,11 @@ router.put(
       let product = await Product.findById(req.params.id);
 
       if (!product) {
-        return res.status(400).json({ msg: "Product does not exist" });
+        return res.status(400).json({ msg: 'Product does not exist' });
       }
 
       if (product.seller.toString() !== req.user.id) {
-        return res.status(401).json({ msg: "Not authorized" });
+        return res.status(401).json({ msg: 'Not authorized' });
       }
 
       const {
@@ -353,7 +338,7 @@ router.put(
 
       res.json(product);
     } catch (err) {
-      return res.status(500).send("Server error");
+      return res.status(500).send('Server error');
     }
   }
 );
