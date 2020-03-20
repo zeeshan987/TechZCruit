@@ -8,11 +8,14 @@ import Products from '../eccomerce/products/Products';
 import Store from '../eccomerce/store/Store';
 import ProductPage from '../eccomerce/homepage/HomePage';
 import UpdateProduct from '../eccomerce/forms/UpdateProduct';
+import MyStores from '../eccomerce/my-stores/MyStores';
+import CreateStore from '../eccomerce/store-forms/CreateStore';
+import EditStore from '../eccomerce/store-forms/EditStore';
 
 const EccomerceRoutes = () => {
   return (
     <Fragment>
-      <PrivateRoute exact path='/ecommerce' component={AddProduct} />
+      {/* <PrivateRoute exact path='/ecommerce' component={AddProduct} />
       <PrivateRoute exact path='/ecommerce/homepage' component={ProductPage} />
       <PrivateRoute exact path='/ecommerce/products' component={Products} />
       <PrivateRoute exact path='/ecommerce/store' component={Store} />
@@ -25,6 +28,17 @@ const EccomerceRoutes = () => {
         exact
         path='/ecommerce/product/:id'
         component={ProductDetail}
+      /> */}
+      <PrivateRoute exact path='/ecommerce/my-stores' component={MyStores} />
+      <PrivateRoute
+        exact
+        path='/ecommerce/create-store'
+        component={CreateStore}
+      />
+      <PrivateRoute
+        exact
+        path='/ecommerce/edit-store/:id'
+        component={EditStore}
       />
     </Fragment>
   );
