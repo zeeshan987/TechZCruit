@@ -14,7 +14,10 @@ import {
   ALL_ONGOING_PROJECTS_LOADED_FOR_USER,
   PROJECT_TESTING_FINISHED,
   PROJECT_TESTCASE_PASSED,
-  PROJECT_TESTCASE_FAILED
+  PROJECT_TESTCASE_FAILED,
+  COMMENT_ADDED_PROJECT,
+  COMMENT_REMOVED_PROJECT,
+  COMMENT_ERROR_PROJECT
 } from '../../actions/types';
 
 const initialState = {
@@ -91,7 +94,16 @@ export default function(state = initialState, action) {
         errors: null,
         project: { ...state.project, testCases: payload.testCases }
       };
+    case COMMENT_ADDED_PROJECT:
+    case COMMENT_REMOVED_PROJECT:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        project: { ...state.project, comments: payload.comments }
+      };
     case PROJECT_ERROR:
+    case COMMENT_ERROR_PROJECT:
       return {
         ...state,
         loading: false,

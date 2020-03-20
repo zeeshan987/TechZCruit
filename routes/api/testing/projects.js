@@ -79,7 +79,8 @@ router.get('/:id', async (req, res) => {
     const project = await Project.findById(req.params.id)
       .populate('user', ['name', 'avatar'])
       .populate('offers.user', ['name', 'avatar'])
-      .populate('testers.user', ['name', 'avatar']);
+      .populate('testers.user', ['name', 'avatar'])
+      .populate('comments.user', ['name', 'avatar']);
     res.json(project);
   } catch (err) {
     return res.status(500).send('Server error');
@@ -297,6 +298,47 @@ router.put('/finish/:id', auth, async (req, res) => {
   }
 });
 
+// @route   PUT /api/testing/projects/comment/:id
+// @desc    Comment on a project
+// @access  Private
+router.put(
+  '/comment/:id',
+  [
+    auth,
+    check('description', 'Description is required')
+      .not()
+      .isEmpty()
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { description } = req.body;
+
+    try {
+      const project = await Project.findOne({ _id: req.params.id });
+
+      project.comments.unshift({
+        user: req.user.id,
+        description
+      });
+
+      project.populate('comments.user', ['name', 'avatar'], (err, res) => {
+        if (err) throw err;
+        return res;
+      });
+
+      await project.save();
+      res.json(project);
+    } catch (err) {
+      console.error(err.message);
+      return res.status(500).send('Server error');
+    }
+  }
+);
+
 // @route   PUT /api/testing/projects/offer/:id
 // @desc    Add an offer for a project
 // @access  Private
@@ -417,6 +459,45 @@ router.delete('/testcase/:id/:testcase_id', auth, async (req, res) => {
     await project.save();
     res.json(project);
   } catch (err) {
+    return res.status(500).send('Server error');
+  }
+});
+
+// @route   DELETE /api/testing/projects/comment/:id/:comment_id
+// @desc    Delete a comment on a project
+// @access  Private
+router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const project = await Project.findOne({ _id: req.params.id });
+
+    const removeIndex = project.comments
+      .map(item => item.id)
+      .indexOf(req.params.comment_id);
+
+    if (removeIndex === -1) {
+      return res.status(404).json({ msg: 'Comment not found' });
+    }
+
+    const comment = project.comments.find(
+      comment => comment.id === req.params.comment_id
+    );
+
+    project.comments.splice(removeIndex, 1);
+
+    project.populate('comments.user', ['name', 'avatar'], (err, res) => {
+      if (err) throw err;
+      return res;
+    });
+
+    await project.save();
+    res.json(project);
+  } catch (err) {
+    console.error(err.message);
     return res.status(500).send('Server error');
   }
 });

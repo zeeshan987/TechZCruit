@@ -12,6 +12,7 @@ import Footer from '../../layout/Footer';
 import { StripeProvider, Elements } from 'react-stripe-elements';
 import CustomOfferFrom from './CustomOfferForm';
 import DefaultOfferForm from './DefaultOfferForm';
+import ProjectNavigationTabs from './ProjectNavigationTabs';
 
 const Project = ({
   project: { loading, project },
@@ -151,8 +152,11 @@ const Project = ({
           </Row>
           <Row>
             <Col md={8}>
-              <div className={styles.sub_heading}>Description</div>
-              {!loading && project !== null ? project.description : ''}
+              <ProjectNavigationTabs
+                project={project}
+                auth={auth}
+                styles={styles}
+              />
             </Col>
             <Col md={4}>
               <UserInfo project={project} styles={styles} />

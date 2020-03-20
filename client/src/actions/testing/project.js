@@ -14,7 +14,10 @@ import {
   ALL_ONGOING_PROJECTS_LOADED_FOR_USER,
   PROJECT_TESTING_FINISHED,
   PROJECT_TESTCASE_PASSED,
-  PROJECT_TESTCASE_FAILED
+  PROJECT_TESTCASE_FAILED,
+  COMMENT_ADDED_PROJECT,
+  COMMENT_REMOVED_PROJECT,
+  COMMENT_ERROR_PROJECT
 } from '../../actions/types';
 import axios from 'axios';
 import { setAlert } from '../../actions/alert';
@@ -399,6 +402,59 @@ export const searchProject = description => async dispatch => {
     console.log(err);
     dispatch({
       type: PROJECT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Comment on project
+export const addCommentOnProject = (id, formData) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  try {
+    const res = await axios.put(
+      `/api/testing/projects/comment/${id}`,
+      formData,
+      config
+    );
+
+    dispatch({
+      type: COMMENT_ADDED_PROJECT,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Comment added', 'success'));
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+  }
+};
+
+// Delete comment on project
+export const deleteCommentOnProject = (
+  projectId,
+  commentId
+) => async dispatch => {
+  try {
+    const res = await axios.delete(
+      `/api/testing/projects/comment/${projectId}/${commentId}`
+    );
+
+    dispatch({
+      type: COMMENT_REMOVED_PROJECT,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Comment removed', 'success'));
+  } catch (err) {
+    dispatch({
+      type: COMMENT_ERROR_PROJECT,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
