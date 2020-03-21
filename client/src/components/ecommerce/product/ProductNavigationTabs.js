@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Row, Col, Nav } from 'react-bootstrap';
 import ReviewForm from './ReviewForm';
-import CommentItem from './CommentItem';
+import ReviewItem from './ReviewItem';
 
 const ProductNavigationTabs = ({ product, auth, styles }) => {
   return (
@@ -33,9 +33,9 @@ const ProductNavigationTabs = ({ product, auth, styles }) => {
                   <ReviewForm product={product} styles={styles} />
                 )}
                 {product !== null && product.reviews.length > 0 ? (
-                  product.reviews.map(comment => (
-                    <CommentItem
-                      comment={comment}
+                  product.reviews.map(review => (
+                    <ReviewItem
+                      review={review}
                       auth={auth}
                       product={product}
                       styles={styles}

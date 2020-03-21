@@ -1,12 +1,12 @@
-import React, { Fragment, useState } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { Button, Form } from "react-bootstrap";
-import { addReview } from "../../../actions/ecommerce/product";
+import React, { Fragment, useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Button, Form } from 'react-bootstrap';
+// import { addReview } from "../../../actions/ecommerce/product";
 
 const ReviewForm = ({ productId, addReview }) => {
   const [formData, setFormData] = useState({
-    description: ""
+    description: ''
   });
 
   const { description } = formData;
@@ -18,7 +18,7 @@ const ReviewForm = ({ productId, addReview }) => {
   const onSubmit = e => {
     e.preventDefault();
     addReview(productId, formData);
-    setFormData({ description: "" });
+    setFormData({ description: '' });
   };
 
   return (
@@ -65,4 +65,6 @@ ReviewForm.propTypes = {
   addReview: PropTypes.func.isRequired
 };
 
-export default connect(null, { addReview })(ReviewForm);
+export default connect(null, {
+  // addReview
+})(ReviewForm);

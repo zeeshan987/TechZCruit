@@ -63,8 +63,8 @@ export const getProductById = id => async dispatch => {
   }
 };
 
-// Review a Product
-export const addReview = (productId, formData) => async dispatch => {
+// Add a review to a product
+export const reviewOnProduct = (productId, formData) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -72,13 +72,12 @@ export const addReview = (productId, formData) => async dispatch => {
   };
 
   try {
-    console.log(productId, '  ProductID');
-    const res = await axios.post(
+    const res = await axios.put(
       `/api/ecommerce/products/review/${productId}`,
       formData,
       config
     );
-    console.log(res.data, '  Res data');
+
     dispatch({
       type: REVIEW_ADDED,
       payload: res.data
@@ -86,11 +85,10 @@ export const addReview = (productId, formData) => async dispatch => {
 
     dispatch(setAlert('Review added', 'success'));
   } catch (err) {
-    console.log(err);
-    // const errors = err.response.data.errors;
-    // if (errors) {
-    //   errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
-    // }
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
   }
 };
 

@@ -46,6 +46,13 @@ export default function(state = initialState, action) {
         loading: false,
         errors: null
       };
+    case REVIEW_ADDED:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        product: { ...state.product, reviews: payload.reviews }
+      };
     case PRODUCT_ERROR:
       return {
         ...state,
@@ -65,13 +72,6 @@ export default function(state = initialState, action) {
         product: null,
         loading: false,
         errors: null
-      };
-    case REVIEW_ADDED:
-      return {
-        ...state,
-        loading: false,
-        errors: null,
-        product: { ...state.product, reviews: payload.reviews }
       };
     case PRODUCT_FAVOURITE:
     case PRODUCT_UNFAVOURITE:

@@ -47,7 +47,7 @@ const ProductSchema = mongoose.Schema({
         type: String,
         required: true
       },
-      stars: {
+      rating: {
         type: Number,
         required: true
       }

@@ -55,7 +55,8 @@ router.get('/:id', auth, async (req, res) => {
   try {
     const product = await Product.findById(req.params.id)
       .populate('user', ['name', 'avatar'])
-      .populate('store', ['name']);
+      .populate('store', ['name'])
+      .populate('reviews.user', ['name', 'avatar']);
 
     res.json(product);
   } catch (err) {
@@ -165,10 +166,10 @@ router.put(
   '/review/:id',
   [
     auth,
+    check('rating', 'Rating is required').isInt(),
     check('description', 'Description is required')
       .not()
-      .isEmpty(),
-    check('stars', 'Stars are required').isInt()
+      .isEmpty()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -176,7 +177,7 @@ router.put(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { description, stars } = req.body;
+    const { description, rating } = req.body;
 
     try {
       const product = await Product.findOne({ _id: req.params.id });
@@ -184,7 +185,12 @@ router.put(
       product.reviews.unshift({
         user: req.user.id,
         description,
-        stars
+        rating
+      });
+
+      product.populate('reviews.user', ['name', 'avatar'], (err, res) => {
+        if (err) throw err;
+        return res;
       });
 
       await product.save();

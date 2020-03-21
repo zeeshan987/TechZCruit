@@ -1,15 +1,21 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addCommentOnCampaign } from '../../../actions/crowdfunding/campaign';
+import { reviewOnProduct } from '../../../actions/ecommerce/product';
 import { Form, Button } from 'react-bootstrap';
 
-const CommentForm = ({ product: { _id }, addCommentOnCampaign, styles }) => {
+const CommentForm = ({ product: { _id }, reviewOnProduct, styles }) => {
   const [formData, setFormData] = useState({
-    description: ''
+    description: '',
+    rating: ''
   });
 
-  const { description } = formData;
+  const { description, rating } = formData;
+
+  const setRating = rating => {
+    console.log('Rating: ', rating);
+    setFormData({ ...formData, rating: rating });
+  };
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,8 +23,12 @@ const CommentForm = ({ product: { _id }, addCommentOnCampaign, styles }) => {
 
   const onSubmit = e => {
     e.preventDefault();
-    addCommentOnCampaign(_id, formData);
-    setFormData({ description: '' });
+    reviewOnProduct(_id, formData);
+
+    setFormData({
+      description: '',
+      rating: ''
+    });
   };
 
   return (
@@ -26,36 +36,79 @@ const CommentForm = ({ product: { _id }, addCommentOnCampaign, styles }) => {
       <Form className='mt-3' onSubmit={e => onSubmit(e)}>
         <Form.Group className={styles.rating}>
           <Form.Check
-            inline
-            name='current'
             type='radio'
-            label={<i class='fas fa-star'></i>}
-          />
+            className={rating === 5 ? 'checked' : ''}
+            inline
+          >
+            <Form.Check.Input
+              name='rating'
+              type='radio'
+              checked={rating === 5}
+            />
+            <Form.Check.Label onClick={() => setRating(5)}>
+              <i class='fas fa-star'></i>
+            </Form.Check.Label>
+          </Form.Check>
+
           <Form.Check
-            inline
-            name='current'
             type='radio'
-            label={<i class='fas fa-star'></i>}
-          />
+            className={rating === 4 ? 'checked' : ''}
+            inline
+          >
+            <Form.Check.Input
+              name='rating'
+              type='radio'
+              checked={rating === 4}
+            />
+            <Form.Check.Label onClick={() => setRating(4)}>
+              <i class='fas fa-star'></i>
+            </Form.Check.Label>
+          </Form.Check>
+
           <Form.Check
-            inline
-            name='current'
             type='radio'
-            label={<i class='fas fa-star'></i>}
-            // className='checked'
-          />
+            className={rating === 3 ? 'checked' : ''}
+            inline
+          >
+            <Form.Check.Input
+              name='rating'
+              type='radio'
+              checked={rating === 3}
+            />
+            <Form.Check.Label onClick={() => setRating(3)}>
+              <i class='fas fa-star'></i>
+            </Form.Check.Label>
+          </Form.Check>
+
           <Form.Check
-            inline
-            name='current'
             type='radio'
-            label={<i class='fas fa-star'></i>}
-          />
+            className={rating === 2 ? 'checked' : ''}
+            inline
+          >
+            <Form.Check.Input
+              name='rating'
+              type='radio'
+              checked={rating === 2}
+            />
+            <Form.Check.Label onClick={() => setRating(2)}>
+              <i class='fas fa-star'></i>
+            </Form.Check.Label>
+          </Form.Check>
+
           <Form.Check
-            inline
-            name='current'
             type='radio'
-            label={<i class='fas fa-star'></i>}
-          />
+            className={rating === 1 ? 'checked' : ''}
+            inline
+          >
+            <Form.Check.Input
+              name='rating'
+              type='radio'
+              checked={rating === 1}
+            />
+            <Form.Check.Label onClick={() => setRating(1)}>
+              <i class='fas fa-star'></i>
+            </Form.Check.Label>
+          </Form.Check>
         </Form.Group>
 
         <Form.Group>
@@ -78,10 +131,10 @@ const CommentForm = ({ product: { _id }, addCommentOnCampaign, styles }) => {
 
 CommentForm.propTypes = {
   product: PropTypes.object.isRequired,
-  addCommentOnCampaign: PropTypes.func.isRequired,
+  reviewOnProduct: PropTypes.func.isRequired,
   styles: PropTypes.object.isRequired
 };
 
 export default connect(null, {
-  addCommentOnCampaign
+  reviewOnProduct
 })(CommentForm);
