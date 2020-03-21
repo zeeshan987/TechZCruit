@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { getStoreById, updateStore } from '../../../actions/ecommerce/store';
-import styles from '../../../css/community/group-forms/style.module.css';
+import styles from '../../../css/ecommerce/store-forms/style.module.css';
 import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';

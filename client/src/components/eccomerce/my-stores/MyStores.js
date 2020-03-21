@@ -1,19 +1,17 @@
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getAllGroupsForUser } from '../../../actions/community/group';
 import PropTypes from 'prop-types';
 import MyStoreItem from './MyStoreItem';
 import { Button } from 'react-bootstrap';
 import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';
-import styles from '../../../css/community/my-groups/style.module.css';
+import styles from '../../../css/ecommerce/my-stores/style.module.css';
 import { getAllStoresForCurrentUser } from '../../../actions/ecommerce/store';
 
 const MyStores = ({
   store: { loading, stores },
-  getAllStoresForCurrentUser,
-  store
+  getAllStoresForCurrentUser
 }) => {
   useEffect(() => {
     getAllStoresForCurrentUser();
@@ -53,7 +51,6 @@ const MyStores = ({
 };
 
 MyStores.propTypes = {
-  getAllGroupsForUser: PropTypes.func.isRequired,
   getAllStoresForCurrentUser: PropTypes.func.isRequired
 };
 
