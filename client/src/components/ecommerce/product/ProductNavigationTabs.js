@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Row, Col, Nav } from 'react-bootstrap';
-import CommentForm from './CommentForm';
+import ReviewForm from './ReviewForm';
 import CommentItem from './CommentItem';
 
 const ProductNavigationTabs = ({ product, auth, styles }) => {
   return (
     <Fragment>
-      <Tab.Container defaultActiveKey='description'>
+      <Tab.Container defaultActiveKey='reviews'>
         <Row>
           <Col md={12}>
             <Nav justify variant='tabs'>
@@ -29,7 +29,9 @@ const ProductNavigationTabs = ({ product, auth, styles }) => {
                 </div>
               </Tab.Pane>
               <Tab.Pane eventKey='reviews'>
-                {/* {product !== null && <CommentForm product={product} />} */}
+                {product !== null && (
+                  <ReviewForm product={product} styles={styles} />
+                )}
                 {product !== null && product.reviews.length > 0 ? (
                   product.reviews.map(comment => (
                     <CommentItem

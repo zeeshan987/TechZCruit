@@ -181,3 +181,29 @@ section::after {
   justify-content: center;
   border-top: solid 1px white;
 }
+
+.rating {
+  float: left;
+  transform: rotateY(180deg);
+}
+
+.rating input {
+  display: none;
+}
+
+.rating i {
+  color: transparent;
+  font-size: 1.8rem;
+  cursor: pointer;
+  -webkit-text-stroke-width: 3px;
+  -webkit-text-stroke-color: #e38b07;
+  transition-duration: 500ms;
+}
+
+.rating input:checked ~ label i,
+.rating > div[class*='checked'] i,
+.rating > div[class*='checked'] ~ div i,
+.rating div:hover i,
+.rating div:hover ~ div i {
+  color: #e38b07;
+}
