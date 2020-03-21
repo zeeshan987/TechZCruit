@@ -42,7 +42,7 @@ const StoreNavigationTabs = ({
                               className={`${styles.card_title} text-truncate`}
                             >
                               <Link
-                                to={`/community/group/${product._id}`}
+                                to={`/ecommerce/product/${product._id}`}
                                 style={{
                                   textDecoration: 'none',
                                   color: 'inherit'

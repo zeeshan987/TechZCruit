@@ -53,7 +53,10 @@ router.get('/search/:description', auth, async (req, res) => {
 // @access  Private
 router.get('/:id', auth, async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id)
+      .populate('user', ['name', 'avatar'])
+      .populate('store', ['name']);
+
     res.json(product);
   } catch (err) {
     console.log(err);

@@ -14,6 +14,7 @@ import StoreProducts from '../ecommerce/store-products/StoreProducts';
 import CreateProduct from '../ecommerce/store-products/CreateProduct';
 import EditProduct from '../ecommerce/store-products/EditProduct';
 import Store from '../ecommerce/store/Store';
+import Product from '../ecommerce/product/Product';
 
 const EcommerceRoutes = () => {
   return (
@@ -59,6 +60,7 @@ const EcommerceRoutes = () => {
         component={EditStore}
       />
       <PrivateRoute exact path='/ecommerce/store/:id' component={Store} />
+      <PrivateRoute exact path='/ecommerce/product/:id' component={Product} />
     </Fragment>
   );
 };
