@@ -11,8 +11,8 @@ const GroupItem = ({ group, auth, sendJoinRequest, styles }) => {
     <Fragment>
       <Col md={3}>
         <Card className={styles.card}>
+          <Card.Img src={placeholder} />
           <Card.Body>
-            <Card.Img src={placeholder} />
             <Card.Title className={`${styles.card_title} text-truncate`}>
               <Link
                 to={`/community/group/${group._id}`}
@@ -27,25 +27,24 @@ const GroupItem = ({ group, auth, sendJoinRequest, styles }) => {
                 <strong>Members:</strong> {group.members.length + 1}
               </div>
             </Card.Text>
-            {auth.user !== null &&
-              group.admin !== auth.user._id &&
-              group.requests
-                .map(request => request.user)
-                .indexOf(auth.user._id) === -1 &&
-              group.members
-                .map(member => member.user)
-                .indexOf(auth.user._id) === -1 && (
-                <Card.Footer>
-                  <Button
-                    variant='dark'
-                    className='my-2'
-                    onClick={() => sendJoinRequest(group._id)}
-                  >
-                    <i className='far fa-envelope'></i> Send Join Request
-                  </Button>
-                </Card.Footer>
-              )}
           </Card.Body>
+          {auth.user !== null &&
+            group.admin !== auth.user._id &&
+            group.requests
+              .map(request => request.user)
+              .indexOf(auth.user._id) === -1 &&
+            group.members.map(member => member.user).indexOf(auth.user._id) ===
+              -1 && (
+              <Card.Footer>
+                <Button
+                  variant='dark'
+                  className='my-2'
+                  onClick={() => sendJoinRequest(group._id)}
+                >
+                  <i className='far fa-envelope'></i> Send Join Request
+                </Button>
+              </Card.Footer>
+            )}
         </Card>
       </Col>
     </Fragment>
