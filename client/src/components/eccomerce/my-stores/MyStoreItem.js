@@ -19,6 +19,12 @@ const MyStoreItem = ({ store, deleteStore, styles }) => {
           <div className='mt-2'>{store.description}</div>
           <div className='mt-2'>
             <Button
+              variant='primary'
+              href={`/ecommerce/store/products/${store._id}`}
+            >
+              Manage products
+            </Button>
+            <Button
               variant='success'
               href={`/ecommerce/edit-store/${store._id}`}
             >

@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  getAllProducts,
+  // getAllProducts,
   searchProduct
 } from '../../../actions/ecommerce/product';
 import style from '../../../css/ecommerce/Products.module.css';
@@ -19,7 +19,7 @@ const Products = ({
   searchProduct
 }) => {
   useEffect(() => {
-    getAllProducts();
+    // getAllProducts();
   }, [getAllProducts, loading]);
 
   const [formData, setFormData] = useState({
@@ -177,6 +177,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  getAllProducts,
+  // getAllProducts,
   searchProduct
 })(Products);

@@ -1,7 +1,7 @@
 import {
   PRODUCT_ADDED,
   CLEAR_PRODUCT,
-  All_PRODUCTS_LOADED,
+  // All_PRODUCTS_LOADED,
   PRODUCT_LOADED,
   REVIEW_ADDED,
   PRODUCT_FAVOURITE,
@@ -9,27 +9,27 @@ import {
   PRODUCT_UPDATED,
   PRODUCT_REMOVED,
   PRODUCT_ERROR,
-  GET_ALL_USERS
-} from "../../actions/types";
+  GET_ALL_USERS,
+  All_PRODUCTS_LOADED_FOR_STORE
+} from '../../actions/types';
 
 const initialState = {
   product: null,
   loading: true,
   errors: null,
-  products: [],
-  users: []
+  products: []
 };
 
 export default function(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case All_PRODUCTS_LOADED:
+    case All_PRODUCTS_LOADED_FOR_STORE:
       return {
         ...state,
-        products: payload,
         loading: false,
-        errors: null
+        errors: null,
+        products: payload
       };
     case PRODUCT_LOADED:
     case PRODUCT_UPDATED:

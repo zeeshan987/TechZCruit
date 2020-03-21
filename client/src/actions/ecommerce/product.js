@@ -8,22 +8,23 @@ import {
   REVIEW_ADDED,
   PRODUCT_UPDATED,
   PRODUCT_UNFAVOURITE,
-  All_PRODUCTS_LOADED,
-  GET_ALL_USERS
-} from "../types";
-import { setAlert } from "../alert";
-import axios from "axios";
+  // All_PRODUCTS_LOADED,
+  GET_ALL_USERS,
+  All_PRODUCTS_LOADED_FOR_STORE
+} from '../types';
+import { setAlert } from '../alert';
+import axios from 'axios';
 
 // Create product
 export const addProduct = (formData, history) => async dispatch => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     }
   };
 
   try {
-    const res = await axios.post("/api/ecommerce/products", formData, config);
+    const res = await axios.post('/api/ecommerce/products', formData, config);
     console.log(res.data);
 
     dispatch({
@@ -31,13 +32,13 @@ export const addProduct = (formData, history) => async dispatch => {
       payload: res.data
     });
 
-    dispatch(setAlert("Product Added", "success"));
+    dispatch(setAlert('Product Added', 'success'));
 
-    history.push("/ecommerce/homepage");
+    history.push('/ecommerce/homepage');
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
   }
 };
@@ -66,24 +67,24 @@ export const getProductById = id => async dispatch => {
 export const addReview = (productId, formData) => async dispatch => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     }
   };
 
   try {
-    console.log(productId, "  ProductID");
+    console.log(productId, '  ProductID');
     const res = await axios.post(
       `/api/ecommerce/products/review/${productId}`,
       formData,
       config
     );
-    console.log(res.data, "  Res data");
+    console.log(res.data, '  Res data');
     dispatch({
       type: REVIEW_ADDED,
       payload: res.data
     });
 
-    dispatch(setAlert("Review added", "success"));
+    dispatch(setAlert('Review added', 'success'));
   } catch (err) {
     console.log(err);
     // const errors = err.response.data.errors;
@@ -93,34 +94,33 @@ export const addReview = (productId, formData) => async dispatch => {
   }
 };
 
-// Get all products
-export const getAllProducts = () => async dispatch => {
+// Get all products for a store
+export const getAllProductsForStore = storeId => async dispatch => {
   try {
-    const res = await axios.get("/api/ecommerce/products");
+    const res = await axios.get(`/api/ecommerce/products/store/${storeId}`);
 
     dispatch({
-      type: All_PRODUCTS_LOADED,
+      type: All_PRODUCTS_LOADED_FOR_STORE,
       payload: res.data
     });
   } catch (err) {
     dispatch({
-      type: PRODUCT_ERROR
+      type: PRODUCT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
     });
-
-    dispatch(setAlert("Error occured while loading all Products", "danger"));
   }
 };
 
 // Get all campaigns for user
 export const getAllProductForUser = () => async dispatch => {
   try {
-    const res = await axios.get("/api/ecommerce/products/user");
+    const res = await axios.get('/api/ecommerce/products/user');
     console.log(res.data.length);
 
-    dispatch({
-      type: All_PRODUCTS_LOADED,
-      payload: res.data
-    });
+    // dispatch({
+    //   type: All_PRODUCTS_LOADED,
+    //   payload: res.data
+    // });
   } catch (err) {
     dispatch({
       type: PRODUCT_ERROR,
@@ -149,21 +149,21 @@ export const getAllProductForUser = () => async dispatch => {
 // Delete product
 export const deleteProduct = (pId, history) => async dispatch => {
   try {
-    console.log("came up", pId);
+    console.log('came up', pId);
     await axios.delete(`/api/ecommerce/products/${pId}`);
-    console.log("came down");
+    console.log('came down');
     dispatch({
       type: PRODUCT_REMOVED,
       payload: pId
     });
 
-    dispatch(setAlert("Product Removed", "success"));
-    history.push("/ecommerce/homepage");
+    dispatch(setAlert('Product Removed', 'success'));
+    history.push('/ecommerce/homepage');
   } catch (err) {
     const errors = err.response.data.errors;
-    console.log("error", errors);
+    console.log('error', errors);
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
   }
 };
@@ -210,7 +210,7 @@ export const unfavouriteProduct = productId => async dispatch => {
 export const updateProduct = (id, formData, history) => async dispatch => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     }
   };
 
@@ -226,9 +226,9 @@ export const updateProduct = (id, formData, history) => async dispatch => {
       payload: res.data
     });
 
-    dispatch(setAlert("Product updated", "success"));
+    dispatch(setAlert('Product updated', 'success'));
 
-    history.push("/ecommerce/homepage");
+    history.push('/ecommerce/homepage');
   } catch (err) {
     dispatch({
       type: PRODUCT_ERROR,
@@ -244,10 +244,10 @@ export const searchProduct = description => async dispatch => {
       `/api/ecommerce/products/search/${description}`
     );
 
-    dispatch({
-      type: All_PRODUCTS_LOADED,
-      payload: res.data
-    });
+    // dispatch({
+    //   type: All_PRODUCTS_LOADED,
+    //   payload: res.data
+    // });
   } catch (err) {
     console.log(err);
     dispatch({
@@ -260,7 +260,7 @@ export const searchProduct = description => async dispatch => {
 // Get all users
 export const getAllUsers = () => async dispatch => {
   try {
-    const res = await axios.get("/api/users/store");
+    const res = await axios.get('/api/users/store');
     console.log(res.data);
 
     dispatch({
@@ -273,6 +273,6 @@ export const getAllUsers = () => async dispatch => {
       type: PRODUCT_ERROR
     });
 
-    dispatch(setAlert("Error occured while loading all Store owner", "danger"));
+    dispatch(setAlert('Error occured while loading all Store owner', 'danger'));
   }
 };

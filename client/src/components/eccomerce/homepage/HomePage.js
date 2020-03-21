@@ -2,7 +2,7 @@ import React, { useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  getAllProducts,
+  // getAllProducts,
   getAllUsers
 } from '../../../actions/ecommerce/product';
 import styles from '../../../css/ecommerce/ProductPage.module.css';
@@ -20,7 +20,7 @@ const HomePage = ({
   getAllUsers
 }) => {
   useEffect(() => {
-    getAllProducts();
+    // getAllProducts();
     getAllUsers();
   }, [getAllProducts, loading, getAllUsers]);
 
@@ -145,9 +145,10 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { getAllProducts, getAllUsers })(
-  HomePage
-);
+export default connect(mapStateToProps, {
+  // getAllProducts,
+  getAllUsers
+})(HomePage);
 const container = {
   'max-width': '720px',
   'min-width': '70%'
