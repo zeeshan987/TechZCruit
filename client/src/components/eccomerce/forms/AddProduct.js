@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import style from '../../../css/ecommerce/AddProduct-form.module.css';
-import { addProduct } from '../../../actions/ecommerce/product';
+// import { addProduct } from '../../../actions/ecommerce/product';
 import styled from 'styled-components';
 import SideNav from '../../layout/SideNav';
 import Footer from '../../layout/Footer';
@@ -124,7 +124,9 @@ export const AddProduct = ({ addProduct, history }) => {
 AddProduct.propTypes = {
   addProduct: PropTypes.func.isRequired
 };
-export default connect(null, { addProduct })(withRouter(AddProduct));
+export default connect(null, {
+  // addProduct
+})(withRouter(AddProduct));
 
 const Body = styled.body`
   font-family: 'Muli-Regular';

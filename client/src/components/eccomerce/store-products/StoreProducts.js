@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import { Button, Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import {
-  // getAllProductsForStore,
-  deleteTestcaseForProject
-} from '../../../actions/testing/project';
-import { getAllProductsForStore } from '../../../actions/ecommerce/product';
-import styles from '../../../css/testing/projects-testcases/style.module.css';
+  getAllProductsForStore,
+  deleteProduct
+} from '../../../actions/ecommerce/product';
+import styles from '../../../css/ecommerce/store-products/style.module.css';
 import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';
@@ -16,11 +15,34 @@ const StoreProducts = ({
   product: { loading, products },
   getAllProductsForStore,
   match,
-  deleteTestcaseForProject
+  deleteProduct
 }) => {
   useEffect(() => {
     getAllProductsForStore(match.params.id);
   }, [getAllProductsForStore, match.params.id]);
+
+  const getCategory = category => {
+    switch (category) {
+      case 1:
+        return 'Web';
+      case 2:
+        return 'Desktop';
+      case 3:
+        return 'Android';
+      case 4:
+        return 'IOS';
+      case 5:
+        return 'React Native';
+      case 6:
+        return 'Flutter';
+      case 7:
+        return 'Ionic';
+      case 8:
+        return 'Cross Platform';
+      default:
+        return 'Other';
+    }
+  };
 
   return (
     <Fragment>
@@ -59,14 +81,20 @@ const StoreProducts = ({
                   <tr>
                     <td>{product.title}</td>
                     <td>{product.description}</td>
-                    <td>{product.category}</td>
-                    <td>{product.price}</td>
+                    <td>{getCategory(product.category)}</td>
+                    <td>${product.price}</td>
                     <td>
                       <Button
+                        variant='success'
+                        className='m-1'
+                        href={`/ecommerce/store/products/${match.params.id}/edit-product/${product._id}`}
+                      >
+                        Update
+                      </Button>
+                      <Button
                         variant='danger'
-                        onClick={() =>
-                          deleteTestcaseForProject(match.params.id, product._id)
-                        }
+                        className='m-1'
+                        onClick={() => deleteProduct(product._id)}
                       >
                         Delete
                       </Button>
@@ -88,7 +116,7 @@ const StoreProducts = ({
 
 StoreProducts.propTypes = {
   getAllProductsForStore: PropTypes.func.isRequired,
-  deleteTestcaseForProject: PropTypes.func.isRequired,
+  deleteProduct: PropTypes.func.isRequired,
   product: PropTypes.object.isRequired
 };
 
@@ -98,5 +126,5 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   getAllProductsForStore,
-  deleteTestcaseForProject
+  deleteProduct
 })(StoreProducts);

@@ -3,20 +3,21 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { createTestcaseForProject } from '../../../actions/testing/project';
-import styles from '../../../css/testing/projects-testcases/style.module.css';
+import { createProduct } from '../../../actions/ecommerce/product';
+import styles from '../../../css/ecommerce/store-products/style.module.css';
 import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';
 
-const CreateTestcases = ({ history, createTestcaseForProject, match }) => {
+const CreateProduct = ({ history, createProduct, match }) => {
   const [formData, setFormData] = useState({
-    name: '',
+    title: '',
     description: '',
-    expectedResult: ''
+    category: '',
+    price: ''
   });
 
-  const { name, description, expectedResult } = formData;
+  const { title, description, category, price } = formData;
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,7 +25,7 @@ const CreateTestcases = ({ history, createTestcaseForProject, match }) => {
 
   const onSubmit = e => {
     e.preventDefault();
-    createTestcaseForProject(match.params.id, formData, history);
+    createProduct(match.params.id, formData, history);
   };
 
   return (
@@ -35,19 +36,19 @@ const CreateTestcases = ({ history, createTestcaseForProject, match }) => {
         <div className={styles.content}>
           <Alert />
           <div className={styles.heading}>
-            <i className='fas fa-user'></i> Create test case
+            <i className='fas fa-user'></i> Create product
           </div>
           <div className={styles.sub_heading}>
-            Fill in the following information to create a new testcase for the
-            project
+            Fill in the following information to create a new product for the
+            store
           </div>
           <Form onSubmit={e => onSubmit(e)}>
             <Form.Group>
               <Form.Control
                 type='text'
-                name='name'
-                value={name}
-                placeholder='Name'
+                name='title'
+                value={title}
+                placeholder='Title'
                 onChange={e => onChange(e)}
               />
             </Form.Group>
@@ -63,11 +64,29 @@ const CreateTestcases = ({ history, createTestcaseForProject, match }) => {
             </Form.Group>
             <Form.Group>
               <Form.Control
-                as='textarea'
-                rows='5'
-                name='expectedResult'
-                value={expectedResult}
-                placeholder='Expected result'
+                as='select'
+                name='category'
+                value={category}
+                onChange={e => onChange(e)}
+              >
+                <option value=''>Please select product category</option>
+                <option value='1'>Web</option>
+                <option value='2'>Desktop</option>
+                <option value='3'>Android</option>
+                <option value='4'>IOS</option>
+                <option value='5'>React Native</option>
+                <option value='6'>Flutter</option>
+                <option value='7'>Ionic</option>
+                <option value='8'>Cross Platform</option>
+                <option value='9'>Other</option>
+              </Form.Control>
+            </Form.Group>
+            <Form.Group>
+              <Form.Control
+                type='number'
+                name='price'
+                value={price}
+                placeholder='Price in US dollars'
                 onChange={e => onChange(e)}
               />
             </Form.Group>
@@ -81,7 +100,9 @@ const CreateTestcases = ({ history, createTestcaseForProject, match }) => {
             <Button
               variant='danger'
               className='my-2'
-              onClick={() => history.push('/testing/my-projects')}
+              onClick={() =>
+                history.push(`/ecommerce/store/products/${match.params.id}`)
+              }
             >
               Cancel
             </Button>
@@ -94,10 +115,10 @@ const CreateTestcases = ({ history, createTestcaseForProject, match }) => {
   );
 };
 
-CreateTestcases.propTypes = {
-  createTestcaseForProject: PropTypes.func.isRequired
+CreateProduct.propTypes = {
+  createProduct: PropTypes.func.isRequired
 };
 
 export default connect(null, {
-  createTestcaseForProject
-})(withRouter(CreateTestcases));
+  createProduct
+})(withRouter(CreateProduct));

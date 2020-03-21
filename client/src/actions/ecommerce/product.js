@@ -1,5 +1,5 @@
 import {
-  PRODUCT_ADDED,
+  PRODUCT_CREATED,
   CLEAR_PRODUCT,
   PRODUCT_LOADED,
   PRODUCT_ERROR,
@@ -16,7 +16,7 @@ import { setAlert } from '../alert';
 import axios from 'axios';
 
 // Create product
-export const addProduct = (formData, history) => async dispatch => {
+export const createProduct = (storeId, formData, history) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -24,17 +24,20 @@ export const addProduct = (formData, history) => async dispatch => {
   };
 
   try {
-    const res = await axios.post('/api/ecommerce/products', formData, config);
-    console.log(res.data);
+    const res = await axios.post(
+      `/api/ecommerce/products/${storeId}`,
+      formData,
+      config
+    );
 
     dispatch({
-      type: PRODUCT_ADDED,
+      type: PRODUCT_CREATED,
       payload: res.data
     });
 
-    dispatch(setAlert('Product Added', 'success'));
+    dispatch(setAlert('Product created', 'success'));
 
-    history.push('/ecommerce/homepage');
+    history.push(`/ecommerce/store/products/${storeId}`);
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -53,13 +56,10 @@ export const getProductById = id => async dispatch => {
       payload: res.data
     });
   } catch (err) {
-    // dispatch({
-    //   type: PRODUCT_ERROR,
-    //   payload: {
-    //     msg: err.error.response.statusText,
-    //     status: err.response.status
-    //   }
-    // });
+    dispatch({
+      type: PRODUCT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
   }
 };
 
@@ -146,25 +146,22 @@ export const getAllProductForUser = () => async dispatch => {
 //   }
 // };
 
-// Delete product
-export const deleteProduct = (pId, history) => async dispatch => {
+// Delete a product
+export const deleteProduct = productId => async dispatch => {
   try {
-    console.log('came up', pId);
-    await axios.delete(`/api/ecommerce/products/${pId}`);
-    console.log('came down');
+    await axios.delete(`/api/ecommerce/products/${productId}`);
+
     dispatch({
       type: PRODUCT_REMOVED,
-      payload: pId
+      payload: productId
     });
 
     dispatch(setAlert('Product Removed', 'success'));
-    history.push('/ecommerce/homepage');
   } catch (err) {
-    const errors = err.response.data.errors;
-    console.log('error', errors);
-    if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
-    }
+    dispatch({
+      type: PRODUCT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
   }
 };
 
@@ -207,7 +204,12 @@ export const unfavouriteProduct = productId => async dispatch => {
 };
 
 // Update a product
-export const updateProduct = (id, formData, history) => async dispatch => {
+export const updateProduct = (
+  storeId,
+  productId,
+  formData,
+  history
+) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -216,7 +218,7 @@ export const updateProduct = (id, formData, history) => async dispatch => {
 
   try {
     const res = await axios.put(
-      `/api/ecommerce/products/${id}`,
+      `/api/ecommerce/products/${productId}`,
       formData,
       config
     );
@@ -228,12 +230,12 @@ export const updateProduct = (id, formData, history) => async dispatch => {
 
     dispatch(setAlert('Product updated', 'success'));
 
-    history.push('/ecommerce/homepage');
+    history.push(`/ecommerce/store/products/${storeId}`);
   } catch (err) {
-    dispatch({
-      type: PRODUCT_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    });
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
   }
 };
 

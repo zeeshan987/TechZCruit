@@ -6,7 +6,7 @@ import {
   getProjectById,
   deleteTestcaseForProject
 } from '../../../actions/testing/project';
-import styles from '../../../css/testing/projects-testcases/style.module.css';
+import styles from '../../../css/testing/project-testcases/style.module.css';
 import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';

@@ -1,5 +1,5 @@
 import {
-  PRODUCT_ADDED,
+  PRODUCT_CREATED,
   CLEAR_PRODUCT,
   // All_PRODUCTS_LOADED,
   PRODUCT_LOADED,
@@ -31,18 +31,18 @@ export default function(state = initialState, action) {
         errors: null,
         products: payload
       };
+    case PRODUCT_CREATED:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        products: [...state.products, payload]
+      };
     case PRODUCT_LOADED:
     case PRODUCT_UPDATED:
       return {
         ...state,
         product: payload,
-        loading: false,
-        errors: null
-      };
-    case PRODUCT_ADDED:
-      return {
-        ...state,
-        product: { ...state.product, payload },
         loading: false,
         errors: null
       };
