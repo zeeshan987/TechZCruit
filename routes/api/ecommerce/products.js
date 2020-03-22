@@ -3,7 +3,6 @@ const router = express.Router();
 const auth = require('../../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 const Product = require('../../../models/ecommerce/Product');
-const userModel = require('../../../models/User');
 const stripe = require('stripe')('sk_test_XlhQvFYUTZ4qdeqnN3X3RVTX00CoTYt5Sz');
 
 // @route   GET /api/ecommerce/products

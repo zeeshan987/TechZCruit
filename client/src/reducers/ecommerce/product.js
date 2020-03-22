@@ -1,14 +1,11 @@
 import {
   PRODUCT_CREATED,
   PRODUCT_PURCHASED,
-  // All_PRODUCTS_LOADED,
   PRODUCT_LOADED,
   REVIEW_ADDED,
-  // PRODUCT_UNFAVOURITE,
   PRODUCT_UPDATED,
   PRODUCT_REMOVED,
   PRODUCT_ERROR,
-  GET_ALL_USERS,
   All_PRODUCTS_LOADED_FOR_STORE,
   REVIEW_REMOVED,
   PRODUCT_LIKED,
@@ -61,13 +58,6 @@ export default function(state = initialState, action) {
         ...state,
         loading: false,
         errors: payload
-      };
-    case GET_ALL_USERS:
-      return {
-        ...state,
-        users: payload,
-        loading: false,
-        errors: null
       };
     case PRODUCT_PURCHASED:
       return {

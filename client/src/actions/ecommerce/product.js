@@ -1,14 +1,10 @@
 import {
   PRODUCT_CREATED,
-  CLEAR_PRODUCT,
   PRODUCT_LOADED,
   PRODUCT_ERROR,
   PRODUCT_REMOVED,
-  PRODUCT_FAVOURITE,
   REVIEW_ADDED,
   PRODUCT_UPDATED,
-  PRODUCT_UNFAVOURITE,
-  // All_PRODUCTS_LOADED,
   GET_ALL_USERS,
   All_PRODUCTS_LOADED_FOR_STORE,
   REVIEW_REMOVED,
@@ -276,25 +272,5 @@ export const searchProduct = description => async dispatch => {
       type: PRODUCT_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
-  }
-};
-
-// Get all users
-export const getAllUsers = () => async dispatch => {
-  try {
-    const res = await axios.get('/api/users/store');
-    console.log(res.data);
-
-    dispatch({
-      type: GET_ALL_USERS,
-      payload: res.data
-    });
-  } catch (err) {
-    console.log(err);
-    dispatch({
-      type: PRODUCT_ERROR
-    });
-
-    dispatch(setAlert('Error occured while loading all Store owner', 'danger'));
   }
 };

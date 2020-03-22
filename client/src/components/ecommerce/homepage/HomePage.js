@@ -1,10 +1,9 @@
 import React, { useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  // getAllProducts,
-  getAllUsers
-} from '../../../actions/ecommerce/product';
+import // getAllProducts,
+// getAllUsers
+'../../../actions/ecommerce/product';
 import styles from '../../../css/ecommerce/ProductPage.module.css';
 import ServiceSection from './ServiceSection';
 import ProductCard from './ProductCard';
@@ -147,7 +146,7 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   // getAllProducts,
-  getAllUsers
+  // getAllUsers
 })(HomePage);
 const container = {
   'max-width': '720px',
