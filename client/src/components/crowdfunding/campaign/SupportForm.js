@@ -49,12 +49,9 @@ const SupportForm = ({
     } else {
       const clientSecret = await supportCampaign(campaignId, amount);
 
-      stripe.confirmCardPayment(clientSecret, {
+      await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
-          card: elements.getElement('card'),
-          billing_details: {
-            email: auth.user !== null ? auth.user.email : ''
-          }
+          card: elements.getElement('card')
         }
       });
 

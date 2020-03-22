@@ -1,18 +1,18 @@
-import React, { useEffect, Fragment, useState } from 'react';
-import PropTypes from 'prop-types';
-import { getCampaignById } from '../../../actions/crowdfunding/campaign';
-import { connect } from 'react-redux';
-import CampaignNavigationTabs from './CampaignNavigationTabs';
-import UserInfo from './UserInfo';
-import { Row, Col, Button, Modal } from 'react-bootstrap';
-import placeholder from '../../../img/placeholder.png';
-import Moment from 'react-moment';
-import { StripeProvider, Elements } from 'react-stripe-elements';
-import SupportForm from './SupportForm';
-import styles from '../../../css/crowdfunding/campaign/style.module.css';
-import SideNav from '../../layout/SideNav';
-import Alert from '../../layout/Alert';
-import Footer from '../../layout/Footer';
+import React, { useEffect, Fragment, useState } from "react";
+import PropTypes from "prop-types";
+import { getCampaignById } from "../../../actions/crowdfunding/campaign";
+import { connect } from "react-redux";
+import CampaignNavigationTabs from "./CampaignNavigationTabs";
+import UserInfo from "./UserInfo";
+import { Row, Col, Button, Modal } from "react-bootstrap";
+import placeholder from "../../../img/showcase.jpg";
+import Moment from "react-moment";
+import { StripeProvider, Elements } from "react-stripe-elements";
+import SupportForm from "./SupportForm";
+import styles from "../../../css/crowdfunding/campaign/style.module.css";
+import SideNav from "../../layout/SideNav";
+import Alert from "../../layout/Alert";
+import Footer from "../../layout/Footer";
 
 const Campaign = ({
   campaign: { campaign, loading },
@@ -39,12 +39,12 @@ const Campaign = ({
           <Alert />
           <Modal show={showPaymentModal} onHide={() => toggleModal()} centered>
             <Modal.Header closeButton>
-              <Modal.Title>Campaign title</Modal.Title>
+              <Modal.Title>{campaign !== null && campaign.title}</Modal.Title>
             </Modal.Header>
             <StripeProvider apiKey='pk_test_qFCTODVMoaT4TXgRvnQ75GPR00dFX40yVb'>
               <Elements>
                 <SupportForm
-                  campaignId={campaign !== null ? campaign._id : ''}
+                  campaignId={campaign !== null ? campaign._id : ""}
                   toggleModal={toggleModal}
                   auth={auth}
                 />
@@ -53,14 +53,14 @@ const Campaign = ({
           </Modal>
 
           <div className={styles.heading}>
-            {!loading && campaign !== null ? campaign.title : ''}
+            {!loading && campaign !== null ? campaign.title : ""}
           </div>
           <Row className='my-3'>
             <Col md={8}>
               <img
                 src={placeholder}
                 alt=''
-                style={{ width: '100%', height: '500px' }}
+                style={{ width: "100%", height: "500px" }}
               />
             </Col>
             <Col className='p-3' md={4}>
@@ -72,17 +72,17 @@ const Campaign = ({
                     ? campaign.supporters
                         .map(supporter => supporter.amount)
                         .reduce((a, b) => a + b, 0)
-                    : ''}
+                    : ""}
                 </div>
                 raised of required $
-                {!loading && campaign !== null ? campaign.fundsRequired : ''}
+                {!loading && campaign !== null ? campaign.fundsRequired : ""}
               </div>
               <div>
                 <div className='mt-3'>Supporters:</div>
                 <h3 className={styles.sub_heading}>
                   {!loading && campaign !== null
                     ? campaign.supporters.length
-                    : ''}
+                    : ""}
                 </h3>
               </div>
               <div>
@@ -93,17 +93,22 @@ const Campaign = ({
                       {campaign.completionDate}
                     </Moment>
                   ) : (
-                    ''
+                    ""
                   )}
                 </div>
               </div>
-              <Button
-                variant='primary'
-                className={`mt-3 ${styles.btn_primary}`}
-                onClick={() => toggleModal()}
-              >
-                Support this campaign
-              </Button>
+              {!loading &&
+                auth.user !== null &&
+                campaign !== null &&
+                auth.user._id !== campaign.user._id && (
+                  <Button
+                    variant='primary'
+                    className={`mt-3 ${styles.btn_primary}`}
+                    onClick={() => toggleModal()}
+                  >
+                    Support this campaign
+                  </Button>
+                )}
             </Col>
           </Row>
           <Row>

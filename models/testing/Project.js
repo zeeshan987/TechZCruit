@@ -30,6 +30,14 @@ const ProjectSchema = new mongoose.Schema({
       amount: {
         type: Number,
         required: true
+      },
+      clientSecret: {
+        type: String,
+        required: true
+      },
+      paymentMethodId: {
+        type: String,
+        required: true
       }
     }
   ],

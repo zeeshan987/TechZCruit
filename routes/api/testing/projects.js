@@ -1,37 +1,38 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const Project = require("../../../models/testing/Project");
-const auth = require("../../../middleware/auth");
-const { check, validationResult } = require("express-validator");
+const Project = require('../../../models/testing/Project');
+const auth = require('../../../middleware/auth');
+const { check, validationResult } = require('express-validator');
+const stripe = require('stripe')('sk_test_XlhQvFYUTZ4qdeqnN3X3RVTX00CoTYt5Sz');
 
 // @route   GET /api/testing/projects
 // @desc    Get all projects
 // @access  Public
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const projects = await Project.find();
     res.json(projects);
   } catch (err) {
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
 // @route   GET /api/testing/projects/user
 // @desc    Get projects for current user
 // @access  Private
-router.get("/user", auth, async (req, res) => {
+router.get('/user', auth, async (req, res) => {
   try {
     const projects = await Project.find({ user: req.user.id });
     res.json(projects);
   } catch (err) {
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
 // @route   GET /api/testing/projects/user/ongoing
 // @desc    Get ongoing projects for current user
 // @access  Private
-router.get("/user/ongoing", auth, async (req, res) => {
+router.get('/user/ongoing', auth, async (req, res) => {
   try {
     let projects = await Project.find();
     projects = projects.filter(project => {
@@ -49,39 +50,40 @@ router.get("/user/ongoing", auth, async (req, res) => {
 
     res.json(projects);
   } catch (err) {
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
 // @route   GET /api/testing/projects/search/:description
 // @desc    Search for a particular campaign
 // @access  Private
-router.get("/search/:description", auth, async (req, res) => {
+router.get('/search/:description', auth, async (req, res) => {
   const description = req.params.description;
 
   try {
     const projects = await Project.find({
-      name: new RegExp(description, "i")
+      name: new RegExp(description, 'i')
     });
 
     res.send(projects);
   } catch (err) {
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
 // @route   GET /api/testing/projects/:id
 // @desc    Get project by id
 // @access  Public
-router.get("/:id", async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const project = await Project.findById(req.params.id)
-      .populate("user", ["name", "avatar"])
-      .populate("offers.user", ["name", "avatar"])
-      .populate("testers.user", ["name", "avatar"]);
+      .populate('user', ['name', 'avatar'])
+      .populate('offers.user', ['name', 'avatar'])
+      .populate('testers.user', ['name', 'avatar'])
+      .populate('comments.user', ['name', 'avatar']);
     res.json(project);
   } catch (err) {
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
@@ -89,17 +91,17 @@ router.get("/:id", async (req, res) => {
 // @desc    Create a new testing project
 // @access  Private
 router.post(
-  "/",
+  '/',
   [
     auth,
-    check("name", "Name is required")
+    check('name', 'Name is required')
       .not()
       .isEmpty(),
-    check("description", "Description is required")
+    check('description', 'Description is required')
       .not()
       .isEmpty(),
-    check("url", "URL is required and must be valid").isURL(),
-    check("amount", "Amount is required and must be an integer").isInt()
+    check('url', 'URL is required and must be valid').isURL(),
+    check('amount', 'Amount is required and must be an integer').isInt()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -121,7 +123,7 @@ router.post(
       await newProject.save();
       res.json(newProject);
     } catch (err) {
-      return res.status(500).send("Server error");
+      return res.status(500).send('Server error');
     }
   }
 );
@@ -129,12 +131,12 @@ router.post(
 // @route   PUT /api/testing/projects/testcase/pass/:id/:testcase_id
 // @desc    Pass a test case for current user
 // @access  Private
-router.put("/testcase/pass/:id/:testcase_id", auth, async (req, res) => {
+router.put('/testcase/pass/:id/:testcase_id', auth, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
 
     if (!project) {
-      return res.status(400).json({ msg: "Project does not exist" });
+      return res.status(400).json({ msg: 'Project does not exist' });
     }
 
     let index = project.testCases
@@ -142,7 +144,7 @@ router.put("/testcase/pass/:id/:testcase_id", auth, async (req, res) => {
       .indexOf(req.params.testcase_id);
 
     if (index === -1) {
-      return res.status(400).json({ msg: "Test case does not exist" });
+      return res.status(400).json({ msg: 'Test case does not exist' });
     }
 
     project.testCases.map(testcase => {
@@ -171,19 +173,19 @@ router.put("/testcase/pass/:id/:testcase_id", auth, async (req, res) => {
     await project.save();
     res.json(project);
   } catch (err) {
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
 // @route   PUT /api/testing/projects/testcase/fail/:id/:testcase_id
 // @desc    Fail a test case for current user
 // @access  Private
-router.put("/testcase/fail/:id/:testcase_id", auth, async (req, res) => {
+router.put('/testcase/fail/:id/:testcase_id', auth, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
 
     if (!project) {
-      return res.status(400).json({ msg: "Project does not exist" });
+      return res.status(400).json({ msg: 'Project does not exist' });
     }
 
     let index = project.testCases
@@ -191,7 +193,7 @@ router.put("/testcase/fail/:id/:testcase_id", auth, async (req, res) => {
       .indexOf(req.params.testcase_id);
 
     if (index === -1) {
-      return res.status(400).json({ msg: "Test case does not exist" });
+      return res.status(400).json({ msg: 'Test case does not exist' });
     }
 
     project.testCases.map(testcase => {
@@ -220,7 +222,7 @@ router.put("/testcase/fail/:id/:testcase_id", auth, async (req, res) => {
     await project.save();
     res.json(project);
   } catch (err) {
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
@@ -228,16 +230,16 @@ router.put("/testcase/fail/:id/:testcase_id", auth, async (req, res) => {
 // @desc    Create a new testcase for a project
 // @access  Private
 router.put(
-  "/testcase/:id",
+  '/testcase/:id',
   [
     auth,
-    check("name", "Name is required")
+    check('name', 'Name is required')
       .not()
       .isEmpty(),
-    check("description", "Description is required")
+    check('description', 'Description is required')
       .not()
       .isEmpty(),
-    check("expectedResult", "Expected result is required")
+    check('expectedResult', 'Expected result is required')
       .not()
       .isEmpty()
   ],
@@ -253,7 +255,7 @@ router.put(
       const project = await Project.findById(req.params.id);
 
       if (!project) {
-        return res.status(400).json({ msg: "Project does not exist" });
+        return res.status(400).json({ msg: 'Project does not exist' });
       }
 
       project.testCases.push({
@@ -266,7 +268,7 @@ router.put(
       res.json(project);
     } catch (err) {
       console.log(err);
-      return res.status(500).send("Server error");
+      return res.status(500).send('Server error');
     }
   }
 );
@@ -274,12 +276,12 @@ router.put(
 // @route   PUT /api/testing/projects/finish/:id
 // @desc    Finish testing for a project for current user
 // @access  Private
-router.put("/finish/:id", auth, async (req, res) => {
+router.put('/finish/:id', auth, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
 
     if (!project) {
-      return res.status(400).json({ msg: "Project does not exist" });
+      return res.status(400).json({ msg: 'Project does not exist' });
     }
 
     project.testers.map(item => {
@@ -292,43 +294,38 @@ router.put("/finish/:id", auth, async (req, res) => {
     await project.save();
     res.json(project);
   } catch (err) {
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
-// @route   PUT /api/testing/projects/offer/:id
-// @desc    Add an offer for a project
+// @route   PUT /api/testing/projects/comment/:id
+// @desc    Comment on a project
 // @access  Private
 router.put(
-  "/offer/:id",
-  [auth, check("amount", "Amount is required and must be an integer").isInt()],
+  '/comment/:id',
+  [
+    auth,
+    check('description', 'Description is required')
+      .not()
+      .isEmpty()
+  ],
   async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { description } = req.body;
+
     try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
+      const project = await Project.findOne({ _id: req.params.id });
 
-      const { amount } = req.body;
-
-      const project = await Project.findById(req.params.id);
-
-      if (!project) {
-        return res.status(400).json({ msg: "Project does not exist" });
-      }
-
-      const index = project.offers.map(item => item.user).indexOf(req.user.id);
-
-      if (index !== -1) {
-        return res.status(400).json({ msg: "Offer already sent" });
-      }
-
-      project.offers.push({
+      project.comments.unshift({
         user: req.user.id,
-        amount
+        description
       });
 
-      project.populate("offers.user", ["name", "avatar"], (err, res) => {
+      project.populate('comments.user', ['name', 'avatar'], (err, res) => {
         if (err) throw err;
         return res;
       });
@@ -336,7 +333,66 @@ router.put(
       await project.save();
       res.json(project);
     } catch (err) {
-      return res.status(500).send("Server error");
+      console.error(err.message);
+      return res.status(500).send('Server error');
+    }
+  }
+);
+
+// @route   PUT /api/testing/projects/offer/:id
+// @desc    Add an offer for a project
+// @access  Private
+router.put(
+  '/offer/:id',
+  [
+    auth,
+    check('amount', 'Amount is required and must be an integer').isInt(),
+    check('paymentMethodId', 'Payment method ID is required')
+      .not()
+      .isEmpty()
+  ],
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const { amount, paymentMethodId } = req.body;
+
+      const project = await Project.findById(req.params.id);
+
+      if (!project) {
+        return res.status(400).json({ msg: 'Project does not exist' });
+      }
+
+      const index = project.offers.map(item => item.user).indexOf(req.user.id);
+
+      if (index !== -1) {
+        return res.status(400).json({ msg: 'Offer already sent' });
+      }
+
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: amount * 100,
+        currency: 'usd'
+      });
+
+      project.offers.push({
+        user: req.user.id,
+        amount,
+        clientSecret: paymentIntent.client_secret,
+        paymentMethodId
+      });
+
+      project.populate('offers.user', ['name', 'avatar'], (err, res) => {
+        if (err) throw err;
+        return res;
+      });
+
+      await project.save();
+      res.json(project);
+    } catch (err) {
+      return res.status(500).send('Server error');
     }
   }
 );
@@ -344,16 +400,16 @@ router.put(
 // @route   DELETE /api/testing/projects/offer/:id/:offer_id
 // @desc    Delete offer for a project
 // @access  Private
-router.delete("/offer/:id/:offer_id", auth, async (req, res) => {
+router.delete('/offer/:id/:offer_id', auth, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
 
     if (!project) {
-      return res.status(400).json({ msg: "Project does not exist" });
+      return res.status(400).json({ msg: 'Project does not exist' });
     }
 
     if (project.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: "Not authorized" });
+      return res.status(401).json({ msg: 'Not authorized' });
     }
 
     const index = project.offers
@@ -361,12 +417,12 @@ router.delete("/offer/:id/:offer_id", auth, async (req, res) => {
       .indexOf(req.params.offer_id);
 
     if (index === -1) {
-      return res.status(400).json({ msg: "Offer not found" });
+      return res.status(400).json({ msg: 'Offer not found' });
     }
 
     project.offers.splice(index, 1);
 
-    project.populate("offers.user", ["name", "avatar"], (err, res) => {
+    project.populate('offers.user', ['name', 'avatar'], (err, res) => {
       if (err) throw err;
       return res;
     });
@@ -375,19 +431,19 @@ router.delete("/offer/:id/:offer_id", auth, async (req, res) => {
     res.json(project);
   } catch (err) {
     console.log(err);
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
 // @route   DELETE /api/testing/projects/testcase/:id/:testcase_id
 // @desc    Delete a test case for a project
 // @access  Private
-router.delete("/testcase/:id/:testcase_id", auth, async (req, res) => {
+router.delete('/testcase/:id/:testcase_id', auth, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
 
     if (!project) {
-      return res.status(400).json({ msg: "Project does not exist" });
+      return res.status(400).json({ msg: 'Project does not exist' });
     }
 
     const index = project.testCases
@@ -395,7 +451,7 @@ router.delete("/testcase/:id/:testcase_id", auth, async (req, res) => {
       .indexOf(req.params.testcase_id);
 
     if (index === -1) {
-      return res.status(400).json({ msg: "Test case does not exist" });
+      return res.status(400).json({ msg: 'Test case does not exist' });
     }
 
     project.testCases.splice(index, 1);
@@ -403,42 +459,37 @@ router.delete("/testcase/:id/:testcase_id", auth, async (req, res) => {
     await project.save();
     res.json(project);
   } catch (err) {
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 
-// @route   PUT /api/testing/projects/:id/:user_id
-// @desc    Add tester to a project
+// @route   DELETE /api/testing/projects/comment/:id/:comment_id
+// @desc    Delete a comment on a project
 // @access  Private
-router.put("/:id/:user_id", auth, async (req, res) => {
+router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   try {
-    const project = await Project.findById(req.params.id);
+    const project = await Project.findOne({ _id: req.params.id });
 
-    if (!project) {
-      return res.status(400).json({ msg: "Project does not exist" });
+    const removeIndex = project.comments
+      .map(item => item.id)
+      .indexOf(req.params.comment_id);
+
+    if (removeIndex === -1) {
+      return res.status(404).json({ msg: 'Comment not found' });
     }
 
-    if (project.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: "Not authorized" });
-    }
+    const comment = project.comments.find(
+      comment => comment.id === req.params.comment_id
+    );
 
-    const user = await User.findById(req.params.user_id);
+    project.comments.splice(removeIndex, 1);
 
-    if (!user) {
-      return res.status(400).json({ msg: "User does not exist" });
-    }
-
-    const index = project.testers
-      .map(item => item.user)
-      .indexOf(req.params.user_id);
-
-    if (index !== -1) {
-      return res.status(400).json({ msg: "User already a member" });
-    }
-
-    project.testers.push({ user: req.params.user_id });
-
-    project.populate("testers.user", ["name", "avatar"], (err, res) => {
+    project.populate('comments.user', ['name', 'avatar'], (err, res) => {
       if (err) throw err;
       return res;
     });
@@ -446,7 +497,51 @@ router.put("/:id/:user_id", auth, async (req, res) => {
     await project.save();
     res.json(project);
   } catch (err) {
-    return res.status(500).send("Server error");
+    console.error(err.message);
+    return res.status(500).send('Server error');
+  }
+});
+
+// @route   PUT /api/testing/projects/:id/:user_id
+// @desc    Add tester to a project
+// @access  Private
+router.put('/:id/:user_id', auth, async (req, res) => {
+  try {
+    const project = await Project.findById(req.params.id);
+
+    if (!project) {
+      return res.status(400).json({ msg: 'Project does not exist' });
+    }
+
+    if (project.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'Not authorized' });
+    }
+
+    const user = await User.findById(req.params.user_id);
+
+    if (!user) {
+      return res.status(400).json({ msg: 'User does not exist' });
+    }
+
+    const index = project.testers
+      .map(item => item.user)
+      .indexOf(req.params.user_id);
+
+    if (index !== -1) {
+      return res.status(400).json({ msg: 'User already a member' });
+    }
+
+    project.testers.push({ user: req.params.user_id });
+
+    project.populate('testers.user', ['name', 'avatar'], (err, res) => {
+      if (err) throw err;
+      return res;
+    });
+
+    await project.save();
+    res.json(project);
+  } catch (err) {
+    return res.status(500).send('Server error');
   }
 });
 
@@ -454,17 +549,17 @@ router.put("/:id/:user_id", auth, async (req, res) => {
 // @desc    Update a testing project
 // @access  Private
 router.put(
-  "/:id",
+  '/:id',
   [
     auth,
-    check("name", "Name is required")
+    check('name', 'Name is required')
       .not()
       .isEmpty(),
-    check("description", "Description is required")
+    check('description', 'Description is required')
       .not()
       .isEmpty(),
-    check("url", "URL is required and must be valid").isURL(),
-    check("amount", "Amount is required and must be an integer").isInt()
+    check('url', 'URL is required and must be valid').isURL(),
+    check('amount', 'Amount is required and must be an integer').isInt()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -476,11 +571,11 @@ router.put(
       let project = await Project.findById(req.params.id);
 
       if (!project) {
-        return res.status(400).json({ msg: "Project does not exist" });
+        return res.status(400).json({ msg: 'Project does not exist' });
       }
 
       if (project.user.toString() !== req.user.id) {
-        return res.status(401).json({ msg: "Not authorized" });
+        return res.status(401).json({ msg: 'Not authorized' });
       }
 
       const { name, description, url, amount } = req.body;
@@ -500,7 +595,7 @@ router.put(
 
       res.json(project);
     } catch (err) {
-      return res.status(500).send("Server error");
+      return res.status(500).send('Server error');
     }
   }
 );
@@ -508,25 +603,25 @@ router.put(
 // @route   DELETE /api/testing/projects/:id
 // @desc    Delete a project
 // @access  Private
-router.delete("/:id", auth, async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
     const project = await Project.findOne({ _id: req.params.id });
 
     // Check is project exists
     if (!project) {
-      return res.status(404).json({ msg: "Project not found" });
+      return res.status(404).json({ msg: 'Project not found' });
     }
 
     // Check project
     if (project.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: "Not authorized" });
+      return res.status(401).json({ msg: 'Not authorized' });
     }
 
     await project.remove();
-    res.json({ msg: "Project removed" });
+    res.json({ msg: 'Project removed' });
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send("Server error");
+    return res.status(500).send('Server error');
   }
 });
 

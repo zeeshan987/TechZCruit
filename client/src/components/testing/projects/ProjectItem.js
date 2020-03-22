@@ -14,7 +14,7 @@ const ProjectItem = ({
         <Card className={styles.card}>
           <Card.Img variant='top' src={placeholder} />
           <Card.Body>
-            <Card.Title className={styles.card_title}>
+            <Card.Title className={`${styles.card_title} text-truncate`}>
               <Link
                 to={`/testing/project/${_id}`}
                 style={{ textDecoration: 'none', color: 'inherit' }}
@@ -24,7 +24,7 @@ const ProjectItem = ({
             </Card.Title>
             <Card.Text>
               <div className='text-truncate'>{description}</div>
-              <div>
+              <div className='text-truncate'>
                 <strong>URL: </strong>
                 <a href={url} className='text-truncate'>
                   {url}
@@ -33,7 +33,7 @@ const ProjectItem = ({
             </Card.Text>
           </Card.Body>
           <Card.Footer>
-            <div>
+            <div className='text-truncate'>
               <strong>Amount: </strong>${amount}
             </div>
           </Card.Footer>

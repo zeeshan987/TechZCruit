@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { Link } from 'react-router-dom';
 
-const ProfileItem = ({ profile }) => { 
+const ProfileItem = ({ profile }) => {
   return (
     <Fragment>
       <div className='profile p-3'>
@@ -28,7 +28,7 @@ const ProfileItem = ({ profile }) => {
         <div className='skills'>
           {profile.skills
             ? profile.skills.map(skill => (
-                <div key={uuid.v4()}>
+                <div key={uuidv4()}>
                   <i className='fas fa-check'></i> {skill}
                 </div>
               ))

@@ -7,12 +7,14 @@ import {
   deleteOfferForProject,
   addTesterToProject
 } from '../../../actions/testing/project';
+import { injectStripe } from 'react-stripe-elements';
 
 const ProjectOffers = ({
   project: { _id, offers },
   deleteOfferForProject,
   addTesterToProject,
-  styles
+  styles,
+  stripe
 }) => {
   return (
     <Fragment>
@@ -32,6 +34,10 @@ const ProjectOffers = ({
               <Button
                 variant='success'
                 onClick={() => {
+                  stripe.confirmCardPayment(offer.clientSecret, {
+                    payment_method: offer.paymentMethodId
+                  });
+
                   addTesterToProject(_id, offer.user._id);
                   deleteOfferForProject(_id, offer._id);
                 }}
@@ -56,10 +62,11 @@ ProjectOffers.propTypes = {
   project: PropTypes.object.isRequired,
   deleteOfferForProject: PropTypes.func.isRequired,
   addTesterToProject: PropTypes.func.isRequired,
-  styles: PropTypes.object.isRequired
+  styles: PropTypes.object.isRequired,
+  stripe: PropTypes.object.isRequired
 };
 
 export default connect(null, {
   deleteOfferForProject,
   addTesterToProject
-})(ProjectOffers);
+})(injectStripe(ProjectOffers));

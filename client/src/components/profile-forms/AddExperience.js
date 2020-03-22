@@ -130,9 +130,8 @@ const AddExperience = ({ addExperience, history }) => {
               />
             </Form.Group>
 
-            <Form.Group className='form-group form-check'>
+            <Form.Group>
               <Form.Check
-                id='current'
                 name='current'
                 type='checkbox'
                 label='Current'

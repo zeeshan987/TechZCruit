@@ -14,15 +14,18 @@ import {
   ALL_ONGOING_PROJECTS_LOADED_FOR_USER,
   PROJECT_TESTING_FINISHED,
   PROJECT_TESTCASE_PASSED,
-  PROJECT_TESTCASE_FAILED
-} from "../../actions/types";
-import axios from "axios";
-import { setAlert } from "../../actions/alert";
+  PROJECT_TESTCASE_FAILED,
+  COMMENT_ADDED_PROJECT,
+  COMMENT_REMOVED_PROJECT,
+  COMMENT_ERROR_PROJECT
+} from '../../actions/types';
+import axios from 'axios';
+import { setAlert } from '../../actions/alert';
 
 // Get all projects
 export const getAllProjects = () => async dispatch => {
   try {
-    const res = await axios.get("/api/testing/projects");
+    const res = await axios.get('/api/testing/projects');
 
     dispatch({
       type: ALL_PROJECTS_LOADED,
@@ -39,7 +42,7 @@ export const getAllProjects = () => async dispatch => {
 // Get all ongoing projects for user
 export const getAllOngoingProjectsForCurrentUser = () => async dispatch => {
   try {
-    const res = await axios.get("/api/testing/projects/user/ongoing");
+    const res = await axios.get('/api/testing/projects/user/ongoing');
 
     dispatch({
       type: ALL_ONGOING_PROJECTS_LOADED_FOR_USER,
@@ -73,7 +76,7 @@ export const getProjectById = id => async dispatch => {
 // Get project for current user
 export const getAllProjectsForCurrentUser = () => async dispatch => {
   try {
-    const res = await axios.get("/api/testing/projects/user");
+    const res = await axios.get('/api/testing/projects/user');
 
     dispatch({
       type: ALL_PROJECTS_LOADED_FOR_USER,
@@ -91,26 +94,26 @@ export const getAllProjectsForCurrentUser = () => async dispatch => {
 export const createProject = (formData, history) => async dispatch => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     }
   };
 
   try {
-    const res = await axios.post("/api/testing/projects", formData, config);
+    const res = await axios.post('/api/testing/projects', formData, config);
 
     dispatch({
       type: PROJECT_CREATED,
       payload: res.data
     });
 
-    dispatch(setAlert("Project created", "success"));
+    dispatch(setAlert('Project created', 'success'));
 
-    history.push("/testing/my-projects");
+    history.push('/testing/my-projects');
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
 
     dispatch({
@@ -124,7 +127,7 @@ export const createProject = (formData, history) => async dispatch => {
 export const updateProject = (id, formData, history) => async dispatch => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     }
   };
 
@@ -140,14 +143,14 @@ export const updateProject = (id, formData, history) => async dispatch => {
       payload: res.data
     });
 
-    dispatch(setAlert("Project updated", "success"));
+    dispatch(setAlert('Project updated', 'success'));
 
-    history.push("/testing/my-projects");
+    history.push('/testing/my-projects');
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
 
     dispatch({
@@ -158,14 +161,18 @@ export const updateProject = (id, formData, history) => async dispatch => {
 };
 
 // Send offer for project
-export const sendOfferForProject = (id, amount) => async dispatch => {
+export const sendOfferForProject = (
+  id,
+  amount,
+  paymentMethodId
+) => async dispatch => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     }
   };
 
-  const body = JSON.stringify({ amount });
+  const body = JSON.stringify({ amount, paymentMethodId });
 
   try {
     const res = await axios.put(
@@ -179,14 +186,14 @@ export const sendOfferForProject = (id, amount) => async dispatch => {
       payload: res.data
     });
 
-    dispatch(setAlert("Offer for project has been sent", "success"));
+    dispatch(setAlert('Offer for project has been sent', 'success'));
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
 
-    dispatch(setAlert(err.response.data.msg, "danger"));
+    dispatch(setAlert(err.response.data.msg, 'danger'));
   }
 };
 
@@ -200,7 +207,7 @@ export const deleteProject = id => async dispatch => {
       payload: id
     });
 
-    dispatch(setAlert("Project removed", "success"));
+    dispatch(setAlert('Project removed', 'success'));
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -224,7 +231,7 @@ export const deleteTestcaseForProject = (
       payload: res.data
     });
 
-    dispatch(setAlert("Test case removed", "success"));
+    dispatch(setAlert('Test case removed', 'success'));
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -241,7 +248,7 @@ export const createTestcaseForProject = (
 ) => async dispatch => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     }
   };
 
@@ -257,7 +264,7 @@ export const createTestcaseForProject = (
       payload: res.data
     });
 
-    dispatch(setAlert("Test case created", "success"));
+    dispatch(setAlert('Test case created', 'success'));
 
     history.push(`/testing/project/testcases/${projectId}`);
   } catch (err) {
@@ -265,7 +272,7 @@ export const createTestcaseForProject = (
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
 
     dispatch({
@@ -287,7 +294,7 @@ export const deleteOfferForProject = (projectId, offerId) => async dispatch => {
       payload: res.data
     });
 
-    dispatch(setAlert("Offer removed", "success"));
+    dispatch(setAlert('Offer removed', 'success'));
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -306,7 +313,7 @@ export const addTesterToProject = (projectId, userId) => async dispatch => {
       payload: res.data
     });
 
-    dispatch(setAlert("Tester added", "success"));
+    dispatch(setAlert('Tester added', 'success'));
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -325,7 +332,7 @@ export const finishTestingForProject = projectId => async dispatch => {
       payload: res.data._id
     });
 
-    dispatch(setAlert("Project testing finished", "success"));
+    dispatch(setAlert('Project testing finished', 'success'));
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -349,7 +356,7 @@ export const passTestcaseForProject = (
       payload: res.data
     });
 
-    dispatch(setAlert("Project test case passed", "success"));
+    dispatch(setAlert('Project test case passed', 'success'));
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -373,7 +380,7 @@ export const failTestcaseForProject = (
       payload: res.data
     });
 
-    dispatch(setAlert("Project test case failed", "success"));
+    dispatch(setAlert('Project test case failed', 'success'));
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -395,6 +402,59 @@ export const searchProject = description => async dispatch => {
     console.log(err);
     dispatch({
       type: PROJECT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Comment on project
+export const addCommentOnProject = (id, formData) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  try {
+    const res = await axios.put(
+      `/api/testing/projects/comment/${id}`,
+      formData,
+      config
+    );
+
+    dispatch({
+      type: COMMENT_ADDED_PROJECT,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Comment added', 'success'));
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+  }
+};
+
+// Delete comment on project
+export const deleteCommentOnProject = (
+  projectId,
+  commentId
+) => async dispatch => {
+  try {
+    const res = await axios.delete(
+      `/api/testing/projects/comment/${projectId}/${commentId}`
+    );
+
+    dispatch({
+      type: COMMENT_REMOVED_PROJECT,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Comment removed', 'success'));
+  } catch (err) {
+    dispatch({
+      type: COMMENT_ERROR_PROJECT,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }

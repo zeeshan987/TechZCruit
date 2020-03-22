@@ -1,43 +1,47 @@
 import {
-  PRODUCT_ADDED,
-  CLEAR_PRODUCT,
+  PRODUCT_CREATED,
   PRODUCT_LOADED,
   PRODUCT_ERROR,
   PRODUCT_REMOVED,
-  PRODUCT_FAVOURITE,
   REVIEW_ADDED,
   PRODUCT_UPDATED,
-  PRODUCT_UNFAVOURITE,
-  All_PRODUCTS_LOADED,
-  GET_ALL_USERS
-} from "../types";
-import { setAlert } from "../alert";
-import axios from "axios";
+  All_PRODUCTS_LOADED_FOR_STORE,
+  REVIEW_REMOVED,
+  PRODUCT_LIKED,
+  PRODUCT_UNLIKED,
+  PRODUCT_PURCHASED,
+  All_PRODUCTS_LOADED
+} from '../types';
+import { setAlert } from '../alert';
+import axios from 'axios';
 
-// Create product
-export const addProduct = (formData, history) => async dispatch => {
+// Create a product
+export const createProduct = (storeId, formData, history) => async dispatch => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     }
   };
 
   try {
-    const res = await axios.post("/api/ecommerce/products", formData, config);
-    console.log(res.data);
+    const res = await axios.post(
+      `/api/ecommerce/products/${storeId}`,
+      formData,
+      config
+    );
 
     dispatch({
-      type: PRODUCT_ADDED,
+      type: PRODUCT_CREATED,
       payload: res.data
     });
 
-    dispatch(setAlert("Product Added", "success"));
+    dispatch(setAlert('Product created', 'success'));
 
-    history.push("/ecommerce/homepage");
+    history.push(`/ecommerce/store/products/${storeId}`);
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
   }
 };
@@ -52,70 +56,70 @@ export const getProductById = id => async dispatch => {
       payload: res.data
     });
   } catch (err) {
-    // dispatch({
-    //   type: PRODUCT_ERROR,
-    //   payload: {
-    //     msg: err.error.response.statusText,
-    //     status: err.response.status
-    //   }
-    // });
+    dispatch({
+      type: PRODUCT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
   }
 };
 
-// Review a Product
-export const addReview = (productId, formData) => async dispatch => {
+// Add a review to a product
+export const reviewOnProduct = (productId, formData) => async dispatch => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     }
   };
 
   try {
-    console.log(productId, "  ProductID");
-    const res = await axios.post(
+    const res = await axios.put(
       `/api/ecommerce/products/review/${productId}`,
       formData,
       config
     );
-    console.log(res.data, "  Res data");
+
     dispatch({
       type: REVIEW_ADDED,
       payload: res.data
     });
 
-    dispatch(setAlert("Review added", "success"));
+    dispatch(setAlert('Review added', 'success'));
   } catch (err) {
-    console.log(err);
-    // const errors = err.response.data.errors;
-    // if (errors) {
-    //   errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
-    // }
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+  }
+};
+
+// Delete a review on a product
+export const deleteReviewOnProduct = (
+  productId,
+  reviewId
+) => async dispatch => {
+  try {
+    const res = await axios.delete(
+      `/api/ecommerce/products/review/${productId}/${reviewId}`
+    );
+
+    dispatch({
+      type: REVIEW_REMOVED,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Review removed', 'success'));
+  } catch (err) {
+    dispatch({
+      type: PRODUCT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
   }
 };
 
 // Get all products
 export const getAllProducts = () => async dispatch => {
   try {
-    const res = await axios.get("/api/ecommerce/products");
-
-    dispatch({
-      type: All_PRODUCTS_LOADED,
-      payload: res.data
-    });
-  } catch (err) {
-    dispatch({
-      type: PRODUCT_ERROR
-    });
-
-    dispatch(setAlert("Error occured while loading all Products", "danger"));
-  }
-};
-
-// Get all campaigns for user
-export const getAllProductForUser = () => async dispatch => {
-  try {
-    const res = await axios.get("/api/ecommerce/products/user");
-    console.log(res.data.length);
+    const res = await axios.get('/api/ecommerce/products');
 
     dispatch({
       type: All_PRODUCTS_LOADED,
@@ -129,54 +133,82 @@ export const getAllProductForUser = () => async dispatch => {
   }
 };
 
-// Get current Product
-// export const getCurrentProduct = id => async dispatch => {
-//   try {
-//     const res = await axios.get(`/api/eccomerce/products/${id}`);
-
-//     dispatch({
-//       type: PRODUCT_ADDED,
-//       payload: res.data
-//     });
-//   } catch (err) {
-//     dispatch({
-//       type: PRODUCT_ERROR,
-//       payload: err.response.data
-//     });
-//   }
-// };
-
-// Delete product
-export const deleteProduct = (pId, history) => async dispatch => {
+// Get all products for a store
+export const getAllProductsForStore = storeId => async dispatch => {
   try {
-    console.log("came up", pId);
-    await axios.delete(`/api/ecommerce/products/${pId}`);
-    console.log("came down");
+    const res = await axios.get(`/api/ecommerce/products/store/${storeId}`);
+
+    dispatch({
+      type: All_PRODUCTS_LOADED_FOR_STORE,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: PRODUCT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Purchase a product
+export const purchaseProduct = (productId, amount) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  const body = JSON.stringify({ amount });
+
+  try {
+    const res = await axios.put(
+      `/api/ecommerce/products/purchase/${productId}`,
+      body,
+      config
+    );
+
+    dispatch({
+      type: PRODUCT_PURCHASED,
+      payload: res.data.product
+    });
+
+    dispatch(setAlert('Product purchased', 'success'));
+
+    return res.data.clientSecret;
+  } catch (err) {
+    dispatch({
+      type: PRODUCT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Delete a product
+export const deleteProduct = productId => async dispatch => {
+  try {
+    await axios.delete(`/api/ecommerce/products/${productId}`);
+
     dispatch({
       type: PRODUCT_REMOVED,
-      payload: pId
+      payload: productId
     });
 
-    dispatch(setAlert("Product Removed", "success"));
-    history.push("/ecommerce/homepage");
+    dispatch(setAlert('Product Removed', 'success'));
   } catch (err) {
-    const errors = err.response.data.errors;
-    console.log("error", errors);
-    if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
-    }
+    dispatch({
+      type: PRODUCT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
   }
 };
 
-// Favourite Product
-export const favouriteProduct = productId => async dispatch => {
+// Like a Product
+export const likeProduct = productId => async dispatch => {
   try {
-    const res = await axios.put(
-      `/api/ecommerce/products/favourite/${productId}`
-    );
+    const res = await axios.put(`/api/ecommerce/products/like/${productId}`);
 
     dispatch({
-      type: PRODUCT_FAVOURITE,
+      type: PRODUCT_LIKED,
       payload: res.data
     });
   } catch (err) {
@@ -187,15 +219,13 @@ export const favouriteProduct = productId => async dispatch => {
   }
 };
 
-//unfavourite post
-export const unfavouriteProduct = productId => async dispatch => {
+//Unlike a product
+export const unlikeProduct = productId => async dispatch => {
   try {
-    const res = await axios.put(
-      `/api/ecommerce/products/unfavourite/${productId}`
-    );
+    const res = await axios.put(`/api/ecommerce/products/unlike/${productId}`);
 
     dispatch({
-      type: PRODUCT_UNFAVOURITE,
+      type: PRODUCT_UNLIKED,
       payload: res.data
     });
   } catch (err) {
@@ -207,16 +237,21 @@ export const unfavouriteProduct = productId => async dispatch => {
 };
 
 // Update a product
-export const updateProduct = (id, formData, history) => async dispatch => {
+export const updateProduct = (
+  storeId,
+  productId,
+  formData,
+  history
+) => async dispatch => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     }
   };
 
   try {
     const res = await axios.put(
-      `/api/ecommerce/products/${id}`,
+      `/api/ecommerce/products/${productId}`,
       formData,
       config
     );
@@ -226,14 +261,14 @@ export const updateProduct = (id, formData, history) => async dispatch => {
       payload: res.data
     });
 
-    dispatch(setAlert("Product updated", "success"));
+    dispatch(setAlert('Product updated', 'success'));
 
-    history.push("/ecommerce/homepage");
+    history.push(`/ecommerce/store/products/${storeId}`);
   } catch (err) {
-    dispatch({
-      type: PRODUCT_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    });
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
   }
 };
 
@@ -249,30 +284,9 @@ export const searchProduct = description => async dispatch => {
       payload: res.data
     });
   } catch (err) {
-    console.log(err);
     dispatch({
       type: PRODUCT_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
-  }
-};
-
-// Get all users
-export const getAllUsers = () => async dispatch => {
-  try {
-    const res = await axios.get("/api/users/store");
-    console.log(res.data);
-
-    dispatch({
-      type: GET_ALL_USERS,
-      payload: res.data
-    });
-  } catch (err) {
-    console.log(err);
-    dispatch({
-      type: PRODUCT_ERROR
-    });
-
-    dispatch(setAlert("Error occured while loading all Store owner", "danger"));
   }
 };
