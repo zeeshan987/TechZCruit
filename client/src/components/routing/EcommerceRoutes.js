@@ -1,12 +1,5 @@
 import React, { Fragment } from 'react';
-import { Route } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
-import AddProduct from '../ecommerce/forms/AddProduct';
-import HomePage from '../ecommerce/homepage/HomePage';
-import ProductDetail from '../ecommerce/productdetail/ProductDetail';
-// import Products from '../ecommerce/products/Products';
-import ProductPage from '../ecommerce/homepage/HomePage';
-import UpdateProduct from '../ecommerce/forms/UpdateProduct';
 import MyStores from '../ecommerce/my-stores/MyStores';
 import CreateStore from '../ecommerce/store-forms/CreateStore';
 import EditStore from '../ecommerce/store-forms/EditStore';
@@ -21,20 +14,6 @@ import Stores from '../ecommerce/stores/Stores';
 const EcommerceRoutes = () => {
   return (
     <Fragment>
-      {/* <PrivateRoute exact path='/ecommerce' component={AddProduct} />
-      <PrivateRoute exact path='/ecommerce/homepage' component={ProductPage} />
-      <PrivateRoute exact path='/ecommerce/products' component={Products} />
-      <PrivateRoute exact path='/ecommerce/store' component={Store} />
-      <PrivateRoute
-        exact
-        path='/ecommerce/updateproduct/:id'
-        component={UpdateProduct}
-      />
-      <PrivateRoute
-        exact
-        path='/ecommerce/product/:id'
-        component={ProductDetail}
-      /> */}
       <PrivateRoute exact path='/ecommerce' component={Products} />
       <PrivateRoute exact path='/ecommerce/stores' component={Stores} />
       <PrivateRoute
