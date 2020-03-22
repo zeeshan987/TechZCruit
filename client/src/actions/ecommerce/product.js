@@ -11,7 +11,9 @@ import {
   // All_PRODUCTS_LOADED,
   GET_ALL_USERS,
   All_PRODUCTS_LOADED_FOR_STORE,
-  REVIEW_REMOVED
+  REVIEW_REMOVED,
+  PRODUCT_LIKED,
+  PRODUCT_UNLIKED
 } from '../types';
 import { setAlert } from '../alert';
 import axios from 'axios';
@@ -188,15 +190,13 @@ export const deleteProduct = productId => async dispatch => {
   }
 };
 
-// Favourite Product
-export const favouriteProduct = productId => async dispatch => {
+// Like a Product
+export const likeProduct = productId => async dispatch => {
   try {
-    const res = await axios.put(
-      `/api/ecommerce/products/favourite/${productId}`
-    );
+    const res = await axios.put(`/api/ecommerce/products/like/${productId}`);
 
     dispatch({
-      type: PRODUCT_FAVOURITE,
+      type: PRODUCT_LIKED,
       payload: res.data
     });
   } catch (err) {
@@ -207,15 +207,13 @@ export const favouriteProduct = productId => async dispatch => {
   }
 };
 
-//unfavourite post
-export const unfavouriteProduct = productId => async dispatch => {
+//Unlike a product
+export const unlikeProduct = productId => async dispatch => {
   try {
-    const res = await axios.put(
-      `/api/ecommerce/products/unfavourite/${productId}`
-    );
+    const res = await axios.put(`/api/ecommerce/products/unlike/${productId}`);
 
     dispatch({
-      type: PRODUCT_UNFAVOURITE,
+      type: PRODUCT_UNLIKED,
       payload: res.data
     });
   } catch (err) {

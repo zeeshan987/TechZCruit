@@ -1,17 +1,17 @@
-import React, { Fragment, useEffect } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import Image from "../../../img/placeholder.png";
-import style from "../../../css/ecommerce/ProductDetail.module.css";
-import ProductReview from "./ProductReview";
+import React, { Fragment, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import Image from '../../../img/placeholder.png';
+import style from '../../../css/ecommerce/ProductDetail.module.css';
+import ProductReview from './ProductReview';
 import {
-  favouriteProduct,
-  unfavouriteProduct,
+  // favouriteProduct,
+  // unfavouriteProduct,
   getProductById,
   deleteProduct
-} from "../../../actions/ecommerce/product";
-import { Button } from "react-bootstrap";
+} from '../../../actions/ecommerce/product';
+import { Button } from 'react-bootstrap';
 
 const ProductDetail = ({
   product: { loading, product },
@@ -82,8 +82,8 @@ const ProductDetail = ({
                             <Link
                               to={`/ecommerce/updateproduct/${match.params.id}`}
                               style={{
-                                textDecoration: "none",
-                                color: "inherit"
+                                textDecoration: 'none',
+                                color: 'inherit'
                               }}
                             >
                               Update a Product
@@ -97,7 +97,7 @@ const ProductDetail = ({
                           </Button>
                         </Fragment>
                       ) : (
-                        ""
+                        ''
                       )}
                     </div>
 
@@ -108,11 +108,11 @@ const ProductDetail = ({
                           className={style.btn_dark}
                           onClick={() => favouriteProduct(match.params.id)}
                         >
-                          <i className='far fa-thumbs-up'></i>{" "}
+                          <i className='far fa-thumbs-up'></i>{' '}
                           <span>
                             {!loading && product.favourite.length > 0
                               ? product.favourite.length
-                              : ""}
+                              : ''}
                           </span>
                         </Button>
                       </a>
@@ -122,7 +122,7 @@ const ProductDetail = ({
                           className={style.btn_dark}
                           onClick={() => unfavouriteProduct(match.params.id)}
                         >
-                          <i className='far fa-thumbs-down'></i>{" "}
+                          <i className='far fa-thumbs-down'></i>{' '}
                         </Button>
                       </a>
                     </div>
@@ -160,7 +160,7 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   getProductById,
-  favouriteProduct,
-  unfavouriteProduct,
+  // favouriteProduct,
+  // unfavouriteProduct,
   deleteProduct
 })(ProductDetail);

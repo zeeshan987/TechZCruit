@@ -1,6 +1,10 @@
 import React, { useEffect, Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
-import { getProductById } from '../../../actions/ecommerce/product';
+import {
+  getProductById,
+  likeProduct,
+  unlikeProduct
+} from '../../../actions/ecommerce/product';
 import { connect } from 'react-redux';
 import ProductNavigationTabs from './ProductNavigationTabs';
 import UserInfo from './UserInfo';
@@ -18,7 +22,9 @@ const Product = ({
   product: { product, loading },
   getProductById,
   match,
-  auth
+  auth,
+  likeProduct,
+  unlikeProduct
 }) => {
   useEffect(() => {
     getProductById(match.params.id);
@@ -113,6 +119,25 @@ const Product = ({
                   {!loading && product !== null && product.store.name}
                 </Link>
               </div>
+              <div className='my-2'>
+                <Button
+                  variant='dark'
+                  className='m-1'
+                  onClick={() => likeProduct(product._id)}
+                >
+                  <i class='fas fa-thumbs-up'></i>{' '}
+                  {!loading && product !== null && product.likes.length > 0
+                    ? product.likes.length
+                    : ''}
+                </Button>
+                <Button
+                  variant='dark'
+                  className='m-1'
+                  onClick={() => unlikeProduct(product._id)}
+                >
+                  <i class='fas fa-thumbs-down'></i>
+                </Button>
+              </div>
               {!loading &&
                 auth.user !== null &&
                 product !== null &&
@@ -150,7 +175,9 @@ const Product = ({
 Product.propTypes = {
   product: PropTypes.object.isRequired,
   getProductById: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  likeProduct: PropTypes.func.isRequired,
+  unlikeProduct: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -158,5 +185,7 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 export default connect(mapStateToProps, {
-  getProductById
+  getProductById,
+  likeProduct,
+  unlikeProduct
 })(Product);

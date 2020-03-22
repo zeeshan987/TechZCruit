@@ -4,14 +4,15 @@ import {
   // All_PRODUCTS_LOADED,
   PRODUCT_LOADED,
   REVIEW_ADDED,
-  PRODUCT_FAVOURITE,
-  PRODUCT_UNFAVOURITE,
+  // PRODUCT_UNFAVOURITE,
   PRODUCT_UPDATED,
   PRODUCT_REMOVED,
   PRODUCT_ERROR,
   GET_ALL_USERS,
   All_PRODUCTS_LOADED_FOR_STORE,
-  REVIEW_REMOVED
+  REVIEW_REMOVED,
+  PRODUCT_LIKED,
+  PRODUCT_UNLIKED
 } from '../../actions/types';
 
 const initialState = {
@@ -75,13 +76,13 @@ export default function(state = initialState, action) {
         loading: false,
         errors: null
       };
-    case PRODUCT_FAVOURITE:
-    case PRODUCT_UNFAVOURITE:
+    case PRODUCT_LIKED:
+    case PRODUCT_UNLIKED:
       return {
         ...state,
         loading: false,
         errors: null,
-        product: { ...state.product, favourite: payload }
+        product: { ...state.product, likes: payload.likes }
       };
     case PRODUCT_REMOVED:
       return {
