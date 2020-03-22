@@ -13,6 +13,10 @@
   padding-left: 0.7rem;
 }
 
+.side_nav::-webkit-scrollbar {
+  display: none;
+}
+
 .side_nav a {
   text-decoration: none;
   color: white;
