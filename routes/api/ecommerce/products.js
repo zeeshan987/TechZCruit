@@ -275,6 +275,11 @@ router.delete('/review/:id/:review_id', auth, async (req, res) => {
 
     product.reviews.splice(removeIndex, 1);
 
+    product.populate('reviews.user', ['name', 'avatar'], (err, res) => {
+      if (err) throw err;
+      return res;
+    });
+
     await product.save();
     res.json(product);
   } catch (err) {

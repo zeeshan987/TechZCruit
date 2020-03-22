@@ -25,16 +25,18 @@ const CommentForm = ({ product: { _id }, reviewOnProduct, styles }) => {
     e.preventDefault();
     reviewOnProduct(_id, formData);
 
-    setFormData({
-      description: '',
-      rating: ''
-    });
+    if (description !== '' && rating !== '') {
+      setFormData({
+        description: '',
+        rating: ''
+      });
+    }
   };
 
   return (
     <Fragment>
       <Form className='mt-3' onSubmit={e => onSubmit(e)}>
-        <Form.Group className={styles.rating}>
+        <Form.Group className={`${styles.rating} mb-3`}>
           <Form.Check
             type='radio'
             className={rating === 5 ? 'checked' : ''}

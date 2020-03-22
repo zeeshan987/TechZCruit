@@ -10,7 +10,8 @@ import {
   PRODUCT_REMOVED,
   PRODUCT_ERROR,
   GET_ALL_USERS,
-  All_PRODUCTS_LOADED_FOR_STORE
+  All_PRODUCTS_LOADED_FOR_STORE,
+  REVIEW_REMOVED
 } from '../../actions/types';
 
 const initialState = {
@@ -47,6 +48,7 @@ export default function(state = initialState, action) {
         errors: null
       };
     case REVIEW_ADDED:
+    case REVIEW_REMOVED:
       return {
         ...state,
         loading: false,

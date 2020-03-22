@@ -10,7 +10,8 @@ import {
   PRODUCT_UNFAVOURITE,
   // All_PRODUCTS_LOADED,
   GET_ALL_USERS,
-  All_PRODUCTS_LOADED_FOR_STORE
+  All_PRODUCTS_LOADED_FOR_STORE,
+  REVIEW_REMOVED
 } from '../types';
 import { setAlert } from '../alert';
 import axios from 'axios';
@@ -89,6 +90,30 @@ export const reviewOnProduct = (productId, formData) => async dispatch => {
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
+  }
+};
+
+// Delete a review on a product
+export const deleteReviewOnProduct = (
+  productId,
+  reviewId
+) => async dispatch => {
+  try {
+    const res = await axios.delete(
+      `/api/ecommerce/products/review/${productId}/${reviewId}`
+    );
+
+    dispatch({
+      type: REVIEW_REMOVED,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Review removed', 'success'));
+  } catch (err) {
+    dispatch({
+      type: PRODUCT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
   }
 };
 

@@ -2,14 +2,14 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Row, Col, Button } from 'react-bootstrap';
-import { deleteCommentOnCampaign } from '../../../actions/crowdfunding/campaign';
+import { Row, Col, Button, Form } from 'react-bootstrap';
+import { deleteReviewOnProduct } from '../../../actions/ecommerce/product';
 
 const ReviewItem = ({
   review,
   auth,
   product,
-  deleteCommentOnCampaign,
+  deleteReviewOnProduct,
   styles
 }) => {
   return (
@@ -22,6 +22,63 @@ const ReviewItem = ({
           </Link>
         </Col>
         <Col md={9}>
+          <div className={styles.rating_review}>
+            <Form.Check
+              type='radio'
+              className={review.rating === 5 ? 'checked' : ''}
+              inline
+            >
+              <Form.Check.Input name='rating' type='radio' />
+              <Form.Check.Label>
+                <i class='fas fa-star'></i>
+              </Form.Check.Label>
+            </Form.Check>
+
+            <Form.Check
+              type='radio'
+              className={review.rating === 4 ? 'checked' : ''}
+              inline
+            >
+              <Form.Check.Input name='rating' type='radio' />
+              <Form.Check.Label>
+                <i class='fas fa-star'></i>
+              </Form.Check.Label>
+            </Form.Check>
+
+            <Form.Check
+              type='radio'
+              className={review.rating === 3 ? 'checked' : ''}
+              inline
+            >
+              <Form.Check.Input name='rating' type='radio' />
+              <Form.Check.Label>
+                <i class='fas fa-star'></i>
+              </Form.Check.Label>
+            </Form.Check>
+
+            <Form.Check
+              type='radio'
+              className={review.rating === 2 ? 'checked' : ''}
+              inline
+            >
+              <Form.Check.Input name='rating' type='radio' />
+              <Form.Check.Label>
+                <i class='fas fa-star'></i>
+              </Form.Check.Label>
+            </Form.Check>
+
+            <Form.Check
+              type='radio'
+              className={review.rating === 1 ? 'checked' : ''}
+              inline
+            >
+              <Form.Check.Input name='rating' type='radio' />
+              <Form.Check.Label>
+                <i class='fas fa-star'></i>
+              </Form.Check.Label>
+            </Form.Check>
+          </div>
+
           <div className='my-3'>{review.description}</div>
           <div>
             {auth.user !== null &&
@@ -29,9 +86,7 @@ const ReviewItem = ({
                 auth.user._id === review.user._id) && (
                 <Button
                   variant='danger'
-                  onClick={() =>
-                    deleteCommentOnCampaign(product._id, review._id)
-                  }
+                  onClick={() => deleteReviewOnProduct(product._id, review._id)}
                 >
                   Delete review
                 </Button>
@@ -47,10 +102,10 @@ ReviewItem.propTypes = {
   review: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   product: PropTypes.object.isRequired,
-  deleteCommentOnCampaign: PropTypes.func.isRequired,
+  deleteReviewOnProduct: PropTypes.func.isRequired,
   styles: PropTypes.object.isRequired
 };
 
 export default connect(null, {
-  deleteCommentOnCampaign
+  deleteReviewOnProduct
 })(ReviewItem);

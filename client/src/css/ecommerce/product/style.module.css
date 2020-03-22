@@ -182,27 +182,54 @@ section::after {
   border-top: solid 1px white;
 }
 
-.rating {
-  float: left;
+.rating,
+.rating_review {
   transform: rotateY(180deg);
+  width: 200px;
+  margin: 0;
 }
 
-.rating input {
+.rating label,
+.rating_review label {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rating input,
+.rating_review input {
   display: none;
+}
+
+.rating div,
+.rating_review div {
+  margin: 0;
 }
 
 .rating i {
   color: transparent;
-  font-size: 1.8rem;
+  font-size: 30px;
   cursor: pointer;
   -webkit-text-stroke-width: 3px;
   -webkit-text-stroke-color: #e38b07;
   transition-duration: 500ms;
 }
 
+.rating_review i {
+  color: transparent;
+  font-size: 30px;
+  -webkit-text-stroke-width: 3px;
+  -webkit-text-stroke-color: #e38b07;
+}
+
 .rating input:checked ~ label i,
 .rating > div[class*='checked'] i,
 .rating > div[class*='checked'] ~ div i,
+.rating_review input:checked ~ label i,
+.rating_review > div[class*='checked'] i,
+.rating_review > div[class*='checked'] ~ div i,
 .rating div:hover i,
 .rating div:hover ~ div i {
   color: #e38b07;
