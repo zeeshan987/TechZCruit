@@ -4,8 +4,8 @@ import { Col, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import placeholder from '../../../img/placeholder.png';
 
-const ProjectItem = ({
-  project: { _id, name, description, url, amount },
+const ProductItem = ({
+  product: { _id, title, description, price },
   styles
 }) => {
   return (
@@ -16,26 +16,16 @@ const ProjectItem = ({
           <Card.Body>
             <Card.Title className={`${styles.card_title} text-truncate`}>
               <Link
-                to={`/testing/project/${_id}`}
+                to={`/ecommerce/product/${_id}`}
                 style={{ textDecoration: 'none', color: 'inherit' }}
               >
-                {name}
+                {title}
               </Link>
             </Card.Title>
-            <Card.Text>
-              <div className='text-truncate'>{description}</div>
-              <div className='text-truncate'>
-                <strong>URL: </strong>
-                <a href={url} className='text-truncate'>
-                  {url}
-                </a>
-              </div>
-            </Card.Text>
+            <Card.Text className='text-truncate'>{description}</Card.Text>
           </Card.Body>
-          <Card.Footer>
-            <div className='text-truncate'>
-              <strong>Amount: </strong>${amount}
-            </div>
+          <Card.Footer className='text-truncate'>
+            <strong>Funds raised:</strong> {price}
           </Card.Footer>
         </Card>
       </Col>
@@ -43,9 +33,9 @@ const ProjectItem = ({
   );
 };
 
-ProjectItem.propTypes = {
-  project: PropTypes.object.isRequired,
+ProductItem.propTypes = {
+  product: PropTypes.object.isRequired,
   styles: PropTypes.object.isRequired
 };
 
-export default ProjectItem;
+export default ProductItem;

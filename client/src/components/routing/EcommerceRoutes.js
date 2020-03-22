@@ -4,7 +4,7 @@ import PrivateRoute from './PrivateRoute';
 import AddProduct from '../ecommerce/forms/AddProduct';
 import HomePage from '../ecommerce/homepage/HomePage';
 import ProductDetail from '../ecommerce/productdetail/ProductDetail';
-import Products from '../ecommerce/products/Products';
+// import Products from '../ecommerce/products/Products';
 import ProductPage from '../ecommerce/homepage/HomePage';
 import UpdateProduct from '../ecommerce/forms/UpdateProduct';
 import MyStores from '../ecommerce/my-stores/MyStores';
@@ -15,6 +15,7 @@ import CreateProduct from '../ecommerce/store-products/CreateProduct';
 import EditProduct from '../ecommerce/store-products/EditProduct';
 import Store from '../ecommerce/store/Store';
 import Product from '../ecommerce/product/Product';
+import Products from '../ecommerce/products/Products';
 
 const EcommerceRoutes = () => {
   return (
@@ -33,6 +34,7 @@ const EcommerceRoutes = () => {
         path='/ecommerce/product/:id'
         component={ProductDetail}
       /> */}
+      <PrivateRoute exact path='/ecommerce' component={Products} />
       <PrivateRoute
         exact
         path='/ecommerce/store/products/:id/create-product'

@@ -57,7 +57,7 @@ const StoreNavigationTabs = ({
                               </div>
                             </Card.Text>
                           </Card.Body>
-                          <Card.Footer>
+                          <Card.Footer className='text-truncate'>
                             <strong>Price: </strong>${product.price}
                           </Card.Footer>
                         </Card>

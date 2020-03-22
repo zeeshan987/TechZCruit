@@ -73,6 +73,7 @@ const StoreProducts = ({
                   <th>Description</th>
                   <th>Category</th>
                   <th>Price</th>
+                  <th>Sales</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -83,6 +84,7 @@ const StoreProducts = ({
                     <td>{product.description}</td>
                     <td>{getCategory(product.category)}</td>
                     <td>${product.price}</td>
+                    <td>{product.sales}</td>
                     <td>
                       <Button
                         variant='success'

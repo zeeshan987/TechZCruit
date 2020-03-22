@@ -23,7 +23,7 @@ const GroupItem = ({ group, auth, sendJoinRequest, styles }) => {
             </Card.Title>
             <Card.Text>
               <div className='text-truncate my-2'>{group.description}</div>
-              <div>
+              <div className='text-truncate'>
                 <strong>Members:</strong> {group.members.length + 1}
               </div>
             </Card.Text>

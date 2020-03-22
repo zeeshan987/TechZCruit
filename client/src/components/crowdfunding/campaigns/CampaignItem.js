@@ -14,7 +14,7 @@ const CampaignItem = ({
         <Card className={styles.card}>
           <Card.Img variant='top' src={placeholder} />
           <Card.Body>
-            <Card.Title className={styles.card_title}>
+            <Card.Title className={`${styles.card_title} text-truncate`}>
               <Link
                 to={`/crowdfunding/campaign/${_id}`}
                 style={{ textDecoration: 'none', color: 'inherit' }}
@@ -24,7 +24,7 @@ const CampaignItem = ({
             </Card.Title>
             <Card.Text className='text-truncate'>{description}</Card.Text>
           </Card.Body>
-          <Card.Footer>
+          <Card.Footer className='text-truncate'>
             <strong>Funds raised:</strong>{' '}
             {Math.round(
               (supporters

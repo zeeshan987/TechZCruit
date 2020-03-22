@@ -9,7 +9,8 @@ import {
   All_PRODUCTS_LOADED_FOR_STORE,
   REVIEW_REMOVED,
   PRODUCT_LIKED,
-  PRODUCT_UNLIKED
+  PRODUCT_UNLIKED,
+  All_PRODUCTS_LOADED
 } from '../../actions/types';
 
 const initialState = {
@@ -24,6 +25,7 @@ export default function(state = initialState, action) {
 
   switch (type) {
     case All_PRODUCTS_LOADED_FOR_STORE:
+    case All_PRODUCTS_LOADED:
       return {
         ...state,
         loading: false,

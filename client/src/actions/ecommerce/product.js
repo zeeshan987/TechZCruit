@@ -10,7 +10,8 @@ import {
   REVIEW_REMOVED,
   PRODUCT_LIKED,
   PRODUCT_UNLIKED,
-  PRODUCT_PURCHASED
+  PRODUCT_PURCHASED,
+  All_PRODUCTS_LOADED
 } from '../types';
 import { setAlert } from '../alert';
 import axios from 'axios';
@@ -108,6 +109,23 @@ export const deleteReviewOnProduct = (
     });
 
     dispatch(setAlert('Review removed', 'success'));
+  } catch (err) {
+    dispatch({
+      type: PRODUCT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Get all products
+export const getAllProducts = () => async dispatch => {
+  try {
+    const res = await axios.get('/api/ecommerce/products');
+
+    dispatch({
+      type: All_PRODUCTS_LOADED,
+      payload: res.data
+    });
   } catch (err) {
     dispatch({
       type: PRODUCT_ERROR,
@@ -262,12 +280,11 @@ export const searchProduct = description => async dispatch => {
       `/api/ecommerce/products/search/${description}`
     );
 
-    // dispatch({
-    //   type: All_PRODUCTS_LOADED,
-    //   payload: res.data
-    // });
+    dispatch({
+      type: All_PRODUCTS_LOADED,
+      payload: res.data
+    });
   } catch (err) {
-    console.log(err);
     dispatch({
       type: PRODUCT_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
