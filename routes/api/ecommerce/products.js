@@ -31,7 +31,7 @@ router.get('/store/:id', auth, async (req, res) => {
   }
 });
 
-// @route   GET /api/ecommerce/products
+// @route   GET /api/ecommerce/products/search/:description
 // @desc    Search for a product
 // @access  Private
 router.get('/search/:description', auth, async (req, res) => {

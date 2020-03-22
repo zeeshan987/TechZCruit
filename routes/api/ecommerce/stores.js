@@ -30,6 +30,23 @@ router.get('/user', auth, async (req, res) => {
   }
 });
 
+// @route   GET /api/ecommerce/stores/search/:description
+// @desc    Search for a store
+// @access  Private
+router.get('/search/:description', auth, async (req, res) => {
+  const description = req.params.description;
+
+  try {
+    const stores = await Store.find({
+      name: new RegExp(description, 'i')
+    });
+
+    res.send(stores);
+  } catch (err) {
+    return res.status(500).send('Server error');
+  }
+});
+
 // @route   GET /api/ecommerce/stores/:id
 // @desc    Get store by id
 // @access  Private

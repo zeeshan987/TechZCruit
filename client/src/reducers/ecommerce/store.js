@@ -4,7 +4,8 @@ import {
   STORE_REMOVED,
   STORE_CREATED,
   STORE_LOADED,
-  STORE_UPDATED
+  STORE_UPDATED,
+  All_STORES_LOADED
 } from '../../actions/types';
 
 const initialState = {
@@ -19,6 +20,7 @@ export default function(state = initialState, action) {
 
   switch (type) {
     case All_STORES_LOADED_FOR_CURRENT_USER:
+    case All_STORES_LOADED:
       return {
         ...state,
         loading: false,

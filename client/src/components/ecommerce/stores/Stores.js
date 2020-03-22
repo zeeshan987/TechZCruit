@@ -2,24 +2,17 @@ import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Row, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import {
-  getAllProducts,
-  searchProduct
-} from '../../../actions/ecommerce/product';
-import ProductItem from './ProductItem';
-import styles from '../../../css/ecommerce/products/style.module.css';
+import { getAllStores, searchStore } from '../../../actions/ecommerce/store';
+import StoreItem from './StoreItem';
+import styles from '../../../css/ecommerce/stores/style.module.css';
 import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';
 
-const Products = ({
-  getAllProducts,
-  product: { loading, products },
-  searchProduct
-}) => {
+const Stores = ({ getAllStores, store: { loading, stores }, searchStore }) => {
   useEffect(() => {
-    getAllProducts();
-  }, [getAllProducts]);
+    getAllStores();
+  }, [getAllStores]);
 
   const [formData, setFormData] = useState({
     description: ''
@@ -34,9 +27,9 @@ const Products = ({
   const onSubmit = e => {
     e.preventDefault();
     if (description === '') {
-      getAllProducts();
+      getAllStores();
     } else {
-      searchProduct(description);
+      searchStore(description);
     }
   };
 
@@ -48,10 +41,10 @@ const Products = ({
         <div className={styles.content}>
           <Alert />
           <div className={styles.heading}>
-            <i className='fas fa-user'></i> Products
+            <i className='fas fa-user'></i> Stores
           </div>
           <div className={styles.sub_heading}>
-            Below is a list of all the products
+            Below is a list of all the stores
           </div>
           <Form onSubmit={e => onSubmit(e)}>
             <Form.Group>
@@ -59,7 +52,7 @@ const Products = ({
                 type='text'
                 name='description'
                 value={description}
-                placeholder='Search products'
+                placeholder='Search stores'
                 onChange={e => onChange(e)}
               />
             </Form.Group>
@@ -68,16 +61,12 @@ const Products = ({
             </Form.Group>
           </Form>
           <Row>
-            {!loading && products.length > 0 ? (
-              products.map(product => (
-                <ProductItem
-                  key={product._id}
-                  product={product}
-                  styles={styles}
-                />
+            {!loading && stores.length > 0 ? (
+              stores.map(store => (
+                <StoreItem key={store._id} store={store} styles={styles} />
               ))
             ) : (
-              <div className={styles.sub_heading}>No products found</div>
+              <div className={styles.sub_heading}>No stores found</div>
             )}
           </Row>
         </div>
@@ -88,17 +77,17 @@ const Products = ({
   );
 };
 
-Products.propTypes = {
-  getAllProducts: PropTypes.func.isRequired,
-  product: PropTypes.object.isRequired,
-  searchProduct: PropTypes.func.isRequired
+Stores.propTypes = {
+  getAllStores: PropTypes.func.isRequired,
+  store: PropTypes.object.isRequired,
+  searchStore: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  product: state.product
+  store: state.store
 });
 
 export default connect(mapStateToProps, {
-  getAllProducts,
-  searchProduct
-})(Products);
+  getAllStores,
+  searchStore
+})(Stores);

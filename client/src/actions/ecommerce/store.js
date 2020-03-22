@@ -4,10 +4,45 @@ import {
   STORE_REMOVED,
   STORE_CREATED,
   STORE_LOADED,
-  STORE_UPDATED
+  STORE_UPDATED,
+  All_STORES_LOADED
 } from '../types';
 import { setAlert } from '../alert';
 import axios from 'axios';
+
+// Get all stores
+export const getAllStores = () => async dispatch => {
+  try {
+    const res = await axios.get('/api/ecommerce/stores');
+
+    dispatch({
+      type: All_STORES_LOADED,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: STORE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Search for a store
+export const searchStore = description => async dispatch => {
+  try {
+    const res = await axios.get(`/api/ecommerce/stores/search/${description}`);
+
+    dispatch({
+      type: All_STORES_LOADED,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: STORE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
 
 // Get all stores for current user
 export const getAllStoresForCurrentUser = () => async dispatch => {

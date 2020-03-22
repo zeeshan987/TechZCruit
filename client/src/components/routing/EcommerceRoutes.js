@@ -16,6 +16,7 @@ import EditProduct from '../ecommerce/store-products/EditProduct';
 import Store from '../ecommerce/store/Store';
 import Product from '../ecommerce/product/Product';
 import Products from '../ecommerce/products/Products';
+import Stores from '../ecommerce/stores/Stores';
 
 const EcommerceRoutes = () => {
   return (
@@ -35,6 +36,7 @@ const EcommerceRoutes = () => {
         component={ProductDetail}
       /> */}
       <PrivateRoute exact path='/ecommerce' component={Products} />
+      <PrivateRoute exact path='/ecommerce/stores' component={Stores} />
       <PrivateRoute
         exact
         path='/ecommerce/store/products/:id/create-product'

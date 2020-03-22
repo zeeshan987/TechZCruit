@@ -29,6 +29,7 @@ const SideNav = ({ styles, auth: { loading, user } }) => {
 
         <div className={styles.side_nav_heading}>E-commerce</div>
         <Link to='/ecommerce'>All products</Link>
+        <Link to='/ecommerce/stores'>All stores</Link>
         <Link to='/ecommerce/my-stores'>My stores</Link>
       </div>
     </Fragment>
