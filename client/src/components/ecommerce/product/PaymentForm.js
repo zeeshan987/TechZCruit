@@ -1,24 +1,19 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { supportCampaign } from '../../../actions/crowdfunding/campaign';
+import { purchaseProduct } from '../../../actions/ecommerce/product';
 import { Form, Modal, Button } from 'react-bootstrap';
 import { CardElement, injectStripe } from 'react-stripe-elements';
 
-const SupportForm = ({
-  campaignId,
-  supportCampaign,
+const PaymentForm = ({
+  productId,
+  purchaseProduct,
   toggleModal,
   stripe,
   elements,
+  amount,
   auth
 }) => {
-  const [formData, setFormData] = useState({
-    amount: ''
-  });
-
-  const { amount } = formData;
-
   const cardElementStyle = {
     base: {
       color: '#32325d',
@@ -35,27 +30,23 @@ const SupportForm = ({
     }
   };
 
-  const onChange = e => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
   const onSubmit = async e => {
     e.preventDefault();
 
     const cardElement = elements.getElement('card');
 
-    if (!cardElement._complete || amount === '') {
+    if (!cardElement._complete) {
       alert('Invlalid details entered');
     } else {
-      const clientSecret = await supportCampaign(campaignId, amount);
+      const clientSecret = await purchaseProduct(productId, amount);
+
+      toggleModal();
 
       await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement('card')
         }
       });
-
-      toggleModal();
     }
   };
 
@@ -66,16 +57,6 @@ const SupportForm = ({
           <Form.Group>
             <Form.Label>Please enter card details below</Form.Label>
             <CardElement style={cardElementStyle} />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Please enter support amount in US dollars</Form.Label>
-            <Form.Control
-              type='number'
-              name='amount'
-              value={amount}
-              onChange={e => onChange(e)}
-              placeholder='Support amount'
-            />
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
@@ -91,15 +72,16 @@ const SupportForm = ({
   );
 };
 
-SupportForm.propTypes = {
-  campaignId: PropTypes.string.isRequired,
-  supportCampaign: PropTypes.func.isRequired,
+PaymentForm.propTypes = {
+  productId: PropTypes.string.isRequired,
+  purchaseProduct: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   stripe: PropTypes.object.isRequired,
   elements: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  amount: PropTypes.number.isRequired
 };
 
 export default connect(null, {
-  supportCampaign
-})(injectStripe(SupportForm));
+  purchaseProduct
+})(injectStripe(PaymentForm));

@@ -13,12 +13,13 @@ import {
   All_PRODUCTS_LOADED_FOR_STORE,
   REVIEW_REMOVED,
   PRODUCT_LIKED,
-  PRODUCT_UNLIKED
+  PRODUCT_UNLIKED,
+  PRODUCT_PURCHASED
 } from '../types';
 import { setAlert } from '../alert';
 import axios from 'axios';
 
-// Create product
+// Create a product
 export const createProduct = (storeId, formData, history) => async dispatch => {
   const config = {
     headers: {
@@ -136,16 +137,31 @@ export const getAllProductsForStore = storeId => async dispatch => {
   }
 };
 
-// Get all campaigns for user
-export const getAllProductForUser = () => async dispatch => {
-  try {
-    const res = await axios.get('/api/ecommerce/products/user');
-    console.log(res.data.length);
+// Purchase a product
+export const purchaseProduct = (productId, amount) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
 
-    // dispatch({
-    //   type: All_PRODUCTS_LOADED,
-    //   payload: res.data
-    // });
+  const body = JSON.stringify({ amount });
+
+  try {
+    const res = await axios.put(
+      `/api/ecommerce/products/purchase/${productId}`,
+      body,
+      config
+    );
+
+    dispatch({
+      type: PRODUCT_PURCHASED,
+      payload: res.data.product
+    });
+
+    dispatch(setAlert('Product purchased', 'success'));
+
+    return res.data.clientSecret;
   } catch (err) {
     dispatch({
       type: PRODUCT_ERROR,
@@ -153,23 +169,6 @@ export const getAllProductForUser = () => async dispatch => {
     });
   }
 };
-
-// Get current Product
-// export const getCurrentProduct = id => async dispatch => {
-//   try {
-//     const res = await axios.get(`/api/eccomerce/products/${id}`);
-
-//     dispatch({
-//       type: PRODUCT_ADDED,
-//       payload: res.data
-//     });
-//   } catch (err) {
-//     dispatch({
-//       type: PRODUCT_ERROR,
-//       payload: err.response.data
-//     });
-//   }
-// };
 
 // Delete a product
 export const deleteProduct = productId => async dispatch => {

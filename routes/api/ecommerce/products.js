@@ -4,6 +4,7 @@ const auth = require('../../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 const Product = require('../../../models/ecommerce/Product');
 const userModel = require('../../../models/User');
+const stripe = require('stripe')('sk_test_XlhQvFYUTZ4qdeqnN3X3RVTX00CoTYt5Sz');
 
 // @route   GET /api/ecommerce/products
 // @desc    Get all products
@@ -197,6 +198,48 @@ router.put(
       res.json(product);
     } catch (err) {
       console.error(err.message);
+      return res.status(500).send('Server error');
+    }
+  }
+);
+
+// @route   PUT /api/ecommerce/products/purchase/:id
+// @desc    Purchase a product
+// @access  Private
+router.put(
+  '/purchase/:id',
+  [
+    auth,
+    check('amount', 'Amount is required')
+      .not()
+      .isEmpty()
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { amount } = req.body;
+
+    try {
+      const product = await Product.findById(req.params.id);
+
+      product.sales += 1;
+
+      await product.save();
+
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: amount * 100,
+        currency: 'usd'
+      });
+
+      res.json({
+        product: product,
+        clientSecret: paymentIntent.client_secret
+      });
+    } catch (err) {
+      console.log(err);
       return res.status(500).send('Server error');
     }
   }

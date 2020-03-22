@@ -11,7 +11,7 @@ import UserInfo from './UserInfo';
 import { Row, Col, Button, Modal } from 'react-bootstrap';
 import placeholder from '../../../img/placeholder.png';
 import { StripeProvider, Elements } from 'react-stripe-elements';
-import SupportForm from './SupportForm';
+import PaymentForm from './PaymentForm';
 import styles from '../../../css/ecommerce/product/style.module.css';
 import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
@@ -72,8 +72,9 @@ const Product = ({
             </Modal.Header>
             <StripeProvider apiKey='pk_test_qFCTODVMoaT4TXgRvnQ75GPR00dFX40yVb'>
               <Elements>
-                <SupportForm
-                  campaignId={product !== null ? product._id : ''}
+                <PaymentForm
+                  productId={product !== null ? product._id : ''}
+                  amount={product !== null ? product.price : ''}
                   toggleModal={toggleModal}
                   auth={auth}
                 />

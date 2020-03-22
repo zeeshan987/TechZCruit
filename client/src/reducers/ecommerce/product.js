@@ -1,6 +1,6 @@
 import {
   PRODUCT_CREATED,
-  CLEAR_PRODUCT,
+  PRODUCT_PURCHASED,
   // All_PRODUCTS_LOADED,
   PRODUCT_LOADED,
   REVIEW_ADDED,
@@ -69,10 +69,10 @@ export default function(state = initialState, action) {
         loading: false,
         errors: null
       };
-    case CLEAR_PRODUCT:
+    case PRODUCT_PURCHASED:
       return {
         ...state,
-        product: null,
+        product: { ...state.product, sales: payload.sales },
         loading: false,
         errors: null
       };
