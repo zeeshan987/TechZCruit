@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Row, Col, Button, Form } from 'react-bootstrap';
+import { Modal, Row, Col, Button } from 'react-bootstrap';
 import placeholder from '../../../img/placeholder.png';
 import { connect } from 'react-redux';
 import { getProjectById } from '../../../actions/testing/project';

@@ -202,7 +202,7 @@ const EditProfile = ({
             </Form.Group>
 
             <div className='my-3'>
-              <Button onClick={toggleSocialLinks} variant='light'>
+              <Button onClick={toggleSocialLinks} variant='primary'>
                 Add Social Network Links (Optional)
               </Button>
             </div>

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const DashboardActions = ({ styles }) => {
   return (
     <Fragment>
-      <div class={styles.dash_buttons}>
+      <div className={styles.dash_buttons}>
         <Link
           to='/edit-profile'
           className={`btn btn-primary ${styles.btn_primary}`}

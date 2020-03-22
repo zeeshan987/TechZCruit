@@ -8,7 +8,7 @@ import { Table } from 'react-bootstrap';
 const Experience = ({ styles, experiences, removeExperience }) => {
   return (
     <Fragment>
-      <div class={styles.title}>Experience Credentials</div>
+      <div className={styles.title}>Experience Credentials</div>
       <Table striped>
         <thead>
           <tr>

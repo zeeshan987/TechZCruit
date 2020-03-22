@@ -8,7 +8,7 @@ import { Table } from 'react-bootstrap';
 const Education = ({ styles, education, removeEducation }) => {
   return (
     <Fragment>
-      <div class={styles.title}>Education Credentials</div>
+      <div className={styles.title}>Education Credentials</div>
       <Table className='table table-striped'>
         <thead>
           <tr>

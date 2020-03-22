@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 const SideNav = ({ styles, auth: { loading, user } }) => {
   return (
     <Fragment>
-      <div class={styles.side_nav}>
+      <div className={styles.side_nav}>
         <div className={styles.side_nav_heading}>User Management</div>
         <Link to='/dashboard'>Dashboard</Link>
         <Link to={!loading && user !== null ? `/profile/${user._id}` : ''}>

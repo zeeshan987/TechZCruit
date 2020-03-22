@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getCurrentProfile, deleteProfile } from '../../actions/profile';
 import Spinner from '../layout/Spinner';
@@ -32,10 +31,10 @@ const Dashboard = ({
 
         <div className={styles.content}>
           <Alert />
-          <div class={styles.heading}>
-            <i class='fas fa-user'></i> Dashboard
+          <div className={styles.heading}>
+            <i className='fas fa-user'></i> Dashboard
           </div>
-          <div class={styles.sub_heading}>Welcome {user && user.name}</div>
+          <div className={styles.sub_heading}>Welcome {user && user.name}</div>
 
           {profile !== null ? (
             <Fragment>
