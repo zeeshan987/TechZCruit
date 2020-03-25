@@ -233,3 +233,21 @@ export const removeMemberFromGroup = (groupId, userId) => async dispatch => {
     });
   }
 };
+
+// Search for a group
+export const searchGroup = description => async dispatch => {
+  try {
+    const res = await axios.get(`/api/community/groups/search/${description}`);
+
+    dispatch({
+      type: ALL_GROUPS_LOADED,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log(err);
+    dispatch({
+      type: GROUP_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};

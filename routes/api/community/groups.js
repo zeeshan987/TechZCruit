@@ -30,6 +30,23 @@ router.get('/user', auth, async (req, res) => {
   }
 });
 
+// @route   GET /api/community/groups/search/:description
+// @desc    Search for a particular group
+// @access  Private
+router.get('/search/:description', auth, async (req, res) => {
+  const description = req.params.description;
+
+  try {
+    const groups = await Group.find({
+      name: new RegExp(description, 'i')
+    });
+
+    res.send(groups);
+  } catch (err) {
+    return res.status(500).send('Server error');
+  }
+});
+
 // @route   GET /api/community/groups/:id
 // @desc    Get group by id
 // @access  Public

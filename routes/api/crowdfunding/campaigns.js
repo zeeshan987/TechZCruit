@@ -31,7 +31,7 @@ router.get('/user', auth, async (req, res) => {
   }
 });
 
-// @route   GET /api/crowdfunding/campaigns/search
+// @route   GET /api/crowdfunding/campaigns/search/:description
 // @desc    Search for a particular campaign
 // @access  Private
 router.get('/search/:description', auth, async (req, res) => {
