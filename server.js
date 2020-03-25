@@ -44,6 +44,7 @@ app.use('/api/testing/projects', require('./routes/api/testing/projects'));
 
 app.use('/api/ecommerce/products', require('./routes/api/ecommerce/products'));
 app.use('/api/ecommerce/stores', require('./routes/api/ecommerce/stores'));
+app.use('/api/freelance/services', require('./routes/api/freelance/services'));
 
 const PORT = process.env.PORT || 5000;
 
