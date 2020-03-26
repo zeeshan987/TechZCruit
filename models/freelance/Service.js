@@ -56,6 +56,22 @@ const ServiceSchema = mongoose.Schema({
         default: false
       }
     }
+  ],
+  reviews: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
+      },
+      description: {
+        type: String,
+        required: true
+      },
+      rating: {
+        type: Number,
+        required: true
+      }
+    }
   ]
 });
 
