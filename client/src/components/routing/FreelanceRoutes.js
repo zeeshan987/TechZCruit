@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PrivateRoute from './PrivateRoute';
 import Services from '../freelance/services/Services';
-// import Project from '../testing/project/Project';
+import Service from '../freelance/service/Service';
 // import MyProjects from '../testing/my-projects/MyProjects';
 // import CreateProject from '../testing/project-forms/CreateProject';
 // import EditProject from '../testing/project-forms/EditProject';
@@ -15,6 +15,7 @@ export const FreelanceRoutes = () => {
   return (
     <Fragment>
       <PrivateRoute exact path='/freelance' component={Services} />
+      <PrivateRoute exact path='/freelance/service/:id' component={Service} />
       {/* <PrivateRoute exact path='/testing/project/:id' component={Project} />
       <PrivateRoute exact path='/testing/my-projects' component={MyProjects} />
       <PrivateRoute

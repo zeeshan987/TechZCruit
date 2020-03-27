@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { reviewOnProduct } from '../../../actions/ecommerce/product';
 import { Form, Button } from 'react-bootstrap';
 
-const ReviewForm = ({ product: { _id }, reviewOnProduct, styles }) => {
+const ReviewForm = ({ service: { _id }, reviewOnProduct, styles }) => {
   const [formData, setFormData] = useState({
     description: '',
     rating: ''
@@ -132,7 +132,7 @@ const ReviewForm = ({ product: { _id }, reviewOnProduct, styles }) => {
 };
 
 ReviewForm.propTypes = {
-  product: PropTypes.object.isRequired,
+  service: PropTypes.object.isRequired,
   reviewOnProduct: PropTypes.func.isRequired,
   styles: PropTypes.object.isRequired
 };

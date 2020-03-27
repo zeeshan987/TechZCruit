@@ -4,7 +4,7 @@ import { Tab, Row, Col, Nav } from 'react-bootstrap';
 import ReviewForm from './ReviewForm';
 import ReviewItem from './ReviewItem';
 
-const ProductNavigationTabs = ({ product, auth, styles }) => {
+const ProductNavigationTabs = ({ service, auth, styles }) => {
   return (
     <Fragment>
       <Tab.Container defaultActiveKey='description'>
@@ -25,19 +25,19 @@ const ProductNavigationTabs = ({ product, auth, styles }) => {
             <Tab.Content>
               <Tab.Pane eventKey='description'>
                 <div className='mt-3'>
-                  {product !== null && product.description}
+                  {service !== null && service.description}
                 </div>
               </Tab.Pane>
               <Tab.Pane eventKey='reviews'>
-                {product !== null && (
-                  <ReviewForm product={product} styles={styles} />
+                {service !== null && (
+                  <ReviewForm service={service} styles={styles} />
                 )}
-                {product !== null && product.reviews.length > 0 ? (
-                  product.reviews.map(review => (
+                {service !== null && service.reviews.length > 0 ? (
+                  service.reviews.map(review => (
                     <ReviewItem
                       review={review}
                       auth={auth}
-                      product={product}
+                      service={service}
                       styles={styles}
                     />
                   ))
@@ -54,7 +54,7 @@ const ProductNavigationTabs = ({ product, auth, styles }) => {
 };
 
 ProductNavigationTabs.propTypes = {
-  product: PropTypes.object.isRequired,
+  service: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   styles: PropTypes.object.isRequired
 };

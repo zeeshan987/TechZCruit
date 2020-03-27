@@ -124,4 +124,5 @@ export const STORE_ERROR = 'STORE_ERROR';
 
 // SERVICE
 export const All_SERVICES_LOADED = 'All_SERVICES_LOADED';
+export const SERVICE_LOADED = 'SERVICE_LOADED';
 export const SERVICE_ERROR = 'SERVICE_ERROR';

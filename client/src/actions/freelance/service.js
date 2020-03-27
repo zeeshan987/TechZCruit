@@ -1,4 +1,8 @@
-import { All_SERVICES_LOADED, SERVICE_ERROR } from '../../actions/types';
+import {
+  All_SERVICES_LOADED,
+  SERVICE_ERROR,
+  SERVICE_LOADED
+} from '../../actions/types';
 import axios from 'axios';
 import { setAlert } from '../../actions/alert';
 
@@ -56,22 +60,22 @@ export const searchService = description => async dispatch => {
 //   }
 // };
 
-// // Get project by id
-// export const getProjectById = id => async dispatch => {
-//   try {
-//     const res = await axios.get(`/api/testing/projects/${id}`);
+// Get service by id
+export const getServiceById = id => async dispatch => {
+  try {
+    const res = await axios.get(`/api/freelance/services/${id}`);
 
-//     dispatch({
-//       type: PROJECT_LOADED,
-//       payload: res.data
-//     });
-//   } catch (err) {
-//     dispatch({
-//       type: PROJECT_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status }
-//     });
-//   }
-// };
+    dispatch({
+      type: SERVICE_LOADED,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: SERVICE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
 
 // // Get project for current user
 // export const getAllProjectsForCurrentUser = () => async dispatch => {

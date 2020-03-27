@@ -3,26 +3,26 @@ import PropTypes from 'prop-types';
 import { Modal, Row, Col, Button } from 'react-bootstrap';
 import placeholder from '../../../img/placeholder.png';
 import { connect } from 'react-redux';
-import { getProjectById } from '../../../actions/testing/project';
+import { getServiceById } from '../../../actions/freelance/service';
 import UserInfo from './UserInfo';
-import styles from '../../../css/testing/project/style.module.css';
+import styles from '../../../css/ecommerce/product/style.module.css';
 import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';
 import { StripeProvider, Elements } from 'react-stripe-elements';
 import CustomOfferFrom from './CustomOfferForm';
 import DefaultOfferForm from './DefaultOfferForm';
-import ProjectNavigationTabs from './ProjectNavigationTabs';
+import ServiceNavigationTabs from './ServiceNavigationTabs';
 
-const Project = ({
-  project: { loading, project },
-  getProjectById,
+const Service = ({
+  service: { loading, service },
+  getServiceById,
   match,
   auth
 }) => {
   useEffect(() => {
-    getProjectById(match.params.id);
-  }, [getProjectById, match.params.id]);
+    getServiceById(match.params.id);
+  }, [getServiceById, match.params.id]);
 
   const [
     showCustomOfferPaymentModal,
@@ -56,14 +56,14 @@ const Project = ({
             centered
           >
             <Modal.Header closeButton>
-              <Modal.Title>{project !== null && project.name}</Modal.Title>
+              <Modal.Title>{service !== null && service.title}</Modal.Title>
             </Modal.Header>
             <StripeProvider apiKey='pk_test_qFCTODVMoaT4TXgRvnQ75GPR00dFX40yVb'>
               <Elements>
                 <DefaultOfferForm
-                  projectId={project !== null ? project._id : ''}
+                  projectId={service !== null ? service._id : ''}
                   toggleModal={toggleDefaultOfferPaymentModal}
-                  amount={project !== null ? project.amount : ''}
+                  amount={service !== null ? service.amount : ''}
                 />
               </Elements>
             </StripeProvider>
@@ -75,12 +75,12 @@ const Project = ({
             centered
           >
             <Modal.Header closeButton>
-              <Modal.Title>{project !== null && project.name}</Modal.Title>
+              <Modal.Title>{service !== null && service.title}</Modal.Title>
             </Modal.Header>
             <StripeProvider apiKey='pk_test_qFCTODVMoaT4TXgRvnQ75GPR00dFX40yVb'>
               <Elements>
                 <CustomOfferFrom
-                  projectId={project !== null ? project._id : ''}
+                  projectId={service !== null ? service._id : ''}
                   toggleModal={toggleCustomOfferPaymentModal}
                 />
               </Elements>
@@ -88,7 +88,7 @@ const Project = ({
           </Modal>
 
           <div className={styles.heading}>
-            {!loading && project !== null ? project.name : ''}
+            {!loading && service !== null ? service.title : ''}
           </div>
           <Row className='my-3'>
             <Col md={8}>
@@ -100,27 +100,19 @@ const Project = ({
             </Col>
             <Col className='p-3' md={4}>
               <div>
-                <div>Amount being offered:</div>
+                <div>Price:</div>
                 <h3 className={styles.sub_heading}>
-                  ${!loading && project !== null ? project.amount : ''}
+                  ${!loading && service !== null ? service.amount : ''}
                 </h3>
-              </div>
-              <div>
-                <div className='mt-3'>URL:</div>
-                {!loading && project !== null ? (
-                  <a href={project.url}>{project.url}</a>
-                ) : (
-                  ''
-                )}
               </div>
               {!loading &&
                 auth.user !== null &&
-                project !== null &&
-                auth.user._id !== project.user._id &&
-                project.offers
+                service !== null &&
+                auth.user._id !== service.user._id &&
+                service.offers
                   .map(offer => offer.user._id)
                   .indexOf(auth.user._id) === -1 &&
-                project.testers
+                service.testers
                   .map(tester => tester.user._id)
                   .indexOf(auth.user._id) === -1 && (
                   <Fragment>
@@ -149,14 +141,14 @@ const Project = ({
           </Row>
           <Row>
             <Col md={8}>
-              <ProjectNavigationTabs
-                project={project}
+              <ServiceNavigationTabs
+                service={service}
                 auth={auth}
                 styles={styles}
               />
             </Col>
             <Col md={4}>
-              <UserInfo project={project} styles={styles} />
+              <UserInfo service={service} styles={styles} />
             </Col>
           </Row>
         </div>
@@ -167,17 +159,17 @@ const Project = ({
   );
 };
 
-Project.propTypes = {
-  project: PropTypes.object.isRequired,
-  getProjectById: PropTypes.func.isRequired,
+Service.propTypes = {
+  service: PropTypes.object.isRequired,
+  getServiceById: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  project: state.project,
+  service: state.service,
   auth: state.auth
 });
 
 export default connect(mapStateToProps, {
-  getProjectById
-})(Project);
+  getServiceById
+})(Service);
