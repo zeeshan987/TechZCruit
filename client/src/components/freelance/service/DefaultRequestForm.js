@@ -3,20 +3,21 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Modal, Button } from 'react-bootstrap';
 import { CardElement, injectStripe } from 'react-stripe-elements';
-import { sendOfferForProject } from '../../../actions/testing/project';
+import { sendRequestForService } from '../../../actions/freelance/service';
 
-const CustomOfferForm = ({
-  projectId,
-  sendOfferForProject,
+const DefaultRequestForm = ({
+  serviceId,
+  sendRequestForService,
   toggleModal,
   stripe,
-  elements
+  elements,
+  amount
 }) => {
   const [formData, setFormData] = useState({
-    amount: ''
+    description: ''
   });
 
-  const { amount } = formData;
+  const { description } = formData;
 
   const cardElementStyle = {
     base: {
@@ -43,7 +44,7 @@ const CustomOfferForm = ({
 
     const cardElement = elements.getElement('card');
 
-    if (!cardElement._complete || amount === '') {
+    if (!cardElement._complete || description === '') {
       alert('Invlalid details entered');
     } else {
       const { error, paymentMethod } = await stripe.createPaymentMethod({
@@ -53,7 +54,7 @@ const CustomOfferForm = ({
 
       if (error) throw error;
 
-      sendOfferForProject(projectId, amount, paymentMethod.id);
+      sendRequestForService(serviceId, description, amount, paymentMethod.id);
 
       toggleModal();
     }
@@ -68,11 +69,12 @@ const CustomOfferForm = ({
             <CardElement style={cardElementStyle} />
           </Form.Group>
           <Form.Group>
-            <Form.Label>Please enter the offer amount in US dollars</Form.Label>
+            <Form.Label>Please enter description below</Form.Label>
             <Form.Control
-              type='number'
-              name='amount'
-              value={amount}
+              as='textarea'
+              rows='5'
+              name='description'
+              value={description}
               onChange={e => onChange(e)}
             />
           </Form.Group>
@@ -90,14 +92,15 @@ const CustomOfferForm = ({
   );
 };
 
-CustomOfferForm.propTypes = {
-  projectId: PropTypes.string.isRequired,
-  sendOfferForProject: PropTypes.func.isRequired,
+DefaultRequestForm.propTypes = {
+  serviceId: PropTypes.string.isRequired,
+  sendRequestForService: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   stripe: PropTypes.object.isRequired,
-  elements: PropTypes.object.isRequired
+  elements: PropTypes.object.isRequired,
+  amount: PropTypes.number.isRequired
 };
 
 export default connect(null, {
-  sendOfferForProject
-})(injectStripe(CustomOfferForm));
+  sendRequestForService
+})(injectStripe(DefaultRequestForm));

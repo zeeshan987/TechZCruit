@@ -3,7 +3,8 @@ import {
   All_SERVICES_LOADED,
   SERVICE_LOADED,
   REVIEW_ADDED_STORE,
-  REVIEW_REMOVED_STORE
+  REVIEW_REMOVED_STORE,
+  SERVICE_REQUEST_SENT
 } from '../../actions/types';
 
 const initialState = {
@@ -38,6 +39,13 @@ export default function(state = initialState, action) {
         loading: false,
         errors: null,
         service: { ...state.service, reviews: payload.reviews }
+      };
+    case SERVICE_REQUEST_SENT:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        service: { ...state.service, requests: payload.requests }
       };
     case SERVICE_ERROR:
       return {

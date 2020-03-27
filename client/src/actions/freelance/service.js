@@ -3,7 +3,8 @@ import {
   SERVICE_ERROR,
   SERVICE_LOADED,
   REVIEW_ADDED_STORE,
-  REVIEW_REMOVED_STORE
+  REVIEW_REMOVED_STORE,
+  SERVICE_REQUEST_SENT
 } from '../../actions/types';
 import axios from 'axios';
 import { setAlert } from '../../actions/alert';
@@ -166,42 +167,41 @@ export const getServiceById = id => async dispatch => {
 //   }
 // };
 
-// // Send offer for project
-// export const sendOfferForProject = (
-//   id,
-//   amount,
-//   paymentMethodId
-// ) => async dispatch => {
-//   const config = {
-//     headers: {
-//       'Content-Type': 'application/json'
-//     }
-//   };
+// Send request for service
+export const sendRequestForService = (
+  id,
+  description,
+  amount,
+  paymentMethodId
+) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
 
-//   const body = JSON.stringify({ amount, paymentMethodId });
+  const body = JSON.stringify({ description, amount, paymentMethodId });
 
-//   try {
-//     const res = await axios.put(
-//       `/api/testing/projects/offer/${id}`,
-//       body,
-//       config
-//     );
+  try {
+    const res = await axios.put(
+      `/api/freelance/services/request/${id}`,
+      body,
+      config
+    );
 
-//     dispatch({
-//       type: PROJECT_OFFER_SENT,
-//       payload: res.data
-//     });
+    dispatch({
+      type: SERVICE_REQUEST_SENT,
+      payload: res.data
+    });
 
-//     dispatch(setAlert('Offer for project has been sent', 'success'));
-//   } catch (err) {
-//     dispatch({
-//       type: PROJECT_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status }
-//     });
-
-//     dispatch(setAlert(err.response.data.msg, 'danger'));
-//   }
-// };
+    dispatch(setAlert('Request sent', 'success'));
+  } catch (err) {
+    dispatch({
+      type: SERVICE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
 
 // // Delete a project
 // export const deleteProject = id => async dispatch => {

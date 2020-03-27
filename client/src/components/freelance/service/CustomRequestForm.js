@@ -1,18 +1,24 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Modal, Button } from 'react-bootstrap';
 import { CardElement, injectStripe } from 'react-stripe-elements';
-import { sendOfferForProject } from '../../../actions/testing/project';
+import { sendRequestForService } from '../../../actions/freelance/service';
 
-const DefaultOfferForm = ({
-  projectId,
-  sendOfferForProject,
+const CustomRequestForm = ({
+  serviceId,
+  sendRequestForService,
   toggleModal,
   stripe,
-  elements,
-  amount
+  elements
 }) => {
+  const [formData, setFormData] = useState({
+    description: '',
+    amount: ''
+  });
+
+  const { description, amount } = formData;
+
   const cardElementStyle = {
     base: {
       color: '#32325d',
@@ -29,12 +35,16 @@ const DefaultOfferForm = ({
     }
   };
 
+  const onChange = e => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   const onSubmit = async e => {
     e.preventDefault();
 
     const cardElement = elements.getElement('card');
 
-    if (!cardElement._complete) {
+    if (!cardElement._complete || description === '' || amount === '') {
       alert('Invlalid details entered');
     } else {
       const { error, paymentMethod } = await stripe.createPaymentMethod({
@@ -44,7 +54,7 @@ const DefaultOfferForm = ({
 
       if (error) throw error;
 
-      sendOfferForProject(projectId, amount, paymentMethod.id);
+      sendRequestForService(serviceId, description, amount, paymentMethod.id);
 
       toggleModal();
     }
@@ -57,6 +67,25 @@ const DefaultOfferForm = ({
           <Form.Group>
             <Form.Label>Please enter card details below</Form.Label>
             <CardElement style={cardElementStyle} />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Please enter description below</Form.Label>
+            <Form.Control
+              as='textarea'
+              rows='5'
+              name='description'
+              value={description}
+              onChange={e => onChange(e)}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Please enter the offer amount in US dollars</Form.Label>
+            <Form.Control
+              type='number'
+              name='amount'
+              value={amount}
+              onChange={e => onChange(e)}
+            />
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
@@ -72,15 +101,14 @@ const DefaultOfferForm = ({
   );
 };
 
-DefaultOfferForm.propTypes = {
-  projectId: PropTypes.string.isRequired,
-  sendOfferForProject: PropTypes.func.isRequired,
+CustomRequestForm.propTypes = {
+  serviceId: PropTypes.string.isRequired,
+  sendRequestForService: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   stripe: PropTypes.object.isRequired,
-  elements: PropTypes.object.isRequired,
-  amount: PropTypes.number.isRequired
+  elements: PropTypes.object.isRequired
 };
 
 export default connect(null, {
-  sendOfferForProject
-})(injectStripe(DefaultOfferForm));
+  sendRequestForService
+})(injectStripe(CustomRequestForm));

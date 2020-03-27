@@ -214,14 +214,6 @@ router.put(
         return res.status(400).json({ msg: 'Service does not exist' });
       }
 
-      const index = service.requests
-        .map(item => item.user)
-        .indexOf(req.user.id);
-
-      if (index !== -1) {
-        return res.status(400).json({ msg: 'Request already sent' });
-      }
-
       const paymentIntent = await stripe.paymentIntents.create({
         amount: amount * 100,
         currency: 'usd'

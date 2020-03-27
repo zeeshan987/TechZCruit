@@ -10,8 +10,8 @@ import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';
 import { StripeProvider, Elements } from 'react-stripe-elements';
-import CustomOfferFrom from './CustomOfferForm';
-import DefaultOfferForm from './DefaultOfferForm';
+import CustomRequestForm from './CustomRequestForm';
+import DefaultRequestForm from './DefaultRequestForm';
 import ServiceNavigationTabs from './ServiceNavigationTabs';
 
 const Service = ({
@@ -60,8 +60,8 @@ const Service = ({
             </Modal.Header>
             <StripeProvider apiKey='pk_test_qFCTODVMoaT4TXgRvnQ75GPR00dFX40yVb'>
               <Elements>
-                <DefaultOfferForm
-                  projectId={service !== null ? service._id : ''}
+                <DefaultRequestForm
+                  serviceId={service !== null ? service._id : ''}
                   toggleModal={toggleDefaultOfferPaymentModal}
                   amount={service !== null ? service.amount : ''}
                 />
@@ -79,8 +79,8 @@ const Service = ({
             </Modal.Header>
             <StripeProvider apiKey='pk_test_qFCTODVMoaT4TXgRvnQ75GPR00dFX40yVb'>
               <Elements>
-                <CustomOfferFrom
-                  projectId={service !== null ? service._id : ''}
+                <CustomRequestForm
+                  serviceId={service !== null ? service._id : ''}
                   toggleModal={toggleCustomOfferPaymentModal}
                 />
               </Elements>
@@ -105,38 +105,24 @@ const Service = ({
                   ${!loading && service !== null ? service.amount : ''}
                 </h3>
               </div>
-              {!loading &&
-                auth.user !== null &&
-                service !== null &&
-                auth.user._id !== service.user._id &&
-                service.offers
-                  .map(offer => offer.user._id)
-                  .indexOf(auth.user._id) === -1 &&
-                service.testers
-                  .map(tester => tester.user._id)
-                  .indexOf(auth.user._id) === -1 && (
-                  <Fragment>
-                    {' '}
-                    <div>
-                      <Button
-                        variant='primary'
-                        className={`mt-3 ${styles.btn_primary}`}
-                        onClick={() => toggleDefaultOfferPaymentModal()}
-                      >
-                        Accept offer
-                      </Button>
-                    </div>
-                    <div>
-                      <Button
-                        variant='dark'
-                        className='mt-3'
-                        onClick={() => toggleCustomOfferPaymentModal()}
-                      >
-                        Send custom offer
-                      </Button>
-                    </div>
-                  </Fragment>
-                )}
+              <div>
+                <Button
+                  variant='primary'
+                  className={`mt-3 ${styles.btn_primary}`}
+                  onClick={() => toggleDefaultOfferPaymentModal()}
+                >
+                  Request service
+                </Button>
+              </div>
+              <div>
+                <Button
+                  variant='dark'
+                  className='mt-3'
+                  onClick={() => toggleCustomOfferPaymentModal()}
+                >
+                  Request custom service
+                </Button>
+              </div>
             </Col>
           </Row>
           <Row>
