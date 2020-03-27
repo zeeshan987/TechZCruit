@@ -5,7 +5,10 @@ import {
   REVIEW_ADDED_STORE,
   REVIEW_REMOVED_STORE,
   SERVICE_REQUEST_SENT,
-  All_SERVICES_LOADED_FOR_CURRENT_USER
+  All_SERVICES_LOADED_FOR_CURRENT_USER,
+  SERVICE_CREATED,
+  SERVICE_REMOVED,
+  SERVICE_UPDATED
 } from '../../actions/types';
 
 const initialState = {
@@ -28,11 +31,26 @@ export default function(state = initialState, action) {
         services: payload
       };
     case SERVICE_LOADED:
+    case SERVICE_UPDATED:
       return {
         ...state,
         loading: false,
         errors: null,
         service: payload
+      };
+    case SERVICE_CREATED:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        services: [...state.services, payload]
+      };
+    case SERVICE_REMOVED:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        services: [...state.services.filter(item => item._id !== payload)]
       };
     case REVIEW_ADDED_STORE:
     case REVIEW_REMOVED_STORE:

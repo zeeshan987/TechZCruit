@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import { Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { deleteProject } from '../../../actions/testing/project';
+import { deleteService } from '../../../actions/freelance/service';
 
 const MyServiceItem = ({
   service: { _id, title, description },
-  deleteservice,
+  deleteService,
   styles
 }) => {
   return (
     <Fragment>
       <Row className={styles.list_item}>
         <Col md={12}>
-          <Link to={`/testing/service/${_id}`} className={styles.group_name}>
+          <Link to={`/freelance/service/${_id}`} className={styles.group_name}>
             {title}
           </Link>
           <div className='mt-2'>{description}</div>
@@ -22,10 +22,10 @@ const MyServiceItem = ({
             <Button variant='dark' href={`/testing/service/stats/${_id}`}>
               View stats
             </Button>
-            <Button variant='success' href={`/testing/edit-service/${_id}`}>
+            <Button variant='success' href={`/freelance/edit-service/${_id}`}>
               Update service
             </Button>
-            <Button variant='danger' onClick={() => deleteservice(_id)}>
+            <Button variant='danger' onClick={() => deleteService(_id)}>
               Delete service
             </Button>
           </div>
@@ -37,10 +37,10 @@ const MyServiceItem = ({
 
 MyServiceItem.propTypes = {
   service: PropTypes.object.isRequired,
-  deleteProject: PropTypes.func.isRequired,
+  deleteService: PropTypes.func.isRequired,
   styles: PropTypes.object.isRequired
 };
 
 export default connect(null, {
-  deleteProject
+  deleteService
 })(MyServiceItem);

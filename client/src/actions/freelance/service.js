@@ -5,7 +5,10 @@ import {
   REVIEW_ADDED_STORE,
   REVIEW_REMOVED_STORE,
   SERVICE_REQUEST_SENT,
-  All_SERVICES_LOADED_FOR_CURRENT_USER
+  All_SERVICES_LOADED_FOR_CURRENT_USER,
+  SERVICE_CREATED,
+  SERVICE_REMOVED,
+  SERVICE_UPDATED
 } from '../../actions/types';
 import axios from 'axios';
 import { setAlert } from '../../actions/alert';
@@ -98,75 +101,75 @@ export const getAllServicesForCurrentUser = () => async dispatch => {
   }
 };
 
-// // Create a new project
-// export const createProject = (formData, history) => async dispatch => {
-//   const config = {
-//     headers: {
-//       'Content-Type': 'application/json'
-//     }
-//   };
+// Create a new service
+export const createService = (formData, history) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
 
-//   try {
-//     const res = await axios.post('/api/testing/projects', formData, config);
+  try {
+    const res = await axios.post('/api/freelance/services', formData, config);
 
-//     dispatch({
-//       type: PROJECT_CREATED,
-//       payload: res.data
-//     });
+    dispatch({
+      type: SERVICE_CREATED,
+      payload: res.data
+    });
 
-//     dispatch(setAlert('Project created', 'success'));
+    dispatch(setAlert('Service created', 'success'));
 
-//     history.push('/testing/my-projects');
-//   } catch (err) {
-//     const errors = err.response.data.errors;
+    history.push('/freelance/my-services');
+  } catch (err) {
+    const errors = err.response.data.errors;
 
-//     if (errors) {
-//       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
-//     }
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
 
-//     dispatch({
-//       type: PROJECT_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status }
-//     });
-//   }
-// };
+    dispatch({
+      type: SERVICE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
 
-// // Update a project
-// export const updateProject = (id, formData, history) => async dispatch => {
-//   const config = {
-//     headers: {
-//       'Content-Type': 'application/json'
-//     }
-//   };
+// Update a service
+export const updateService = (id, formData, history) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
 
-//   try {
-//     const res = await axios.put(
-//       `/api/testing/projects/${id}`,
-//       formData,
-//       config
-//     );
+  try {
+    const res = await axios.put(
+      `/api/freelance/services/${id}`,
+      formData,
+      config
+    );
 
-//     dispatch({
-//       type: PROJECT_UPDATED,
-//       payload: res.data
-//     });
+    dispatch({
+      type: SERVICE_UPDATED,
+      payload: res.data
+    });
 
-//     dispatch(setAlert('Project updated', 'success'));
+    dispatch(setAlert('Service updated', 'success'));
 
-//     history.push('/testing/my-projects');
-//   } catch (err) {
-//     const errors = err.response.data.errors;
+    history.push('/freelance/my-services');
+  } catch (err) {
+    const errors = err.response.data.errors;
 
-//     if (errors) {
-//       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
-//     }
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
 
-//     dispatch({
-//       type: PROJECT_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status }
-//     });
-//   }
-// };
+    dispatch({
+      type: SERVICE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
 
 // Send request for service
 export const sendRequestForService = (
@@ -204,24 +207,24 @@ export const sendRequestForService = (
   }
 };
 
-// // Delete a project
-// export const deleteProject = id => async dispatch => {
-//   try {
-//     await axios.delete(`/api/testing/projects/${id}`);
+// Delete a service
+export const deleteService = id => async dispatch => {
+  try {
+    await axios.delete(`/api/freelance/services/${id}`);
 
-//     dispatch({
-//       type: PROJECT_DELETED,
-//       payload: id
-//     });
+    dispatch({
+      type: SERVICE_REMOVED,
+      payload: id
+    });
 
-//     dispatch(setAlert('Project removed', 'success'));
-//   } catch (err) {
-//     dispatch({
-//       type: PROJECT_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status }
-//     });
-//   }
-// };
+    dispatch(setAlert('Service removed', 'success'));
+  } catch (err) {
+    dispatch({
+      type: SERVICE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
 
 // // Delete a testcase for a project
 // export const deleteTestcaseForProject = (
