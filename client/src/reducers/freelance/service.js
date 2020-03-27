@@ -4,7 +4,8 @@ import {
   SERVICE_LOADED,
   REVIEW_ADDED_STORE,
   REVIEW_REMOVED_STORE,
-  SERVICE_REQUEST_SENT
+  SERVICE_REQUEST_SENT,
+  All_SERVICES_LOADED_FOR_CURRENT_USER
 } from '../../actions/types';
 
 const initialState = {
@@ -18,6 +19,7 @@ export default function(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
+    case All_SERVICES_LOADED_FOR_CURRENT_USER:
     case All_SERVICES_LOADED:
       return {
         ...state,

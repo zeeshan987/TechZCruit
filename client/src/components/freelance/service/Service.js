@@ -105,24 +105,30 @@ const Service = ({
                   ${!loading && service !== null ? service.amount : ''}
                 </h3>
               </div>
-              <div>
-                <Button
-                  variant='primary'
-                  className={`mt-3 ${styles.btn_primary}`}
-                  onClick={() => toggleDefaultOfferPaymentModal()}
-                >
-                  Request service
-                </Button>
-              </div>
-              <div>
-                <Button
-                  variant='dark'
-                  className='mt-3'
-                  onClick={() => toggleCustomOfferPaymentModal()}
-                >
-                  Request custom service
-                </Button>
-              </div>
+              {service !== null &&
+                auth.user !== null &&
+                service.user._id !== auth.user._id && (
+                  <Fragment>
+                    <div>
+                      <Button
+                        variant='primary'
+                        className={`mt-3 ${styles.btn_primary}`}
+                        onClick={() => toggleDefaultOfferPaymentModal()}
+                      >
+                        Request service
+                      </Button>
+                    </div>
+                    <div>
+                      <Button
+                        variant='dark'
+                        className='mt-3'
+                        onClick={() => toggleCustomOfferPaymentModal()}
+                      >
+                        Request custom service
+                      </Button>
+                    </div>
+                  </Fragment>
+                )}
             </Col>
           </Row>
           <Row>

@@ -4,7 +4,8 @@ import {
   SERVICE_LOADED,
   REVIEW_ADDED_STORE,
   REVIEW_REMOVED_STORE,
-  SERVICE_REQUEST_SENT
+  SERVICE_REQUEST_SENT,
+  All_SERVICES_LOADED_FOR_CURRENT_USER
 } from '../../actions/types';
 import axios from 'axios';
 import { setAlert } from '../../actions/alert';
@@ -80,22 +81,22 @@ export const getServiceById = id => async dispatch => {
   }
 };
 
-// // Get project for current user
-// export const getAllProjectsForCurrentUser = () => async dispatch => {
-//   try {
-//     const res = await axios.get('/api/testing/projects/user');
+// Get services for current user
+export const getAllServicesForCurrentUser = () => async dispatch => {
+  try {
+    const res = await axios.get('/api/freelance/services/user');
 
-//     dispatch({
-//       type: ALL_PROJECTS_LOADED_FOR_USER,
-//       payload: res.data
-//     });
-//   } catch (err) {
-//     dispatch({
-//       type: PROJECT_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status }
-//     });
-//   }
-// };
+    dispatch({
+      type: All_SERVICES_LOADED_FOR_CURRENT_USER,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: SERVICE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
 
 // // Create a new project
 // export const createProject = (formData, history) => async dispatch => {
