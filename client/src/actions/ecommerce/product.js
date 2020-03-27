@@ -3,10 +3,10 @@ import {
   PRODUCT_LOADED,
   PRODUCT_ERROR,
   PRODUCT_REMOVED,
-  REVIEW_ADDED,
+  REVIEW_ADDED_PRODUCT,
   PRODUCT_UPDATED,
   All_PRODUCTS_LOADED_FOR_STORE,
-  REVIEW_REMOVED,
+  REVIEW_REMOVED_PRODUCT,
   PRODUCT_LIKED,
   PRODUCT_UNLIKED,
   PRODUCT_PURCHASED,
@@ -79,7 +79,7 @@ export const reviewOnProduct = (productId, formData) => async dispatch => {
     );
 
     dispatch({
-      type: REVIEW_ADDED,
+      type: REVIEW_ADDED_PRODUCT,
       payload: res.data
     });
 
@@ -103,7 +103,7 @@ export const deleteReviewOnProduct = (
     );
 
     dispatch({
-      type: REVIEW_REMOVED,
+      type: REVIEW_REMOVED_PRODUCT,
       payload: res.data
     });
 

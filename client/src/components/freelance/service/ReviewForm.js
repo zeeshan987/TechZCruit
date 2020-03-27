@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { reviewOnProduct } from '../../../actions/ecommerce/product';
+import { reviewOnService } from '../../../actions/freelance/service';
 import { Form, Button } from 'react-bootstrap';
 
-const ReviewForm = ({ service: { _id }, reviewOnProduct, styles }) => {
+const ReviewForm = ({ service: { _id }, reviewOnService, styles }) => {
   const [formData, setFormData] = useState({
     description: '',
     rating: ''
@@ -23,7 +23,7 @@ const ReviewForm = ({ service: { _id }, reviewOnProduct, styles }) => {
 
   const onSubmit = e => {
     e.preventDefault();
-    reviewOnProduct(_id, formData);
+    reviewOnService(_id, formData);
 
     if (description !== '' && rating !== '') {
       setFormData({
@@ -133,10 +133,10 @@ const ReviewForm = ({ service: { _id }, reviewOnProduct, styles }) => {
 
 ReviewForm.propTypes = {
   service: PropTypes.object.isRequired,
-  reviewOnProduct: PropTypes.func.isRequired,
+  reviewOnService: PropTypes.func.isRequired,
   styles: PropTypes.object.isRequired
 };
 
 export default connect(null, {
-  reviewOnProduct
+  reviewOnService
 })(ReviewForm);

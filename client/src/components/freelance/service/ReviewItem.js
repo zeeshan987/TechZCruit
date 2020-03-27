@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Row, Col, Button, Form } from 'react-bootstrap';
-import { deleteReviewOnProduct } from '../../../actions/ecommerce/product';
+import { deleteReviewOnService } from '../../../actions/freelance/service';
 
 const ReviewItem = ({
   review,
   auth,
   service,
-  deleteReviewOnProduct,
+  deleteReviewOnService,
   styles
 }) => {
   return (
@@ -86,7 +86,7 @@ const ReviewItem = ({
                 auth.user._id === review.user._id) && (
                 <Button
                   variant='danger'
-                  onClick={() => deleteReviewOnProduct(service._id, review._id)}
+                  onClick={() => deleteReviewOnService(service._id, review._id)}
                 >
                   Delete review
                 </Button>
@@ -102,10 +102,10 @@ ReviewItem.propTypes = {
   review: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   service: PropTypes.object.isRequired,
-  deleteReviewOnProduct: PropTypes.func.isRequired,
+  deleteReviewOnService: PropTypes.func.isRequired,
   styles: PropTypes.object.isRequired
 };
 
 export default connect(null, {
-  deleteReviewOnProduct
+  deleteReviewOnService
 })(ReviewItem);

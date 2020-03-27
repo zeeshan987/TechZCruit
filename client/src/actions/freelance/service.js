@@ -1,7 +1,9 @@
 import {
   All_SERVICES_LOADED,
   SERVICE_ERROR,
-  SERVICE_LOADED
+  SERVICE_LOADED,
+  REVIEW_ADDED_STORE,
+  REVIEW_REMOVED_STORE
 } from '../../actions/types';
 import axios from 'axios';
 import { setAlert } from '../../actions/alert';
@@ -393,55 +395,56 @@ export const getServiceById = id => async dispatch => {
 //   }
 // };
 
-// // Comment on project
-// export const addCommentOnProject = (id, formData) => async dispatch => {
-//   const config = {
-//     headers: {
-//       'Content-Type': 'application/json'
-//     }
-//   };
+// Review on service
+export const reviewOnService = (id, formData) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
 
-//   try {
-//     const res = await axios.put(
-//       `/api/testing/projects/comment/${id}`,
-//       formData,
-//       config
-//     );
+  try {
+    const res = await axios.put(
+      `/api/freelance/services/review/${id}`,
+      formData,
+      config
+    );
 
-//     dispatch({
-//       type: COMMENT_ADDED_PROJECT,
-//       payload: res.data
-//     });
+    dispatch({
+      type: REVIEW_ADDED_STORE,
+      payload: res.data
+    });
 
-//     dispatch(setAlert('Comment added', 'success'));
-//   } catch (err) {
-//     const errors = err.response.data.errors;
-//     if (errors) {
-//       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
-//     }
-//   }
-// };
+    dispatch(setAlert('Review added', 'success'));
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+  }
+};
 
-// // Delete comment on project
-// export const deleteCommentOnProject = (
-//   projectId,
-//   commentId
-// ) => async dispatch => {
-//   try {
-//     const res = await axios.delete(
-//       `/api/testing/projects/comment/${projectId}/${commentId}`
-//     );
+// Delete review on service
+export const deleteReviewOnService = (
+  serviceId,
+  reviewId
+) => async dispatch => {
+  try {
+    const res = await axios.delete(
+      `/api/freelance/services/review/${serviceId}/${reviewId}`
+    );
 
-//     dispatch({
-//       type: COMMENT_REMOVED_PROJECT,
-//       payload: res.data
-//     });
+    dispatch({
+      type: REVIEW_REMOVED_STORE,
+      payload: res.data
+    });
 
-//     dispatch(setAlert('Comment removed', 'success'));
-//   } catch (err) {
-//     dispatch({
-//       type: COMMENT_ERROR_PROJECT,
-//       payload: { msg: err.response.statusText, status: err.response.status }
-//     });
-//   }
-// };
+    dispatch(setAlert('Review removed', 'success'));
+  } catch (err) {
+    console.log(err);
+    dispatch({
+      type: SERVICE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
