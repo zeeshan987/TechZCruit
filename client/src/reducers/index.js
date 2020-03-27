@@ -8,6 +8,7 @@ import campaign from './crowdfunding/campaign';
 import project from './testing/project';
 import product from './ecommerce/product';
 import store from './ecommerce/store';
+import service from './freelance/service';
 
 export default combineReducers({
   alert,
@@ -18,5 +19,6 @@ export default combineReducers({
   campaign,
   project,
   product,
-  store
+  store,
+  service
 });

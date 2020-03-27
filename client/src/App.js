@@ -3,17 +3,17 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
-// import PrivateRoute from './components/routing/PrivateRoute';
 import store from './store';
 import setAuthToken from './utils/setAuthToken';
 import { loadUser } from './actions/auth';
 import CommunityRoutes from './components/routing/CommunityRoutes';
 import CrowdfundingRoutes from './components/routing/CrowdfundingRoutes';
 import TestingRoutes from './components/routing/TestingRoutes';
+import EcommerceRoutes from './components/routing/EcommerceRoutes';
+import FreelanceRoutes from './components/routing/FreelanceRoutes';
 import BasicRoutes from './components/routing/BasicRoutes';
 import Chat from './components/chatapp/Chat/Chat';
 import Join from './components/chatapp/Join/Join';
-import EcommerceRoutes from './components/routing/EcommerceRoutes';
 import './App.css';
 
 if (localStorage.token) {
@@ -40,6 +40,7 @@ const App = () => {
             <Route path='/crowdfunding' component={CrowdfundingRoutes} />
             <Route path='/testing' component={TestingRoutes} />
             <Route path='/ecommerce' component={EcommerceRoutes} />
+            <Route path='/freelance' component={FreelanceRoutes} />
             <Route component={BasicRoutes} />
           </Switch>
         </Fragment>

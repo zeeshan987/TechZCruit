@@ -121,3 +121,7 @@ export const STORE_CREATED = 'STORE_CREATED';
 export const STORE_UPDATED = 'STORE_UPDATED';
 export const STORE_REMOVED = 'STORE_REMOVED';
 export const STORE_ERROR = 'STORE_ERROR';
+
+// SERVICE
+export const All_SERVICES_LOADED = 'All_SERVICES_LOADED';
+export const SERVICE_ERROR = 'SERVICE_ERROR';
