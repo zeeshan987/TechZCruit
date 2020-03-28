@@ -2,15 +2,16 @@ import {
   SERVICE_ERROR,
   All_SERVICES_LOADED,
   SERVICE_LOADED,
-  REVIEW_ADDED_STORE,
-  REVIEW_REMOVED_STORE,
+  REVIEW_ADDED_SERVICE,
+  REVIEW_REMOVED_SERVICE,
   SERVICE_REQUEST_SENT,
   All_SERVICES_LOADED_FOR_CURRENT_USER,
   SERVICE_CREATED,
   SERVICE_REMOVED,
   SERVICE_UPDATED,
   SERVICE_REQUEST_REMOVED,
-  SERVICE_SERVICE_ADDED
+  SERVICE_SERVICE_ADDED,
+  SERVICE_SERVICE_FINISHED
 } from '../../actions/types';
 
 const initialState = {
@@ -54,8 +55,8 @@ export default function(state = initialState, action) {
         errors: null,
         services: [...state.services.filter(item => item._id !== payload)]
       };
-    case REVIEW_ADDED_STORE:
-    case REVIEW_REMOVED_STORE:
+    case REVIEW_ADDED_SERVICE:
+    case REVIEW_REMOVED_SERVICE:
       return {
         ...state,
         loading: false,
@@ -71,6 +72,7 @@ export default function(state = initialState, action) {
         service: { ...state.service, requests: payload.requests }
       };
     case SERVICE_SERVICE_ADDED:
+    case SERVICE_SERVICE_FINISHED:
       return {
         ...state,
         loading: false,

@@ -2,15 +2,16 @@ import {
   All_SERVICES_LOADED,
   SERVICE_ERROR,
   SERVICE_LOADED,
-  REVIEW_ADDED_STORE,
-  REVIEW_REMOVED_STORE,
+  REVIEW_ADDED_SERVICE,
+  REVIEW_REMOVED_SERVICE,
   SERVICE_REQUEST_SENT,
   All_SERVICES_LOADED_FOR_CURRENT_USER,
   SERVICE_CREATED,
   SERVICE_REMOVED,
   SERVICE_UPDATED,
   SERVICE_REQUEST_REMOVED,
-  SERVICE_SERVICE_ADDED
+  SERVICE_SERVICE_ADDED,
+  SERVICE_SERVICE_FINISHED
 } from '../../actions/types';
 import axios from 'axios';
 import { setAlert } from '../../actions/alert';
@@ -339,24 +340,26 @@ export const addServiceToService = (serviceId, requestId) => async dispatch => {
   }
 };
 
-// // Finish testing for a project
-// export const finishTestingForProject = projectId => async dispatch => {
-//   try {
-//     const res = await axios.put(`/api/testing/projects/finish/${projectId}`);
+// Finish service for a service
+export const finishServiceForService = (id, serviceId) => async dispatch => {
+  try {
+    const res = await axios.put(
+      `/api/freelance/services/finish/${id}/${serviceId}`
+    );
 
-//     dispatch({
-//       type: PROJECT_TESTING_FINISHED,
-//       payload: res.data._id
-//     });
+    dispatch({
+      type: SERVICE_SERVICE_FINISHED,
+      payload: res.data
+    });
 
-//     dispatch(setAlert('Project testing finished', 'success'));
-//   } catch (err) {
-//     dispatch({
-//       type: PROJECT_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status }
-//     });
-//   }
-// };
+    dispatch(setAlert('Service finished', 'success'));
+  } catch (err) {
+    dispatch({
+      type: SERVICE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
 
 // // Pass a test case for a project
 // export const passTestcaseForProject = (
@@ -422,7 +425,7 @@ export const reviewOnService = (id, formData) => async dispatch => {
     );
 
     dispatch({
-      type: REVIEW_ADDED_STORE,
+      type: REVIEW_ADDED_SERVICE,
       payload: res.data
     });
 
@@ -446,7 +449,7 @@ export const deleteReviewOnService = (
     );
 
     dispatch({
-      type: REVIEW_REMOVED_STORE,
+      type: REVIEW_REMOVED_SERVICE,
       payload: res.data
     });
 
