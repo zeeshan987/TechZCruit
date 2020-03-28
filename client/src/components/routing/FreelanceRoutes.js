@@ -5,7 +5,7 @@ import Service from '../freelance/service/Service';
 import MyServices from '../freelance/my-services/MyServices';
 import CreateService from '../freelance/service-forms/CreateService';
 import EditService from '../freelance/service-forms/EditService';
-// import ProjectStats from '../testing/project-stats/ProjectStats';
+import ServiceStats from '../freelance/service-stats/ServiceStats';
 // import ProjectTestcases from '../testing/project-testcases/ProjectTestcases';
 // import CreateTestcase from '../testing/project-testcases/CreateTestcase';
 // import OngoingProjects from '../testing/ongoing-projects/OngoingProjects';
@@ -30,6 +30,11 @@ export const FreelanceRoutes = () => {
         exact
         path='/freelance/edit-service/:id'
         component={EditService}
+      />
+      <PrivateRoute
+        exact
+        path='/freelance/service/stats/:id'
+        component={ServiceStats}
       />
       {/* <PrivateRoute exact path='/testing/project/:id' component={Project} />
       <PrivateRoute exact path='/testing/my-projects' component={MyProjects} />

@@ -19,7 +19,7 @@ const MyServiceItem = ({
           </Link>
           <div className='mt-2'>{description}</div>
           <div className='mt-2'>
-            <Button variant='dark' href={`/testing/service/stats/${_id}`}>
+            <Button variant='dark' href={`/freelance/service/stats/${_id}`}>
               View stats
             </Button>
             <Button variant='success' href={`/freelance/edit-service/${_id}`}>

@@ -8,7 +8,9 @@ import {
   All_SERVICES_LOADED_FOR_CURRENT_USER,
   SERVICE_CREATED,
   SERVICE_REMOVED,
-  SERVICE_UPDATED
+  SERVICE_UPDATED,
+  SERVICE_REQUEST_REMOVED,
+  SERVICE_SERVICE_ADDED
 } from '../../actions/types';
 import axios from 'axios';
 import { setAlert } from '../../actions/alert';
@@ -292,45 +294,50 @@ export const deleteService = id => async dispatch => {
 //   }
 // };
 
-// // Delete an offer for a project
-// export const deleteOfferForProject = (projectId, offerId) => async dispatch => {
-//   try {
-//     const res = await axios.delete(
-//       `/api/testing/projects/offer/${projectId}/${offerId}`
-//     );
+// Delete a request for a service
+export const deleteRequestForService = (
+  serviceId,
+  requestId
+) => async dispatch => {
+  try {
+    const res = await axios.delete(
+      `/api/freelance/services/request/${serviceId}/${requestId}`
+    );
 
-//     dispatch({
-//       type: PROJECT_OFFER_DELETED,
-//       payload: res.data
-//     });
+    dispatch({
+      type: SERVICE_REQUEST_REMOVED,
+      payload: res.data
+    });
 
-//     dispatch(setAlert('Offer removed', 'success'));
-//   } catch (err) {
-//     dispatch({
-//       type: PROJECT_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status }
-//     });
-//   }
-// };
+    dispatch(setAlert('Request removed', 'success'));
+  } catch (err) {
+    dispatch({
+      type: SERVICE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
 
-// // Add tester to a project
-// export const addTesterToProject = (projectId, userId) => async dispatch => {
-//   try {
-//     const res = await axios.put(`/api/testing/projects/${projectId}/${userId}`);
+// Add service to service
+export const addServiceToService = (serviceId, requestId) => async dispatch => {
+  try {
+    const res = await axios.put(
+      `/api/freelance/services/${serviceId}/${requestId}`
+    );
 
-//     dispatch({
-//       type: PROJECT_TESTER_ADDED,
-//       payload: res.data
-//     });
+    dispatch({
+      type: SERVICE_SERVICE_ADDED,
+      payload: res.data
+    });
 
-//     dispatch(setAlert('Tester added', 'success'));
-//   } catch (err) {
-//     dispatch({
-//       type: PROJECT_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status }
-//     });
-//   }
-// };
+    dispatch(setAlert('Service added', 'success'));
+  } catch (err) {
+    dispatch({
+      type: SERVICE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
 
 // // Finish testing for a project
 // export const finishTestingForProject = projectId => async dispatch => {

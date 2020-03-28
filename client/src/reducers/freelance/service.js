@@ -8,7 +8,9 @@ import {
   All_SERVICES_LOADED_FOR_CURRENT_USER,
   SERVICE_CREATED,
   SERVICE_REMOVED,
-  SERVICE_UPDATED
+  SERVICE_UPDATED,
+  SERVICE_REQUEST_REMOVED,
+  SERVICE_SERVICE_ADDED
 } from '../../actions/types';
 
 const initialState = {
@@ -61,11 +63,19 @@ export default function(state = initialState, action) {
         service: { ...state.service, reviews: payload.reviews }
       };
     case SERVICE_REQUEST_SENT:
+    case SERVICE_REQUEST_REMOVED:
       return {
         ...state,
         loading: false,
         errors: null,
         service: { ...state.service, requests: payload.requests }
+      };
+    case SERVICE_SERVICE_ADDED:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        service: { ...state.service, services: payload.services }
       };
     case SERVICE_ERROR:
       return {
