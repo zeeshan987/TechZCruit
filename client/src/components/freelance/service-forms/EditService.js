@@ -7,7 +7,7 @@ import {
   getServiceById,
   updateService
 } from '../../../actions/freelance/service';
-import styles from '../../../css/crowdfunding/campaign-forms/style.module.css';
+import styles from '../../../css/freelance/service-forms/style.module.css';
 import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';

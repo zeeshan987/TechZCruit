@@ -5,7 +5,7 @@ import placeholder from '../../../img/placeholder.png';
 import { connect } from 'react-redux';
 import { getServiceById } from '../../../actions/freelance/service';
 import UserInfo from './UserInfo';
-import styles from '../../../css/ecommerce/product/style.module.css';
+import styles from '../../../css/freelance/service/style.module.css';
 import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';

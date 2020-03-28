@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { getAllServicesForCurrentUser } from '../../../actions/freelance/service';
 import MyServiceItem from './MyServiceItem';
-import styles from '../../../css/testing/my-projects/style.module.css';
+import styles from '../../../css/freelance/my-services/style.module.css';
 import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { createService } from '../../../actions/freelance/service';
 import { Form, Button } from 'react-bootstrap';
-import styles from '../../../css/crowdfunding/campaign-forms/style.module.css';
+import styles from '../../../css/freelance/service-forms/style.module.css';
 import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';

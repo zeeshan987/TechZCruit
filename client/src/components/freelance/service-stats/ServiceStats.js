@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getServiceById } from '../../../actions/freelance/service';
 import ServiceStatsNavigationTabs from './ServiceStatsNavigationTabs';
-import styles from '../../../css/testing/project-stats/style.module.css';
+import styles from '../../../css/freelance/service-stats/style.module.css';
 import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';
