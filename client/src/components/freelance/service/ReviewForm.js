@@ -48,7 +48,7 @@ const ReviewForm = ({ service: { _id }, reviewOnService, styles }) => {
               checked={rating === 5}
             />
             <Form.Check.Label onClick={() => setRating(5)}>
-              <i class='fas fa-star'></i>
+              <i className='fas fa-star'></i>
             </Form.Check.Label>
           </Form.Check>
 
@@ -63,7 +63,7 @@ const ReviewForm = ({ service: { _id }, reviewOnService, styles }) => {
               checked={rating === 4}
             />
             <Form.Check.Label onClick={() => setRating(4)}>
-              <i class='fas fa-star'></i>
+              <i className='fas fa-star'></i>
             </Form.Check.Label>
           </Form.Check>
 
@@ -78,7 +78,7 @@ const ReviewForm = ({ service: { _id }, reviewOnService, styles }) => {
               checked={rating === 3}
             />
             <Form.Check.Label onClick={() => setRating(3)}>
-              <i class='fas fa-star'></i>
+              <i className='fas fa-star'></i>
             </Form.Check.Label>
           </Form.Check>
 
@@ -93,7 +93,7 @@ const ReviewForm = ({ service: { _id }, reviewOnService, styles }) => {
               checked={rating === 2}
             />
             <Form.Check.Label onClick={() => setRating(2)}>
-              <i class='fas fa-star'></i>
+              <i className='fas fa-star'></i>
             </Form.Check.Label>
           </Form.Check>
 
@@ -108,7 +108,7 @@ const ReviewForm = ({ service: { _id }, reviewOnService, styles }) => {
               checked={rating === 1}
             />
             <Form.Check.Label onClick={() => setRating(1)}>
-              <i class='fas fa-star'></i>
+              <i className='fas fa-star'></i>
             </Form.Check.Label>
           </Form.Check>
         </Form.Group>

@@ -1,14 +1,14 @@
 import React, { Fragment, useEffect } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styles from '../../css/dashboard/style.module.css';
-import { Button } from 'react-bootstrap';
+// import { Button } from 'react-bootstrap';
 import Footer from '../layout/Footer';
 import Alert from '../layout/Alert';
 import SideNav from '../layout/SideNav';
 import socketIOClient from 'socket.io-client';
 
-const Dashboard = ({}) => {
+const Dashboard = () => {
   useEffect(() => {
     const socket = socketIOClient();
     socket.on('message', msg => console.log(msg));
@@ -36,7 +36,7 @@ const Dashboard = ({}) => {
   );
 };
 
-Dashboard.propTypes = {};
+// Dashboard.propTypes = {};
 
 const mapStateToProps = state => ({});
 

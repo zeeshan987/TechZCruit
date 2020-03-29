@@ -39,7 +39,11 @@ const MyCampaigns = ({
           </Button>
           {!loading && campaigns.length > 0 ? (
             campaigns.map(campaign => (
-              <MyCampaignItem campaign={campaign} styles={styles} />
+              <MyCampaignItem
+                key={campaign._id}
+                campaign={campaign}
+                styles={styles}
+              />
             ))
           ) : (
             <div className={styles.sub_heading}>No campaigns found</div>

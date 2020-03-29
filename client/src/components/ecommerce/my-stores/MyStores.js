@@ -38,7 +38,9 @@ const MyStores = ({
             <i className='fas fa-users'></i> Create new store
           </Button>
           {!loading && stores.length > 0 ? (
-            stores.map(store => <MyStoreItem store={store} styles={styles} />)
+            stores.map(store => (
+              <MyStoreItem key={store._id} store={store} styles={styles} />
+            ))
           ) : (
             <div className={styles.sub_heading}>No stores found</div>
           )}

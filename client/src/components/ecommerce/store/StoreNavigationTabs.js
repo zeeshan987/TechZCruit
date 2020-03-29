@@ -34,34 +34,36 @@ const StoreNavigationTabs = ({
                 <Row className='mt-3'>
                   {!loading && products.length > 0 ? (
                     products.map(product => (
-                      <Col md={3}>
-                        <Card className={styles.card}>
-                          <Card.Img src={placeholder} />
-                          <Card.Body>
-                            <Card.Title
-                              className={`${styles.card_title} text-truncate`}
-                            >
-                              <Link
-                                to={`/ecommerce/product/${product._id}`}
-                                style={{
-                                  textDecoration: 'none',
-                                  color: 'inherit'
-                                }}
+                      <div key={product._id}>
+                        <Col md={3}>
+                          <Card className={styles.card}>
+                            <Card.Img src={placeholder} />
+                            <Card.Body>
+                              <Card.Title
+                                className={`${styles.card_title} text-truncate`}
                               >
-                                {product.title}
-                              </Link>
-                            </Card.Title>
-                            <Card.Text>
-                              <div className='text-truncate my-2'>
-                                {product.description}
-                              </div>
-                            </Card.Text>
-                          </Card.Body>
-                          <Card.Footer className='text-truncate'>
-                            <strong>Price: </strong>${product.price}
-                          </Card.Footer>
-                        </Card>
-                      </Col>
+                                <Link
+                                  to={`/ecommerce/product/${product._id}`}
+                                  style={{
+                                    textDecoration: 'none',
+                                    color: 'inherit'
+                                  }}
+                                >
+                                  {product.title}
+                                </Link>
+                              </Card.Title>
+                              <Card.Text>
+                                <div className='text-truncate my-2'>
+                                  {product.description}
+                                </div>
+                              </Card.Text>
+                            </Card.Body>
+                            <Card.Footer className='text-truncate'>
+                              <strong>Price: </strong>${product.price}
+                            </Card.Footer>
+                          </Card>
+                        </Col>
+                      </div>
                     ))
                   ) : (
                     <div className={styles.sub_heading}>No products found</div>

@@ -126,7 +126,7 @@ const Product = ({
                   className='m-1'
                   onClick={() => likeProduct(product._id)}
                 >
-                  <i class='fas fa-thumbs-up'></i>{' '}
+                  <i className='fas fa-thumbs-up'></i>{' '}
                   {!loading && product !== null && product.likes.length > 0
                     ? product.likes.length
                     : ''}
@@ -136,7 +136,7 @@ const Product = ({
                   className='m-1'
                   onClick={() => unlikeProduct(product._id)}
                 >
-                  <i class='fas fa-thumbs-down'></i>
+                  <i className='fas fa-thumbs-down'></i>
                 </Button>
               </div>
               {!loading &&

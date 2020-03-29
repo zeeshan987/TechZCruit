@@ -35,7 +35,9 @@ const MyGroups = ({ getAllGroupsForUser, group: { loading, groups } }) => {
             <i className='fas fa-users'></i> Create new group
           </Button>
           {!loading && groups.length > 0 ? (
-            groups.map(group => <MyGroupItem group={group} styles={styles} />)
+            groups.map(group => (
+              <MyGroupItem key={group._id} group={group} styles={styles} />
+            ))
           ) : (
             <div className={styles.sub_heading}>No groups found</div>
           )}

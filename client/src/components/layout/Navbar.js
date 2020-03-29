@@ -8,7 +8,7 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const authLinks = (
     <Nav className='ml-auto'>
       <Nav.Link href='/chat'>
-        <i class='fas fa-envelope'></i>
+        <i className='fas fa-envelope'></i>
       </Nav.Link>
       <NavDropdown
         title={

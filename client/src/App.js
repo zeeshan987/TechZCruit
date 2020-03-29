@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import PrivateRoute from './components/routing/PrivateRoute';
+// import PrivateRoute from './components/routing/PrivateRoute';
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import store from './store';
@@ -34,7 +34,7 @@ const App = () => {
           <Route exact path='/' component={Landing} />
           <Switch>
             {/* Chat App Routes */}
-            <PrivateRoute exact path='/chat' component={Chat} />
+            <Route exact path='/chat' component={Chat} />
             {/* <Route exact path='/chatapp/join' component={Join} /> */}
 
             <Route path='/community' component={CommunityRoutes} />

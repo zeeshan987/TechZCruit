@@ -30,7 +30,7 @@ const ReviewItem = ({
             >
               <Form.Check.Input name='rating' type='radio' />
               <Form.Check.Label>
-                <i class='fas fa-star'></i>
+                <i className='fas fa-star'></i>
               </Form.Check.Label>
             </Form.Check>
 
@@ -41,7 +41,7 @@ const ReviewItem = ({
             >
               <Form.Check.Input name='rating' type='radio' />
               <Form.Check.Label>
-                <i class='fas fa-star'></i>
+                <i className='fas fa-star'></i>
               </Form.Check.Label>
             </Form.Check>
 
@@ -52,7 +52,7 @@ const ReviewItem = ({
             >
               <Form.Check.Input name='rating' type='radio' />
               <Form.Check.Label>
-                <i class='fas fa-star'></i>
+                <i className='fas fa-star'></i>
               </Form.Check.Label>
             </Form.Check>
 
@@ -63,7 +63,7 @@ const ReviewItem = ({
             >
               <Form.Check.Input name='rating' type='radio' />
               <Form.Check.Label>
-                <i class='fas fa-star'></i>
+                <i className='fas fa-star'></i>
               </Form.Check.Label>
             </Form.Check>
 
@@ -74,7 +74,7 @@ const ReviewItem = ({
             >
               <Form.Check.Input name='rating' type='radio' />
               <Form.Check.Label>
-                <i class='fas fa-star'></i>
+                <i className='fas fa-star'></i>
               </Form.Check.Label>
             </Form.Check>
           </div>
