@@ -30,6 +30,10 @@ const Campaign = ({
     setShowPaymentModal(!showPaymentModal);
   };
 
+  const redirectToChat = () => {
+    console.log('Redirected to chat');
+  };
+
   return (
     <Fragment>
       <section className={styles.section}>
@@ -101,13 +105,26 @@ const Campaign = ({
                 auth.user !== null &&
                 campaign !== null &&
                 auth.user._id !== campaign.user._id && (
-                  <Button
-                    variant='primary'
-                    className={`mt-3 ${styles.btn_primary}`}
-                    onClick={() => toggleModal()}
-                  >
-                    Support this campaign
-                  </Button>
+                  <Fragment>
+                    <div>
+                      <Button
+                        variant='primary'
+                        className={`mt-3 ${styles.btn_primary}`}
+                        onClick={() => toggleModal()}
+                      >
+                        Support this campaign
+                      </Button>
+                    </div>
+                    <div>
+                      <Button
+                        variant='dark'
+                        className='mt-3'
+                        onClick={() => redirectToChat()}
+                      >
+                        Chat with owner
+                      </Button>
+                    </div>
+                  </Fragment>
                 )}
             </Col>
           </Row>

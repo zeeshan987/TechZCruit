@@ -13,7 +13,7 @@ import TestingRoutes from './components/routing/TestingRoutes';
 import EcommerceRoutes from './components/routing/EcommerceRoutes';
 import FreelanceRoutes from './components/routing/FreelanceRoutes';
 import BasicRoutes from './components/routing/BasicRoutes';
-import Chat from './components/chat/Chat';
+import Conversations from './components/chat/Conversations';
 // import Join from './components/chatapp/Join/Join';
 import './App.css';
 
@@ -33,8 +33,8 @@ const App = () => {
           <Navbar />
           <Route exact path='/' component={Landing} />
           <Switch>
-            {/* Chat App Routes */}
-            <Route exact path='/chat' component={Chat} />
+            {/* Conversations App Routes */}
+            <Route exact path='/chat' component={Conversations} />
             {/* <Route exact path='/chatapp/join' component={Join} /> */}
 
             <Route path='/community' component={CommunityRoutes} />

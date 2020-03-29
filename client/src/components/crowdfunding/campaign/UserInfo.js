@@ -5,7 +5,7 @@ import { Row, Col } from 'react-bootstrap';
 const UserInfo = ({ campaign, styles }) => {
   return (
     <Fragment>
-      <div className='lead'>Campaign owner:</div>
+      <div className='lead'>Campaign owner</div>
       <Row>
         <Col md={12} style={{ textAlign: 'center' }}>
           <img

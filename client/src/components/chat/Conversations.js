@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styles from '../../css/dashboard/style.module.css';
 // import { Button } from 'react-bootstrap';
@@ -8,7 +8,7 @@ import Alert from '../layout/Alert';
 import SideNav from '../layout/SideNav';
 import socketIOClient from 'socket.io-client';
 
-const Dashboard = () => {
+const Conversations = ({ chat: { loading, conversations } }) => {
   useEffect(() => {
     const socket = socketIOClient();
     socket.on('message', msg => console.log(msg));
@@ -28,6 +28,11 @@ const Dashboard = () => {
           <div className={styles.sub_heading}>
             Below is a list of all your conversations
           </div>
+          {!loading && conversations.length > 0 ? (
+            <Fragment>Some chats are here</Fragment>
+          ) : (
+            <div className={styles.sub_heading}>No conversations found</div>
+          )}
         </div>
       </section>
 
@@ -36,8 +41,12 @@ const Dashboard = () => {
   );
 };
 
-// Dashboard.propTypes = {};
+Conversations.propTypes = {
+  chat: PropTypes.object.isRequired
+};
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  chat: state.chat
+});
 
-export default connect(mapStateToProps, {})(Dashboard);
+export default connect(mapStateToProps, {})(Conversations);

@@ -9,6 +9,7 @@ import project from './testing/project';
 import product from './ecommerce/product';
 import store from './ecommerce/store';
 import service from './freelance/service';
+import chat from './chat/chat';
 
 export default combineReducers({
   alert,
@@ -20,5 +21,6 @@ export default combineReducers({
   project,
   product,
   store,
-  service
+  service,
+  chat
 });
