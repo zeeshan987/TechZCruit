@@ -7,6 +7,9 @@ import { Navbar as CustomNavbar, Nav, NavDropdown } from 'react-bootstrap';
 const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const authLinks = (
     <Nav className='ml-auto'>
+      <Nav.Link href='/chat'>
+        <i class='fas fa-envelope'></i>
+      </Nav.Link>
       <NavDropdown
         title={
           <img

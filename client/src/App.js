@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import PrivateRoute from './components/routing/PrivateRoute';
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import store from './store';
@@ -12,8 +13,8 @@ import TestingRoutes from './components/routing/TestingRoutes';
 import EcommerceRoutes from './components/routing/EcommerceRoutes';
 import FreelanceRoutes from './components/routing/FreelanceRoutes';
 import BasicRoutes from './components/routing/BasicRoutes';
-import Chat from './components/chatapp/Chat/Chat';
-import Join from './components/chatapp/Join/Join';
+import Chat from './components/chat/Chat';
+// import Join from './components/chatapp/Join/Join';
 import './App.css';
 
 if (localStorage.token) {
@@ -33,8 +34,8 @@ const App = () => {
           <Route exact path='/' component={Landing} />
           <Switch>
             {/* Chat App Routes */}
-            <Route exact path='/chatapp/chat' component={Chat} />
-            <Route exact path='/chatapp/join' component={Join} />
+            <PrivateRoute exact path='/chat' component={Chat} />
+            {/* <Route exact path='/chatapp/join' component={Join} /> */}
 
             <Route path='/community' component={CommunityRoutes} />
             <Route path='/crowdfunding' component={CrowdfundingRoutes} />
