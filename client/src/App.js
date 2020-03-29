@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
-// import PrivateRoute from './components/routing/PrivateRoute';
+import PrivateRoute from './components/routing/PrivateRoute';
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import store from './store';
@@ -13,7 +13,7 @@ import TestingRoutes from './components/routing/TestingRoutes';
 import EcommerceRoutes from './components/routing/EcommerceRoutes';
 import FreelanceRoutes from './components/routing/FreelanceRoutes';
 import BasicRoutes from './components/routing/BasicRoutes';
-import Conversations from './components/chat/Conversations';
+import MyConversations from './components/chat/my-conversations/MyConversations';
 // import Join from './components/chatapp/Join/Join';
 import './App.css';
 
@@ -33,8 +33,12 @@ const App = () => {
           <Navbar />
           <Route exact path='/' component={Landing} />
           <Switch>
-            {/* Conversations App Routes */}
-            <Route exact path='/chat' component={Conversations} />
+            {/* MyConversations App Routes */}
+            <PrivateRoute
+              exact
+              path='/my-conversations'
+              component={MyConversations}
+            />
             {/* <Route exact path='/chatapp/join' component={Join} /> */}
 
             <Route path='/community' component={CommunityRoutes} />

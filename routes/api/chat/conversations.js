@@ -9,10 +9,12 @@ const { check, validationResult } = require('express-validator');
 // @access  Private
 router.get('/user', auth, async (req, res) => {
   try {
-    let conversations = await Conversation.find();
+    let conversations = await Conversation.find()
+      .populate('users.user', ['name', 'avatar'])
+      .populate('messages.user', ['name', 'avatar']);
     conversations = conversations.filter(conversation => {
       const index = conversation.users
-        .map(item => item.user)
+        .map(item => item.user._id)
         .indexOf(req.user.id);
       if (index !== -1) {
         return conversation;
