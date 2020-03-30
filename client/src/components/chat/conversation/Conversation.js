@@ -1,15 +1,13 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  getAllConversationsForCurrentUser,
-  getConversationById
-} from '../../../actions/chat/conversation';
-import styles from '../../../css/chat/my-conversations/style.module.css';
+import { getConversationById } from '../../../actions/chat/conversation';
+import styles from '../../../css/chat/conversation/style.module.css';
 import Footer from '../../layout/Footer';
 import Alert from '../../layout/Alert';
 import SideNav from '../../layout/SideNav';
 import MyConversationItem from './MyConversationItem';
+import { Form, InputGroup, Button } from 'react-bootstrap';
 // import socketIOClient from 'socket.io-client';
 
 const Conversation = ({
@@ -23,7 +21,7 @@ const Conversation = ({
     // const socket = socketIOClient();
     // socket.on('message', msg => console.log(msg));
     // socket.emit('message', 'This is message from client');
-  }, [getConversationById]);
+  }, [getConversationById, match.params.id]);
 
   return (
     <Fragment>
@@ -41,21 +39,21 @@ const Conversation = ({
                 item => item.user._id !== auth.user._id
               )[0].user.name}
           </div>
-          <div className={styles.sub_heading}>
-            Below is a list of all your conversations
+          <div className={styles.message_box}></div>
+          <div className={styles.input_box}>
+            <Form>
+              <Form.Group style={{ marginBottom: '0' }}>
+                <InputGroup>
+                  <Form.Control type='text' placeholder='Enter message here' />
+                  <InputGroup.Append>
+                    <Button variant='success' style={{ width: '150px' }}>
+                      <i className='fas fa-paper-plane'></i> Send
+                    </Button>
+                  </InputGroup.Append>
+                </InputGroup>
+              </Form.Group>
+            </Form>
           </div>
-          {/* {!loading && auth.user !== null && conversations.length > 0 ? (
-            conversations.map(conversation => (
-              <MyConversationItem
-                key={conversation._id}
-                conversation={conversation}
-                styles={styles}
-                auth={auth}
-              />
-            ))
-          ) : (
-            <div className={styles.sub_heading}>No conversations found</div>
-          )} */}
         </div>
       </section>
 

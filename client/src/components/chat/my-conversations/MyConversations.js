@@ -7,7 +7,6 @@ import Footer from '../../layout/Footer';
 import Alert from '../../layout/Alert';
 import SideNav from '../../layout/SideNav';
 import MyConversationItem from './MyConversationItem';
-// import socketIOClient from 'socket.io-client';
 
 const MyConversations = ({
   conversation: { loading, conversations },
@@ -16,9 +15,6 @@ const MyConversations = ({
 }) => {
   useEffect(() => {
     getAllConversationsForCurrentUser();
-    // const socket = socketIOClient();
-    // socket.on('message', msg => console.log(msg));
-    // socket.emit('message', 'This is message from client');
   }, [getAllConversationsForCurrentUser]);
 
   return (
