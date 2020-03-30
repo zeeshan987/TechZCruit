@@ -3,6 +3,7 @@ const connectDB = require('./config/db');
 const fileUpload = require('express-fileupload');
 const http = require('http');
 const socketIO = require('socket.io');
+const { addMessage } = require('./utils/chat');
 
 const app = express();
 const server = http.createServer(app);
@@ -34,14 +35,18 @@ app.use('/api/ecommerce/stores', require('./routes/api/ecommerce/stores'));
 app.use('/api/freelance/services', require('./routes/api/freelance/services'));
 app.use('/api/chat/conversations', require('./routes/api/chat/conversations'));
 
+// Setup SocketIO to send and receive messages
 io.on('connection', socket => {
-  console.log('Socket IO Connected');
+  socket.on('joinRoom', ({ user, room }) => {
+    // Add user to the room
+    socket.join(room);
 
-  socket.on('message', msg => {
-    console.log(msg);
+    socket.broadcast.emit('message', `${user.name} has joined the chat`);
   });
 
-  socket.emit('message', 'This is a message from server');
+  socket.on('message', ({ room, user, message }) => {
+    addMessage(room, user, message);
+  });
 });
 
 const PORT = process.env.PORT || 5000;
