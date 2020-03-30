@@ -14,7 +14,7 @@ import EcommerceRoutes from './components/routing/EcommerceRoutes';
 import FreelanceRoutes from './components/routing/FreelanceRoutes';
 import BasicRoutes from './components/routing/BasicRoutes';
 import MyConversations from './components/chat/my-conversations/MyConversations';
-// import Join from './components/chatapp/Join/Join';
+import Conversation from './components/chat/conversation/Conversation';
 import './App.css';
 
 if (localStorage.token) {
@@ -38,6 +38,11 @@ const App = () => {
               exact
               path='/my-conversations'
               component={MyConversations}
+            />
+            <PrivateRoute
+              exact
+              path='/conversation/:id'
+              component={Conversation}
             />
             {/* <Route exact path='/chatapp/join' component={Join} /> */}
 
