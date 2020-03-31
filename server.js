@@ -41,11 +41,16 @@ io.on('connection', socket => {
     // Add user to the room
     socket.join(room);
 
-    socket.broadcast.emit('message', `${user.name} has joined the chat`);
+    // Broadcast the message in the room that the user has joined the chat
+    socket.broadcast.emit('joinRoom', `${user.name} has joined the chat`);
   });
 
-  socket.on('message', ({ room, user, message }) => {
-    addMessage(room, user, message);
+  socket.on('message', async ({ room, user, message }) => {
+    // Add message to the conversation
+    const conversation = await addMessage(room, user, message);
+
+    // Broadcast the conversation object to everyone in the room
+    io.to(room).emit('message', conversation);
   });
 });
 

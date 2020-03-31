@@ -1,7 +1,10 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getConversationById } from '../../../actions/chat/conversation';
+import {
+  getConversationById,
+  addMessage
+} from '../../../actions/chat/conversation';
 import { setAlert } from '../../../actions/alert';
 import styles from '../../../css/chat/conversation/style.module.css';
 import Footer from '../../layout/Footer';
@@ -16,7 +19,8 @@ const Conversation = ({
   auth,
   getConversationById,
   match,
-  setAlert
+  setAlert,
+  addMessage
 }) => {
   const [socket, setSocket] = useState(null);
 
@@ -31,6 +35,12 @@ const Conversation = ({
     } else if (socket !== null && auth.user !== null) {
       // If the socket is initilaized and the user is loaded then add the user to the current room
       socket.emit('joinRoom', { user: auth.user, room: match.params.id });
+
+      // Display message that the other user has joined the chat
+      socket.on('joinRoom', message => setAlert(message, 'success'));
+
+      // When a message is received display it in the message box
+      socket.on('message', conversation => addMessage(conversation));
     }
   }, [getConversationById, match.params.id, socket, auth.loading]);
 
@@ -127,7 +137,8 @@ Conversation.propTypes = {
   conversation: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   getConversationById: PropTypes.func.isRequired,
-  setAlert: PropTypes.func.isRequired
+  setAlert: PropTypes.func.isRequired,
+  addMessage: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -137,5 +148,6 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   getConversationById,
-  setAlert
+  setAlert,
+  addMessage
 })(Conversation);

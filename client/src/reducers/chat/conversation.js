@@ -1,7 +1,8 @@
 import {
   ALL_CONVERSATIONS_LOADED,
   CONVERSATION_ERROR,
-  CONVERSATION_LOADED
+  CONVERSATION_LOADED,
+  MESSAGE_ADDED
 } from '../../actions/types';
 
 const initialState = {
@@ -28,6 +29,13 @@ export default function(state = initialState, action) {
         loading: false,
         errors: null,
         conversation: payload
+      };
+    case MESSAGE_ADDED:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        conversation: { ...state.conversation, messages: payload.messages }
       };
     case CONVERSATION_ERROR:
       return {

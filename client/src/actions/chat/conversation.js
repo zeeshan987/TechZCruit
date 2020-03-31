@@ -1,7 +1,8 @@
 import {
   CONVERSATION_ERROR,
   ALL_CONVERSATIONS_LOADED,
-  CONVERSATION_LOADED
+  CONVERSATION_LOADED,
+  MESSAGE_ADDED
 } from '../types';
 import axios from 'axios';
 
@@ -37,4 +38,12 @@ export const getConversationById = id => async dispatch => {
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
+};
+
+// Add a message
+export const addMessage = conversation => dispatch => {
+  dispatch({
+    type: MESSAGE_ADDED,
+    payload: conversation
+  });
 };

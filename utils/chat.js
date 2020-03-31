@@ -10,7 +10,14 @@ const addMessage = async (room, user, message) => {
       description: message
     });
 
+    conversation.populate('messages.user', ['name', 'avatar'], (err, res) => {
+      if (err) throw err;
+      return res;
+    });
+
     await conversation.save();
+
+    return conversation;
   } catch (err) {
     console.log(err);
   }
