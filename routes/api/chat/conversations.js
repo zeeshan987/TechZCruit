@@ -76,13 +76,27 @@ router.post(
 
       if (conversations.length > 0) {
         // If a conversation already exists then return that conversation
-        conversation = conversations[0];
+        conversation = await Conversation.findById(conversations[0]._id)
+          .populate('users.user', ['name', 'avatar'])
+          .populate('messages.user', ['name', 'avatar']);
       } else {
         // Else create a new conversation and return that
         conversation = new Conversation();
+
         conversation.users.push({ user: user1 }, { user: user2 });
+
+        conversation.populate('users.user', ['name', 'avatar'], (err, res) => {
+          if (err) throw err;
+          return res;
+        });
+
         await conversation.save();
+
+        conversation = await Conversation.findById(
+          conversation.id
+        ).populate('users.user', ['name', 'avatar']);
       }
+
       res.json(conversation);
     } catch (err) {
       console.log(err);

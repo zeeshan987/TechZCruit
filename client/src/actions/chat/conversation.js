@@ -2,7 +2,8 @@ import {
   CONVERSATION_ERROR,
   ALL_CONVERSATIONS_LOADED,
   CONVERSATION_LOADED,
-  MESSAGE_ADDED
+  MESSAGE_ADDED,
+  CONVERSATION_CREATED
 } from '../types';
 import axios from 'axios';
 
@@ -32,6 +33,33 @@ export const getConversationById = id => async dispatch => {
       type: CONVERSATION_LOADED,
       payload: res.data
     });
+  } catch (err) {
+    dispatch({
+      type: CONVERSATION_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Create a conversation
+export const createConversation = (user1, user2) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  const body = JSON.stringify({ user1, user2 });
+
+  try {
+    const res = await axios.post('/api/chat/conversations', body, config);
+
+    dispatch({
+      type: CONVERSATION_CREATED,
+      payload: res.data
+    });
+
+    return res.data._id;
   } catch (err) {
     dispatch({
       type: CONVERSATION_ERROR,

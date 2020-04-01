@@ -24,6 +24,8 @@ const Conversation = ({
 }) => {
   const [socket, setSocket] = useState(null);
 
+  const [messageBoxRef, setMessageBoxRef] = useState(null);
+
   useEffect(() => {
     // Only get the conversation once not more that once
     if (socket === null && auth.user === null) {
@@ -40,9 +42,18 @@ const Conversation = ({
       socket.on('joinRoom', message => setAlert(message, 'success'));
 
       // When a message is received display it in the message box
-      socket.on('message', conversation => addMessage(conversation));
+      socket.on('message', conversation => {
+        addMessage(conversation);
+
+        // Auto scroll to bottom of message box when a new message is entered
+        messageBoxRef.scrollTop = messageBoxRef.scrollHeight;
+      });
+
+      // Auto scroll to bottom of message box when all messages are loaded
+      messageBoxRef.scrollTop = messageBoxRef.scrollHeight;
     }
-  }, [getConversationById, match.params.id, socket, auth.loading]);
+    // eslint-disable-next-line
+  }, [getConversationById, match.params.id, socket, auth.loading, loading]);
 
   const [formData, setFormData] = useState({
     message: ''
@@ -84,7 +95,7 @@ const Conversation = ({
                 item => item.user._id !== auth.user._id
               )[0].user.name}
           </div>
-          <div className={styles.message_box}>
+          <div className={styles.message_box} ref={el => setMessageBoxRef(el)}>
             {!loading &&
             auth.user !== null &&
             conversation !== null &&

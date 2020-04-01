@@ -1,6 +1,8 @@
 import React, { useEffect, Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { getCampaignById } from '../../../actions/crowdfunding/campaign';
+import { createConversation } from '../../../actions/chat/conversation';
 import { connect } from 'react-redux';
 import CampaignNavigationTabs from './CampaignNavigationTabs';
 import UserInfo from './UserInfo';
@@ -18,7 +20,10 @@ const Campaign = ({
   campaign: { campaign, loading },
   getCampaignById,
   match,
-  auth
+  auth,
+  conversation,
+  createConversation,
+  history
 }) => {
   useEffect(() => {
     getCampaignById(match.params.id);
@@ -30,8 +35,13 @@ const Campaign = ({
     setShowPaymentModal(!showPaymentModal);
   };
 
-  const redirectToChat = () => {
-    console.log('Redirected to chat');
+  const redirectToChat = async () => {
+    const conversationId = await createConversation(
+      auth.user._id,
+      campaign.user._id
+    );
+
+    history.push(`/conversation/${conversationId}`);
   };
 
   return (
@@ -151,13 +161,19 @@ const Campaign = ({
 Campaign.propTypes = {
   campaign: PropTypes.object.isRequired,
   getCampaignById: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  conversation: PropTypes.object.isRequired,
+  createConversation: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   campaign: state.campaign,
-  auth: state.auth
+  auth: state.auth,
+  conversation: state.conversation
 });
+
 export default connect(mapStateToProps, {
-  getCampaignById
-})(Campaign);
+  getCampaignById,
+  createConversation
+})(withRouter(Campaign));
