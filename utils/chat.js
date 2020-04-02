@@ -1,6 +1,6 @@
 const Conversation = require('../models/chat/Conversation');
 
-// Add message
+// Add message to a conversation
 const addMessage = async (room, user, message) => {
   try {
     const conversation = await Conversation.findById(room);

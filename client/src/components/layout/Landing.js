@@ -80,7 +80,9 @@ const Landing = () => {
               <div>
                 <i className='fas fa-wallet fa-2x'></i>
               </div>
-              <strong>Freelance Platform</strong>
+              <strong>
+                <Link to='/freelance'>Freelance Platform</Link>
+              </strong>
               <div>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Assumenda dolorum tenetur aliquid! Optio facere odio, sequi

@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const { check, validationResult } = require('express-validator');
 const auth = require('../../../middleware/auth');
 const Conversation = require('../../../models/chat/Conversation');
-const { check, validationResult } = require('express-validator');
 
 // @route   GET /api/chat/conversations/user
 // @desc    Get all conversations for user

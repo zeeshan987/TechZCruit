@@ -1,10 +1,11 @@
 const express = require('express');
-const connectDB = require('./config/db');
-const fileUpload = require('express-fileupload');
 const http = require('http');
 const socketIO = require('socket.io');
+const fileUpload = require('express-fileupload');
+const connectDB = require('./config/db');
 const { addMessage } = require('./utils/chat');
 
+// Setting up express server to user SocketIO
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
@@ -29,14 +30,14 @@ app.use(
   require('./routes/api/crowdfunding/campaigns')
 );
 app.use('/api/testing/projects', require('./routes/api/testing/projects'));
-
 app.use('/api/ecommerce/products', require('./routes/api/ecommerce/products'));
 app.use('/api/ecommerce/stores', require('./routes/api/ecommerce/stores'));
 app.use('/api/freelance/services', require('./routes/api/freelance/services'));
 app.use('/api/chat/conversations', require('./routes/api/chat/conversations'));
 
-// Setup SocketIO to send and receive messages
+// Setup SocketIO to send and receive messages in real time in chat module
 io.on('connection', socket => {
+  // This is called whenever a user joins the chat
   socket.on('joinRoom', ({ user, room }) => {
     // Add user to the room
     socket.join(room);
@@ -45,6 +46,7 @@ io.on('connection', socket => {
     socket.broadcast.emit('joinRoom', `${user.name} has joined the chat`);
   });
 
+  // This is called whenever the user sends a message
   socket.on('message', async ({ room, user, message }) => {
     // Add message to the conversation
     const conversation = await addMessage(room, user, message);
@@ -54,6 +56,8 @@ io.on('connection', socket => {
   });
 });
 
+// Declare the port that the server will use
 const PORT = process.env.PORT || 5000;
 
+// Start the server on the defined port
 server.listen(PORT, () => console.log(`Server started on PORT ${PORT}`));
