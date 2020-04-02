@@ -34,36 +34,34 @@ const StoreNavigationTabs = ({
                 <Row className='mt-3'>
                   {!loading && products.length > 0 ? (
                     products.map(product => (
-                      <div key={product._id}>
-                        <Col md={3}>
-                          <Card className={styles.card}>
-                            <Card.Img src={placeholder} />
-                            <Card.Body>
-                              <Card.Title
-                                className={`${styles.card_title} text-truncate`}
+                      <Col md={3} key={product._id}>
+                        <Card className={styles.card}>
+                          <Card.Img src={placeholder} />
+                          <Card.Body>
+                            <Card.Title
+                              className={`${styles.card_title} text-truncate`}
+                            >
+                              <Link
+                                to={`/ecommerce/product/${product._id}`}
+                                style={{
+                                  textDecoration: 'none',
+                                  color: 'inherit'
+                                }}
                               >
-                                <Link
-                                  to={`/ecommerce/product/${product._id}`}
-                                  style={{
-                                    textDecoration: 'none',
-                                    color: 'inherit'
-                                  }}
-                                >
-                                  {product.title}
-                                </Link>
-                              </Card.Title>
-                              <Card.Text>
-                                <div className='text-truncate my-2'>
-                                  {product.description}
-                                </div>
-                              </Card.Text>
-                            </Card.Body>
-                            <Card.Footer className='text-truncate'>
-                              <strong>Price: </strong>${product.price}
-                            </Card.Footer>
-                          </Card>
-                        </Col>
-                      </div>
+                                {product.title}
+                              </Link>
+                            </Card.Title>
+                            <Card.Text>
+                              <div className='text-truncate my-2'>
+                                {product.description}
+                              </div>
+                            </Card.Text>
+                          </Card.Body>
+                          <Card.Footer className='text-truncate'>
+                            <strong>Price: </strong>${product.price}
+                          </Card.Footer>
+                        </Card>
+                      </Col>
                     ))
                   ) : (
                     <div className={styles.sub_heading}>No products found</div>

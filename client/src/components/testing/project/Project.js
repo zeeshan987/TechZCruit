@@ -13,12 +13,16 @@ import { StripeProvider, Elements } from 'react-stripe-elements';
 import CustomOfferFrom from './CustomOfferForm';
 import DefaultOfferForm from './DefaultOfferForm';
 import ProjectNavigationTabs from './ProjectNavigationTabs';
+import { createConversation } from '../../../actions/chat/conversation';
+import { withRouter } from 'react-router-dom';
 
 const Project = ({
   project: { loading, project },
   getProjectById,
   match,
-  auth
+  auth,
+  createConversation,
+  history
 }) => {
   useEffect(() => {
     getProjectById(match.params.id);
@@ -40,6 +44,15 @@ const Project = ({
 
   const toggleDefaultOfferPaymentModal = () => {
     setShowDefaultOfferPaymentModal(!showDefaultOfferPaymentModal);
+  };
+
+  const redirectToChat = async () => {
+    const conversationId = await createConversation(
+      auth.user._id,
+      project.user._id
+    );
+
+    history.push(`/conversation/${conversationId}`);
   };
 
   return (
@@ -145,6 +158,18 @@ const Project = ({
                     </div>
                   </Fragment>
                 )}
+              {!loading &&
+                auth.user !== null &&
+                project !== null &&
+                auth.user._id !== project.user._id && (
+                  <Button
+                    variant='dark'
+                    className='mt-3'
+                    onClick={() => redirectToChat()}
+                  >
+                    Chat with owner
+                  </Button>
+                )}
             </Col>
           </Row>
           <Row>
@@ -170,7 +195,9 @@ const Project = ({
 Project.propTypes = {
   project: PropTypes.object.isRequired,
   getProjectById: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  createConversation: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -179,5 +206,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  getProjectById
-})(Project);
+  getProjectById,
+  createConversation
+})(withRouter(Project));

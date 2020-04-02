@@ -5,6 +5,7 @@ import {
   likeProduct,
   unlikeProduct
 } from '../../../actions/ecommerce/product';
+import { createConversation } from '../../../actions/chat/conversation';
 import { connect } from 'react-redux';
 import ProductNavigationTabs from './ProductNavigationTabs';
 import UserInfo from './UserInfo';
@@ -16,7 +17,7 @@ import styles from '../../../css/ecommerce/product/style.module.css';
 import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 const Product = ({
   product: { product, loading },
@@ -24,7 +25,9 @@ const Product = ({
   match,
   auth,
   likeProduct,
-  unlikeProduct
+  unlikeProduct,
+  createConversation,
+  history
 }) => {
   useEffect(() => {
     getProductById(match.params.id);
@@ -57,6 +60,15 @@ const Product = ({
       default:
         return 'Other';
     }
+  };
+
+  const redirectToChat = async () => {
+    const conversationId = await createConversation(
+      auth.user._id,
+      product.user._id
+    );
+
+    history.push(`/conversation/${conversationId}`);
   };
 
   return (
@@ -143,13 +155,26 @@ const Product = ({
                 auth.user !== null &&
                 product !== null &&
                 auth.user._id !== product.user._id && (
-                  <Button
-                    variant='primary'
-                    className={`mt-3 ${styles.btn_primary}`}
-                    onClick={() => toggleModal()}
-                  >
-                    Buy this product
-                  </Button>
+                  <Fragment>
+                    <div>
+                      <Button
+                        variant='primary'
+                        className={`mt-3 ${styles.btn_primary}`}
+                        onClick={() => toggleModal()}
+                      >
+                        Buy this product
+                      </Button>
+                    </div>
+                    <div>
+                      <Button
+                        variant='dark'
+                        className='mt-3'
+                        onClick={() => redirectToChat()}
+                      >
+                        Chat with owner
+                      </Button>
+                    </div>
+                  </Fragment>
                 )}
             </Col>
           </Row>
@@ -178,7 +203,9 @@ Product.propTypes = {
   getProductById: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   likeProduct: PropTypes.func.isRequired,
-  unlikeProduct: PropTypes.func.isRequired
+  unlikeProduct: PropTypes.func.isRequired,
+  createConversation: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -188,5 +215,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   getProductById,
   likeProduct,
-  unlikeProduct
-})(Product);
+  unlikeProduct,
+  createConversation
+})(withRouter(Product));

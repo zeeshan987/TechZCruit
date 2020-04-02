@@ -13,12 +13,16 @@ import { StripeProvider, Elements } from 'react-stripe-elements';
 import CustomRequestForm from './CustomRequestForm';
 import DefaultRequestForm from './DefaultRequestForm';
 import ServiceNavigationTabs from './ServiceNavigationTabs';
+import { createConversation } from '../../../actions/chat/conversation';
+import { withRouter } from 'react-router-dom';
 
 const Service = ({
   service: { loading, service },
   getServiceById,
   match,
-  auth
+  auth,
+  createConversation,
+  history
 }) => {
   useEffect(() => {
     getServiceById(match.params.id);
@@ -40,6 +44,15 @@ const Service = ({
 
   const toggleDefaultOfferPaymentModal = () => {
     setShowDefaultOfferPaymentModal(!showDefaultOfferPaymentModal);
+  };
+
+  const redirectToChat = async () => {
+    const conversationId = await createConversation(
+      auth.user._id,
+      service.user._id
+    );
+
+    history.push(`/conversation/${conversationId}`);
   };
 
   return (
@@ -105,7 +118,8 @@ const Service = ({
                   ${!loading && service !== null ? service.amount : ''}
                 </h3>
               </div>
-              {service !== null &&
+              {!loading &&
+                service !== null &&
                 auth.user !== null &&
                 service.user._id !== auth.user._id && (
                   <Fragment>
@@ -125,6 +139,15 @@ const Service = ({
                         onClick={() => toggleCustomOfferPaymentModal()}
                       >
                         Request custom service
+                      </Button>
+                    </div>
+                    <div>
+                      <Button
+                        variant='dark'
+                        className='mt-3'
+                        onClick={() => redirectToChat()}
+                      >
+                        Chat with owner
                       </Button>
                     </div>
                   </Fragment>
@@ -154,7 +177,9 @@ const Service = ({
 Service.propTypes = {
   service: PropTypes.object.isRequired,
   getServiceById: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  createConversation: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -163,5 +188,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  getServiceById
-})(Service);
+  getServiceById,
+  createConversation
+})(withRouter(Service));
