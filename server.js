@@ -56,8 +56,6 @@ io.on('connection', socket => {
   });
 });
 
-// Declare the port that the server will use
 const PORT = process.env.PORT || 5000;
 
-// Start the server on the defined port
 server.listen(PORT, () => console.log(`Server started on PORT ${PORT}`));

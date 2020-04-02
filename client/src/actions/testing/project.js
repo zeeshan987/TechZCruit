@@ -16,8 +16,7 @@ import {
   PROJECT_TESTCASE_PASSED,
   PROJECT_TESTCASE_FAILED,
   COMMENT_ADDED_PROJECT,
-  COMMENT_REMOVED_PROJECT,
-  COMMENT_ERROR_PROJECT
+  COMMENT_REMOVED_PROJECT
 } from '../../actions/types';
 import axios from 'axios';
 import { setAlert } from '../../actions/alert';
@@ -454,7 +453,7 @@ export const deleteCommentOnProject = (
     dispatch(setAlert('Comment removed', 'success'));
   } catch (err) {
     dispatch({
-      type: COMMENT_ERROR_PROJECT,
+      type: PROJECT_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }

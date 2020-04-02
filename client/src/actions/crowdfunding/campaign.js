@@ -7,7 +7,6 @@ import {
   All_CAMPAIGNS_LOADED_FOR_USER,
   CAMPAIGN_UPDATED,
   CAMPAIGN_DELETED,
-  COMMENT_ERROR_CAMPAIGN,
   COMMENT_REMOVED_CAMPAIGN,
   CAMPAIGN_SUPPORTED
 } from '../types';
@@ -193,7 +192,7 @@ export const deleteCommentOnCampaign = (
     dispatch(setAlert('Comment removed', 'success'));
   } catch (err) {
     dispatch({
-      type: COMMENT_ERROR_CAMPAIGN,
+      type: CAMPAIGN_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
