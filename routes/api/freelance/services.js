@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
+const stripe = require('stripe')('sk_test_XlhQvFYUTZ4qdeqnN3X3RVTX00CoTYt5Sz');
 const auth = require('../../../middleware/auth');
 const Service = require('../../../models/freelance/Service');
-const stripe = require('stripe')('sk_test_XlhQvFYUTZ4qdeqnN3X3RVTX00CoTYt5Sz');
 
 // @route   GET /api/freelance/services
 // @desc    Get all services
