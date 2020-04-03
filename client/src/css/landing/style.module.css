@@ -29,6 +29,7 @@
   text-align: center;
   font-size: 1.6rem;
   color: white;
+  margin: 0 3rem;
   animation: description 1.3s 1;
 }
 
@@ -99,5 +100,23 @@
   }
   to {
     top: 20vh;
+  }
+}
+
+@media (max-width: 576px) {
+  .main_title {
+    font-size: 3.1rem;
+  }
+
+  .description {
+    font-size: 1.25rem;
+  }
+
+  .banner {
+    height: 55vh;
+  }
+
+  .heading {
+    font-size: 1.35rem;
   }
 }
