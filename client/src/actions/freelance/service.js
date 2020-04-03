@@ -1,17 +1,17 @@
 import {
   All_SERVICES_LOADED,
-  SERVICE_ERROR,
+  All_SERVICES_LOADED_FOR_CURRENT_USER,
   SERVICE_LOADED,
+  SERVICE_CREATED,
+  SERVICE_UPDATED,
+  SERVICE_REQUEST_SENT,
+  SERVICE_SERVICE_ADDED,
+  SERVICE_SERVICE_FINISHED,
   REVIEW_ADDED_SERVICE,
   REVIEW_REMOVED_SERVICE,
-  SERVICE_REQUEST_SENT,
-  All_SERVICES_LOADED_FOR_CURRENT_USER,
-  SERVICE_CREATED,
-  SERVICE_REMOVED,
-  SERVICE_UPDATED,
   SERVICE_REQUEST_REMOVED,
-  SERVICE_SERVICE_ADDED,
-  SERVICE_SERVICE_FINISHED
+  SERVICE_REMOVED,
+  SERVICE_ERROR
 } from '../../actions/types';
 import axios from 'axios';
 import { setAlert } from '../../actions/alert';
@@ -52,23 +52,6 @@ export const searchService = description => async dispatch => {
     });
   }
 };
-
-// // Get all ongoing projects for user
-// export const getAllOngoingProjectsForCurrentUser = () => async dispatch => {
-//   try {
-//     const res = await axios.get('/api/testing/projects/user/ongoing');
-
-//     dispatch({
-//       type: ALL_ONGOING_PROJECTS_LOADED_FOR_USER,
-//       payload: res.data
-//     });
-//   } catch (err) {
-//     dispatch({
-//       type: PROJECT_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status }
-//     });
-//   }
-// };
 
 // Get service by id
 export const getServiceById = id => async dispatch => {
@@ -134,6 +117,77 @@ export const createService = (formData, history) => async dispatch => {
       type: SERVICE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
+  }
+};
+
+// Add service to service
+export const addServiceToService = (serviceId, requestId) => async dispatch => {
+  try {
+    const res = await axios.put(
+      `/api/freelance/services/${serviceId}/${requestId}`
+    );
+
+    dispatch({
+      type: SERVICE_SERVICE_ADDED,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Service added', 'success'));
+  } catch (err) {
+    dispatch({
+      type: SERVICE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Finish service for a service
+export const finishServiceForService = (id, serviceId) => async dispatch => {
+  try {
+    const res = await axios.put(
+      `/api/freelance/services/finish/${id}/${serviceId}`
+    );
+
+    dispatch({
+      type: SERVICE_SERVICE_FINISHED,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Service finished', 'success'));
+  } catch (err) {
+    dispatch({
+      type: SERVICE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Review on service
+export const reviewOnService = (id, formData) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  try {
+    const res = await axios.put(
+      `/api/freelance/services/review/${id}`,
+      formData,
+      config
+    );
+
+    dispatch({
+      type: REVIEW_ADDED_SERVICE,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Review added', 'success'));
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
   }
 };
 
@@ -229,72 +283,6 @@ export const deleteService = id => async dispatch => {
   }
 };
 
-// // Delete a testcase for a project
-// export const deleteTestcaseForProject = (
-//   projectId,
-//   testCaseId
-// ) => async dispatch => {
-//   try {
-//     const res = await axios.delete(
-//       `/api/testing/projects/testcase/${projectId}/${testCaseId}`
-//     );
-
-//     dispatch({
-//       type: PROJECT_TESTCASE_DELETED,
-//       payload: res.data
-//     });
-
-//     dispatch(setAlert('Test case removed', 'success'));
-//   } catch (err) {
-//     dispatch({
-//       type: PROJECT_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status }
-//     });
-//   }
-// };
-
-// // Create a testcase for a project
-// export const createTestcaseForProject = (
-//   projectId,
-//   formData,
-//   history
-// ) => async dispatch => {
-//   const config = {
-//     headers: {
-//       'Content-Type': 'application/json'
-//     }
-//   };
-
-//   try {
-//     const res = await axios.put(
-//       `/api/testing/projects/testcase/${projectId}`,
-//       formData,
-//       config
-//     );
-
-//     dispatch({
-//       type: PROJECT_TESTCASE_CREATED,
-//       payload: res.data
-//     });
-
-//     dispatch(setAlert('Test case created', 'success'));
-
-//     history.push(`/testing/project/testcases/${projectId}`);
-//   } catch (err) {
-//     console.log(err);
-//     const errors = err.response.data.errors;
-
-//     if (errors) {
-//       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
-//     }
-
-//     dispatch({
-//       type: PROJECT_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status }
-//     });
-//   }
-// };
-
 // Delete a request for a service
 export const deleteRequestForService = (
   serviceId,
@@ -316,125 +304,6 @@ export const deleteRequestForService = (
       type: SERVICE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
-  }
-};
-
-// Add service to service
-export const addServiceToService = (serviceId, requestId) => async dispatch => {
-  try {
-    const res = await axios.put(
-      `/api/freelance/services/${serviceId}/${requestId}`
-    );
-
-    dispatch({
-      type: SERVICE_SERVICE_ADDED,
-      payload: res.data
-    });
-
-    dispatch(setAlert('Service added', 'success'));
-  } catch (err) {
-    dispatch({
-      type: SERVICE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    });
-  }
-};
-
-// Finish service for a service
-export const finishServiceForService = (id, serviceId) => async dispatch => {
-  try {
-    const res = await axios.put(
-      `/api/freelance/services/finish/${id}/${serviceId}`
-    );
-
-    dispatch({
-      type: SERVICE_SERVICE_FINISHED,
-      payload: res.data
-    });
-
-    dispatch(setAlert('Service finished', 'success'));
-  } catch (err) {
-    dispatch({
-      type: SERVICE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    });
-  }
-};
-
-// // Pass a test case for a project
-// export const passTestcaseForProject = (
-//   projectId,
-//   testCaseId
-// ) => async dispatch => {
-//   try {
-//     const res = await axios.put(
-//       `/api/testing/projects/testcase/pass/${projectId}/${testCaseId}`
-//     );
-
-//     dispatch({
-//       type: PROJECT_TESTCASE_PASSED,
-//       payload: res.data
-//     });
-
-//     dispatch(setAlert('Project test case passed', 'success'));
-//   } catch (err) {
-//     dispatch({
-//       type: PROJECT_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status }
-//     });
-//   }
-// };
-
-// // Fail a test case for a project
-// export const failTestcaseForProject = (
-//   projectId,
-//   testCaseId
-// ) => async dispatch => {
-//   try {
-//     const res = await axios.put(
-//       `/api/testing/projects/testcase/fail/${projectId}/${testCaseId}`
-//     );
-
-//     dispatch({
-//       type: PROJECT_TESTCASE_FAILED,
-//       payload: res.data
-//     });
-
-//     dispatch(setAlert('Project test case failed', 'success'));
-//   } catch (err) {
-//     dispatch({
-//       type: PROJECT_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status }
-//     });
-//   }
-// };
-
-// Review on service
-export const reviewOnService = (id, formData) => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-
-  try {
-    const res = await axios.put(
-      `/api/freelance/services/review/${id}`,
-      formData,
-      config
-    );
-
-    dispatch({
-      type: REVIEW_ADDED_SERVICE,
-      payload: res.data
-    });
-
-    dispatch(setAlert('Review added', 'success'));
-  } catch (err) {
-    const errors = err.response.data.errors;
-    if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
-    }
   }
 };
 
