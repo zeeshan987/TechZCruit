@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   ALL_CONVERSATIONS_LOADED,
   CONVERSATION_LOADED,
@@ -5,7 +6,6 @@ import {
   MESSAGE_ADDED,
   CONVERSATION_ERROR
 } from '../types';
-import axios from 'axios';
 
 // Get all conversations for user
 export const getAllConversationsForCurrentUser = () => async dispatch => {

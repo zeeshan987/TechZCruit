@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   All_PRODUCTS_LOADED,
   All_PRODUCTS_LOADED_FOR_STORE,
@@ -13,7 +14,6 @@ import {
   PRODUCT_ERROR
 } from '../types';
 import { setAlert } from '../alert';
-import axios from 'axios';
 
 //  Get Product by id
 export const getProductById = id => async dispatch => {

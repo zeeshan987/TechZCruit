@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   All_SERVICES_LOADED,
   All_SERVICES_LOADED_FOR_CURRENT_USER,
@@ -13,7 +14,6 @@ import {
   SERVICE_REMOVED,
   SERVICE_ERROR
 } from '../../actions/types';
-import axios from 'axios';
 import { setAlert } from '../../actions/alert';
 
 // Get all services

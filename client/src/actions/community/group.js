@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   ALL_GROUPS_LOADED,
   ALL_GROUPS_LOADED_FOR_USER,
@@ -12,7 +13,6 @@ import {
   GROUP_ERROR
 } from '../types';
 import { setAlert } from '../alert';
-import axios from 'axios';
 
 // Get all groups
 export const getAllGroups = () => async dispatch => {

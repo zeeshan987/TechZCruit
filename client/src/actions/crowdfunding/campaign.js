@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   All_CAMPAIGNS_LOADED,
   All_CAMPAIGNS_LOADED_FOR_USER,
@@ -11,7 +12,6 @@ import {
   CAMPAIGN_ERROR
 } from '../types';
 import { setAlert } from '../alert';
-import axios from 'axios';
 
 // Get all campaigns
 export const getAllCampaigns = () => async dispatch => {

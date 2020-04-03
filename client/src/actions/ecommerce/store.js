@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   All_STORES_LOADED,
   All_STORES_LOADED_FOR_CURRENT_USER,
@@ -8,7 +9,6 @@ import {
   STORE_ERROR
 } from '../types';
 import { setAlert } from '../alert';
-import axios from 'axios';
 
 // Get all stores
 export const getAllStores = () => async dispatch => {

@@ -1,18 +1,18 @@
+import axios from 'axios';
 import {
   REGISTER_SUCCESS,
   REGISTER_FAILED,
-  USER_LOADED,
-  AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAILED,
+  USER_LOADED,
+  NAME_UPDATED,
+  PASSWORD_UPDATED,
+  PROFILE_PICTURE_UPLOADED,
+  PROFILE_PICTURE_REMOVED,
   LOGOUT,
   CLEAR_PROFILE,
-  PASSWORD_UPDATED,
-  NAME_UPDATED,
-  PROFILE_PICTURE_UPLOADED,
-  PROFILE_PICTURE_REMOVED
+  AUTH_ERROR
 } from '../actions/types';
-import axios from 'axios';
 import { setAlert } from '../actions/alert';
 import setAuthToken from '../utils/setAuthToken';
 

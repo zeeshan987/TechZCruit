@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   ALL_POSTS_LOADED,
   POST_LOADED,
@@ -10,7 +11,6 @@ import {
   POST_ERROR
 } from '../types';
 import { setAlert } from '../alert';
-import axios from 'axios';
 
 // Get all posts
 export const getAllPosts = groupId => async dispatch => {

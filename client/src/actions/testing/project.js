@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   ALL_PROJECTS_LOADED,
   ALL_PROJECTS_LOADED_FOR_USER,
@@ -18,7 +19,6 @@ import {
   PROJECT_DELETED,
   PROJECT_ERROR
 } from '../../actions/types';
-import axios from 'axios';
 import { setAlert } from '../../actions/alert';
 
 // Get all projects

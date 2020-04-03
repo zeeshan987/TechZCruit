@@ -75,7 +75,6 @@ export default function(state = initialState, action) {
         loading: false,
         errors: payload
       };
-
     default:
       return state;
   }
