@@ -1,4 +1,5 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -15,22 +16,38 @@ import FreelanceRoutes from './components/routing/FreelanceRoutes';
 import BasicRoutes from './components/routing/BasicRoutes';
 import MyConversations from './components/chat/my-conversations/MyConversations';
 import Conversation from './components/chat/conversation/Conversation';
+import windowSize from 'react-window-size';
 import './App.css';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
 
-const App = () => {
+const App = ({ windowWidth }) => {
+  const [userLoaded, setUserLoaded] = useState(false);
+
+  const [displaySideNav, setDisplaySideNav] = useState(
+    localStorage.getItem('displaySideNav')
+  );
+
   useEffect(() => {
-    store.dispatch(loadUser());
-  }, []);
+    if (!userLoaded) {
+      store.dispatch(loadUser());
+      setUserLoaded(true);
+    }
+
+    setDisplaySideNav(windowWidth < 576 ? false : true);
+  }, [windowWidth]);
+
+  const toggleSideNav = () => {
+    setDisplaySideNav(!displaySideNav);
+  };
 
   return (
     <Provider store={store}>
       <Router>
         <Fragment>
-          <Navbar />
+          <Navbar toggleSideNav={toggleSideNav} />
           <Route exact path='/' component={Landing} />
           <Switch>
             {/* MyConversations App Routes */}
@@ -59,4 +76,8 @@ const App = () => {
   );
 };
 
-export default App;
+App.propTypes = {
+  windowWidth: PropTypes.number.isRequired,
+};
+
+export default windowSize(App);

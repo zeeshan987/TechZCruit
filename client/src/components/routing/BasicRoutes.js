@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import PrivateRoute from './PrivateRoute';
 import { Route } from 'react-router-dom';
 import Register from '../../components/auth/Register';
@@ -11,7 +12,7 @@ import AddEducation from '../../components/profile-forms/AddEducation';
 import Profile from '../../components/profile/Profile';
 import Settings from '../../components/settings/Settings';
 
-export const CommunityRoutes = () => {
+export const CommunityRoutes = ({ displaySideNav }) => {
   return (
     <Fragment>
       <Route exact path='/register' component={Register} />
@@ -25,6 +26,10 @@ export const CommunityRoutes = () => {
       <PrivateRoute exact path='/settings' component={Settings} />
     </Fragment>
   );
+};
+
+CommunityRoutes.propTypes = {
+  displaySideNav: PropTypes.bool.isRequired,
 };
 
 export default CommunityRoutes;

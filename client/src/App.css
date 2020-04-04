@@ -56,6 +56,34 @@ body > #root {
   height: 40px;
 }
 
+.navbar button:first-child > i {
+  font-size: 20px;
+}
+
+.navbar button:first-child {
+  background: transparent;
+  border: none;
+  margin-right: 1rem;
+  border-radius: 50%;
+  text-align: center;
+  padding-bottom: 0;
+}
+
+.navbar button:first-child:hover {
+  background: rgb(227, 139, 7, 0.9);
+  border-color: transparent;
+}
+
+.navbar button:first-child:focus {
+  box-shadow: none;
+}
+
+.navbar button:first-child:active {
+  background: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+
 .dropdown-menu {
   right: 0;
   left: auto;

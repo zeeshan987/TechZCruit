@@ -82,6 +82,7 @@
   border-color: transparent;
   color: white;
   margin-right: 1rem;
+  width: 100%;
 }
 
 .btn_primary:hover {
@@ -127,4 +128,40 @@ section::after {
   flex-direction: column;
   justify-content: center;
   border-top: solid 1px white;
+}
+
+@media (max-width: 576px) {
+  .side_nav {
+    visibility: hidden;
+  }
+
+  .content {
+    margin-left: 0;
+    padding-left: 1.3rem;
+    padding-right: 1.3rem;
+  }
+
+  .heading {
+    font-size: 2rem;
+  }
+
+  .heading i {
+    font-size: 2rem;
+  }
+
+  .sub_heading {
+    font-size: 1.5rem;
+  }
+
+  .dash_buttons {
+    flex-direction: column;
+  }
+
+  .dash_buttons > a {
+    margin-top: 10px;
+  }
+
+  .title {
+    font-size: 1.1rem;
+  }
 }
