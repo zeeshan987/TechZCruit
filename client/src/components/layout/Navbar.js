@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { logout } from '../../actions/auth';
+import { logout, toggleSideNav } from '../../actions/auth';
 import {
   Navbar as CustomNavbar,
   Nav,
@@ -10,7 +10,7 @@ import {
 } from 'react-bootstrap';
 
 const Navbar = ({
-  auth: { isAuthenticated, loading, user },
+  auth: { isAuthenticated, loading, user, displaySideNav },
   logout,
   toggleSideNav,
 }) => {
@@ -58,7 +58,7 @@ const Navbar = ({
   return (
     <CustomNavbar bg='dark' expand='lg'>
       {!loading && isAuthenticated && (
-        <Button onClick={() => toggleSideNav()}>
+        <Button onClick={() => toggleSideNav(!displaySideNav)}>
           <i className='fas fa-bars'></i>
         </Button>
       )}
@@ -83,4 +83,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { logout })(Navbar);
+export default connect(mapStateToProps, { logout, toggleSideNav })(Navbar);

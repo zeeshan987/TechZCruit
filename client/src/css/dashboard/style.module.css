@@ -40,6 +40,11 @@
   font-weight: bold;
 }
 
+.hidden {
+  visibility: hidden;
+  font-size: 6rem;
+}
+
 .section {
   min-height: 100%;
   margin-bottom: -70px;
@@ -56,6 +61,10 @@
   padding-bottom: 3rem;
   padding-left: 2.5rem;
   padding-right: 2.5rem;
+}
+
+.side_nav_hidden {
+  margin-left: 0;
 }
 
 .heading {
@@ -131,10 +140,6 @@ section::after {
 }
 
 @media (max-width: 576px) {
-  .side_nav {
-    visibility: hidden;
-  }
-
   .content {
     margin-left: 0;
     padding-left: 1.3rem;
