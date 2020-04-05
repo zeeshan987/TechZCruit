@@ -18,7 +18,7 @@ body > #root {
   position: fixed;
   width: 100%;
   top: 0;
-  z-index: 1;
+  z-index: 2;
   background-image: linear-gradient(to right, #ff9a03, #e38b07);
   border-bottom: solid 1px white;
 }
@@ -64,7 +64,7 @@ body > #root {
   background: transparent;
   border: none;
   margin-right: 1rem;
-  border-radius: 50%;
+  border-radius: 5px;
   text-align: center;
   padding-bottom: 0;
 }

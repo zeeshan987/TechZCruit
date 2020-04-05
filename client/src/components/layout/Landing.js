@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import styles from '../../css/landing/style.module.css';
 import { Row, Col } from 'react-bootstrap';
 import Footer from './Footer';
+import styles from '../../css/landing/style.module.css';
 
 const Landing = () => {
   return (

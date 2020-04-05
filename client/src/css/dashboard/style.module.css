@@ -40,11 +40,6 @@
   font-weight: bold;
 }
 
-.hidden {
-  visibility: hidden;
-  font-size: 6rem;
-}
-
 .section {
   min-height: 100%;
   margin-bottom: -70px;
@@ -61,6 +56,10 @@
   padding-bottom: 3rem;
   padding-left: 2.5rem;
   padding-right: 2.5rem;
+}
+
+.hidden {
+  visibility: hidden;
 }
 
 .side_nav_hidden {
@@ -117,10 +116,6 @@
 .form-text {
   text-align: center;
   margin-top: 2rem;
-}
-
-.form-text a {
-  font-size: inherit;
 }
 
 .footer,
