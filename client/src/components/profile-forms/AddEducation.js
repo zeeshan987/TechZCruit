@@ -52,7 +52,7 @@ const AddEducation = ({
 
   return (
     <Fragment>
-      <section section={styles.section}>
+      <section className={styles.section}>
         <SideNav styles={styles} />
 
         <div
