@@ -15,7 +15,7 @@ const GroupMemberItem = ({
   removeMemberFromGroup,
   styles,
   createConversation,
-  history
+  history,
 }) => {
   const redirectToChat = async () => {
     const conversationId = await createConversation(
@@ -29,12 +29,12 @@ const GroupMemberItem = ({
   return (
     <Fragment>
       <Row className={styles.list_item}>
-        <Col md={2}>
+        <Col xs={12} md={3}>
           <Link to={`/profile/${member._id}`}>
             <img src={member.avatar} alt='' className='round-img' />
           </Link>
         </Col>
-        <Col md={10}>
+        <Col xs={12} md={9}>
           <h2>{member.name}</h2>
           <div>
             {isAdmin && (
@@ -75,10 +75,10 @@ GroupMemberItem.propTypes = {
   removeMemberFromGroup: PropTypes.func.isRequired,
   styles: PropTypes.object.isRequired,
   createConversation: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
 };
 
 export default connect(null, {
   removeMemberFromGroup,
-  createConversation
+  createConversation,
 })(withRouter(GroupMemberItem));

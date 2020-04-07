@@ -8,28 +8,35 @@ import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';
 import { Row, Form, Button } from 'react-bootstrap';
+import { toggleSideNav } from '../../../actions/auth';
+import windowSize from 'react-window-size';
 
 const Groups = ({
   getAllGroups,
   group: { loading, groups },
   auth,
-  searchGroup
+  searchGroup,
+  toggleSideNav,
+  windowWidth,
 }) => {
   useEffect(() => {
     getAllGroups();
-  }, [getAllGroups]);
+
+    toggleSideNav(windowWidth >= 576);
+    // eslint-disable-next-line
+  }, [getAllGroups, toggleSideNav]);
 
   const [formData, setFormData] = useState({
-    description: ''
+    description: '',
   });
 
   const { description } = formData;
 
-  const onChange = e => {
+  const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     if (description === '') {
       getAllGroups();
@@ -43,20 +50,24 @@ const Groups = ({
       <section className={styles.section}>
         <SideNav styles={styles} />
 
-        <div className={styles.content}>
+        <div
+          className={`${styles.content} ${
+            !auth.displaySideNav ? styles.side_nav_hidden : ''
+          }`}
+        >
           <Alert />
           <div className={styles.heading}>Community</div>
           <div className={styles.sub_heading}>
             Become a part of a group to view posts and discussions.
           </div>
-          <Form onSubmit={e => onSubmit(e)}>
+          <Form onSubmit={(e) => onSubmit(e)}>
             <Form.Group>
               <Form.Control
                 type='text'
                 name='description'
                 value={description}
                 placeholder='Search groups'
-                onChange={e => onChange(e)}
+                onChange={(e) => onChange(e)}
               />
             </Form.Group>
             <Form.Group>
@@ -65,7 +76,7 @@ const Groups = ({
           </Form>
           <Row>
             {!loading && groups.length > 0 ? (
-              groups.map(group => (
+              groups.map((group) => (
                 <GroupItem
                   key={group._id}
                   group={group}
@@ -89,15 +100,18 @@ Groups.propTypes = {
   getAllGroups: PropTypes.func.isRequired,
   group: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  searchGroup: PropTypes.func.isRequired
+  searchGroup: PropTypes.func.isRequired,
+  toggleSideNav: PropTypes.func.isRequired,
+  windowWidth: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   group: state.group,
-  auth: state.auth
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, {
   getAllGroups,
-  searchGroup
-})(Groups);
+  searchGroup,
+  toggleSideNav,
+})(windowSize(Groups));
