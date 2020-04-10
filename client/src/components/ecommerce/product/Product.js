@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   getProductById,
   likeProduct,
-  unlikeProduct
+  unlikeProduct,
 } from '../../../actions/ecommerce/product';
 import { createConversation } from '../../../actions/chat/conversation';
 import { connect } from 'react-redux';
@@ -18,6 +18,8 @@ import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';
 import { Link, withRouter } from 'react-router-dom';
+import { toggleSideNav } from '../../../actions/auth';
+import windowSize from 'react-window-size';
 
 const Product = ({
   product: { product, loading },
@@ -27,11 +29,16 @@ const Product = ({
   likeProduct,
   unlikeProduct,
   createConversation,
-  history
+  history,
+  toggleSideNav,
+  windowWidth,
 }) => {
   useEffect(() => {
     getProductById(match.params.id);
-  }, [getProductById, match.params.id]);
+
+    toggleSideNav(windowWidth >= 576);
+    // eslint-disable-next-line
+  }, [getProductById, match.params.id, toggleSideNav]);
 
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
@@ -39,7 +46,7 @@ const Product = ({
     setShowPaymentModal(!showPaymentModal);
   };
 
-  const getCategory = category => {
+  const getCategory = (category) => {
     switch (category) {
       case 1:
         return 'Web';
@@ -76,7 +83,11 @@ const Product = ({
       <section className={styles.section}>
         <SideNav styles={styles} />
 
-        <div className={styles.content}>
+        <div
+          className={`${styles.content} ${
+            !auth.displaySideNav ? styles.side_nav_hidden : ''
+          }`}
+        >
           <Alert />
           <Modal show={showPaymentModal} onHide={() => toggleModal()} centered>
             <Modal.Header closeButton>
@@ -98,14 +109,10 @@ const Product = ({
             {!loading && product !== null && product.title}
           </div>
           <Row className='my-3'>
-            <Col md={8}>
-              <img
-                src={placeholder}
-                alt=''
-                style={{ width: '100%', height: '500px' }}
-              />
+            <Col xs={12} md={8}>
+              <img src={placeholder} alt='' className={styles.image} />
             </Col>
-            <Col className='p-3' md={4}>
+            <Col className='p-3' xs={12} md={4}>
               <div>
                 <div>Category:</div>
                 <div className={styles.sub_heading}>
@@ -123,19 +130,19 @@ const Product = ({
               <div>
                 <div className='mt-3 mb-2'>Store:</div>
                 <Link
-                  to={`/ecommerce/store/${!loading &&
-                    product !== null &&
-                    product.store._id}`}
+                  to={`/ecommerce/store/${
+                    !loading && product !== null && product.store._id
+                  }`}
                   style={{ textDecoration: 'none', color: 'inherit' }}
                   className={styles.sub_heading}
                 >
                   {!loading && product !== null && product.store.name}
                 </Link>
               </div>
-              <div className='my-2'>
+              <div>
                 <Button
                   variant='dark'
-                  className='m-1'
+                  className='mt-3'
                   onClick={() => likeProduct(product._id)}
                 >
                   <i className='fas fa-thumbs-up'></i>{' '}
@@ -143,9 +150,11 @@ const Product = ({
                     ? product.likes.length
                     : ''}
                 </Button>
+              </div>
+              <div>
                 <Button
                   variant='dark'
-                  className='m-1'
+                  className='mt-3'
                   onClick={() => unlikeProduct(product._id)}
                 >
                   <i className='fas fa-thumbs-down'></i>
@@ -179,14 +188,14 @@ const Product = ({
             </Col>
           </Row>
           <Row>
-            <Col md={8}>
+            <Col xs={12} md={8}>
               <ProductNavigationTabs
                 product={product}
                 auth={auth}
                 styles={styles}
               />
             </Col>
-            <Col className='p-3' md={4}>
+            <Col xs={12} className='p-3' md={4}>
               <UserInfo product={product} styles={styles} />
             </Col>
           </Row>
@@ -205,16 +214,19 @@ Product.propTypes = {
   likeProduct: PropTypes.func.isRequired,
   unlikeProduct: PropTypes.func.isRequired,
   createConversation: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  toggleSideNav: PropTypes.func.isRequired,
+  windowWidth: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   product: state.product,
-  auth: state.auth
+  auth: state.auth,
 });
 export default connect(mapStateToProps, {
   getProductById,
   likeProduct,
   unlikeProduct,
-  createConversation
-})(withRouter(Product));
+  createConversation,
+  toggleSideNav,
+})(withRouter(windowSize(Product)));
