@@ -85,41 +85,7 @@
   transition-duration: 300ms;
   margin-bottom: 1rem;
 }
-btn_primary {
-  background: #ff9a03;
-  border-color: transparent;
-  color: white;
-  margin-right: 1rem;
-}
 
-.btn_primary:hover {
-  background: #e38b07;
-  border-color: transparent;
-}
-
-.btn_primary:focus {
-  box-shadow: none;
-}
-
-.btn_primary:active {
-  background: #e38b07 !important;
-  box-shadow: none !important;
-  border-color: transparent !important;
-}
-
-.dash_buttons {
-  display: flex;
-  margin-top: 1rem;
-}
-
-.form-text {
-  text-align: center;
-  margin-top: 2rem;
-}
-
-.form-text a {
-  font-size: inherit;
-}
 .card:hover {
   transform: scale(1.1);
   box-shadow: 2px 2px rgb(177, 177, 177);

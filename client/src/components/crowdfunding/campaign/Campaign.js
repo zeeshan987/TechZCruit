@@ -170,6 +170,8 @@ Campaign.propTypes = {
   auth: PropTypes.object.isRequired,
   createConversation: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  toggleSideNav: PropTypes.func.isRequired,
+  windowWidth: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
