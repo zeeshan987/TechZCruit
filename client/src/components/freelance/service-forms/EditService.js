@@ -5,33 +5,38 @@ import { connect } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import {
   getServiceById,
-  updateService
+  updateService,
 } from '../../../actions/freelance/service';
 import styles from '../../../css/freelance/service-forms/style.module.css';
 import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';
+import { toggleSideNav } from '../../../actions/auth';
+import windowSize from 'react-window-size';
 
 const EditCampaign = ({
   getServiceById,
   match,
   service: { service, loading },
   updateService,
-  history
+  history,
+  toggleSideNav,
+  windowWidth,
+  auth: { displaySideNav },
 }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    amount: ''
+    amount: '',
   });
 
   const { title, description, amount } = formData;
 
-  const onChange = e => {
+  const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     updateService(match.params.id, formData, history);
   };
@@ -42,17 +47,23 @@ const EditCampaign = ({
     setFormData({
       title: !loading && service.title ? service.title : '',
       description: !loading && service.description ? service.description : '',
-      amount: !loading && service.amount ? service.amount : ''
+      amount: !loading && service.amount ? service.amount : '',
     });
+
+    toggleSideNav(windowWidth >= 576);
     // eslint-disable-next-line
-  }, [getServiceById, loading]);
+  }, [getServiceById, loading, toggleSideNav]);
 
   return (
     <Fragment>
       <section className={styles.section}>
         <SideNav styles={styles} />
 
-        <div className={styles.content}>
+        <div
+          className={`${styles.content} ${
+            !displaySideNav ? styles.side_nav_hidden : ''
+          }`}
+        >
           <Alert />
           <div className={styles.heading}>
             <i className='fas fa-user'></i> Edit Service
@@ -60,14 +71,14 @@ const EditCampaign = ({
           <div className={styles.sub_heading}>
             Fill in the following information to edit your service
           </div>
-          <Form onSubmit={e => onSubmit(e)}>
+          <Form onSubmit={(e) => onSubmit(e)}>
             <Form.Group>
               <Form.Control
                 type='text'
                 placeholder='Service title'
                 name='title'
                 value={title}
-                onChange={e => onChange(e)}
+                onChange={(e) => onChange(e)}
               />
             </Form.Group>
             <Form.Group>
@@ -77,7 +88,7 @@ const EditCampaign = ({
                 placeholder='Service description'
                 name='description'
                 value={description}
-                onChange={e => onChange(e)}
+                onChange={(e) => onChange(e)}
               />
             </Form.Group>
             <Form.Group>
@@ -86,7 +97,7 @@ const EditCampaign = ({
                 placeholder='Amount'
                 name='amount'
                 value={amount}
-                onChange={e => onChange(e)}
+                onChange={(e) => onChange(e)}
               />
             </Form.Group>
             <Button
@@ -115,14 +126,19 @@ const EditCampaign = ({
 EditCampaign.propTypes = {
   getServiceById: PropTypes.func.isRequired,
   service: PropTypes.object.isRequired,
-  updateService: PropTypes.func.isRequired
+  updateService: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  toggleSideNav: PropTypes.func.isRequired,
+  windowWidth: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = state => ({
-  service: state.service
+const mapStateToProps = (state) => ({
+  service: state.service,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, {
   getServiceById,
-  updateService
-})(withRouter(EditCampaign));
+  updateService,
+  toggleSideNav,
+})(withRouter(windowSize(EditCampaign)));

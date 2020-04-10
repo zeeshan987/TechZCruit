@@ -5,7 +5,7 @@ import { Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import {
   deleteRequestForService,
-  addServiceToService
+  addServiceToService,
 } from '../../../actions/freelance/service';
 import { injectStripe } from 'react-stripe-elements';
 
@@ -14,18 +14,18 @@ const ServiceRequests = ({
   deleteRequestForService,
   addServiceToService,
   styles,
-  stripe
+  stripe,
 }) => {
   return (
     <Fragment>
-      {requests.map(request => (
+      {requests.map((request) => (
         <Row className={styles.list_item}>
-          <Col md={2}>
+          <Col xs={12} md={3}>
             <Link to={`/profile/${request.user._id}`}>
               <img src={request.user.avatar} alt='' className='round-img' />
             </Link>
           </Col>
-          <Col md={10}>
+          <Col xs={12} md={9}>
             <h2>{request.user.name}</h2>
             <div className='mb-2'>{request.description}</div>
             <div>
@@ -36,7 +36,7 @@ const ServiceRequests = ({
                 variant='success'
                 onClick={() => {
                   stripe.confirmCardPayment(request.clientSecret, {
-                    payment_method: request.paymentMethodId
+                    payment_method: request.paymentMethodId,
                   });
 
                   addServiceToService(_id, request._id);
@@ -64,10 +64,10 @@ ServiceRequests.propTypes = {
   deleteRequestForService: PropTypes.func.isRequired,
   addServiceToService: PropTypes.func.isRequired,
   styles: PropTypes.object.isRequired,
-  stripe: PropTypes.object.isRequired
+  stripe: PropTypes.object.isRequired,
 };
 
 export default connect(null, {
   deleteRequestForService,
-  addServiceToService
+  addServiceToService,
 })(injectStripe(ServiceRequests));

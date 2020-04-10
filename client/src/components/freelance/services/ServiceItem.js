@@ -6,11 +6,11 @@ import placeholder from '../../../img/placeholder.png';
 
 const ServiceItem = ({
   service: { _id, title, description, amount },
-  styles
+  styles,
 }) => {
   return (
     <Fragment>
-      <Col md={3}>
+      <Col xs={12} md={4} lg={3}>
         <Card className={styles.card}>
           <Card.Img variant='top' src={placeholder} />
           <Card.Body>
@@ -39,7 +39,7 @@ const ServiceItem = ({
 
 ServiceItem.propTypes = {
   service: PropTypes.object.isRequired,
-  styles: PropTypes.object.isRequired
+  styles: PropTypes.object.isRequired,
 };
 
 export default ServiceItem;

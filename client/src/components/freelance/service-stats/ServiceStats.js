@@ -7,18 +7,34 @@ import styles from '../../../css/freelance/service-stats/style.module.css';
 import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';
+import { toggleSideNav } from '../../../actions/auth';
+import windowSize from 'react-window-size';
 
-const ServiceStats = ({ service: { service }, getServiceById, match }) => {
+const ServiceStats = ({
+  service: { service },
+  getServiceById,
+  match,
+  toggleSideNav,
+  windowWidth,
+  auth: { displaySideNav },
+}) => {
   useEffect(() => {
     getServiceById(match.params.id);
-  }, [getServiceById, match.params.id]);
+
+    toggleSideNav(windowWidth >= 576);
+    // eslint-disable-next-line
+  }, [getServiceById, match.params.id, toggleSideNav]);
 
   return (
     <Fragment>
       <section className={styles.section}>
         <SideNav styles={styles} />
 
-        <div className={styles.content}>
+        <div
+          className={`${styles.content} ${
+            !displaySideNav ? styles.side_nav_hidden : ''
+          }`}
+        >
           <Alert />
           <div className={styles.heading}>
             <i className='fas fa-user'></i> Service Statistics
@@ -37,13 +53,18 @@ const ServiceStats = ({ service: { service }, getServiceById, match }) => {
 
 ServiceStats.propTypes = {
   service: PropTypes.object.isRequired,
-  getServiceById: PropTypes.func.isRequired
+  getServiceById: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  toggleSideNav: PropTypes.func.isRequired,
+  windowWidth: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = state => ({
-  service: state.service
+const mapStateToProps = (state) => ({
+  service: state.service,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, {
-  getServiceById
-})(ServiceStats);
+  getServiceById,
+  toggleSideNav,
+})(windowSize(ServiceStats));

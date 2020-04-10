@@ -6,11 +6,11 @@ import { finishServiceForService } from '../../../actions/freelance/service';
 
 const ServiceServices = ({
   service: { _id, services },
-  finishServiceForService
+  finishServiceForService,
 }) => {
   return (
     <Fragment>
-      <Table striped hover className='my-3'>
+      <Table striped hover responsive className='my-3'>
         <thead>
           <tr>
             <th>Customer</th>
@@ -20,7 +20,7 @@ const ServiceServices = ({
           </tr>
         </thead>
         <tbody>
-          {services.map(service => (
+          {services.map((service) => (
             <tr>
               <td>{service.user.name}</td>
               <td>{service.description}</td>
@@ -45,9 +45,9 @@ const ServiceServices = ({
 
 ServiceServices.propTypes = {
   service: PropTypes.object.isRequired,
-  finishServiceForService: PropTypes.func.isRequired
+  finishServiceForService: PropTypes.func.isRequired,
 };
 
 export default connect(null, {
-  finishServiceForService
+  finishServiceForService,
 })(ServiceServices);

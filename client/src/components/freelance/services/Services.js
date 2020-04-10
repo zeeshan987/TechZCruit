@@ -4,34 +4,42 @@ import { Form, Button, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import {
   getAllServices,
-  searchService
+  searchService,
 } from '../../../actions/freelance/service';
 import ServiceItem from './ServiceItem';
 import styles from '../../../css/freelance/services/style.module.css';
 import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';
+import { toggleSideNav } from '../../../actions/auth';
+import windowSize from 'react-window-size';
 
 const Services = ({
   service: { loading, services },
   getAllServices,
-  searchService
+  searchService,
+  toggleSideNav,
+  windowWidth,
+  auth: { displaySideNav },
 }) => {
   useEffect(() => {
     getAllServices();
-  }, [getAllServices]);
+
+    toggleSideNav(windowWidth >= 576);
+    // eslint-disable-next-line
+  }, [getAllServices, toggleSideNav]);
 
   const [formData, setFormData] = useState({
-    description: ''
+    description: '',
   });
 
   const { description } = formData;
 
-  const onChange = e => {
+  const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     if (description === '') {
       getAllServices();
@@ -45,7 +53,11 @@ const Services = ({
       <section className={styles.section}>
         <SideNav styles={styles} />
 
-        <div className={styles.content}>
+        <div
+          className={`${styles.content} ${
+            !displaySideNav ? styles.side_nav_hidden : ''
+          }`}
+        >
           <Alert />
           <div className={styles.heading}>
             <i className='fas fa-user'></i> Freelance Platform
@@ -54,14 +66,14 @@ const Services = ({
             Use this platform to acquire different services or offer people your
             own services
           </div>
-          <Form onSubmit={e => onSubmit(e)}>
+          <Form onSubmit={(e) => onSubmit(e)}>
             <Form.Group>
               <Form.Control
                 type='text'
                 name='description'
                 value={description}
                 placeholder='Search services'
-                onChange={e => onChange(e)}
+                onChange={(e) => onChange(e)}
               />
             </Form.Group>
             <Form.Group>
@@ -70,7 +82,7 @@ const Services = ({
           </Form>
           <Row>
             {!loading && services.length > 0 ? (
-              services.map(service => (
+              services.map((service) => (
                 <ServiceItem
                   key={service._id}
                   service={service}
@@ -92,14 +104,19 @@ const Services = ({
 Services.propTypes = {
   service: PropTypes.object.isRequired,
   getAllServices: PropTypes.func.isRequired,
-  searchService: PropTypes.func.isRequired
+  searchService: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  toggleSideNav: PropTypes.func.isRequired,
+  windowWidth: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = state => ({
-  service: state.service
+const mapStateToProps = (state) => ({
+  service: state.service,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, {
   getAllServices,
-  searchService
-})(Services);
+  searchService,
+  toggleSideNav,
+})(windowSize(Services));

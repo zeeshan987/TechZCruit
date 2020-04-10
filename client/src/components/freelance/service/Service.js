@@ -15,6 +15,8 @@ import DefaultRequestForm from './DefaultRequestForm';
 import ServiceNavigationTabs from './ServiceNavigationTabs';
 import { createConversation } from '../../../actions/chat/conversation';
 import { withRouter } from 'react-router-dom';
+import { toggleSideNav } from '../../../actions/auth';
+import windowSize from 'react-window-size';
 
 const Service = ({
   service: { loading, service },
@@ -22,15 +24,20 @@ const Service = ({
   match,
   auth,
   createConversation,
-  history
+  history,
+  toggleSideNav,
+  windowWidth,
 }) => {
   useEffect(() => {
     getServiceById(match.params.id);
-  }, [getServiceById, match.params.id]);
+
+    toggleSideNav(windowWidth >= 576);
+    // eslint-disable-next-line
+  }, [getServiceById, match.params.id, toggleSideNav]);
 
   const [
     showCustomOfferPaymentModal,
-    setshowCustomOfferPaymentModal
+    setshowCustomOfferPaymentModal,
   ] = useState(false);
 
   const toggleCustomOfferPaymentModal = () => {
@@ -39,7 +46,7 @@ const Service = ({
 
   const [
     showDefaultOfferPaymentModal,
-    setShowDefaultOfferPaymentModal
+    setShowDefaultOfferPaymentModal,
   ] = useState(false);
 
   const toggleDefaultOfferPaymentModal = () => {
@@ -60,9 +67,12 @@ const Service = ({
       <section className={styles.section}>
         <SideNav styles={styles} />
 
-        <div className={styles.content}>
+        <div
+          className={`${styles.content} ${
+            !auth.displaySideNav ? styles.side_nav_hidden : ''
+          }`}
+        >
           <Alert />
-
           <Modal
             show={showDefaultOfferPaymentModal}
             onHide={() => toggleDefaultOfferPaymentModal()}
@@ -104,14 +114,10 @@ const Service = ({
             {!loading && service !== null ? service.title : ''}
           </div>
           <Row className='my-3'>
-            <Col md={8}>
-              <img
-                src={placeholder}
-                alt=''
-                style={{ width: '100%', height: '500px' }}
-              />
+            <Col xs={12} md={8}>
+              <img src={placeholder} alt='' className={styles.image} />
             </Col>
-            <Col className='p-3' md={4}>
+            <Col xs={12} className='p-3' md={4}>
               <div>
                 <div>Price:</div>
                 <h3 className={styles.sub_heading}>
@@ -155,14 +161,14 @@ const Service = ({
             </Col>
           </Row>
           <Row>
-            <Col md={8}>
+            <Col xs={12} md={8}>
               <ServiceNavigationTabs
                 service={service}
                 auth={auth}
                 styles={styles}
               />
             </Col>
-            <Col md={4}>
+            <Col xs={12} md={4}>
               <UserInfo service={service} styles={styles} />
             </Col>
           </Row>
@@ -179,15 +185,18 @@ Service.propTypes = {
   getServiceById: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   createConversation: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  toggleSideNav: PropTypes.func.isRequired,
+  windowWidth: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   service: state.service,
-  auth: state.auth
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, {
   getServiceById,
-  createConversation
-})(withRouter(Service));
+  createConversation,
+  toggleSideNav,
+})(withRouter(windowSize(Service)));

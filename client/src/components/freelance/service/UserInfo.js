@@ -5,16 +5,16 @@ import { Row, Col } from 'react-bootstrap';
 const UserInfo = ({ service, styles }) => {
   return (
     <Fragment>
-      <div className={styles.sub_heading}>Service owner</div>
+      <div className='lead mb-3 mt-1'>Service owner</div>
       <Row>
-        <Col md={12} style={{ textAlign: 'center' }}>
+        <Col xs={12} md={12} style={{ textAlign: 'center' }}>
           <img
             src={service !== null ? service.user.avatar : ''}
             alt=''
-            style={{ width: '200px', height: '200px' }}
+            style={{ width: '150px', height: '150px' }}
             className='round-img'
           />
-          <h3 className='text-primary mt-3'>
+          <h3 className={styles.sub_heading}>
             {service !== null ? service.user.name : ''}
           </h3>
         </Col>
@@ -25,7 +25,7 @@ const UserInfo = ({ service, styles }) => {
 
 UserInfo.propTypes = {
   service: PropTypes.object.isRequired,
-  styles: PropTypes.object.isRequired
+  styles: PropTypes.object.isRequired,
 };
 
 export default UserInfo;

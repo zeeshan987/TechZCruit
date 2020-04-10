@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -8,21 +8,34 @@ import styles from '../../../css/freelance/service-forms/style.module.css';
 import SideNav from '../../layout/SideNav';
 import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';
+import { toggleSideNav } from '../../../actions/auth';
+import windowSize from 'react-window-size';
 
-const CreateService = ({ createService, history }) => {
+const CreateService = ({
+  createService,
+  history,
+  toggleSideNav,
+  windowWidth,
+  auth: { displaySideNav },
+}) => {
+  useEffect(() => {
+    toggleSideNav(windowWidth >= 576);
+    // eslint-disable-next-line
+  }, [toggleSideNav]);
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    amount: ''
+    amount: '',
   });
 
   const { title, description, amount } = formData;
 
-  const onChange = e => {
+  const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     createService(formData, history);
   };
@@ -32,7 +45,11 @@ const CreateService = ({ createService, history }) => {
       <section className={styles.section}>
         <SideNav styles={styles} />
 
-        <div className={styles.content}>
+        <div
+          className={`${styles.content} ${
+            !displaySideNav ? styles.side_nav_hidden : ''
+          }`}
+        >
           <Alert />
           <div className={styles.heading}>
             <i className='fas fa-user'></i> Create Service
@@ -40,14 +57,14 @@ const CreateService = ({ createService, history }) => {
           <div className={styles.sub_heading}>
             Fill in the following information to create your service
           </div>
-          <Form onSubmit={e => onSubmit(e)}>
+          <Form onSubmit={(e) => onSubmit(e)}>
             <Form.Group>
               <Form.Control
                 type='text'
                 placeholder='Service title'
                 name='title'
                 value={title}
-                onChange={e => onChange(e)}
+                onChange={(e) => onChange(e)}
               />
             </Form.Group>
             <Form.Group>
@@ -57,7 +74,7 @@ const CreateService = ({ createService, history }) => {
                 placeholder='Service description'
                 name='description'
                 value={description}
-                onChange={e => onChange(e)}
+                onChange={(e) => onChange(e)}
               />
             </Form.Group>
             <Form.Group>
@@ -66,7 +83,7 @@ const CreateService = ({ createService, history }) => {
                 placeholder='Amount'
                 name='amount'
                 value={amount}
-                onChange={e => onChange(e)}
+                onChange={(e) => onChange(e)}
               />
             </Form.Group>
             <Button
@@ -93,9 +110,17 @@ const CreateService = ({ createService, history }) => {
 };
 
 CreateService.propTypes = {
-  createService: PropTypes.func.isRequired
+  createService: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  toggleSideNav: PropTypes.func.isRequired,
+  windowWidth: PropTypes.number.isRequired,
 };
 
-export default connect(null, {
-  createService
-})(withRouter(CreateService));
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, {
+  createService,
+  toggleSideNav,
+})(withRouter(windowSize(CreateService)));
