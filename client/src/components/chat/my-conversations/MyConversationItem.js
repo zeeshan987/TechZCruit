@@ -8,15 +8,16 @@ const MyConversationItem = ({ conversation: { _id, users }, styles, auth }) => {
   return (
     <Fragment>
       <Row className={styles.list_item}>
-        <Col md={2}>
+        <Col xs={12} md={3}>
           <Link
             to={`/profile/${
-              users.filter(item => item.user._id !== auth.user._id)[0].user._id
+              users.filter((item) => item.user._id !== auth.user._id)[0].user
+                ._id
             }`}
           >
             <img
               src={
-                users.filter(item => item.user._id !== auth.user._id)[0].user
+                users.filter((item) => item.user._id !== auth.user._id)[0].user
                   .avatar
               }
               alt=''
@@ -24,9 +25,12 @@ const MyConversationItem = ({ conversation: { _id, users }, styles, auth }) => {
             />
           </Link>
         </Col>
-        <Col md={10}>
+        <Col xs={12} md={9}>
           <h2>
-            {users.filter(item => item.user._id !== auth.user._id)[0].user.name}
+            {
+              users.filter((item) => item.user._id !== auth.user._id)[0].user
+                .name
+            }
           </h2>
           <div>
             <Button
@@ -46,7 +50,7 @@ const MyConversationItem = ({ conversation: { _id, users }, styles, auth }) => {
 MyConversationItem.propTypes = {
   conversation: PropTypes.object.isRequired,
   styles: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
 };
 
 export default MyConversationItem;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   getConversationById,
-  addMessage
+  addMessage,
 } from '../../../actions/chat/conversation';
 import { setAlert } from '../../../actions/alert';
 import styles from '../../../css/chat/conversation/style.module.css';
@@ -13,6 +13,8 @@ import SideNav from '../../layout/SideNav';
 import Message from './Message';
 import { Form, InputGroup, Button } from 'react-bootstrap';
 import socketIOClient from 'socket.io-client';
+import { toggleSideNav } from '../../../actions/auth';
+import windowSize from 'react-window-size';
 
 const Conversation = ({
   conversation: { loading, conversation },
@@ -20,7 +22,9 @@ const Conversation = ({
   getConversationById,
   match,
   setAlert,
-  addMessage
+  addMessage,
+  toggleSideNav,
+  windowWidth,
 }) => {
   const [socket, setSocket] = useState(null);
 
@@ -39,10 +43,10 @@ const Conversation = ({
       socket.emit('joinRoom', { user: auth.user, room: match.params.id });
 
       // Display message that the other user has joined the chat
-      socket.on('joinRoom', message => setAlert(message, 'success'));
+      socket.on('joinRoom', (message) => setAlert(message, 'success'));
 
       // When a message is received display it in the message box
-      socket.on('message', conversation => {
+      socket.on('message', (conversation) => {
         addMessage(conversation);
 
         // Auto scroll to bottom of message box when a new message is entered
@@ -52,20 +56,29 @@ const Conversation = ({
       // Auto scroll to bottom of message box when all messages are loaded
       messageBoxRef.scrollTop = messageBoxRef.scrollHeight;
     }
+
+    toggleSideNav(windowWidth >= 576);
     // eslint-disable-next-line
-  }, [getConversationById, match.params.id, socket, auth.loading, loading]);
+  }, [
+    getConversationById,
+    match.params.id,
+    socket,
+    auth.loading,
+    loading,
+    toggleSideNav,
+  ]);
 
   const [formData, setFormData] = useState({
-    message: ''
+    message: '',
   });
 
   const { message } = formData;
 
-  const onChange = e => {
+  const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     if (message === '') {
       setAlert('Message is required', 'danger');
@@ -73,7 +86,7 @@ const Conversation = ({
       socket.emit('message', {
         room: match.params.id,
         user: auth.user._id,
-        message
+        message,
       });
       setFormData({ ...formData, message: '' });
     }
@@ -84,7 +97,11 @@ const Conversation = ({
       <section className={styles.section}>
         <SideNav styles={styles} />
 
-        <div className={styles.content}>
+        <div
+          className={`${styles.content} ${
+            !auth.displaySideNav ? styles.side_nav_hidden : ''
+          }`}
+        >
           <Alert />
           <div className={styles.heading}>
             <i className='fas fa-user'></i>{' '}
@@ -92,15 +109,18 @@ const Conversation = ({
               auth.user !== null &&
               conversation !== null &&
               conversation.users.filter(
-                item => item.user._id !== auth.user._id
+                (item) => item.user._id !== auth.user._id
               )[0].user.name}
           </div>
-          <div className={styles.message_box} ref={el => setMessageBoxRef(el)}>
+          <div
+            className={styles.message_box}
+            ref={(el) => setMessageBoxRef(el)}
+          >
             {!loading &&
             auth.user !== null &&
             conversation !== null &&
             conversation.messages.length > 0 ? (
-              conversation.messages.map(message => (
+              conversation.messages.map((message) => (
                 <Message
                   key={message._id}
                   message={message}
@@ -113,21 +133,21 @@ const Conversation = ({
             )}
           </div>
           <div className={styles.input_box}>
-            <Form onSubmit={e => onSubmit(e)}>
+            <Form onSubmit={(e) => onSubmit(e)}>
               <Form.Group style={{ marginBottom: '0' }}>
                 <InputGroup>
                   <Form.Control
                     type='text'
                     name='message'
                     value={message}
-                    onChange={e => onChange(e)}
+                    onChange={(e) => onChange(e)}
                     placeholder='Enter message here'
                   />
                   <InputGroup.Append>
                     <Button
                       variant='success'
                       type='submit'
-                      style={{ width: '150px' }}
+                      style={{ zIndex: '0' }}
                     >
                       <i className='fas fa-paper-plane'></i> Send
                     </Button>
@@ -149,16 +169,19 @@ Conversation.propTypes = {
   auth: PropTypes.object.isRequired,
   getConversationById: PropTypes.func.isRequired,
   setAlert: PropTypes.func.isRequired,
-  addMessage: PropTypes.func.isRequired
+  addMessage: PropTypes.func.isRequired,
+  toggleSideNav: PropTypes.func.isRequired,
+  windowWidth: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   conversation: state.conversation,
-  auth: state.auth
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, {
   getConversationById,
   setAlert,
-  addMessage
-})(Conversation);
+  addMessage,
+  toggleSideNav,
+})(windowSize(Conversation));
