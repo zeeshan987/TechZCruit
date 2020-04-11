@@ -1,28 +1,39 @@
-import React, { useEffect, Fragment, useState } from "react";
-import PropTypes from "prop-types";
-import { getCampaignById } from "../../../actions/crowdfunding/campaign";
-import { connect } from "react-redux";
-import CampaignNavigationTabs from "./CampaignNavigationTabs";
-import UserInfo from "./UserInfo";
-import { Row, Col, Button, Modal } from "react-bootstrap";
-import placeholder from "../../../img/showcase.jpg";
-import Moment from "react-moment";
-import { StripeProvider, Elements } from "react-stripe-elements";
-import SupportForm from "./SupportForm";
-import styles from "../../../css/crowdfunding/campaign/style.module.css";
-import SideNav from "../../layout/SideNav";
-import Alert from "../../layout/Alert";
-import Footer from "../../layout/Footer";
+import React, { useEffect, Fragment, useState } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import { getCampaignById } from '../../../actions/crowdfunding/campaign';
+import { createConversation } from '../../../actions/chat/conversation';
+import { connect } from 'react-redux';
+import CampaignNavigationTabs from './CampaignNavigationTabs';
+import UserInfo from './UserInfo';
+import { Row, Col, Button, Modal } from 'react-bootstrap';
+import placeholder from '../../../img/placeholder.png';
+import Moment from 'react-moment';
+import { StripeProvider, Elements } from 'react-stripe-elements';
+import SupportForm from './SupportForm';
+import styles from '../../../css/crowdfunding/campaign/style.module.css';
+import SideNav from '../../layout/SideNav';
+import Alert from '../../layout/Alert';
+import Footer from '../../layout/Footer';
+import { toggleSideNav } from '../../../actions/auth';
+import windowSize from 'react-window-size';
 
 const Campaign = ({
   campaign: { campaign, loading },
   getCampaignById,
   match,
-  auth
+  auth,
+  createConversation,
+  history,
+  toggleSideNav,
+  windowWidth,
 }) => {
   useEffect(() => {
     getCampaignById(match.params.id);
-  }, [getCampaignById, match.params.id]);
+
+    toggleSideNav(windowWidth >= 576);
+    // eslint-disable-next-line
+  }, [getCampaignById, match.params.id, toggleSideNav]);
 
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
@@ -30,12 +41,25 @@ const Campaign = ({
     setShowPaymentModal(!showPaymentModal);
   };
 
+  const redirectToChat = async () => {
+    const conversationId = await createConversation(
+      auth.user._id,
+      campaign.user._id
+    );
+
+    history.push(`/conversation/${conversationId}`);
+  };
+
   return (
     <Fragment>
       <section className={styles.section}>
         <SideNav styles={styles} />
 
-        <div className={styles.content}>
+        <div
+          className={`${styles.content} ${
+            !auth.displaySideNav ? styles.side_nav_hidden : ''
+          }`}
+        >
           <Alert />
           <Modal show={showPaymentModal} onHide={() => toggleModal()} centered>
             <Modal.Header closeButton>
@@ -44,7 +68,7 @@ const Campaign = ({
             <StripeProvider apiKey='pk_test_qFCTODVMoaT4TXgRvnQ75GPR00dFX40yVb'>
               <Elements>
                 <SupportForm
-                  campaignId={campaign !== null ? campaign._id : ""}
+                  campaignId={campaign !== null ? campaign._id : ''}
                   toggleModal={toggleModal}
                   auth={auth}
                 />
@@ -53,36 +77,32 @@ const Campaign = ({
           </Modal>
 
           <div className={styles.heading}>
-            {!loading && campaign !== null ? campaign.title : ""}
+            {!loading && campaign !== null ? campaign.title : ''}
           </div>
           <Row className='my-3'>
-            <Col md={8}>
-              <img
-                src={placeholder}
-                alt=''
-                style={{ width: "100%", height: "500px" }}
-              />
+            <Col xs={12} md={8}>
+              <img src={placeholder} alt='' className={styles.image} />
             </Col>
-            <Col className='p-3' md={4}>
+            <Col className='p-3' xs={12} md={4}>
               <div>
                 <div>Funds raised:</div>
                 <div className={styles.sub_heading}>
                   $
                   {!loading && campaign !== null
                     ? campaign.supporters
-                        .map(supporter => supporter.amount)
+                        .map((supporter) => supporter.amount)
                         .reduce((a, b) => a + b, 0)
-                    : ""}
+                    : ''}
                 </div>
                 raised of required $
-                {!loading && campaign !== null ? campaign.fundsRequired : ""}
+                {!loading && campaign !== null ? campaign.fundsRequired : ''}
               </div>
               <div>
                 <div className='mt-3'>Supporters:</div>
                 <h3 className={styles.sub_heading}>
                   {!loading && campaign !== null
                     ? campaign.supporters.length
-                    : ""}
+                    : ''}
                 </h3>
               </div>
               <div>
@@ -93,7 +113,7 @@ const Campaign = ({
                       {campaign.completionDate}
                     </Moment>
                   ) : (
-                    ""
+                    ''
                   )}
                 </div>
               </div>
@@ -101,25 +121,38 @@ const Campaign = ({
                 auth.user !== null &&
                 campaign !== null &&
                 auth.user._id !== campaign.user._id && (
-                  <Button
-                    variant='primary'
-                    className={`mt-3 ${styles.btn_primary}`}
-                    onClick={() => toggleModal()}
-                  >
-                    Support this campaign
-                  </Button>
+                  <Fragment>
+                    <div>
+                      <Button
+                        variant='primary'
+                        className={`mt-3 ${styles.btn_primary}`}
+                        onClick={() => toggleModal()}
+                      >
+                        Support
+                      </Button>
+                    </div>
+                    <div>
+                      <Button
+                        variant='dark'
+                        className='mt-3'
+                        onClick={() => redirectToChat()}
+                      >
+                        Chat
+                      </Button>
+                    </div>
+                  </Fragment>
                 )}
             </Col>
           </Row>
           <Row>
-            <Col md={8}>
+            <Col xs={12} md={8}>
               <CampaignNavigationTabs
                 campaign={campaign}
                 auth={auth}
                 styles={styles}
               />
             </Col>
-            <Col className='p-3' md={4}>
+            <Col xs={12} className='p-3' md={4}>
               <UserInfo campaign={campaign} styles={styles} />
             </Col>
           </Row>
@@ -134,13 +167,20 @@ const Campaign = ({
 Campaign.propTypes = {
   campaign: PropTypes.object.isRequired,
   getCampaignById: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  createConversation: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  toggleSideNav: PropTypes.func.isRequired,
+  windowWidth: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   campaign: state.campaign,
-  auth: state.auth
+  auth: state.auth,
 });
+
 export default connect(mapStateToProps, {
-  getCampaignById
-})(Campaign);
+  getCampaignById,
+  createConversation,
+  toggleSideNav,
+})(withRouter(windowSize(Campaign)));

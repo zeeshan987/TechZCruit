@@ -62,7 +62,7 @@ const Login = ({ login, auth: { isAuthenticated, loading } }) => {
           >
             Login
           </Button>
-          <div class={styles.form_text}>
+          <div className={styles.form_text}>
             Don't have an account? <Link to='/register'>Click here</Link> to
             register
           </div>

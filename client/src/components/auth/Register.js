@@ -93,7 +93,7 @@ const Register = ({
           >
             Register
           </Button>
-          <div class={styles.form_text}>
+          <div className={styles.form_text}>
             Already have an account? <Link to='/login'>Click here</Link> to
             login
           </div>

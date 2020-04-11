@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-bootstrap';
+import { v4 as uuidv4 } from 'uuid';
 
 const ProfileAbout = ({
   profile: {
@@ -28,7 +29,7 @@ const ProfileAbout = ({
           </Row>
           <Row className={styles.skills}>
             {skills.map(skill => (
-              <div className='p-2'>
+              <div key={uuidv4()} className='p-2'>
                 <i className='fas fa-check'></i> {skill}
               </div>
             ))}

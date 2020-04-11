@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getCurrentProfile, deleteProfile } from '../../actions/profile';
 import Spinner from '../layout/Spinner';
@@ -12,16 +11,22 @@ import { Button } from 'react-bootstrap';
 import Footer from '../layout/Footer';
 import Alert from '../layout/Alert';
 import SideNav from '../layout/SideNav';
+import { toggleSideNav } from '../../actions/auth';
+import windowSize from 'react-window-size';
 
 const Dashboard = ({
-  auth: { user },
+  auth: { user, displaySideNav },
   getCurrentProfile,
   deleteProfile,
-  profile: { profile, loading }
+  profile: { profile, loading },
+  toggleSideNav,
+  windowWidth,
 }) => {
   useEffect(() => {
     getCurrentProfile();
-  }, [getCurrentProfile]);
+    toggleSideNav(windowWidth >= 576);
+    // eslint-disable-next-line
+  }, [getCurrentProfile, toggleSideNav]);
 
   return loading && profile === null ? (
     <Spinner />
@@ -30,12 +35,16 @@ const Dashboard = ({
       <section className={styles.section}>
         <SideNav styles={styles} />
 
-        <div className={styles.content}>
+        <div
+          className={`${styles.content} ${
+            !displaySideNav ? styles.side_nav_hidden : ''
+          }`}
+        >
           <Alert />
-          <div class={styles.heading}>
-            <i class='fas fa-user'></i> Dashboard
+          <div className={styles.heading}>
+            <i className='fas fa-user'></i> Dashboard
           </div>
-          <div class={styles.sub_heading}>Welcome {user && user.name}</div>
+          <div className={styles.sub_heading}>Welcome {user && user.name}</div>
 
           {profile !== null ? (
             <Fragment>
@@ -84,14 +93,18 @@ Dashboard.propTypes = {
   auth: PropTypes.object.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
   deleteProfile: PropTypes.func.isRequired,
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
+  toggleSideNav: PropTypes.func.isRequired,
+  windowWidth: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  profile: state.profile
+  profile: state.profile,
 });
 
-export default connect(mapStateToProps, { getCurrentProfile, deleteProfile })(
-  Dashboard
-);
+export default connect(mapStateToProps, {
+  getCurrentProfile,
+  deleteProfile,
+  toggleSideNav,
+})(windowSize(Dashboard));

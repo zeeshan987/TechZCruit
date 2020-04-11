@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const Footer = ({ styles }) => {
   return (
     <Fragment>
-      <div class={styles.footer}>
+      <div className={styles.footer}>
         <div>© Copyright 2020 TechZCruit</div>
       </div>
     </Fragment>
