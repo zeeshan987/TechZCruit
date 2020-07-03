@@ -123,7 +123,15 @@ const Service = ({
           </div>
           <Row className='my-3'>
             <Col xs={12} md={8}>
-              <img src={placeholder} alt='' className={styles.image} />
+              <img
+                src={
+                  !loading && service !== null && service.image
+                    ? service.image
+                    : placeholder
+                }
+                alt=''
+                className={styles.image}
+              />
             </Col>
             <Col xs={12} className='p-3' md={4}>
               <div>

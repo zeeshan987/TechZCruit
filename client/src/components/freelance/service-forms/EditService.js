@@ -14,6 +14,7 @@ import Footer from '../../layout/Footer';
 import { toggleSideNav } from '../../../actions/auth';
 import windowSize from 'react-window-size';
 import Spinner from '../../layout/Spinner';
+import placeholder from '../../../img/placeholder.png';
 
 const EditCampaign = ({
   getServiceById,
@@ -29,12 +30,23 @@ const EditCampaign = ({
     title: '',
     description: '',
     amount: '',
+    image: '',
   });
 
-  const { title, description, amount } = formData;
+  const { title, description, amount, image } = formData;
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleImageChange = (e) => {
+    if (e.target.files.length > 0) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setFormData({ ...formData, image: e.target.result });
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
   };
 
   const onSubmit = (e) => {
@@ -54,6 +66,7 @@ const EditCampaign = ({
       title: !loading && service.title ? service.title : '',
       description: !loading && service.description ? service.description : '',
       amount: !loading && service.amount ? service.amount : '',
+      image: !loading && service.image ? service.image : '',
     });
 
     toggleSideNav(windowWidth >= 576);
@@ -76,18 +89,29 @@ const EditCampaign = ({
           <div className={styles.heading}>
             <i className='fas fa-user'></i> Edit Service
           </div>
-          <div className={styles.sub_heading}>
-            Fill in the following information to edit your service
+          <div style={{ textAlign: 'center' }}>
+            <img
+              src={image === '' ? placeholder : image}
+              alt=''
+              style={{ width: '400px', height: '400px', marginBottom: '10px' }}
+            />
           </div>
           <Form onSubmit={(e) => onSubmit(e)}>
             <Form.Group>
               <Form.Control
-                type='text'
-                placeholder='Service title'
-                name='title'
-                value={title}
-                onChange={(e) => onChange(e)}
+                type='file'
+                onChange={(e) => {
+                  handleImageChange(e);
+                  e.target.value = '';
+                }}
               />
+              <Button
+                variant='danger'
+                style={{ marginTop: '10px' }}
+                onClick={() => setFormData({ ...formData, image: '' })}
+              >
+                Remove image
+              </Button>
             </Form.Group>
             <Form.Group>
               <Form.Control
