@@ -14,6 +14,7 @@ import Footer from '../../layout/Footer';
 import { toggleSideNav } from '../../../actions/auth';
 import windowSize from 'react-window-size';
 import Spinner from '../../layout/Spinner';
+import placeholder from '../../../img/placeholder.png';
 
 const EditCampaign = ({
   getCampaignById,
@@ -31,6 +32,7 @@ const EditCampaign = ({
     category: '',
     fundsRequired: '',
     completionDate: '',
+    image: '',
   });
 
   const {
@@ -39,10 +41,21 @@ const EditCampaign = ({
     category,
     fundsRequired,
     completionDate,
+    image,
   } = formData;
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleImageChange = (e) => {
+    if (e.target.files.length > 0) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setFormData({ ...formData, image: e.target.result });
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
   };
 
   const onSubmit = (e) => {
@@ -68,6 +81,7 @@ const EditCampaign = ({
         !loading && campaign.completionDate
           ? campaign.completionDate.split('T')[0]
           : '',
+      image: !loading && campaign.image ? campaign.image : '',
     });
 
     toggleSideNav(windowWidth >= 576);
@@ -93,7 +107,30 @@ const EditCampaign = ({
           <div className={styles.sub_heading}>
             Fill in the following information to edit your campaign
           </div>
+          <div style={{ textAlign: 'center' }}>
+            <img
+              src={image === '' ? placeholder : image}
+              alt=''
+              style={{ width: '400px', height: '400px', marginBottom: '10px' }}
+            />
+          </div>
           <Form onSubmit={(e) => onSubmit(e)}>
+            <Form.Group>
+              <Form.Control
+                type='file'
+                onChange={(e) => {
+                  handleImageChange(e);
+                  e.target.value = '';
+                }}
+              />
+              <Button
+                variant='danger'
+                style={{ marginTop: '10px' }}
+                onClick={() => setFormData({ ...formData, image: '' })}
+              >
+                Remove image
+              </Button>
+            </Form.Group>
             <Form.Group>
               <Form.Control
                 as='select'
