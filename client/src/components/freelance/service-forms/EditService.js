@@ -13,6 +13,7 @@ import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';
 import { toggleSideNav } from '../../../actions/auth';
 import windowSize from 'react-window-size';
+import Spinner from '../../layout/Spinner';
 
 const EditCampaign = ({
   getServiceById,
@@ -41,8 +42,13 @@ const EditCampaign = ({
     updateService(match.params.id, formData, history);
   };
 
+  const [getServiceByIdCalled, setGetServiceByIdCalled] = useState(false);
+
   useEffect(() => {
-    getServiceById(match.params.id);
+    if (!getServiceByIdCalled) {
+      getServiceById(match.params.id);
+      setGetServiceByIdCalled(true);
+    }
 
     setFormData({
       title: !loading && service.title ? service.title : '',
@@ -52,9 +58,11 @@ const EditCampaign = ({
 
     toggleSideNav(windowWidth >= 576);
     // eslint-disable-next-line
-  }, [getServiceById, loading, toggleSideNav]);
+  }, [service, windowWidth]);
 
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <section className={styles.section}>
         <SideNav styles={styles} />

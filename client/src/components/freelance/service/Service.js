@@ -17,6 +17,7 @@ import { createConversation } from '../../../actions/chat/conversation';
 import { withRouter } from 'react-router-dom';
 import { toggleSideNav } from '../../../actions/auth';
 import windowSize from 'react-window-size';
+import Spinner from '../../layout/Spinner';
 
 const Service = ({
   service: { loading, service },
@@ -28,12 +29,17 @@ const Service = ({
   toggleSideNav,
   windowWidth,
 }) => {
+  const [getServiceByIdCalled, setGetServiceByIdCalled] = useState(false);
+
   useEffect(() => {
-    getServiceById(match.params.id);
+    if (!getServiceByIdCalled) {
+      getServiceById(match.params.id);
+      setGetServiceByIdCalled(true);
+    }
 
     toggleSideNav(windowWidth >= 576);
     // eslint-disable-next-line
-  }, [getServiceById, match.params.id, toggleSideNav]);
+  }, [service, windowWidth]);
 
   const [
     showCustomOfferPaymentModal,
@@ -62,7 +68,9 @@ const Service = ({
     history.push(`/conversation/${conversationId}`);
   };
 
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <section className={styles.section}>
         <SideNav styles={styles} />
