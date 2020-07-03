@@ -17,6 +17,7 @@ import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';
 import { toggleSideNav } from '../../../actions/auth';
 import windowSize from 'react-window-size';
+import Spinner from '../../layout/Spinner';
 
 const Campaign = ({
   campaign: { campaign, loading },
@@ -28,12 +29,17 @@ const Campaign = ({
   toggleSideNav,
   windowWidth,
 }) => {
+  const [getCampaignByIdCalled, setGetCampaignByIdCalled] = useState(false);
+
   useEffect(() => {
-    getCampaignById(match.params.id);
+    if (!getCampaignByIdCalled) {
+      getCampaignById(match.params.id);
+      setGetCampaignByIdCalled(true);
+    }
 
     toggleSideNav(windowWidth >= 576);
     // eslint-disable-next-line
-  }, [getCampaignById, match.params.id, toggleSideNav]);
+  }, [campaign, windowWidth]);
 
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
@@ -50,7 +56,9 @@ const Campaign = ({
     history.push(`/conversation/${conversationId}`);
   };
 
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <section className={styles.section}>
         <SideNav styles={styles} />

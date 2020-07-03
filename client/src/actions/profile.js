@@ -51,8 +51,6 @@ export const getProfileById = (id) => async (dispatch) => {
     dispatch({
       type: PROFILE_ERROR,
     });
-
-    dispatch(setAlert('Error occured while loading profile', 'danger'));
   }
 };
 
