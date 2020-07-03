@@ -3,13 +3,16 @@ import { Tab, Row, Col, Nav, Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import placeholder from '../../../img/placeholder.png';
 import { Link } from 'react-router-dom';
+import Spinner from '../../layout/Spinner';
 
 const StoreNavigationTabs = ({
   store,
   product: { loading, products },
   styles,
 }) => {
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <Tab.Container defaultActiveKey='products'>
         <Row>

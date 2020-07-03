@@ -10,6 +10,7 @@ import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';
 import { toggleSideNav } from '../../../actions/auth';
 import windowSize from 'react-window-size';
+import Spinner from '../../layout/Spinner';
 
 const EditGroup = ({
   getStoreById,
@@ -37,8 +38,13 @@ const EditGroup = ({
     updateStore(formData, match.params.id, history);
   };
 
+  const [getStoreByIdCalled, setGetStoreByIdCalled] = useState(false);
+
   useEffect(() => {
-    getStoreById(match.params.id);
+    if (!getStoreByIdCalled) {
+      getStoreById(match.params.id);
+      setGetStoreByIdCalled(true);
+    }
 
     setFormData({
       name: !loading && store.name ? store.name : '',
@@ -47,9 +53,11 @@ const EditGroup = ({
 
     toggleSideNav(windowWidth >= 576);
     // eslint-disable-next-line
-  }, [getStoreById, loading, match.params.id, toggleSideNav]);
+  }, [store, windowWidth]);
 
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <section className={styles.section}>
         <SideNav styles={styles} />

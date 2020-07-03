@@ -13,6 +13,7 @@ import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';
 import { toggleSideNav } from '../../../actions/auth';
 import windowSize from 'react-window-size';
+import Spinner from '../../layout/Spinner';
 
 const EditProduct = ({
   history,
@@ -42,8 +43,13 @@ const EditProduct = ({
     updateProduct(match.params.id, match.params.product_id, formData, history);
   };
 
+  const [getProductByIdCalled, setGetProductByIdCalled] = useState(false);
+
   useEffect(() => {
-    getProductById(match.params.product_id);
+    if (!getProductByIdCalled) {
+      getProductById(match.params.product_id);
+      setGetProductByIdCalled(true);
+    }
 
     setFormData({
       title: !loading && product.title ? product.title : '',
@@ -54,9 +60,11 @@ const EditProduct = ({
 
     toggleSideNav(windowWidth >= 576);
     // eslint-disable-next-line
-  }, [getProductById, loading, toggleSideNav]);
+  }, [product, windowWidth]);
 
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <section className={styles.section}>
         <SideNav styles={styles} />
