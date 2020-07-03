@@ -13,6 +13,7 @@ import Alert from '../../layout/Alert';
 import Footer from '../../layout/Footer';
 import { toggleSideNav } from '../../../actions/auth';
 import windowSize from 'react-window-size';
+import Spinner from '../../layout/Spinner';
 
 const EditProjects = ({
   getProjectById,
@@ -42,8 +43,13 @@ const EditProjects = ({
     updateProject(project._id, formData, history);
   };
 
+  const [getProjectByIdCalled, setGetProjectByIdCalled] = useState(false);
+
   useEffect(() => {
-    getProjectById(match.params.id);
+    if (!getProjectByIdCalled) {
+      getProjectById(match.params.id);
+      setGetProjectByIdCalled(true);
+    }
 
     setFormData({
       name: !loading && project !== null ? project.name : '',
@@ -54,9 +60,11 @@ const EditProjects = ({
 
     toggleSideNav(windowWidth >= 576);
     // eslint-disable-next-line
-  }, [getProjectById, match.params.id, loading, toggleSideNav]);
+  }, [project, windowWidth]);
 
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <section className={styles.section}>
         <SideNav styles={styles} />
