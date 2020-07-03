@@ -39,7 +39,7 @@ const StoreNavigationTabs = ({
                     products.map((product) => (
                       <Col xs={12} md={4} lg={3} key={product._id}>
                         <Card className={styles.card}>
-                          <Card.Img src={placeholder} />
+                          <Card.Img src={product.image} />
                           <Card.Body>
                             <Card.Title
                               className={`${styles.card_title} text-truncate`}

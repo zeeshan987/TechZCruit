@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom';
 import placeholder from '../../../img/placeholder.png';
 
 const ProductItem = ({
-  product: { _id, title, description, price },
+  product: { _id, title, description, price, image },
   styles,
 }) => {
   return (
     <Fragment>
       <Col xs={12} md={4} lg={3}>
         <Card className={styles.card}>
-          <Card.Img variant='top' src={placeholder} />
+          <Card.Img variant='top' src={image} />
           <Card.Body>
             <Card.Title className={`${styles.card_title} text-truncate`}>
               <Link

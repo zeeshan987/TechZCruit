@@ -118,7 +118,15 @@ const Product = ({
           </div>
           <Row className='my-3'>
             <Col xs={12} md={8}>
-              <img src={placeholder} alt='' className={styles.image} />
+              <img
+                src={
+                  !loading && product !== null && product.image
+                    ? product.image
+                    : placeholder
+                }
+                alt=''
+                className={styles.image}
+              />
             </Col>
             <Col className='p-3' xs={12} md={4}>
               <div>
