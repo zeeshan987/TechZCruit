@@ -160,53 +160,33 @@ router.put(
 // @route   PUT /api/users/profile-picture/upload
 // @desc    Upload profile picture
 // @access  Private
-router.put('/profile-picture/upload', auth, async (req, res) => {
-  if (req.files === null) {
-    return res.status(400).json({ msg: 'No file uploaded' });
-  }
+router.put(
+  '/profile-picture/upload',
+  [auth, check('image', 'Image is required').not().isEmpty()],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-  const file = req.files.file;
-  const fileExtension = file.mimetype.split('/')[1];
-
-  if (fileExtension === 'jpeg') {
-    file.mv(
-      `./client/public/uploads/profile-picture/${req.user.id}.${fileExtension}`,
-      (err) => {
-        if (err) {
-          return res.status(500).send('Server error');
-        }
-
-        res.json({
-          avatar: `/uploads/profile-picture/${req.user.id}.${fileExtension}`,
-        });
-      }
-    );
+    const { image } = req.body;
 
     try {
       const user = await User.findById(req.user.id);
-      user.avatar = `/uploads/profile-picture/${req.user.id}.${fileExtension}`;
+      user.avatar = image;
+
       await user.save();
+      res.json({ msg: 'Profile picture uploaded' });
     } catch (err) {
       return res.status(500).send('Server error');
     }
-  } else {
-    return res.status(400).json({ msg: 'Only jpeg images can be uploaded' });
   }
-});
+);
 
 // @route   PUT /api/users/profile-picture/remove
 // @desc    Remove profile picture
 // @access  Private
 router.put('/profile-picture/remove', auth, async (req, res) => {
-  fs.unlink(
-    `./client/public/uploads/profile-picture/${req.user.id}.jpeg`,
-    (err) => {
-      if (err) {
-        return res.status(500).send('Server error');
-      }
-    }
-  );
-
   try {
     const user = await User.findById(req.user.id);
     user.avatar = gravatar.url(user.email, {
@@ -216,7 +196,7 @@ router.put('/profile-picture/remove', auth, async (req, res) => {
     });
 
     await user.save();
-    res.json({ avatar: user.avatar });
+    res.json({ msg: 'Profile picture removed' });
   } catch (err) {
     console.error(err);
     return res.status(500).send('Server error');

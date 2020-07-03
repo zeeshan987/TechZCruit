@@ -11,7 +11,7 @@ const GroupItem = ({ group, auth, sendJoinRequest, styles }) => {
     <Fragment>
       <Col xs={12} md={4} lg={3}>
         <Card className={styles.card}>
-          <Card.Img src={placeholder} />
+          <Card.Img src={group.image} />
           <Card.Body>
             <Card.Title className={`${styles.card_title} text-truncate`}>
               <Link

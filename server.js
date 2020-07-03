@@ -1,7 +1,6 @@
 const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
-const fileUpload = require('express-fileupload');
 const connectDB = require('./config/db');
 const { addMessage } = require('./utils/chat');
 
@@ -14,8 +13,7 @@ const io = socketIO(server);
 connectDB();
 
 // Init Middleware
-app.use(express.json({ extended: false }));
-app.use(fileUpload());
+app.use(express.json({ limit: '1mb' }));
 
 app.get('/', (req, res) => res.send('API Running'));
 
@@ -36,7 +34,7 @@ app.use('/api/freelance/services', require('./routes/api/freelance/services'));
 app.use('/api/chat/conversations', require('./routes/api/chat/conversations'));
 
 // Setup SocketIO to send and receive messages in real time in chat module
-io.on('connection', socket => {
+io.on('connection', (socket) => {
   // This is called whenever a user joins the chat
   socket.on('joinRoom', ({ user, room }) => {
     // Add user to the room
