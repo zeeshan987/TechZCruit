@@ -115,6 +115,15 @@ const EditCampaign = ({
             </Form.Group>
             <Form.Group>
               <Form.Control
+                type='text'
+                placeholder='Service title'
+                name='title'
+                value={title}
+                onChange={(e) => onChange(e)}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Control
                 as='textarea'
                 rows='5'
                 placeholder='Service description'

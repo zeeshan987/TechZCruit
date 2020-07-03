@@ -139,7 +139,7 @@ export const changeName = (name) => async (dispatch) => {
 
     const body = JSON.stringify({ name });
 
-    const res = await axios.put('/api/users/name', body, config);
+    await axios.put('/api/users/name', body, config);
 
     dispatch({ type: NAME_UPDATED });
 

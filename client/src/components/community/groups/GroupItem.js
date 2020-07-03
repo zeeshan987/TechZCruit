@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { sendJoinRequest } from '../../../actions/community/group';
 import { connect } from 'react-redux';
-import placeholder from '../../../img/placeholder.png';
 
 const GroupItem = ({ group, auth, sendJoinRequest, styles }) => {
   return (

@@ -20,6 +20,7 @@ const Posts = ({
       getAllPosts(group._id);
       setGetAllPostsCalled(true);
     }
+    // eslint-disable-next-line
   }, [posts]);
 
   return loading ? (

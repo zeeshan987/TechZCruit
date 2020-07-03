@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import placeholder from '../../../img/placeholder.png';
 
 const ProjectItem = ({
   project: { _id, name, description, url, amount, image },

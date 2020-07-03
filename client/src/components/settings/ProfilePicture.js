@@ -14,8 +14,6 @@ const ProfilePicture = ({
     image: '',
   });
 
-  const { image } = formData;
-
   const onChange = (e) => {
     const reader = new FileReader();
     reader.onload = (e) => {
