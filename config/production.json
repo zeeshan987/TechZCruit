@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://techzcruit:techzcruit@123@techzcruit-7hoak.mongodb.net/TechZCruit?retryWrites=true&w=majority",
+  "jwtSecret": "T8jBGxyeBCTm21ixS3Jx"
+}

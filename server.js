@@ -3,6 +3,7 @@ const http = require('http');
 const socketIO = require('socket.io');
 const connectDB = require('./config/db');
 const { addMessage } = require('./utils/chat');
+const path = require('path');
 
 // Setting up express server to user SocketIO
 const app = express();
@@ -14,8 +15,6 @@ connectDB();
 
 // Init Middleware
 app.use(express.json({ limit: '1mb' }));
-
-app.get('/', (req, res) => res.send('API Running'));
 
 // Define Routes
 app.use('/api/users', require('./routes/api/users'));
@@ -53,6 +52,16 @@ io.on('connection', (socket) => {
     io.to(room).emit('message', conversation);
   });
 });
+
+// Serve static assets in production
+if (process.env.NODE_ENV === 'production') {
+  // Serve static folder
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
 
 const PORT = process.env.PORT || 5000;
 
