@@ -139,7 +139,9 @@ export const sendJoinRequest = (groupId) => async (dispatch) => {
 };
 
 // Add member to group
-export const addMemberToGroup = (groupId, userId) => async (dispatch) => {
+export const addMemberToGroup = (groupId, userId, requestId) => async (
+  dispatch
+) => {
   dispatch({
     type: SET_GROUP_LOADING,
   });
@@ -153,6 +155,8 @@ export const addMemberToGroup = (groupId, userId) => async (dispatch) => {
     });
 
     dispatch(setAlert('Group member added', 'success'));
+
+    dispatch(deleteJoinRequest(groupId, requestId));
   } catch (err) {
     dispatch({
       type: GROUP_ERROR,

@@ -31,8 +31,7 @@ const GroupRequestItem = ({
               variant='success'
               className='my-2'
               onClick={() => {
-                addMemberToGroup(groupId, user._id);
-                deleteJoinRequest(groupId, _id);
+                addMemberToGroup(groupId, user._id, _id);
               }}
             >
               Accept Request
